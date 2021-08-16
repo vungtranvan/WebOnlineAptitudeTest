@@ -52,7 +52,10 @@
                         </h2>
                         <div class="intro-x mt-2 text-gray-500 xl:hidden text-center">A few more clicks to sign in to your account. Manage all your e-commerce accounts in one place</div>
                         <div class="intro-x mt-8">
-                            <span class="text-theme-6">@ViewBag.Error</span>
+                            @if (@ViewBag.Error != "" && @ViewBag.Error !=null)
+                            {
+                                <div class="rounded-md flex items-center px-5 py-4 mb-2 bg-theme-31 text-theme-6"> <i data-feather="alert-triangle" class="w-6 h-6 mr-2"></i> @ViewBag.Error </div>
+                            }
                         </div>
                         <div class="intro-x mt-8">
                             @Html.TextBoxFor(model => model.UserName, new { @class = "intro-x login__input input input--lg border border-gray-300 block", placeholder = "UserName", @type = "text" })
