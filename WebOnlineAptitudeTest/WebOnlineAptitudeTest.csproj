@@ -130,11 +130,16 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\AuthController.cs" />
+    <Compile Include="Areas\Admin\Controllers\BaseController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomesController.cs" />
+    <Compile Include="Areas\Admin\Data\User\IUserRepository.cs" />
+    <Compile Include="Areas\Admin\Data\User\UserRepository.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helper\MyString.cs" />
     <Compile Include="Models\DAL\GenericRepository.cs" />
     <Compile Include="Models\Entities\Admin.cs" />
     <Compile Include="Models\Entities\Answer.cs" />
@@ -249,6 +254,7 @@
     <Content Include="Content\assets\backend\dist\images\placeholders\.DS_Store" />
     <Content Include="Content\assets\backend\dist\json\location.json" />
     <Content Include="Areas\Admin\Views\Homes\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Auth\Index.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -277,7 +283,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Content\assets\frontend\" />
   </ItemGroup>
   <ItemGroup>

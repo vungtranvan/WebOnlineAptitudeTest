@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
 {
-    public class HomesController : Controller
+    public class HomesController : BaseController
     {
         // GET: Admin/Homes
         public ActionResult Index()

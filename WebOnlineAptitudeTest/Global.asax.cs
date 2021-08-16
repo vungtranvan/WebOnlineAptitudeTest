@@ -17,5 +17,12 @@ namespace WebOnlineAptitudeTest
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
         }
+
+        protected void Session_Start()
+        {
+            Session["UserAdmin"] = "";
+            Session["DisplayNameAdmin"] = "";
+            Session["ImageAdmin"] = "";
+        }
     }
 }

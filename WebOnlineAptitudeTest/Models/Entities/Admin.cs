@@ -24,7 +24,6 @@ namespace WebOnlineAptitudeTest.Models.Entities
         public string Image { get; set; }
 
         [Required]
-        [StringLength(50)]
         public string Password { get; set; }
 
         public bool? Sex { get; set; }
