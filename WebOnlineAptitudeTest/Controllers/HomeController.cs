@@ -3,13 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using WebOnlineAptitudeTest.Models.Entities;
 
 namespace WebOnlineAptitudeTest.Controllers
 {
     public class HomeController : Controller
     {
+        private OnlineTestDbContext db;
+        public HomeController()
+        {
+            db = new OnlineTestDbContext();
+        }
         public ActionResult Index()
         {
+            var data = db.CategoryExams.ToList();
             return View();
         }
 
