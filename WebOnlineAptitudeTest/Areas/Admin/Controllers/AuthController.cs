@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -24,38 +25,57 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult Index()
         {
+            LoginRequest model = new LoginRequest();
+
             if (!Session["UserAdmin"].Equals(""))
             {
                 return RedirectToAction("Index", "Homes");
             }
+            if (!Session["RememberLoginAdmin"].Equals(""))
+            {
+                model = JsonConvert.DeserializeObject<LoginRequest>(Session["RememberLoginAdmin"].ToString());
+            }
+
             ViewBag.Error = "";
-            return View();
+            return View(model);
         }
 
         [HttpPost]
-        public ActionResult Index(string userName, string password, string rememberMe)
+        public ActionResult Index(LoginRequest request, string rememberMe)
         {
-            var user = _userRepository.GetByUserName(userName);
+            if (!ModelState.IsValid)
+            {
+                return View(request);
+            }
+
+            var user = _userRepository.GetByUserName(request.UserName);
             if (user == null)
             {
                 ViewBag.Error = "UserName does not exist!!!";
+                return View(request);
+            }
+
+            if (!user.Password.Equals(MyString.ToMD5(request.Password)))
+            {
+                ViewBag.Error = "Incorrect password!!!";
+                return View(request);
+            }
+
+            Session["UserAdmin"] = user.UserName;
+            Session["DisplayNameAdmin"] = user.DisplayName;
+            Session["ImageAdmin"] = user.Image;
+
+            if (rememberMe != null)
+            {
+                request.Remember = true;
+                Session["RememberLoginAdmin"] = JsonConvert.SerializeObject(request);
             }
             else
             {
-                if (user.Password.Equals(MyString.ToMD5(password)))
-                {
-                    Session["UserAdmin"] = user.UserName;
-                    Session["DisplayNameAdmin"] = user.DisplayName;
-                    Session["ImageAdmin"] = user.Image;
-                    ViewBag.Error = "";
-                    return RedirectToAction("Index", "Homes");
-                }
-                else
-                {
-                    ViewBag.Error = "Incorrect password!!!";
-                }
+                Session["RememberLoginAdmin"] = "";
             }
-            return View();
+
+            return RedirectToAction("Index", "Homes");
         }
 
         [HttpGet]

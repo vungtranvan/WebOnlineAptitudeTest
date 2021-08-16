@@ -134,6 +134,7 @@
     <Compile Include="Areas\Admin\Controllers\BaseController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomesController.cs" />
     <Compile Include="Areas\Admin\Data\User\IUserRepository.cs" />
+    <Compile Include="Areas\Admin\Data\User\LoginRequest.cs" />
     <Compile Include="Areas\Admin\Data\User\UserRepository.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
