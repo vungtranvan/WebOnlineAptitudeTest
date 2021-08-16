@@ -142,6 +142,7 @@
     </Compile>
     <Compile Include="Helper\MyString.cs" />
     <Compile Include="Models\DAL\GenericRepository.cs" />
+    <Compile Include="Models\DAL\UnitOfWork.cs" />
     <Compile Include="Models\Entities\Admin.cs" />
     <Compile Include="Models\Entities\Answer.cs" />
     <Compile Include="Models\Entities\Candidate.cs" />

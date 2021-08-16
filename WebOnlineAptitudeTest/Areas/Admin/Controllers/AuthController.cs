@@ -5,21 +5,17 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using WebOnlineAptitudeTest.Areas.Admin.Data.User;
+using WebOnlineAptitudeTest.Models.DAL;
 
 namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
 {
     public class AuthController : Controller
     {
-        private IUserRepository _userRepository;
+        private UnitOfWork _unitOfWork;
 
         public AuthController()
         {
-            _userRepository = new UserRepository();
-        }
-
-        public AuthController(IUserRepository userRepository)
-        {
-            _userRepository = userRepository;
+            _unitOfWork = new UnitOfWork();
         }
 
         [HttpGet]
@@ -48,7 +44,8 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
                 return View(request);
             }
 
-            var user = _userRepository.GetByUserName(request.UserName);
+            var user = _unitOfWork.AdminRepository.GetByID(request.UserName);
+
             if (user == null)
             {
                 ViewBag.Error = "UserName does not exist!!!";
