@@ -17,6 +17,7 @@ namespace WebOnlineAptitudeTest.Models.Entities
         [StringLength(50)]
         public string DisplayName { get; set; }
 
+        [Required]
         [StringLength(50)]
         public string Email { get; set; }
 

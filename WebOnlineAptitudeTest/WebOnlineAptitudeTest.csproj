@@ -144,14 +144,12 @@
     <Compile Include="Models\DAL\GenericRepository.cs" />
     <Compile Include="Models\DAL\UnitOfWork.cs" />
     <Compile Include="Models\Entities\Admin.cs" />
-    <Compile Include="Models\Entities\Answer.cs" />
     <Compile Include="Models\Entities\Candidate.cs" />
     <Compile Include="Models\Entities\CategoryExam.cs" />
     <Compile Include="Models\Entities\HistoryTest.cs" />
     <Compile Include="Models\Entities\HistoryTestDetail.cs" />
     <Compile Include="Models\Entities\OnlineTestDbContext.cs" />
     <Compile Include="Models\Entities\Question.cs" />
-    <Compile Include="Models\Entities\sysdiagram.cs" />
     <Compile Include="Models\Entities\Transfer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -285,7 +283,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Content\assets\frontend\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

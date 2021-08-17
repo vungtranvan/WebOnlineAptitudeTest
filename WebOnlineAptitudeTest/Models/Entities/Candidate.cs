@@ -24,7 +24,6 @@ namespace WebOnlineAptitudeTest.Models.Entities
         public string UserName { get; set; }
 
         [Required]
-        [StringLength(15)]
         public string Password { get; set; }
 
         [Required]
@@ -39,21 +38,22 @@ namespace WebOnlineAptitudeTest.Models.Entities
 
         public string Address { get; set; }
 
+        [StringLength(30)]
+        public string Phone { get; set; }
+
         public bool? Sex { get; set; }
 
         public string Education { get; set; }
 
         public string WorkExperience { get; set; }
 
-        public DateTime ExamStartDate { get; set; }
-
-        public DateTime ExamEndDate { get; set; }
-
         public DateTime CreatedDate { get; set; }
 
         public DateTime? UpdatedDate { get; set; }
 
-        public bool? Deleted { get; set; }
+        public bool Status { get; set; }
+
+        public bool Deleted { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<HistoryTest> HistoryTests { get; set; }

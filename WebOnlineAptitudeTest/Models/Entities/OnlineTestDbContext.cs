@@ -13,13 +13,11 @@ namespace WebOnlineAptitudeTest.Models.Entities
         }
 
         public virtual DbSet<Admin> Admins { get; set; }
-        public virtual DbSet<Answer> Answers { get; set; }
         public virtual DbSet<Candidate> Candidates { get; set; }
         public virtual DbSet<CategoryExam> CategoryExams { get; set; }
         public virtual DbSet<HistoryTest> HistoryTests { get; set; }
         public virtual DbSet<HistoryTestDetail> HistoryTestDetails { get; set; }
         public virtual DbSet<Question> Questions { get; set; }
-        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<Transfer> Transfers { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -34,10 +32,6 @@ namespace WebOnlineAptitudeTest.Models.Entities
 
             modelBuilder.Entity<Candidate>()
                 .Property(e => e.UserName)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<Candidate>()
-                .Property(e => e.Password)
                 .IsUnicode(false);
 
             modelBuilder.Entity<Candidate>()
@@ -74,9 +68,8 @@ namespace WebOnlineAptitudeTest.Models.Entities
                 .IsUnicode(false);
 
             modelBuilder.Entity<Question>()
-                .HasMany(e => e.Answers)
-                .WithRequired(e => e.Question)
-                .WillCascadeOnDelete(false);
+                .Property(e => e.CorrectAnswer)
+                .IsUnicode(false);
 
             modelBuilder.Entity<Question>()
                 .HasMany(e => e.HistoryTestDetails)

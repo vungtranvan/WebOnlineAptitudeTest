@@ -81,7 +81,7 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
             Session["UserAdmin"] = "";
             Session["DisplayNameAdmin"] = "";
             Session["ImageAdmin"] = "";
-            return RedirectToAction("Index", "Homes");
+            return RedirectToAction("Index");
         }
     }
 }

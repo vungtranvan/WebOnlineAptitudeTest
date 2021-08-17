@@ -10,7 +10,6 @@ namespace WebOnlineAptitudeTest.Models.DAL
     {
         private OnlineTestDbContext context = new OnlineTestDbContext();
         private GenericRepository<Admin> adminRepository;
-        private GenericRepository<Answer> answerRepository;
         private GenericRepository<Candidate> candidateRepository;
         private GenericRepository<CategoryExam> categoryExamRepository;
         private GenericRepository<HistoryTest> historyTestRepository;
@@ -27,19 +26,6 @@ namespace WebOnlineAptitudeTest.Models.DAL
                     this.adminRepository = new GenericRepository<Admin>(context);
                 }
                 return adminRepository;
-            }
-        }
-
-        public GenericRepository<Answer> AnswerRepository
-        {
-            get
-            {
-
-                if (this.answerRepository == null)
-                {
-                    this.answerRepository = new GenericRepository<Answer>(context);
-                }
-                return answerRepository;
             }
         }
 

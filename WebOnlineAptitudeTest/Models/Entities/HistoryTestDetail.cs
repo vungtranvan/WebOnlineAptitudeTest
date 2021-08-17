@@ -20,6 +20,7 @@ namespace WebOnlineAptitudeTest.Models.Entities
         public int QuestionId { get; set; }
 
         [Required]
+        [StringLength(50)]
         public string AnswerChoice { get; set; }
 
         public double Mark { get; set; }

@@ -23,9 +23,17 @@ namespace WebOnlineAptitudeTest.Models.Entities
 
         public double TotalMark { get; set; }
 
+        public DateTime TestStartSchedule { get; set; }
+
+        public DateTime TestEndSchedule { get; set; }
+
         public DateTime? DateStartTest { get; set; }
 
         public DateTime? DateEndTest { get; set; }
+
+        public int? Status { get; set; }
+
+        public bool? Deleted { get; set; }
 
         public virtual Candidate Candidate { get; set; }
 
