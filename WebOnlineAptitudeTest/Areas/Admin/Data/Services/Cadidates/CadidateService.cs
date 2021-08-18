@@ -46,6 +46,7 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Data.Services.Cadidates
         {
             if (candidate.Id == 0)
             {
+                candidate.Password = MyString.ToMD5(candidate.Password);
                 candidate.Status = false;
                 candidate.CreatedDate = DateTime.Now;
                 candidate.Deleted = false;
@@ -53,11 +54,18 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Data.Services.Cadidates
             }
             else
             {
-                if (Get(candidate.Id) == null)
+                var cadi = Get(candidate.Id);
+                if (cadi == null)
                 {
                     return false;
                 }
+                candidate.CreatedDate = cadi.CreatedDate;
                 candidate.UpdatedDate = DateTime.Now;
+                if (candidate.Password.Equals(""))
+                {
+                    candidate.Password = cadi.Password;
+                }
+
                 _unitOfWork.CandidateRepository.Update(candidate);
             }
 

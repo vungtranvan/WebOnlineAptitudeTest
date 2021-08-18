@@ -16,7 +16,6 @@ namespace WebOnlineAptitudeTest.Models.Entities
             Transfers = new HashSet<Transfer>();
         }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Id { get; set; }
 
         [Required(ErrorMessage = "This field is required")]

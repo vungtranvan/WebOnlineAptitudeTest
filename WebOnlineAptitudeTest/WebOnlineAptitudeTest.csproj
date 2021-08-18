@@ -200,6 +200,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helper\MyHelper.cs" />
     <Compile Include="Helper\MyString.cs" />
     <Compile Include="Models\DAL\GenericRepository.cs" />
     <Compile Include="Models\DAL\UnitOfWork.cs" />
