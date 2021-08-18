@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace WebOnlineAptitudeTest.Areas.Admin.Data.User
+namespace WebOnlineAptitudeTest.Areas.Admin.Data.Model.User
 {
     public class LoginRequest
     {

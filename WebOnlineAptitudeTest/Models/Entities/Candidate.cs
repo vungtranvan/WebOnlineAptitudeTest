@@ -19,26 +19,28 @@ namespace WebOnlineAptitudeTest.Models.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Id { get; set; }
 
-        [Required]
-        [StringLength(50)]
+        [Required(ErrorMessage = "This field is required")]
+        [StringLength(50, ErrorMessage = "This field max length is 50")]
         public string UserName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "This field is required")]
         public string Password { get; set; }
 
-        [Required]
-        [StringLength(50)]
+        [Required(ErrorMessage = "This field is required")]
+        [StringLength(50, ErrorMessage = "This field max length is 50")]
         public string Name { get; set; }
 
-        [StringLength(50)]
+        [StringLength(50, ErrorMessage = "This field max length is 50")]
+        [EmailAddress(ErrorMessage = "The email address is not valid")]
         public string Email { get; set; }
 
         [Column(TypeName = "date")]
+        [DataType(DataType.Date)]
         public DateTime? Birthday { get; set; }
 
         public string Address { get; set; }
 
-        [StringLength(30)]
+        [StringLength(30, ErrorMessage = "This field max length is 30")]
         public string Phone { get; set; }
 
         public bool? Sex { get; set; }
