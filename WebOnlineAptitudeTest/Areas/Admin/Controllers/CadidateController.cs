@@ -4,7 +4,7 @@ using WebOnlineAptitudeTest.Areas.Admin.Data.Services.Cadidates;
 
 namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
 {
-    public class CadidateController : Controller //BaseController
+    public class CadidateController : BaseController
     {
         private ICadidateService _cadidateService;
         public CadidateController()
