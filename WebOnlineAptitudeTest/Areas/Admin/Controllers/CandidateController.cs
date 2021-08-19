@@ -89,6 +89,15 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
                 return HttpNotFound();
             }
 
+            if (candidate.Id == 0)
+            {
+                TempData["XMessage"] = new XMessage("Notification", "Add Successfull", EnumCategoryMess.success);
+            }
+            else
+            {
+                TempData["XMessage"] = new XMessage("Notification", "Edit Successfull", EnumCategoryMess.success);
+            }
+
             return RedirectToAction("Index");
 
         }
@@ -101,6 +110,7 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
             {
                 return HttpNotFound();
             }
+            TempData["XMessage"] = new XMessage("Notification", "Delete Successfull", EnumCategoryMess.success);
             return RedirectToAction("Index");
         }
     }

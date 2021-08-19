@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Admin - @ViewBag.Title</title>
     <!-- BEGIN: CSS Assets-->
+    <link href="/Content/toastr.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="/Content/assets/backend/dist/css/app.css" />
     @RenderSection("Styles", false)
 </head>
@@ -254,9 +255,13 @@
         <!-- END: Content -->
     </div>
     <!-- BEGIN: JS Assets-->
+    @Scripts.Render("~/bundles/jquery")
     <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=[" your-google-map-api"]&libraries=places"></script>
     <script src="/Content/assets/backend/dist/js/app.js"></script>
+    <script src="/Scripts/toastr.min.js"></script>
+    <script src="/Content/assets/backend/dist/js/config-toastrJs.js"></script>
     @RenderSection("Scripts", false)
+    @Html.Partial("_XMessage")
 </body>
 </html>
