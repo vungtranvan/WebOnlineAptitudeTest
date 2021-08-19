@@ -1,7 +1,7 @@
 ﻿@model WebOnlineAptitudeTest.Models.Entities.Candidate
 
 @{
-    ViewBag.Title = (Model == null ? "Add New Candidate" : "Candidate Update");
+    ViewBag.Title = (Model == null ? "Add New Candidate" : "Candidate Edit");
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
     var checkRdMale = Model == null ? "checked" : (Model.Sex == true ? "checked" : "");
     var checkRdReMale = Model == null ? "" : (Model.Sex != true ? "checked" : "");
@@ -13,13 +13,13 @@
         <i data-feather="chevron-right" class="breadcrumb__icon"></i>
         <a href="@Url.Action("Index","Candidate")" class="">Candidate</a>
         <i data-feather="chevron-right" class="breadcrumb__icon"></i>
-        <a class="breadcrumb--active">@(Model == null ? "Add New Candidate" : "Candidate Update")</a>
+        <a class="breadcrumb--active">@(Model == null ? "Add New Candidate" : "Candidate Edit")</a>
     </div>
 }
 
 <div class="intro-y flex items-center mt-8">
     <h2 class="text-lg font-medium mr-auto">
-        @(Model == null ? "Add New Candidate" : "Candidate Update")
+        @(Model == null ? "Add New Candidate" : "Candidate Edit")
     </h2>
 </div>
 <div class="grid grid-cols-12 gap-6 mt-5">
