@@ -13,6 +13,7 @@ namespace WebOnlineAptitudeTest.Models.Entities
         }
 
         public virtual DbSet<Admin> Admins { get; set; }
+        public virtual DbSet<Answer> Answers { get; set; }
         public virtual DbSet<Candidate> Candidates { get; set; }
         public virtual DbSet<CategoryExam> CategoryExams { get; set; }
         public virtual DbSet<HistoryTest> HistoryTests { get; set; }
@@ -65,10 +66,6 @@ namespace WebOnlineAptitudeTest.Models.Entities
 
             modelBuilder.Entity<HistoryTestDetail>()
                 .Property(e => e.AnswerChoice)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<Question>()
-                .Property(e => e.CorrectAnswer)
                 .IsUnicode(false);
 
             modelBuilder.Entity<Question>()

@@ -15,6 +15,7 @@ namespace WebOnlineAptitudeTest.Models.DAL
         private GenericRepository<HistoryTest> historyTestRepository;
         private GenericRepository<HistoryTestDetail> historyTestDetailRepository;
         private GenericRepository<Question> questionRepository;
+        private GenericRepository<Answer> answerRepository;
         private GenericRepository<Transfer> transferRepository;
 
         public GenericRepository<Admin> AdminRepository
@@ -98,6 +99,18 @@ namespace WebOnlineAptitudeTest.Models.DAL
                     this.questionRepository = new GenericRepository<Question>(context);
                 }
                 return questionRepository;
+            }
+        }
+
+        public GenericRepository<Answer> AnswerRepository
+        {
+            get
+            {
+                if (this.answerRepository == null)
+                {
+                    this.answerRepository = new GenericRepository<Answer>(context);
+                }
+                return answerRepository;
             }
         }
 

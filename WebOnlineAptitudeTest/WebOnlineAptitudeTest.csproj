@@ -205,6 +205,7 @@
     <Compile Include="Models\DAL\GenericRepository.cs" />
     <Compile Include="Models\DAL\UnitOfWork.cs" />
     <Compile Include="Models\Entities\Admin.cs" />
+    <Compile Include="Models\Entities\Answer.cs" />
     <Compile Include="Models\Entities\Candidate.cs" />
     <Compile Include="Models\Entities\CategoryExam.cs" />
     <Compile Include="Models\Entities\HistoryTest.cs" />

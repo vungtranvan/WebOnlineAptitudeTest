@@ -23,13 +23,6 @@ namespace WebOnlineAptitudeTest.Models.Entities
 
         public int CategoryExamId { get; set; }
 
-        [Required]
-        public string ListAnswer { get; set; }
-
-        [Required]
-        [StringLength(50)]
-        public string CorrectAnswer { get; set; }
-
         public double Mark { get; set; }
 
         public DateTime? UpdatedDate { get; set; }
@@ -39,6 +32,9 @@ namespace WebOnlineAptitudeTest.Models.Entities
         public bool? Status { get; set; }
 
         public bool? Deleted { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Answer> Answers { get; set; }
 
         public virtual CategoryExam CategoryExam { get; set; }
 

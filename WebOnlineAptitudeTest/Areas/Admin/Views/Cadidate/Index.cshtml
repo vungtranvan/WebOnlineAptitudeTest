@@ -6,7 +6,7 @@
 }
 
 <h2 class="intro-y text-lg font-medium mt-10">
-    Data List Layout
+    List Candidate
 </h2>
 <div class="grid grid-cols-12 gap-6 mt-5">
     <div class="intro-y col-span-12 flex flex-wrap sm:flex-no-wrap items-center mt-2">
@@ -27,40 +27,40 @@
     {
         <div class="intro-y col-span-12 overflow-auto lg:overflow-visible">
 
-            <table class="table table-report -mt-2">
+            <table class="table -mt-2">
                 <thead>
-                    <tr>
-                        <th class="whitespace-no-wrap">#</th>
-                        <th class="whitespace-no-wrap">USERNAME</th>
-                        <th class="whitespace-no-wrap">DISPLAY NAME</th>
-                        <th class="whitespace-no-wrap">EMAIL</th>
-                        <th class="whitespace-no-wrap">BIRTHDAY</th>
-                        <th class="whitespace-no-wrap">ADDRESS</th>
-                        <th class="whitespace-no-wrap">PHONE</th>
-                        <th class="whitespace-no-wrap">SEX</th>
-                        <th class="whitespace-no-wrap">CREATED DATE</th>
-                        <th class="whitespace-no-wrap">LAST UPDATED DATE</th>
-                        <th class="text-center whitespace-no-wrap">ACTION</th>
+                    <tr class="bg-gray-700 text-white">
+                        <th class="border border-b-2 whitespace-no-wrap">#</th>
+                        <th class="border border-b-2 whitespace-no-wrap">USERNAME</th>
+                        <th class="border border-b-2 whitespace-no-wrap">DISPLAY NAME</th>
+                        <th class="border border-b-2 whitespace-no-wrap">EMAIL</th>
+                        <th class="border border-b-2 whitespace-no-wrap">BIRTHDAY</th>
+                        <th class="border border-b-2 whitespace-no-wrap">ADDRESS</th>
+                        <th class="border border-b-2 whitespace-no-wrap">PHONE</th>
+                        <th class="border border-b-2 whitespace-no-wrap">SEX</th>
+                        <th class="border border-b-2 whitespace-no-wrap">CREATED DATE</th>
+                        <th class="border border-b-2 whitespace-no-wrap">LAST UPDATED DATE</th>
+                        <th class="border border-b-2 text-center whitespace-no-wrap">ACTION</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var item in Model)
                     {
-                        <tr class="intro-x">
-                            <td>@(Model.IndexOf(item)+1)</td>
-                            <td>@item.UserName</td>
-                            <td>@item.Name</td>
-                            <td>@item.Email</td>
-                            <td>@(item.Birthday==null?"":item.Birthday.Value.ToString("dd-MM-yyyy"))</td>
-                            <td>@item.Address</td>
-                            <td>@item.Phone</td>
-                            <td>@(item.Sex==true? "Male": "Female")</td>
-                            <td>@(item.CreatedDate==null?"":item.CreatedDate.ToString("dd-MM-yyyy"))</td>
-                            <td>@(item.UpdatedDate==null?"":item.UpdatedDate.Value.ToString("dd-MM-yyyy"))</td>
+                        <tr class="intro-x hover:bg-gray-200">
+                            <td class="border">@(Model.IndexOf(item)+1)</td>
+                            <td class="border">@item.UserName</td>
+                            <td class="border">@item.Name</td>
+                            <td class="border">@item.Email</td>
+                            <td class="border">@(item.Birthday==null?"":item.Birthday.Value.ToString("dd-MM-yyyy"))</td>
+                            <td class="border">@item.Address</td>
+                            <td class="border">@item.Phone</td>
+                            <td class="border">@(item.Sex==true? "Male": "Female")</td>
+                            <td class="border">@(item.CreatedDate==null?"":item.CreatedDate.ToString("dd-MM-yyyy"))</td>
+                            <td class="border">@(item.UpdatedDate==null?"":item.UpdatedDate.Value.ToString("dd-MM-yyyy"))</td>
                             <td class="table-report__action w-56">
                                 <div class="flex justify-center items-center">
                                     <a class="flex items-center mr-3" href="@Url.Action("InsertOrUpdate", "Cadidate", new { id = item.Id})"> <i data-feather="check-square" class="w-4 h-4 mr-1"></i> Edit </a>
-                                    <a class="flex items-center text-theme-6" href="@Url.Action("Delete", "Cadidate", new { id = item.Id})"> <i data-feather="trash-2" class="w-4 h-4 mr-1"></i> Delete </a>
+                                    <a class="flex items-center text-theme-6" href="@Url.Action("Delete", "Cadidate", new { id = item.Id})" onclick="return confirm('Are you sure you want to delete ?');"> <i data-feather="trash-2" class="w-4 h-4 mr-1"></i> Delete </a>
                                 </div>
                             </td>
                         </tr>
@@ -102,3 +102,6 @@
     }
 </div>
 
+@section Scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+}
