@@ -13,5 +13,8 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Data.Services.Cadidates
         Candidate Get(int id);
         bool InsertOrUpdate(Candidate candidate);
         bool Delete(int id);
+        bool CheckExitUserName(string userName);
+        bool CheckExitEmail(string email);
+        bool CheckExitPhone(string phone);
     }
 }

@@ -22,7 +22,6 @@ namespace WebOnlineAptitudeTest.Models.Entities
         [StringLength(50, ErrorMessage = "This field max length is 50")]
         public string UserName { get; set; }
 
-        [Required(ErrorMessage = "This field is required")]
         public string Password { get; set; }
 
         [Required(ErrorMessage = "This field is required")]
@@ -30,11 +29,9 @@ namespace WebOnlineAptitudeTest.Models.Entities
         public string Name { get; set; }
 
         [StringLength(50, ErrorMessage = "This field max length is 50")]
-        [EmailAddress(ErrorMessage = "The email address is not valid")]
         public string Email { get; set; }
 
         [Column(TypeName = "date")]
-        [DataType(DataType.Date)]
         public DateTime? Birthday { get; set; }
 
         public string Address { get; set; }
@@ -42,7 +39,7 @@ namespace WebOnlineAptitudeTest.Models.Entities
         [StringLength(30, ErrorMessage = "This field max length is 30")]
         public string Phone { get; set; }
 
-        public bool? Sex { get; set; }
+        public bool Sex { get; set; }
 
         public string Education { get; set; }
 

@@ -34,7 +34,7 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Data.Services.Cadidates
 
         public List<Candidate> Get()
         {
-            return _unitOfWork.CandidateRepository.Get().ToList();
+            return _unitOfWork.CandidateRepository.Get(filter: c => c.Deleted == false, orderBy: c => c.OrderByDescending(x => x.Id)).ToList();
         }
 
         public Candidate Get(int id)
@@ -42,11 +42,36 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Data.Services.Cadidates
             return _unitOfWork.CandidateRepository.GetByID(id);
         }
 
+        public bool CheckExitUserName(string userName)
+        {
+            var data = _unitOfWork.CandidateRepository.Get(filter: c => c.UserName.Equals(userName)).FirstOrDefault();
+
+            if (data == null)
+                return false;
+
+            return true;
+        }
+
+        public bool CheckExitEmail(string email)
+        {
+            var data = _unitOfWork.CandidateRepository.Get(filter: c => c.Email.Equals(email)).FirstOrDefault();
+            if (data == null)
+                return false;
+            return true;
+        }
+        public bool CheckExitPhone(string phone)
+        {
+            var data = _unitOfWork.CandidateRepository.Get(filter: c => c.Phone.Equals(phone)).FirstOrDefault();
+            if (data == null)
+                return false;
+            return true;
+        }
+
         public bool InsertOrUpdate(Candidate candidate)
         {
             if (candidate.Id == 0)
             {
-                candidate.Password = MyString.ToMD5(candidate.Password);
+                candidate.Password = candidate.Password.ToMD5();
                 candidate.Status = false;
                 candidate.CreatedDate = DateTime.Now;
                 candidate.Deleted = false;
@@ -54,19 +79,45 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Data.Services.Cadidates
             }
             else
             {
+                //var cadi = Get(candidate.Id);
+                //if (cadi == null)
+                //{
+                //    return false;
+                //}
+
+                //candidate.CreatedDate = cadi.CreatedDate;
+                //candidate.UpdatedDate = DateTime.Now;
+                //if (candidate.Password == null)
+                //{
+                //    candidate.Password = cadi.Password;
+                //}
+                //else
+                //{
+                //    candidate.Password = candidate.Password.ToMD5();
+                //}
+
+                //_unitOfWork.CandidateRepository.Update(candidate);
+
                 var cadi = Get(candidate.Id);
                 if (cadi == null)
                 {
                     return false;
                 }
-                candidate.CreatedDate = cadi.CreatedDate;
-                candidate.UpdatedDate = DateTime.Now;
-                if (candidate.Password.Equals(""))
-                {
-                    candidate.Password = cadi.Password;
-                }
 
-                _unitOfWork.CandidateRepository.Update(candidate);
+                cadi.UpdatedDate = DateTime.Now;
+                cadi.Name = candidate.Name;
+                cadi.UserName = candidate.UserName;
+                cadi.Email = candidate.Email;
+                cadi.Phone = candidate.Phone;
+                cadi.Address = candidate.Address;
+                cadi.Education = candidate.Education;
+                cadi.WorkExperience = candidate.WorkExperience;
+                cadi.Birthday = candidate.Birthday;
+                cadi.Sex = candidate.Sex;
+                if (candidate.Password != null)
+                {
+                    cadi.Password = candidate.Password.ToMD5();
+                }
             }
 
             this.SaveAndipose();

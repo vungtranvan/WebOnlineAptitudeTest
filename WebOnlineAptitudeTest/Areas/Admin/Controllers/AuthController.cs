@@ -52,7 +52,7 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
                 return View(request);
             }
 
-            if (!user.Password.Equals(MyString.ToMD5(request.Password)))
+            if (!user.Password.Equals(MyHelper.ToMD5(request.Password)))
             {
                 ViewBag.Error = "Incorrect password!!!";
                 return View(request);
