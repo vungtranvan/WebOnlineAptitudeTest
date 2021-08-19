@@ -1,18 +1,18 @@
 ﻿using System.Web.Mvc;
 using WebOnlineAptitudeTest.Models.Entities;
-using WebOnlineAptitudeTest.Areas.Admin.Data.Services.Cadidates;
+using WebOnlineAptitudeTest.Areas.Admin.Data.Services.Candidates;
 
 namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
 {
-    public class CadidateController : BaseController
+    public class CandidateController : BaseController
     {
         private ICadidateService _cadidateService;
-        public CadidateController()
+        public CandidateController()
         {
             _cadidateService = new CadidateService();
         }
 
-        public CadidateController(ICadidateService cadidateService)
+        public CandidateController(ICadidateService cadidateService)
         {
             _cadidateService = cadidateService;
         }

@@ -187,11 +187,11 @@
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\AuthController.cs" />
     <Compile Include="Areas\Admin\Controllers\BaseController.cs" />
-    <Compile Include="Areas\Admin\Controllers\CadidateController.cs" />
+    <Compile Include="Areas\Admin\Controllers\CandidateController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomesController.cs" />
     <Compile Include="Areas\Admin\Data\Model\Cadidates\CadidateRequest.cs" />
-    <Compile Include="Areas\Admin\Data\Services\Cadidates\CadidateService.cs" />
-    <Compile Include="Areas\Admin\Data\Services\Cadidates\ICadidateService.cs" />
+    <Compile Include="Areas\Admin\Data\Services\Candidates\CadidateService.cs" />
+    <Compile Include="Areas\Admin\Data\Services\Candidates\ICadidateService.cs" />
     <Compile Include="Areas\Admin\Data\Services\User\IUserService.cs" />
     <Compile Include="Areas\Admin\Data\Model\User\LoginRequest.cs" />
     <Compile Include="Areas\Admin\Data\Services\User\UserService.cs" />
@@ -1009,9 +1009,9 @@
     <Content Include="CKFinderScripts\lang\bs.json" />
     <Content Include="CKFinderScripts\lang\bg.json" />
     <Content Include="CKFinderScripts\lang\az.json" />
-    <Content Include="Areas\Admin\Views\Cadidate\InsertOrUpdate.cshtml" />
-    <Content Include="Areas\Admin\Views\Cadidate\Details.cshtml" />
-    <Content Include="Areas\Admin\Views\Cadidate\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Candidate\InsertOrUpdate.cshtml" />
+    <Content Include="Areas\Admin\Views\Candidate\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\Candidate\Index.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />

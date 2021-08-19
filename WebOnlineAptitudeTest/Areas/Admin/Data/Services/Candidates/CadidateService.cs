@@ -5,7 +5,7 @@ using System.Web;
 using WebOnlineAptitudeTest.Models.DAL;
 using WebOnlineAptitudeTest.Models.Entities;
 
-namespace WebOnlineAptitudeTest.Areas.Admin.Data.Services.Cadidates
+namespace WebOnlineAptitudeTest.Areas.Admin.Data.Services.Candidates
 {
     public class CadidateService : ICadidateService
     {
@@ -21,14 +21,14 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Data.Services.Cadidates
 
         public bool Delete(int id)
         {
-            var cadi = this.Get(id);
+            var cadi = Get(id);
             if (cadi == null)
             {
                 return false;
             }
             cadi.Deleted = !cadi.Deleted;
 
-            this.SaveAndipose();
+            SaveAndipose();
             return true;
         }
 
@@ -120,7 +120,7 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Data.Services.Cadidates
                 }
             }
 
-            this.SaveAndipose();
+            SaveAndipose();
             return true;
         }
 

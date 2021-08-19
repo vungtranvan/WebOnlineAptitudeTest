@@ -4,13 +4,19 @@
     ViewBag.Title = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
 }
-
+@section Breadcrumb{
+    <div class="-intro-x breadcrumb mr-auto hidden sm:flex">
+        <a href="/admin" class="">Home</a>
+        <i data-feather="chevron-right" class="breadcrumb__icon"></i>
+        <a class="breadcrumb--active">Candidate</a>
+    </div>
+}
 <h2 class="intro-y text-lg font-medium mt-10">
     List Candidate
 </h2>
 <div class="grid grid-cols-12 gap-6 mt-5">
     <div class="intro-y col-span-12 flex flex-wrap sm:flex-no-wrap items-center mt-2">
-        <a href="@Url.Action("InsertOrUpdate", "Cadidate", new { id = 0})" class="button text-white bg-theme-1 shadow-md mr-2">Add New Product</a>
+        <a href="@Url.Action("InsertOrUpdate", "Candidate", new { id = 0})" class="button text-white bg-theme-1 shadow-md mr-2">Add New Product</a>
         <div class="dropdown relative">
 
         </div>
@@ -59,8 +65,8 @@
                             <td class="border">@(item.UpdatedDate==null?"":item.UpdatedDate.Value.ToString("dd-MM-yyyy"))</td>
                             <td class="table-report__action w-56">
                                 <div class="flex justify-center items-center">
-                                    <a class="flex items-center mr-3" href="@Url.Action("InsertOrUpdate", "Cadidate", new { id = item.Id})"> <i data-feather="check-square" class="w-4 h-4 mr-1"></i> Edit </a>
-                                    <a class="flex items-center text-theme-6" href="@Url.Action("Delete", "Cadidate", new { id = item.Id})" onclick="return confirm('Are you sure you want to delete ?');"> <i data-feather="trash-2" class="w-4 h-4 mr-1"></i> Delete </a>
+                                    <a class="flex items-center mr-3" href="@Url.Action("InsertOrUpdate", "Candidate", new { id = item.Id})"> <i data-feather="check-square" class="w-4 h-4 mr-1"></i> Edit </a>
+                                    <a class="flex items-center text-theme-6" href="@Url.Action("Delete", "Candidate", new { id = item.Id})" onclick="return confirm('Are you sure you want to delete ?');"> <i data-feather="trash-2" class="w-4 h-4 mr-1"></i> Delete </a>
                                 </div>
                             </td>
                         </tr>

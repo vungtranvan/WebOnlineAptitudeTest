@@ -3,6 +3,13 @@
     ViewBag.Title = "Home";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
 }
+@section Breadcrumb{
+    <div class="-intro-x breadcrumb mr-auto hidden sm:flex">
+        <a href="/admin" class="">Home</a>
+        <i data-feather="chevron-right" class="breadcrumb__icon"></i>
+        <a href="javascript;" class="breadcrumb--active">Dashboard</a>
+    </div>
+}
 
 <div class="grid grid-cols-12 gap-6">
     <div class="col-span-12 xxl:col-span-12 grid grid-cols-12 gap-6">

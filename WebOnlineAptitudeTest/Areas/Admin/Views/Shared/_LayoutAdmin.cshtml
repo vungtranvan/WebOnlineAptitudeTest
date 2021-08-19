@@ -56,13 +56,13 @@
                 </a>
                 <ul class="">
                     <li>
-                        <a href="@Url.Action("Index","Cadidate")" class="menu">
+                        <a href="@Url.Action("Index","Candidate")" class="menu">
                             <div class="menu__icon"> <i data-feather="list"></i> </div>
                             <div class="menu__title"> List Cadidate </div>
                         </a>
                     </li>
                     <li>
-                        <a href="@Url.Action("InsertOrUpdate","Cadidate", new { id = 0 })" class="menu">
+                        <a href="@Url.Action("InsertOrUpdate","Candidate", new { id = 0 })" class="menu">
                             <div class="menu__icon"> <i data-feather="edit"></i> </div>
                             <div class="menu__title"> Add New Cadidate </div>
                         </a>
@@ -157,13 +157,13 @@
                     </a>
                     <ul class="">
                         <li>
-                            <a href="@Url.Action("Index","Cadidate")" class="side-menu">
+                            <a href="@Url.Action("Index","Candidate")" class="side-menu">
                                 <div class="side-menu__icon"> <i data-feather="list"></i> </div>
                                 <div class="side-menu__title"> List Cadidate </div>
                             </a>
                         </li>
                         <li>
-                            <a href="@Url.Action("InsertOrUpdate","Cadidate", new { id = 0 })" class="side-menu">
+                            <a href="@Url.Action("InsertOrUpdate","Candidate", new { id = 0 })" class="side-menu">
                                 <div class="side-menu__icon"> <i data-feather="edit"></i> </div>
                                 <div class="side-menu__title"> Add New Cadidate </div>
                             </a>
@@ -220,11 +220,7 @@
             <div class="top-bar">
 
                 <!-- BEGIN: Breadcrumb -->
-                <div class="-intro-x breadcrumb mr-auto hidden sm:flex">
-                    <a href="/admin" class="">Home</a>
-                    <i data-feather="chevron-right" class="breadcrumb__icon"></i>
-                    <a href="#" class="breadcrumb--active">Dashboard</a>
-                </div>
+                @RenderSection("Breadcrumb", false)
                 <!-- END: Breadcrumb -->
                 <!-- BEGIN: Account Menu -->
                 <div class="intro-x dropdown w-8 h-8 relative">
