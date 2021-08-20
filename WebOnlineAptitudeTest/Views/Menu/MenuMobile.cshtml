@@ -1,0 +1,100 @@
+﻿@{ Layout = null; }
+<div class="mobile-menu md:hidden">
+    <div class="mobile-menu-bar">
+        <a href="/admin" class="flex mr-auto">
+            <img alt="Midone Tailwind HTML Admin Template" class="w-6" src="/Content/assets/backend/dist/images/logo.svg">
+        </a>
+        <a href="javascript:;" id="mobile-menu-toggler"> <i data-feather="bar-chart-2" class="w-8 h-8 text-white transform -rotate-90"></i> </a>
+    </div>
+    <ul class="border-t border-theme-24 py-5 hidden">
+        <li>
+            <a href="/admin" class="menu menu--active">
+                <div class="menu__icon"> <i data-feather="home"></i> </div>
+                <div class="menu__title"> Home </div>
+            </a>
+        </li>
+
+        <li>
+            <a href="javascript:;" class="menu">
+                <div class="menu__icon"> <i data-feather="users"></i> </div>
+                <div class="menu__title"> General Knowledge <i data-feather="chevron-down" class="menu__sub-icon"></i> </div>
+            </a>
+            <ul class="">
+                <li>
+                    <a href="@Url.Action("Index","Account")" class="menu">
+                        <div class="menu__icon"> <i data-feather="list"></i> </div>
+                        <div class="menu__title"> List Account </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="@Url.Action("InsertOrUpdate","Account", new { id = 0 })" class="menu">
+                        <div class="menu__icon"> <i data-feather="edit"></i> </div>
+                        <div class="menu__title"> Add New Account </div>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <li>
+            <a href="javascript:;" class="menu">
+                <div class="menu__icon"> <i data-feather="package"></i> </div>
+                <div class="menu__title"> Manager Cadidate <i data-feather="chevron-down" class="menu__sub-icon"></i> </div>
+            </a>
+            <ul class="">
+                <li>
+                    <a href="@Url.Action("Index","Candidate")" class="menu">
+                        <div class="menu__icon"> <i data-feather="list"></i> </div>
+                        <div class="menu__title"> List Candidate </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="@Url.Action("InsertOrUpdate","Candidate", new { id = 0 })" class="menu">
+                        <div class="menu__icon"> <i data-feather="edit"></i> </div>
+                        <div class="menu__title"> Add New Candidate </div>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <li>
+            <a href="javascript:;" class="menu">
+                <div class="menu__icon"> <i data-feather="book-open"></i> </div>
+                <div class="menu__title"> Manager Question <i data-feather="chevron-down" class="menu__sub-icon"></i> </div>
+            </a>
+            <ul class="">
+                <li>
+                    <a href="#" class="menu">
+                        <div class="menu__icon"> <i data-feather="list"></i> </div>
+                        <div class="menu__title"> List Question </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="menu">
+                        <div class="menu__icon"> <i data-feather="edit"></i> </div>
+                        <div class="menu__title"> Add New Question </div>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <li>
+            <a href="#" class="menu">
+                <div class="menu__icon"> <i data-feather="inbox"></i> </div>
+                <div class="menu__title"> Inbox </div>
+            </a>
+        </li>
+        <li>
+            <a href="#" class="menu">
+                <div class="menu__icon"> <i data-feather="message-square"></i> </div>
+                <div class="menu__title"> Chat </div>
+            </a>
+        </li>
+        <li>
+            <a href="#" class="menu">
+                <div class="menu__icon"> <i data-feather="file-text"></i> </div>
+                <div class="menu__title"> Post </div>
+            </a>
+        </li>
+
+    </ul>
+</div>
