@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<menus>
+  <menu title="Home" action="google.com" icon="home" />
+
+  <menu title="Def">
+    <add title="abc" action="google.com"/>
+  </menu>
+</menus>

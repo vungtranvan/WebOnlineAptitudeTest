@@ -256,14 +256,19 @@
     </div>
     <!-- BEGIN: JS Assets-->
     @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
     <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=[" your-google-map-api"]&libraries=places"></script>
-    <script src="/Content/assets/backend/dist/js/app.js"></script>
+    @*<script src="https://maps.googleapis.com/maps/api/js?key=[" your-google-map-api"]&libraries=places"></script>*@
+
     <script src="/Scripts/toastr.min.js"></script>
     <script src="/Content/assets/backend/dist/js/config-toastrJs.js"></script>
     <script src="/Scripts/mustache.min.js"></script>
-    <script src="/Scripts/jquery.twbsPagination.min.js"></script>
+
+
     @RenderSection("Scripts", false)
     @Html.Partial("_XMessage")
+
+    <script src="/Content/assets/backend/dist/js/app.js"></script>
+
 </body>
 </html>

@@ -1,42 +1,105 @@
 ﻿<!DOCTYPE html>
-<html>
+<html lang="en">
+<!-- BEGIN: Head -->
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
+    <meta charset="utf-8">
+    <link href="/Content/assets/backend/dist/images/logo.svg" rel="shortcut icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CANDIDATE - @ViewBag.Title</title>
+    <!-- BEGIN: CSS Assets-->
+    <link rel="stylesheet" href="/Content/assets/backend/dist/css/app.css" />
+    @RenderSection("Styles", false)
 </head>
-<body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
-    </div>
+<!-- END: Head -->
+<body class="app">
+    <!-- BEGIN: Mobile Menu -->
+    @Html.Action("MenuMobile", "Menu")
+    <!-- END: Mobile Menu -->
+    <div class="flex">
+        <!-- BEGIN: Side Menu -->
 
+        @Html.Action("Menu", "Menu")
+
+        <!-- END: Side Menu -->
+        <!-- BEGIN: Content -->
+        <div class="content">
+            <!-- BEGIN: Top Bar -->
+            <div class="top-bar">
+
+                <!-- BEGIN: Breadcrumb -->
+                @RenderSection("Breadcrumb", false)
+                <!-- END: Breadcrumb -->
+                <!-- BEGIN: Account Menu -->
+                <div class="intro-x dropdown w-8 h-8 relative">
+                    <div class="dropdown-toggle w-8 h-8 rounded-full overflow-hidden shadow-lg image-fit zoom-in">
+                        <img alt="Midone Tailwind HTML Admin Template" src="@Session["ImageAdmin"]">
+                    </div>
+                    <div class="dropdown-box mt-10 absolute w-56 top-0 right-0 z-20">
+                        <div class="dropdown-box__content box bg-theme-38 text-white">
+                            <div class="p-4 border-b border-theme-40">
+                                <div class="font-medium">@Session["DisplayNameAdmin"]</div>
+                                <div class="text-xs text-theme-41"></div>
+                            </div>
+                            <div class="p-2">
+                                <a href="#" class="flex items-center block p-2 transition duration-300 ease-in-out hover:bg-theme-1 rounded-md"> <i data-feather="user" class="w-4 h-4 mr-2"></i> Profile </a>
+                                <a href="#" class="flex items-center block p-2 transition duration-300 ease-in-out hover:bg-theme-1 rounded-md"> <i data-feather="lock" class="w-4 h-4 mr-2"></i> Reset Password </a>
+                                <a href="#" class="flex items-center block p-2 transition duration-300 ease-in-out hover:bg-theme-1 rounded-md"> <i data-feather="help-circle" class="w-4 h-4 mr-2"></i> Help </a>
+                            </div>
+                            <div class="p-2 border-t border-theme-40">
+                                <a href="/admin/logout" onclick="return confirm('Are you sure you want to logout?');" class="flex items-center block p-2 transition duration-300 ease-in-out hover:bg-theme-1 rounded-md"> <i data-feather="toggle-right" class="w-4 h-4 mr-2"></i> Logout </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- END: Account Menu -->
+            </div>
+            <!-- END: Top Bar -->
+
+            @RenderBody()
+
+        </div>
+        <!-- END: Content -->
+    </div>
+    <!-- BEGIN: JS Assets-->
     @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
+    @*<script src="https://maps.googleapis.com/maps/api/js?key=[" your-google-map-api"]&libraries=places"></script>*@
+
+
+
+    @RenderSection("Scripts", false)
+    <script src="/Scripts/jquery.twbsPagination.min.js"></script>
+
+    <script>
+        $('#pagination-demo').twbsPagination({
+            totalPages: 50,
+            visiblePages: 5
+        });
+
+    </script>
+    <script>
+        $().ready(function () {
+            $("#demoForm").validate({
+                rules: {
+                    "user": {
+                        required: true,
+                        maxlength: 15
+                    },
+                    "password": {
+                        required: true,
+                        minlength: 8
+                    },
+                    "re-password": {
+                        equalTo: "#password",
+                        minlength: 8
+                    }
+                }
+            });
+        });
+    </script>
+    <script src="/Content/assets/backend/dist/js/app.js"></script>
+
 </body>
 </html>
