@@ -38,7 +38,7 @@ var cadiController = {
             dataType: 'json',
             success: function (response) {
                 if (response.status == true) {
-                    $('.item-data-' + id).remove();
+                    cadiController.loadData(true);
                     toastr.success(response.message, response.title);
                 } else {
                     toastr.error(response.message, response.title);
