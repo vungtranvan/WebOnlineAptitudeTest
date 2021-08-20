@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using WebOnlineAptitudeTest.Areas.Admin.Data.Model.Pagings;
 using WebOnlineAptitudeTest.Models.DAL;
 using WebOnlineAptitudeTest.Models.Entities;
 
@@ -32,9 +33,25 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Data.Services.Candidates
             return true;
         }
 
-        public List<Candidate> Get()
+        public PagingModel<Candidate> Get(string keyword, int page, int pageSize)
         {
-            return _unitOfWork.CandidateRepository.Get(filter: c => c.Deleted == false, orderBy: c => c.OrderByDescending(x => x.Id)).ToList();
+            List<Candidate> lstCandi = _unitOfWork.CandidateRepository.Get(orderBy: c => c.OrderByDescending(x => x.Id)).ToList();
+
+            if (!string.IsNullOrEmpty(keyword))
+            {
+                lstCandi = _unitOfWork.CandidateRepository.Get(
+                    filter: c => c.Deleted == false && (c.UserName.ToLower().Contains(keyword.ToLower())
+                    || c.Name.ToLower().Contains(keyword.ToLower()) || c.Email.ToLower().Contains(keyword.ToLower())
+                    || c.Phone.ToLower().Contains(keyword.ToLower())),
+                    orderBy: c => c.OrderByDescending(x => x.Id)).ToList();
+            }
+
+            int totalRow = lstCandi.Count();
+
+            var data = lstCandi.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+
+            return new PagingModel<Candidate>() { TotalRow = totalRow, Items = data };
+
         }
 
         public Candidate Get(int id)

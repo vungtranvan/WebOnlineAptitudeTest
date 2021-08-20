@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WebOnlineAptitudeTest.Areas.Admin.Data.Model.Pagings;
 using WebOnlineAptitudeTest.Models.Entities;
 
 namespace WebOnlineAptitudeTest.Areas.Admin.Data.Services.Candidates
 {
     public interface ICadidateService
     {
-        List<Candidate> Get();
+        PagingModel<Candidate> Get(string keyword, int page, int pageSize);
         Candidate Get(int id);
         bool InsertOrUpdate(Candidate candidate);
         bool Delete(int id);

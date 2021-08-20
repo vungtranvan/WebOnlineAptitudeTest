@@ -20,8 +20,20 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            var data = _cadidateService.Get();
-            return View(data);
+            return View();
+        }
+
+        [HttpGet]
+        public JsonResult LoadData(string keyword, int page, int pageSize = 3)
+        {
+            var result = _cadidateService.Get(keyword, page, pageSize);
+
+            return Json(new
+            {
+                data = result.Items,
+                totalRow= result.TotalRow,
+                status = true
+            }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
@@ -84,18 +96,27 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
 
             var result = _cadidateService.InsertOrUpdate(candidate);
 
-            if (result == false)
+            if (result == true)
             {
-                return HttpNotFound();
-            }
-
-            if (candidate.Id == 0)
-            {
-                TempData["XMessage"] = new XMessage("Notification", "Add Successfull", EnumCategoryMess.success);
+                if (candidate.Id == 0)
+                {
+                    TempData["XMessage"] = new XMessage("Notification", "Add Successfull", EnumCategoryMess.success);
+                }
+                else
+                {
+                    TempData["XMessage"] = new XMessage("Notification", "Edit Successfull", EnumCategoryMess.success);
+                }
             }
             else
             {
-                TempData["XMessage"] = new XMessage("Notification", "Edit Successfull", EnumCategoryMess.success);
+                if (candidate.Id == 0)
+                {
+                    TempData["XMessage"] = new XMessage("Notification", "Add Error", EnumCategoryMess.error);
+                }
+                else
+                {
+                    TempData["XMessage"] = new XMessage("Notification", "Edit Error", EnumCategoryMess.error);
+                }
             }
 
             return RedirectToAction("Index");
