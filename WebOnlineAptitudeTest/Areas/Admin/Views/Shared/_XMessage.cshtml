@@ -1,0 +1,34 @@
+﻿@if (TempData.ContainsKey("XMessage"))
+{
+    XMessage sms = (XMessage)TempData["XMessage"];
+    if (sms != null)
+    {
+        <p id="messMsg">@sms.Msg</p>
+        <p id="messTitle">@sms.Title</p>
+        if (sms.Types == EnumCategoryMess.error)
+        {
+            <script>
+                var msg = $('#messMsg').text();
+                var title = $('#messTitle').text();
+                toastr.error(msg, title);
+            </script>
+        }
+        else if (sms.Types == EnumCategoryMess.success)
+        {
+            <script>
+                var msg = $('#messMsg').text();
+                var title = $('#messTitle').text();
+                toastr.success(msg, title);
+            </script>
+        }
+        else if (sms.Types == EnumCategoryMess.warning)
+        {
+            <script>
+                var msg = $('#messMsg').text();
+                var title = $('#messTitle').text();
+                toastr.warning(msg, title);
+            </script>
+        }
+    }
+}
+

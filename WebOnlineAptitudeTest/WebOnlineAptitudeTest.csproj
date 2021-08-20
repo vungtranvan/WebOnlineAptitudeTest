@@ -189,7 +189,7 @@
     <Compile Include="Areas\Admin\Controllers\BaseController.cs" />
     <Compile Include="Areas\Admin\Controllers\CandidateController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomesController.cs" />
-    <Compile Include="Areas\Admin\Data\Model\Cadidates\CadidateRequest.cs" />
+    <Compile Include="Areas\Admin\Data\Model\Pagings\PagingModel.cs" />
     <Compile Include="Areas\Admin\Data\Services\Candidates\CadidateService.cs" />
     <Compile Include="Areas\Admin\Data\Services\Candidates\ICadidateService.cs" />
     <Compile Include="Areas\Admin\Data\Services\User\IUserService.cs" />
@@ -202,6 +202,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helper\MyHelper.cs" />
+    <Compile Include="Helper\XMessage.cs" />
     <Compile Include="Models\DAL\GenericRepository.cs" />
     <Compile Include="Models\DAL\UnitOfWork.cs" />
     <Compile Include="Models\Entities\Admin.cs" />
@@ -928,10 +929,14 @@
     <Content Include="Content\assets\backend\dist\images\profile-9.jpg" />
     <Content Include="Content\assets\backend\dist\js\app.js" />
     <Content Include="Content\assets\backend\dist\js\app.js.LICENSE.txt" />
+    <Content Include="Content\assets\backend\dist\js\CandidateJsController.js" />
+    <Content Include="Content\assets\backend\dist\js\config-toastrJs.js" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\toastr.css" />
+    <Content Include="Content\toastr.min.css" />
     <Content Include="etc\menu.xml" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -1014,17 +1019,25 @@
     <Content Include="Areas\Admin\Views\Candidate\InsertOrUpdate.cshtml" />
     <Content Include="Areas\Admin\Views\Candidate\Details.cshtml" />
     <Content Include="Areas\Admin\Views\Candidate\Index.cshtml" />
+    <Content Include="Content\toastr.scss" />
+    <Content Include="Content\toastr.less" />
+    <Content Include="Areas\Admin\Views\Shared\_XMessage.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.twbsPagination.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\mustache.min.js" />
+    <Content Include="Scripts\sweetalert2.all.min.js" />
+    <Content Include="Scripts\toastr.js" />
+    <Content Include="Scripts\toastr.min.js" />
     <Content Include="userfiles\images\sp-07.jpg" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
