@@ -63,13 +63,22 @@
     <!-- BEGIN: JS Assets-->
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/jqueryval")
+
     <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
     @*<script src="https://maps.googleapis.com/maps/api/js?key=[" your-google-map-api"]&libraries=places"></script>*@
-    <script src="/Content/assets/backend/dist/js/app.js"></script>
+
 
 
     @RenderSection("Scripts", false)
+    <script src="/Scripts/jquery.twbsPagination.min.js"></script>
 
+    <script>
+        $('#pagination-demo').twbsPagination({
+            totalPages: 50,
+            visiblePages: 5
+        });
+
+    </script>
     <script>
         $().ready(function () {
             $("#demoForm").validate({
@@ -90,6 +99,7 @@
             });
         });
     </script>
+    <script src="/Content/assets/backend/dist/js/app.js"></script>
 
 </body>
 </html>
