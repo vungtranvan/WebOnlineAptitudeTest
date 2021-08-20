@@ -71,7 +71,7 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
             {
                 Session["RememberLoginAdmin"] = "";
             }
-
+            TempData["XMessage"] = new XMessage("Notification", "Login Successfull", EnumCategoryMess.success);
             return RedirectToAction("Index", "Homes");
         }
 

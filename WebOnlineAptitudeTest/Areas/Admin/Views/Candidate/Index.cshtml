@@ -3,94 +3,114 @@
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
 }
 @section Breadcrumb{
-    <div class="-intro-x breadcrumb mr-auto hidden sm:flex">
-        <a href="/admin" class="">Home</a>
-        <i data-feather="chevron-right" class="breadcrumb__icon"></i>
-        <a class="breadcrumb--active">Candidate</a>
-    </div>
-}
-
-<h2 class="intro-y text-lg font-medium mt-10">
-    List Candidate
-</h2>
-<div class="grid grid-cols-12 gap-6 mt-5">
-    <div class="intro-y col-span-12 flex flex-wrap sm:flex-no-wrap items-center mt-2">
-        <a href="@Url.Action("InsertOrUpdate", "Candidate", new { id = 0})" class="button text-white bg-theme-1 shadow-md mr-2">Add New Product</a>
-        <div class="dropdown relative">
-
-        </div>
-        <div class="hidden md:block mx-auto text-gray-600"></div>
-        <div class="w-full sm:w-auto mt-3 sm:mt-0 sm:ml-auto md:ml-0">
-            <div class="w-56 relative text-gray-700">
-                <input type="text" class="input w-56 box pr-10 placeholder-theme-13 txtSearchCandidate" placeholder="Search...">
-                <i class="w-4 h-4 absolute my-auto inset-y-0 mr-3 right-0" data-feather="search"></i>
+    <div class="page-breadcrumb">
+        <div class="row">
+            <div class="col-7 align-self-center">
+                <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">Candidate</h3>
+                <div class="d-flex align-items-center">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb m-0 p-0">
+                            <li class="breadcrumb-item"><a href="/admin" class="text-muted">Home</a></li>
+                            <li class="breadcrumb-item text-muted active" aria-current="page">Candidate</li>
+                        </ol>
+                    </nav>
+                </div>
             </div>
         </div>
     </div>
+}
 
-    <!-- BEGIN: Data List -->
-    <div class="intro-y col-span-12 overflow-auto lg:overflow-visible">
-
-        <table class="table table-report -mt-2">
-            <thead>
-                <tr class="bg-gray-700 text-white">
-                    <th class="whitespace-no-wrap">#</th>
-                    <th class="whitespace-no-wrap">USERNAME</th>
-                    <th class="whitespace-no-wrap">DISPLAY NAME</th>
-                    <th class="whitespace-no-wrap">EMAIL</th>
-                    <th class="whitespace-no-wrap">BIRTHDAY</th>
-                    <th class="whitespace-no-wrap">ADDRESS</th>
-                    <th class="whitespace-no-wrap">PHONE</th>
-                    <th class="whitespace-no-wrap">SEX</th>
-                    <th class="whitespace-no-wrap">CREATED DATE</th>
-                    <th class="whitespace-no-wrap">LAST UPDATED DATE</th>
-                    <th class="text-center whitespace-no-wrap">ACTION</th>
-                </tr>
-            </thead>
-            <tbody id="tblDataCandidate"></tbody>
-        </table>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">List Candidate</h4>
+                <div class="row">
+                    <div class="col-lg-6 col-md-6">
+                        <a href="@Url.Action("InsertOrUpdate","Candidate", new { id=0})" class="btn waves-effect waves-light btn-primary"> Add New Candidate</a>
+                    </div>
+                </div>
+                <div class="dataTables_wrapper container-fluid dt-bootstrap4 mt-4">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-6">
+                            <div class="dataTables_length" id="zero_config_length" style="display:flex">
+                                <label>
+                                    Show<select name="candidate" class="form-control form-control-sm pageSizeItem">
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                    </select>entries
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-6">
+                            <div id="zero_config_filter" class="dataTables_filter">
+                                <label>Search:<input type="search" class="form-control form-control-sm txtSearchCandidate" placeholder="" aria-controls="zero_config"></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-hover" id="tableCandidate">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Username</th>
+                                <th scope="col">Display Name</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Birthday</th>
+                                <th scope="col">Address</th>
+                                <th scope="col">Phone</th>
+                                <th scope="col">Sex</th>
+                                <th scope="col">Created Date</th>
+                                <th scope="col">Last Updated Date</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tblDataCandidate">
+                        </tbody>
+                    </table>
+                </div>
+                <p class="text-center textEmpty">List empty</p>
+                <ul id="pagination" class="pagination flex-wrap .pagination-rounded-flat pagination-success mt-3"></ul>
+            </div>
+        </div>
     </div>
-
-    <!-- END: Data List -->
-    <!-- BEGIN: Pagination -->
-    <div class="intro-y col-span-12 flex flex-wrap sm:flex-row sm:flex-no-wrap items-center">
-
-        <ul id="pagination" class="pagination"></ul>
-
-        @*<ul class="pagination">
-                <li>
-                    <a class="pagination__link" href=""> <i class="w-4 h-4" data-feather="chevrons-left"></i> </a>
-                </li>
-                <li>
-                    <a class="pagination__link" href=""> <i class="w-4 h-4" data-feather="chevron-left"></i> </a>
-                </li>
-                <li> <a class="pagination__link" href="">...</a> </li>
-                <li> <a class="pagination__link" href="">1</a> </li>
-                <li> <a class="pagination__link pagination__link--active" href="">2</a> </li>
-                <li> <a class="pagination__link" href="">3</a> </li>
-                <li> <a class="pagination__link" href="">...</a> </li>
-                <li>
-                    <a class="pagination__link" href=""> <i class="w-4 h-4" data-feather="chevron-right"></i> </a>
-                </li>
-                <li>
-                    <a class="pagination__link" href=""> <i class="w-4 h-4" data-feather="chevrons-right"></i> </a>
-                </li>
-            </ul>*@
-        <select class="w-20 input box mt-3 sm:mt-0">
-            <option>10</option>
-            <option>25</option>
-            <option>35</option>
-            <option>50</option>
-        </select>
-    </div>
-    <!-- END: Pagination -->
 </div>
+
+<div id="modal-delete" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-top">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="topModalLabel">Notification</h4>
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-hidden="true">
+                    ×
+                </button>
+            </div>
+            <div class="modal-body">
+                <h5>Are you sure want to delete ?</h5>
+                <p id="id-item" style="display:none"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light"
+                        data-dismiss="modal">
+                    Close
+                </button>
+                <button type="button" class="btn btn-primary Save-Delete">Save changes</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+
 @section Scripts{
+    <script src="/Scripts/mustache.min.js"></script>
     <script src="/Scripts/jquery.twbsPagination.min.js"></script>
-    <script src="/Content/assets/backend/dist/js/CandidateJsController.js"></script>
+    <script src="/Scripts/plugins/CandidateJsController.js"></script>
     <script id="data-template" type="x-tmpl-mustache">
-     <tr class="intro-x">
-        <td>{{STT}}</td>
+     <tr class="intro-x item-data-{{Id}}">
+        <td scope="col"</td>
         <td>{{UserName}}</td>
         <td>{{Name}}</td>
         <td>{{Email}}</td>

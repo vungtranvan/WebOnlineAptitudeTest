@@ -35,7 +35,7 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Data.Services.Candidates
 
         public PagingModel<Candidate> Get(string keyword, int page, int pageSize)
         {
-            List<Candidate> lstCandi = _unitOfWork.CandidateRepository.Get(orderBy: c => c.OrderByDescending(x => x.Id)).ToList();
+            List<Candidate> lstCandi = new List<Candidate>();
 
             if (!string.IsNullOrEmpty(keyword))
             {
@@ -44,6 +44,10 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Data.Services.Candidates
                     || c.Name.ToLower().Contains(keyword.ToLower()) || c.Email.ToLower().Contains(keyword.ToLower())
                     || c.Phone.ToLower().Contains(keyword.ToLower())),
                     orderBy: c => c.OrderByDescending(x => x.Id)).ToList();
+            }
+            else
+            {
+                lstCandi = _unitOfWork.CandidateRepository.Get(filter: c => c.Deleted == false, orderBy: c => c.OrderByDescending(x => x.Id)).ToList();
             }
 
             int totalRow = lstCandi.Count();

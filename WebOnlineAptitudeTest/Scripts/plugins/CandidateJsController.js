@@ -1,5 +1,5 @@
 ﻿var candidateConfig = {
-    pageSize: 1,
+    pageSize: $('.pageSizeItem').val(),
     pageIndex: 1
 }
 
@@ -8,29 +8,43 @@ var cadiController = {
         cadiController.loadData();
     },
     registerEvents: function () {
-
         $('.txtSearchCandidate').off('input').on('input', function () {
             cadiController.loadData(true);
         });
 
-        $('.btnDelete').off('click').on('click', function () {
-
+        $('.pageSizeItem').off('change').on('change', function () {
+            candidateConfig.pageSize = $(this).val();
+            cadiController.loadData(true);
         });
+
+        $('.btnDelete').off('click').on('click', function (e) {
+            e.preventDefault = false;
+            $('#id-item').text($(this).data('id'));
+            $('#modal-delete').modal('show');
+        });
+
+        $('.Save-Delete').off('click').on('click', function (e) {
+            var id = $('#id-item').text();
+            cadiController.deleteCandidate(id);
+            $('#modal-delete').modal('hide');
+        });
+
     },
-    deleteProduct: function (id) {
-        //$.ajax({
-        //    url: '/Candidate/Delete',
-        //    type: 'POST',
-        //    data: { id: id },
-        //    dataType: 'json',
-        //    success: function (response) {
-        //        if (response.status == true) {
-        //            toastr.error(response.message, response.title);
-        //        } else {
-        //            toastr.error(response.message, response.title);
-        //        }
-        //    }
-        //});
+    deleteCandidate: function (id) {
+        $.ajax({
+            url: '/Candidate/Delete',
+            type: 'POST',
+            data: { id: id },
+            dataType: 'json',
+            success: function (response) {
+                if (response.status == true) {
+                    $('.item-data-' + id).remove();
+                    toastr.success(response.message, response.title);
+                } else {
+                    toastr.error(response.message, response.title);
+                }
+            }
+        });
     },
     getDetailPro: function (id) {
         //$.ajax({
@@ -87,23 +101,44 @@ var cadiController = {
                             UserName: item.UserName,
                             Name: item.Name,
                             Email: item.Email,
-                            Birthday: item.Birthday,
+                            Birthday: item.Birthday == null ? "" : cadiController.formatDate(item.Birthday),
                             Address: item.Address,
                             Phone: item.Phone,
                             Sex: item.Sex == true ? 'Male' : 'FeMale',
-                            CreatedDate: item.CreatedDate,
-                            UpdatedDate: item.UpdatedDate
+                            CreatedDate: item.CreatedDate == null ? "" : cadiController.formatDate((item.CreatedDate)),
+                            UpdatedDate: item.UpdatedDate == null ? "" : cadiController.formatDate(item.UpdatedDate)
                         });
                     });
                     $('#tblDataCandidate').html(html);
-
+                    if (response.data.length == 0) {
+                        $('#tableCandidate').hide();
+                        $('.textEmpty').show();
+                    } else {
+                        $('.textEmpty').hide();
+                        $('#tableCandidate').show();
+                    }
                     cadiController.pagination(response.totalRow, function () {
                         cadiController.loadData();
                     }, changePageSize);
                     cadiController.registerEvents();
+
                 }
             }
         });
+    },
+    formatDate: function (dateString) {
+        var newDate = new Date(parseInt(dateString.replace('/Date(', '')));
+        var dd = newDate.getDate();
+        var mm = newDate.getMonth() + 1;
+        var yyyy = newDate.getFullYear();
+        if (dd < 10) {
+            dd = '0' + dd;
+        }
+        if (mm < 10) {
+            mm = '0' + mm;
+        }
+        newDate = mm + '/' + dd + '/' + yyyy;
+        return newDate;
     },
     pagination: function (totalRow, callback, changePageSize) {
         var totalPage = Math.ceil(totalRow / candidateConfig.pageSize);
@@ -114,22 +149,19 @@ var cadiController = {
             $('#pagination').removeData('twbs-pagination');
             $('#pagination').unbind("page");
         }
-        $('#pagination li a').addClass('pagination__link');
-        $('#pagination li a.active').addClass('pagination__link--active');
 
         $('#pagination').twbsPagination({
             totalPages: totalPage,
-            first: `<i class="w-4 h-4" data-feather="chevrons-left"></i>`,
-            prev: '<i class="w-4 h-4" data-feather="chevron-left"></i>',
-            next: '<i class="w-4 h-4" data-feather="chevron-right"></i>',
-            last: '<i class="w-4 h-4" data-feather="chevrons-right"></i>',
+            first: '<i class="fas fa-angle-double-left"></i>',
+            prev: '<i class=" fas fa-angle-left"></i>',
+            next: '<i class="fas fa-angle-right"></i>',
+            last: '<i class="fas fa-angle-double-right"></i>',
             visiblePages: 8,
             onPageClick: function (event, page) {
                 candidateConfig.pageIndex = page;
                 setTimeout(callback, 0);
             }
         });
-        
     }
 }
 

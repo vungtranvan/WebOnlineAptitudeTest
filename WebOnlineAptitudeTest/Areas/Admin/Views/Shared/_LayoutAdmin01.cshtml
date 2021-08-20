@@ -1,0 +1,274 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<!-- BEGIN: Head -->
+<head>
+    <meta charset="utf-8">
+    <link href="/Content/assets/backend/dist/images/logo.svg" rel="shortcut icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Admin - @ViewBag.Title</title>
+    <!-- BEGIN: CSS Assets-->
+    <link href="/Content/toastr.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/Content/assets/backend/dist/css/app.css" />
+    @RenderSection("Styles", false)
+</head>
+<!-- END: Head -->
+<body class="app">
+    <!-- BEGIN: Mobile Menu -->
+    <div class="mobile-menu md:hidden">
+        <div class="mobile-menu-bar">
+            <a href="/admin" class="flex mr-auto">
+                <img alt="Midone Tailwind HTML Admin Template" class="w-6" src="/Content/assets/backend/dist/images/logo.svg">
+            </a>
+            <a href="javascript:;" id="mobile-menu-toggler"> <i data-feather="bar-chart-2" class="w-8 h-8 text-white transform -rotate-90"></i> </a>
+        </div>
+        <ul class="border-t border-theme-24 py-5 hidden">
+            <li>
+                <a href="/admin" class="menu menu--active">
+                    <div class="menu__icon"> <i data-feather="home"></i> </div>
+                    <div class="menu__title"> Home </div>
+                </a>
+            </li>
+
+            <li>
+                <a href="javascript:;" class="menu">
+                    <div class="menu__icon"> <i data-feather="users"></i> </div>
+                    <div class="menu__title"> Manager Account <i data-feather="chevron-down" class="menu__sub-icon"></i> </div>
+                </a>
+                <ul class="">
+                    <li>
+                        <a href="@Url.Action("Index","Account")" class="menu">
+                            <div class="menu__icon"> <i data-feather="list"></i> </div>
+                            <div class="menu__title"> List Account </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("InsertOrUpdate","Account", new { id = 0 })" class="menu">
+                            <div class="menu__icon"> <i data-feather="edit"></i> </div>
+                            <div class="menu__title"> Add New Account </div>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <li>
+                <a href="javascript:;" class="menu">
+                    <div class="menu__icon"> <i data-feather="package"></i> </div>
+                    <div class="menu__title"> Manager Cadidate <i data-feather="chevron-down" class="menu__sub-icon"></i> </div>
+                </a>
+                <ul class="">
+                    <li>
+                        <a href="@Url.Action("Index","Candidate")" class="menu">
+                            <div class="menu__icon"> <i data-feather="list"></i> </div>
+                            <div class="menu__title"> List Candidate </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("InsertOrUpdate","Candidate", new { id = 0 })" class="menu">
+                            <div class="menu__icon"> <i data-feather="edit"></i> </div>
+                            <div class="menu__title"> Add New Candidate </div>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <li>
+                <a href="javascript:;" class="menu">
+                    <div class="menu__icon"> <i data-feather="book-open"></i> </div>
+                    <div class="menu__title"> Manager Question <i data-feather="chevron-down" class="menu__sub-icon"></i> </div>
+                </a>
+                <ul class="">
+                    <li>
+                        <a href="#" class="menu">
+                            <div class="menu__icon"> <i data-feather="list"></i> </div>
+                            <div class="menu__title"> List Question </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="menu">
+                            <div class="menu__icon"> <i data-feather="edit"></i> </div>
+                            <div class="menu__title"> Add New Question </div>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <li>
+                <a href="#" class="menu">
+                    <div class="menu__icon"> <i data-feather="inbox"></i> </div>
+                    <div class="menu__title"> Inbox </div>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="menu">
+                    <div class="menu__icon"> <i data-feather="message-square"></i> </div>
+                    <div class="menu__title"> Chat </div>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="menu">
+                    <div class="menu__icon"> <i data-feather="file-text"></i> </div>
+                    <div class="menu__title"> Post </div>
+                </a>
+            </li>
+
+        </ul>
+    </div>
+    <!-- END: Mobile Menu -->
+    <div class="flex">
+        <!-- BEGIN: Side Menu -->
+        <nav class="side-nav">
+            <a href="/admin" class="intro-x flex items-center pl-5 pt-4">
+                <img alt="Midone Tailwind HTML Admin Template" class="w-6" src="/Content/assets/backend/dist/images/logo.svg">
+                <span class="hidden xl:block text-white text-lg ml-3"> Mid<span class="font-medium">one</span> </span>
+            </a>
+            <div class="side-nav__devider my-6"></div>
+            <ul>
+                <li>
+                    <a href="/admin" class="side-menu side-menu--active">
+                        <div class="side-menu__icon"> <i data-feather="home"></i> </div>
+                        <div class="side-menu__title"> Home </div>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="javascript:;" class="side-menu">
+                        <div class="side-menu__icon"> <i data-feather="users"></i> </div>
+                        <div class="side-menu__title"> Manager Account <i data-feather="chevron-down" class="menu__sub-icon"></i> </div>
+                    </a>
+                    <ul class="">
+                        <li>
+                            <a href="@Url.Action("Index","Account")" class="side-menu">
+                                <div class="side-menu__icon"> <i data-feather="list"></i> </div>
+                                <div class="side-menu__title"> List Account </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("InsertOrUpdate","Account", new { id = 0 })" class="side-menu">
+                                <div class="side-menu__icon"> <i data-feather="edit"></i> </div>
+                                <div class="side-menu__title"> Add New Account </div>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="javascript:;" class="side-menu">
+                        <div class="side-menu__icon"> <i data-feather="package"></i> </div>
+                        <div class="side-menu__title"> Manager Cadidate <i data-feather="chevron-down" class="menu__sub-icon"></i> </div>
+                    </a>
+                    <ul class="">
+                        <li>
+                            <a href="@Url.Action("Index","Candidate")" class="side-menu">
+                                <div class="side-menu__icon"> <i data-feather="list"></i> </div>
+                                <div class="side-menu__title"> List Candidate </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("InsertOrUpdate","Candidate", new { id = 0 })" class="side-menu">
+                                <div class="side-menu__icon"> <i data-feather="edit"></i> </div>
+                                <div class="side-menu__title"> Add New Candidate </div>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="javascript:;" class="side-menu">
+                        <div class="side-menu__icon"> <i data-feather="book-open"></i> </div>
+                        <div class="side-menu__title"> Manager Question <i data-feather="chevron-down" class="menu__sub-icon"></i> </div>
+                    </a>
+                    <ul class="">
+                        <li>
+                            <a href="#" class="side-menu">
+                                <div class="side-menu__icon"> <i data-feather="list"></i> </div>
+                                <div class="side-menu__title"> List Question </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="side-menu">
+                                <div class="side-menu__icon"> <i data-feather="edit"></i> </div>
+                                <div class="side-menu__title"> Add New Question </div>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="#" class="side-menu">
+                        <div class="side-menu__icon"> <i data-feather="inbox"></i> </div>
+                        <div class="side-menu__title"> Inbox </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="side-menu">
+                        <div class="side-menu__icon"> <i data-feather="message-square"></i> </div>
+                        <div class="side-menu__title"> Chat </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="side-menu">
+                        <div class="side-menu__icon"> <i data-feather="file-text"></i> </div>
+                        <div class="side-menu__title"> Post </div>
+                    </a>
+                </li>
+
+            </ul>
+        </nav>
+        <!-- END: Side Menu -->
+        <!-- BEGIN: Content -->
+        <div class="content">
+            <!-- BEGIN: Top Bar -->
+            <div class="top-bar">
+
+                <!-- BEGIN: Breadcrumb -->
+                @RenderSection("Breadcrumb", false)
+                <!-- END: Breadcrumb -->
+                <!-- BEGIN: Account Menu -->
+                <div class="intro-x dropdown w-8 h-8 relative">
+                    <div class="dropdown-toggle w-8 h-8 rounded-full overflow-hidden shadow-lg image-fit zoom-in">
+                        <img alt="Midone Tailwind HTML Admin Template" src="@Session["ImageAdmin"]">
+                    </div>
+                    <div class="dropdown-box mt-10 absolute w-56 top-0 right-0 z-20">
+                        <div class="dropdown-box__content box bg-theme-38 text-white">
+                            <div class="p-4 border-b border-theme-40">
+                                <div class="font-medium">@Session["DisplayNameAdmin"]</div>
+                                <div class="text-xs text-theme-41"></div>
+                            </div>
+                            <div class="p-2">
+                                <a href="#" class="flex items-center block p-2 transition duration-300 ease-in-out hover:bg-theme-1 rounded-md"> <i data-feather="user" class="w-4 h-4 mr-2"></i> Profile </a>
+                                <a href="#" class="flex items-center block p-2 transition duration-300 ease-in-out hover:bg-theme-1 rounded-md"> <i data-feather="lock" class="w-4 h-4 mr-2"></i> Reset Password </a>
+                                <a href="#" class="flex items-center block p-2 transition duration-300 ease-in-out hover:bg-theme-1 rounded-md"> <i data-feather="help-circle" class="w-4 h-4 mr-2"></i> Help </a>
+                            </div>
+                            <div class="p-2 border-t border-theme-40">
+                                <a href="/admin/logout" onclick="return confirm('Are you sure you want to logout?');" class="flex items-center block p-2 transition duration-300 ease-in-out hover:bg-theme-1 rounded-md"> <i data-feather="toggle-right" class="w-4 h-4 mr-2"></i> Logout </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- END: Account Menu -->
+            </div>
+            <!-- END: Top Bar -->
+
+            @RenderBody()
+
+        </div>
+        <!-- END: Content -->
+    </div>
+    <!-- BEGIN: JS Assets-->
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
+    @*<script src="https://maps.googleapis.com/maps/api/js?key=[" your-google-map-api"]&libraries=places"></script>*@
+
+    <script src="/Scripts/toastr.min.js"></script>
+    <script src="/Content/assets/backend/dist/js/config-toastrJs.js"></script>
+    <script src="/Scripts/mustache.min.js"></script>
+
+
+    @RenderSection("Scripts", false)
+    @Html.Partial("_XMessage")
+
+    <script src="/Content/assets/backend/dist/js/app.js"></script>
+
+</body>
+</html>

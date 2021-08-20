@@ -8,116 +8,124 @@
 }
 
 @section Breadcrumb{
-    <div class="-intro-x breadcrumb mr-auto hidden sm:flex">
-        <a href="/admin" class="">Home</a>
-        <i data-feather="chevron-right" class="breadcrumb__icon"></i>
-        <a href="@Url.Action("Index","Candidate")" class="">Candidate</a>
-        <i data-feather="chevron-right" class="breadcrumb__icon"></i>
-        <a class="breadcrumb--active">@(Model == null ? "Add New Candidate" : "Candidate Edit")</a>
+    <div class="page-breadcrumb">
+        <div class="row">
+            <div class="col-7 align-self-center">
+                <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">@(Model == null ? "Add New Candidate" : "Candidate Edit")</h3>
+                <div class="d-flex align-items-center">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb m-0 p-0">
+                            <li class="breadcrumb-item"><a href="/admin" class="text-muted">Home</a></li>
+                            <li class="breadcrumb-item text-muted active" aria-current="page">Candidate</li>
+                            <li class="breadcrumb-item text-muted active" aria-current="page">@(Model == null ? "Add New Candidate" : "Candidate Edit")</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
     </div>
 }
 
-<div class="intro-y flex items-center mt-8">
-    <h2 class="text-lg font-medium mr-auto">
-        @(Model == null ? "Add New Candidate" : "Candidate Edit")
-    </h2>
-</div>
-<div class="grid grid-cols-12 gap-6 mt-5">
-    <div class="intro-y col-span-12 lg:col-span-6">
-        <!-- BEGIN: Form Layout -->
-        <div class="intro-y box p-5">
 
-            @using (Html.BeginForm())
-            {
-                @Html.AntiForgeryToken()
-                @Html.HiddenFor(model => model.Id)
-                <div>
-                    @*<label class="flex flex-col sm:flex-row"> UserName @Html.ValidationMessageFor(model => model.UserName, null, new { @class = "sm:ml-auto mt-1 sm:mt-0 text-xs text-theme-6" }) </label>*@
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.HiddenFor(model => model.Id)
+                    <div class="form-group">
 
-                    @Html.LabelFor(model => model.UserName)
-                    @Html.TextBoxFor(model => model.UserName, new { @class = "input w-full border mt-2", placeholder = "InserText", @type = "text" })
-                    @Html.ValidationMessageFor(model => model.UserName, null, new { @class = "text-theme-6 text-xs" })
-                </div>
+                        @Html.LabelFor(model => model.UserName, new { @class = "text-dark" })
+                        @Html.TextBoxFor(model => model.UserName, new { @class = "form-control", placeholder = "InserText", @type = "text" })
+                        @Html.ValidationMessageFor(model => model.UserName, null, new { @class = "text-danger form-text text-muted" })
+                    </div>
 
-                <div class="mt-3">
-                    @Html.LabelFor(model => model.Name)
-                    @Html.TextBoxFor(model => model.Name, new { @class = "input w-full border mt-2", placeholder = "InserText", @type = "text" })
-                    @Html.ValidationMessageFor(model => model.Name, null, new { @class = "text-theme-6 text-xs" })
-                </div>
-                <div class="mt-3">
-                    @Html.LabelFor(model => model.Email)
-                    @Html.TextBoxFor(model => model.Email, new { @class = "input w-full border mt-2", placeholder = "InserText", @type = "text" })
-                    @Html.ValidationMessageFor(model => model.Email, null, new { @class = "text-theme-6 text-xs" })
-                </div>
-                <div class="mt-3">
-                    @Html.LabelFor(model => model.Phone)
-                    @Html.TextBoxFor(model => model.Phone, new { @class = "input w-full border mt-2", placeholder = "InserText", @type = "text" })
-                    @Html.ValidationMessageFor(model => model.Phone, null, new { @class = "text-theme-6 text-xs" })
-                </div>
-                <div class="mt-3">
-                    @Html.LabelFor(model => model.Address)
-                    @Html.TextBoxFor(model => model.Address, new { @class = "input w-full border mt-2", placeholder = "InserText", @type = "text" })
-                    @Html.ValidationMessageFor(model => model.Address, null, new { @class = "text-theme-6 text-xs" })
-                </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Name, new { @class = "text-dark" })
+                        @Html.TextBoxFor(model => model.Name, new { @class = "form-control", placeholder = "InserText", @type = "text" })
+                        @Html.ValidationMessageFor(model => model.Name, null, new { @class = "text-danger form-text text-muted" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Email, new { @class = "text-dark" })
+                        @Html.TextBoxFor(model => model.Email, new { @class = "form-control", placeholder = "InserText", @type = "text" })
+                        @Html.ValidationMessageFor(model => model.Email, null, new { @class = "text-danger form-text text-muted" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Phone, new { @class = "text-dark" })
+                        @Html.TextBoxFor(model => model.Phone, new { @class = "form-control", placeholder = "InserText", @type = "text" })
+                        @Html.ValidationMessageFor(model => model.Phone, null, new { @class = "text-danger form-text text-muted" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Address, new { @class = "text-dark" })
+                        @Html.TextBoxFor(model => model.Address, new { @class = "form-control", placeholder = "InserText", @type = "text" })
+                        @Html.ValidationMessageFor(model => model.Address, null, new { @class = "text-danger form-text text-muted" })
+                    </div>
 
-                <div class="mt-3">
-                    @Html.LabelFor(model => model.Birthday)
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Birthday, new { @class = "text-dark" })
 
-                    @if (Model == null)
-                    {
-                        @Html.EditorFor(model => model.Birthday, new { htmlAttributes = new { @class = "input w-full border mt-2" } })
-                    }
-                    else
-                    {
-                        @Html.TextBox("Birthday", Model.Birthday.ToIso8601FullDate(), new { type = "date", @class = "input w-full border mt-2" })
-                    }
+                        @if (Model == null)
+                        {
+                            @Html.EditorFor(model => model.Birthday, new { htmlAttributes = new { @class = "form-control" } })
+                        }
+                        else
+                        {
+                            @Html.TextBox("Birthday", Model.Birthday.ToIso8601FullDate(), new { type = "date", @class = "form-control" })
+                        }
 
-                    @Html.ValidationMessageFor(model => model.Birthday, null, new { @class = "text-theme-6 text-xs" })
-                </div>
+                        @Html.ValidationMessageFor(model => model.Birthday, null, new { @class = "text-danger form-text text-muted" })
+                    </div>
 
-                <div class="mt-3">
-                    @Html.LabelFor(model => model.Education)
-                    @Html.TextBoxFor(model => model.Education, new { @class = "input w-full border mt-2", placeholder = "InserText", @type = "text" })
-                    @Html.ValidationMessageFor(model => model.Education, null, new { @class = "text-theme-6 text-xs" })
-                </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Education, new { @class = "text-dark" })
+                        @Html.TextBoxFor(model => model.Education, new { @class = "form-control", placeholder = "InserText", @type = "text" })
+                        @Html.ValidationMessageFor(model => model.Education, null, new { @class = "text-danger form-text text-muted" })
+                    </div>
 
-                <div class="mt-3">
-                    @Html.LabelFor(model => model.WorkExperience)
-                    @Html.TextBoxFor(model => model.WorkExperience, new { @class = "input w-full border mt-2", placeholder = "InserText", @type = "text" })
-                    @Html.ValidationMessageFor(model => model.WorkExperience, null, new { @class = "text-theme-6 text-xs" })
-                </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.WorkExperience, new { @class = "text-dark" })
+                        @Html.TextBoxFor(model => model.WorkExperience, new { @class = "form-control", placeholder = "InserText", @type = "text" })
+                        @Html.ValidationMessageFor(model => model.WorkExperience, null, new { @class = "text-danger form-text text-muted" })
+                    </div>
 
-                <div class="mt-3">
-                    @Html.LabelFor(model => model.Password)
-                    @Html.TextBoxFor(model => model.Password, new { @class = "input w-full border mt-2", placeholder = "InserText", @type = "password" })
-                    @Html.ValidationMessageFor(model => model.Password, null, new { @class = "text-theme-6 text-xs" })
-                </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Password, new { @class = "text-dark" })
+                        @Html.TextBoxFor(model => model.Password, new { @class = "form-control", placeholder = "InserText", @type = "password" })
+                        @Html.ValidationMessageFor(model => model.Password, null, new { @class = "text-danger form-text text-muted" })
+                    </div>
 
-                <div class="mt-3">
-                    <label>Sex</label>
-                    <div class="flex flex-col sm:flex-row mt-2">
-                        <div class="flex items-center text-gray-700 mr-2">
-                            <input type="radio" class="input border mr-2" id="Male" name="Sex" value="true" @checkRdMale>
-                            <label class="cursor-pointer select-none" for="Male">Male</label>
+
+                    <div class="form-group">
+                        <label class="text-dark">Sex</label>
+                        <br />
+                        <div class="form-check form-check-inline">
+                            <div class="custom-control custom-radio">
+                                <input type="radio" class="custom-control-input" id="Male" name="Sex" @checkRdMale>
+                                <label class="custom-control-label" for="Male">Male</label>
+                            </div>
                         </div>
-                        <div class="flex items-center text-gray-700 mr-2 mt-2 sm:mt-0">
-                            <input type="radio" class="input border mr-2" id="FeMale" name="Sex" value="false" @checkRdReMale>
-                            <label class="cursor-pointer select-none" for="FeMale">FeMale</label>
+                        <div class="form-check form-check-inline">
+                            <div class="custom-control custom-radio">
+                                <input type="radio" class="custom-control-input" id="FeMale" name="Sex" @checkRdMale>
+                                <label class="custom-control-label" for="FeMale">FeMale</label>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="text-right mt-5">
-                    <a href="@Url.Action("Index", "Candidate")" class="button w-24 border text-gray-700 mr-1">Cancel</a>
-                    <button type="submit" class="button w-24 bg-theme-1 text-white">Save</button>
-                </div>
-            }
+                    <div class="text-right mt-5">
+                        <a href="@Url.Action("Index", "Candidate")" class="btn waves-effect waves-light btn-danger">Cancel</a>
+                        <button type="submit" class="btn waves-effect waves-light btn-success">Save</button>
+                    </div>
+                }
 
+            </div>
         </div>
-        <!-- END: Form Layout -->
+
     </div>
 </div>
-
 @section Scripts{
     @Scripts.Render("~/bundles/jqueryval")
 }
+

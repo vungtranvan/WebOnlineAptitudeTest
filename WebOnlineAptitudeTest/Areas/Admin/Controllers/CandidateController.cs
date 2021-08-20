@@ -100,22 +100,22 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
             {
                 if (candidate.Id == 0)
                 {
-                    TempData["XMessage"] = new XMessage("Notification", "Add Successfull", EnumCategoryMess.success);
+                    TempData["XMessage"] = new XMessage("Notification", "Add Successfull !!!", EnumCategoryMess.success);
                 }
                 else
                 {
-                    TempData["XMessage"] = new XMessage("Notification", "Edit Successfull", EnumCategoryMess.success);
+                    TempData["XMessage"] = new XMessage("Notification", "Edit Successfull !!!", EnumCategoryMess.success);
                 }
             }
             else
             {
                 if (candidate.Id == 0)
                 {
-                    TempData["XMessage"] = new XMessage("Notification", "Add Error", EnumCategoryMess.error);
+                    TempData["XMessage"] = new XMessage("Notification", "Add Error !!!", EnumCategoryMess.error);
                 }
                 else
                 {
-                    TempData["XMessage"] = new XMessage("Notification", "Edit Error", EnumCategoryMess.error);
+                    TempData["XMessage"] = new XMessage("Notification", "Edit Error !!!", EnumCategoryMess.error);
                 }
             }
 
@@ -123,16 +123,24 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
 
         }
 
-        [HttpGet]
-        public ActionResult Delete(int id)
+        [HttpPost]
+        public JsonResult Delete(int id)
         {
+            var status = true;
+            var message = "Delete Successfull !!!";
+            var title = "Notification";
             var result = _cadidateService.Delete(id);
             if (result == false)
             {
-                return HttpNotFound();
+                status = false;
+                message = "Delete Error !!!";
             }
-            TempData["XMessage"] = new XMessage("Notification", "Delete Successfull", EnumCategoryMess.success);
-            return RedirectToAction("Index");
+            return Json(new
+            {
+                message,
+                status,
+                title
+            });
         }
     }
 }

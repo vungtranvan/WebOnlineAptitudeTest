@@ -25,6 +25,16 @@ namespace WebOnlineAptitudeTest.Areas.Admin
                defaults: new { controller = "Auth", action = "Logout", id = UrlParameter.Optional }
            );
             context.MapRoute(
+              "CandidateAdmin_home",
+              "admin/candidate",
+              defaults: new { controller = "Candidate", action = "Index", id = UrlParameter.Optional }
+          );
+            context.MapRoute(
+              "CandidateAdmin_AddorEdit",
+              "admin/candidate/addoredit/{id}",
+              defaults: new { controller = "Candidate", action = "InsertOrUpdate", id = UrlParameter.Optional }
+          );
+            context.MapRoute(
                 "Admin_default",
                 "Admin/{controller}/{action}/{id}",
                 defaults: new { controller = "Homes", action = "Index", id = UrlParameter.Optional }
