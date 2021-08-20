@@ -3,19 +3,55 @@
 
 
 <nav class="side-nav">
-    <a href="/admin" class="intro-x flex items-center pl-5 pt-4">
-        <img alt="Midone Tailwind HTML Admin Template" class="w-6" src="/Content/assets/backend/dist/images/logo.svg">
-        <span class="hidden xl:block text-white text-lg ml-3"> Mid<span class="font-medium">one</span> </span>
+    <a href="#" class="intro-x flex items-center w100% pt-4">
+        <img style="width: 70%; border-radius: 50%; display:block;margin: auto" alt="Midone Tailwind HTML Admin Template" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTTmdg1P4uN4BtHaInkUPU2Ecy47QLuoY_aPyJSSGPmvHNIdFQStNMPx9Y5IZHsxyzm4fY&usqp=CAU">
     </a>
+    <div class="candidate">
+        <p class="candidate-name" style="color: #fff; text-align:center;font-size:24px" >Trần Thị Văn Hiếu Vững</p>
+      
+    </div>
     <div class="side-nav__devider my-6"></div>
     <ul class="menu-bar">
-        <li class="menu-without-child">
-            <a href="#" class="side-menu side-menu--active">
-                <div class="side-menu__icon"> <i data-feather="home"></i> </div>
-                <div class="side-menu__title">  </div>
+        <li class="memu-with-child">
+            <a href="javascript:;" class="side-menu">
+                <div class="side-menu__icon"> <i data-feather="users"></i> </div>
+                <div class="side-menu__title"> Manager Account <i data-feather="chevron-down" class="menu__sub-icon"></i> </div>
             </a>
+            <ul class="">
+                <li>
+                    <a href="@Url.Action("Index","Account")" class="side-menu">
+                        <div class="side-menu__icon"> <i data-feather="list"></i> </div>
+                        <div class="side-menu__title"> List Account </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="@Url.Action("InsertOrUpdate","Account", new { id = 0 })" class="side-menu">
+                        <div class="side-menu__icon"> <i data-feather="edit"></i> </div>
+                        <div class="side-menu__title"> Add New Account </div>
+                    </a>
+                </li>
+            </ul>
         </li>
-
+        <li class="memu-with-child">
+            <a href="javascript:;" class="side-menu">
+                <div class="side-menu__icon"> <i data-feather="users"></i> </div>
+                <div class="side-menu__title"> Manager Account <i data-feather="chevron-down" class="menu__sub-icon"></i> </div>
+            </a>
+            <ul class="">
+                <li>
+                    <a href="@Url.Action("Index","Account")" class="side-menu">
+                        <div class="side-menu__icon"> <i data-feather="list"></i> </div>
+                        <div class="side-menu__title"> List Account </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="@Url.Action("InsertOrUpdate","Account", new { id = 0 })" class="side-menu">
+                        <div class="side-menu__icon"> <i data-feather="edit"></i> </div>
+                        <div class="side-menu__title"> Add New Account </div>
+                    </a>
+                </li>
+            </ul>
+        </li>
         <li class="memu-with-child">
             <a href="javascript:;" class="side-menu">
                 <div class="side-menu__icon"> <i data-feather="users"></i> </div>
@@ -38,10 +74,11 @@
         </li>
 
 
+
     </ul>
 </nav>
 
-@foreach (var menu in ViewBag.menu)
+@*@foreach (var menu in ViewBag.menu)
 {
     <h2> @menu.Attribute("title").Value;</h2>
   
@@ -50,4 +87,4 @@
     {
         <h2>@add.Attribute("action").Value;</h2>
     }
-}
+}*@
