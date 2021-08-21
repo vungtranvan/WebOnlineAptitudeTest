@@ -15,6 +15,7 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
 
         public CandidateController(ICadidateService cadidateService)
         {
+            var act = 1234;
             _cadidateService = cadidateService;
         }
 
