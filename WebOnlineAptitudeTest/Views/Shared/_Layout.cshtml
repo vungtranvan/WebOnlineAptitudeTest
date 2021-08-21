@@ -8,23 +8,25 @@
     <title>CANDIDATE - @ViewBag.Title</title>
     <!-- BEGIN: CSS Assets-->
     <link rel="stylesheet" href="/Content/assets/backend/dist/css/app.css" />
-    @RenderSection("Styles", false)
+          @RenderSection("Styles", false)
+          @Styles.Render("~/Content/site")
+
 </head>
 <!-- END: Head -->
-<body class="app">
+<body class="app fixed top-0">
     <!-- BEGIN: Mobile Menu -->
     @Html.Action("MenuMobile", "Menu")
     <!-- END: Mobile Menu -->
-    <div class="flex">
+    <div class="main flex">
         <!-- BEGIN: Side Menu -->
 
         @Html.Action("Menu", "Menu")
 
         <!-- END: Side Menu -->
         <!-- BEGIN: Content -->
-        <div class="content">
+        <div class="content overflow-y-auto min-h-full">
+
             <!-- BEGIN: Top Bar -->
-           
             <!-- END: Top Bar -->
 
             @RenderBody()

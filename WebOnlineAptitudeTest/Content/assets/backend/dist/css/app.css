@@ -33441,7 +33441,7 @@ video {
 .truncate{
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap;
+  /*white-space: nowrap;*/
 }
 
 .w-0{
@@ -162977,3 +162977,4 @@ video {
     transition-delay: 1000ms;
   }
 }
+

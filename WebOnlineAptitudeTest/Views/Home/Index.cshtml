@@ -2,21 +2,20 @@
     ViewBag.Title = "Home Page";
 }
 
-
-<div class="top-bar grid grid-cols-12 gap-6 sticky">
+<div class="top-bar sticky top-0 bg-theme-2">
 
     <!-- BEGIN: Breadcrumb -->
 
 
-    <div class="h-12 align-middle bg-gray-400 rounded col-span-4">
+    <div class="top-bar-question align-middle bg-gray-400 rounded">
 
     </div>
 
-    <div class="h-12 align-middle bg-gray-400 rounded col-span-4">
+    <div class="top-bar-submit align-middle bg-gray-400 rounded ">
 
     </div>
 
-    <div class="h-12 align-middle bg-yellow-600 rounded col-span-4 relative">
+    <div class="top-bar-time align-middle bg-yellow-600 rounded relative">
         <div class="w-3/4 h-full bg-theme-1 rounded flex justify-center align-middle"></div>
         <p class="rounded h-auto text-lg text-white absolute" style="top:50%; left: 50%; transform: translate(-50%,-50%)">90%</p>
     </div>
@@ -25,8 +24,8 @@
     <!-- END: Account Menu -->
 </div>
 
-<form action="/" method="post">
-    <div class="intro-y box px-5 pt-5 mt-5">
+<form action="/" method="post" class="">
+    <div class="intro-y box px-5 pt-5 mt-5 overflow-auto">
         <div class="flex flex-col lg:flex-row border-b border-gray-500 pb-5 -mx-5">
             <div class="flex mt-6 lg:mt-0 items-center lg:items-start flex-1 flex-col justify-center text-gray-800 px-5 border-l border-r border-gray-200 border-t lg:border-t-0 pt-5 lg:pt-0">
                 <div class="truncate sm:whitespace-normal flex items-center"> <strong class="block mt-1">This line rendered as bold text.</strong> </div>
