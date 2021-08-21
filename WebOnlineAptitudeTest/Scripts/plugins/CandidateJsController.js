@@ -28,6 +28,11 @@ var cadiController = {
             cadiController.deleteCandidate(id);
             $('#modal-delete').modal('hide');
         });
+        $('.btnDetail').off('click').on('click', function (e) {
+            e.preventDefault = false;
+            cadiController.getDetailCandidate($(this).data('id'));
+            $('#modal-detailCadidate').modal('show');
+        });
 
     },
     deleteCandidate: function (id) {
@@ -46,36 +51,45 @@ var cadiController = {
             }
         });
     },
-    getDetailPro: function (id) {
-        //$.ajax({
-        //    url: '/Candidate/GetById',
-        //    type: 'GET',
-        //    data: { id: id },
-        //    dataType: 'json',
-        //    success: function (response) {
-        //        if (response.status == true) {
-        //            var data = response.data;
-        //            $('#Id').val(data.Id);
-        //            $('#Name').val(data.Name);
-        //            $('#Price').val(data.Price);
-        //            $('#CategoryId').val(data.CategoryId).attr("selected", "selected");
-        //            if (data.Image == '' || data.Image == null) {
-        //                $('#Click-Image').attr("src", "/Content/default-image.jpg");
-        //            } else {
-        //                $('#Click-Image').attr("src", '/userfiles/images/' + data.Image);
-        //            }
+    getDetailCandidate: function (id) {
+        $.ajax({
+            url: '/Candidate/Details',
+            type: 'GET',
+            data: { id: id },
+            dataType: 'json',
+            success: function (response) {
+                if (response.status == true) {
+                    var data = response.data;
 
-        //            $('#Image').val(data.Image);
-        //            $('#Dcription').val(data.Dcription);
-        //            if (data.Status == true) {
-        //                $('.Status label input:first').prop("checked", true);
-        //            } else {
-        //                $('.Status label input:last').prop("checked", true);
-        //            }
+                    $('#textUserName').text(data.UserName);
+                    if (data.Image != '' || data.Image != null) {
+                        $('#textImage').attr("src", data.Image);
+                    }
 
-        //        }
-        //    }
-        //});
+                    $('#textDisplayName').text(data.Name);
+                    $('#textEmail').text(data.Email);
+                    $('#textBirthday').text(data.Birthday == null ? "" : cadiController.formatDate(data.Birthday));
+                    $('#textAddress').text(data.Address);
+                    $('#textPhone').text(data.Phone);
+                    $('#textEducation').text(data.Education);
+                    $('#textWorkExperience').text(data.WorkExperience);
+                    $('#textSex').text(data.Sex == true ? 'Male' : 'FeMale');
+                    $('#textCreatedDate').text(data.CreatedDate == null ? "" : cadiController.formatDate(data.CreatedDate));
+                    $('#textLastUpdatedDate').text(data.UpdatedDate == null ? "" : cadiController.formatDate(data.UpdatedDate));
+
+                    //$('#textSex').val(data.CategoryId).attr("selected", "selected");
+                    //if (data.Status == true) {
+                    //    $('.Status label input:first').prop("checked", true);
+                    //} else {
+                    //    $('.Status label input:last').prop("checked", true);
+                    //}
+
+                } else {
+                    $('#modal-detailCadidate').modal('hide');
+                    toastr.error("Can not find Candidate", "Notification");
+                }
+            }
+        });
     },
     loadData: function (changePageSize) {
         var keyword = $('.txtSearchCandidate').val();
@@ -98,13 +112,10 @@ var cadiController = {
                         html += Mustache.render(template, {
                             STT: i + 1,
                             Id: item.Id,
+                            Image: item.Image,
                             UserName: item.UserName,
                             Name: item.Name,
                             Email: item.Email,
-                            Birthday: item.Birthday == null ? "" : cadiController.formatDate(item.Birthday),
-                            Address: item.Address,
-                            Phone: item.Phone,
-                            Sex: item.Sex == true ? 'Male' : 'FeMale',
                             CreatedDate: item.CreatedDate == null ? "" : cadiController.formatDate((item.CreatedDate)),
                             UpdatedDate: item.UpdatedDate == null ? "" : cadiController.formatDate(item.UpdatedDate)
                         });

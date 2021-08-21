@@ -31,7 +31,10 @@ namespace WebOnlineAptitudeTest.Models.Entities
         [StringLength(50, ErrorMessage = "This field max length is 50")]
         public string Email { get; set; }
 
+        public string Image { get; set; }
+
         [Column(TypeName = "date")]
+        [DataType(DataType.Date, ErrorMessage = "Incorrect format dd/MM/yyyy")]
         public DateTime? Birthday { get; set; }
 
         public string Address { get; set; }

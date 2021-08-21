@@ -4,7 +4,7 @@
     ViewBag.Title = (Model == null ? "Add New Candidate" : "Candidate Edit");
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
     var checkRdMale = Model == null ? "checked" : (Model.Sex == true ? "checked" : "");
-    var checkRdReMale = Model == null ? "" : (Model.Sex != true ? "checked" : "");
+    var checkRdFeMale = Model == null ? "" : (Model.Sex != true ? "checked" : "");
 }
 
 @section Breadcrumb{
@@ -16,7 +16,7 @@
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb m-0 p-0">
                             <li class="breadcrumb-item"><a href="/admin" class="text-muted">Home</a></li>
-                            <li class="breadcrumb-item text-muted active" aria-current="page">Candidate</li>
+                            <li class="breadcrumb-item text-muted active" aria-current="page"><a href="/Admin/Candidate" class="text-muted">Candidate</a></li>
                             <li class="breadcrumb-item text-muted active" aria-current="page">@(Model == null ? "Add New Candidate" : "Candidate Edit")</li>
                         </ol>
                     </nav>
@@ -39,28 +39,28 @@
 
                         @Html.LabelFor(model => model.UserName, new { @class = "text-dark" })
                         @Html.TextBoxFor(model => model.UserName, new { @class = "form-control", placeholder = "InserText", @type = "text" })
-                        @Html.ValidationMessageFor(model => model.UserName, null, new { @class = "text-danger form-text text-muted" })
+                        @Html.ValidationMessageFor(model => model.UserName, null, new { @class = "text-danger" })
                     </div>
 
                     <div class="form-group">
                         @Html.LabelFor(model => model.Name, new { @class = "text-dark" })
                         @Html.TextBoxFor(model => model.Name, new { @class = "form-control", placeholder = "InserText", @type = "text" })
-                        @Html.ValidationMessageFor(model => model.Name, null, new { @class = "text-danger form-text text-muted" })
+                        @Html.ValidationMessageFor(model => model.Name, null, new { @class = "text-danger" })
                     </div>
                     <div class="form-group">
                         @Html.LabelFor(model => model.Email, new { @class = "text-dark" })
                         @Html.TextBoxFor(model => model.Email, new { @class = "form-control", placeholder = "InserText", @type = "text" })
-                        @Html.ValidationMessageFor(model => model.Email, null, new { @class = "text-danger form-text text-muted" })
+                        @Html.ValidationMessageFor(model => model.Email, null, new { @class = "text-danger" })
                     </div>
                     <div class="form-group">
                         @Html.LabelFor(model => model.Phone, new { @class = "text-dark" })
                         @Html.TextBoxFor(model => model.Phone, new { @class = "form-control", placeholder = "InserText", @type = "text" })
-                        @Html.ValidationMessageFor(model => model.Phone, null, new { @class = "text-danger form-text text-muted" })
+                        @Html.ValidationMessageFor(model => model.Phone, null, new { @class = "text-danger" })
                     </div>
                     <div class="form-group">
                         @Html.LabelFor(model => model.Address, new { @class = "text-dark" })
                         @Html.TextBoxFor(model => model.Address, new { @class = "form-control", placeholder = "InserText", @type = "text" })
-                        @Html.ValidationMessageFor(model => model.Address, null, new { @class = "text-danger form-text text-muted" })
+                        @Html.ValidationMessageFor(model => model.Address, null, new { @class = "text-danger" })
                     </div>
 
                     <div class="form-group">
@@ -75,25 +75,43 @@
                             @Html.TextBox("Birthday", Model.Birthday.ToIso8601FullDate(), new { type = "date", @class = "form-control" })
                         }
 
-                        @Html.ValidationMessageFor(model => model.Birthday, null, new { @class = "text-danger form-text text-muted" })
+                        @Html.ValidationMessageFor(model => model.Birthday, null, new { @class = "text-danger" })
+                    </div>
+
+
+
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="Image">Image</label>
+                        <div class="col-md-8">
+                            @if (Model == null)
+                            {
+                                <img src="/Content/default-avatar.jpg" id="Click-Image" name="Click-Image" alt="" style="width:150px;height:150px;object-fit:cover;cursor:pointer">
+                            }
+                            else
+                            {
+                                <img src="@Model.Image" id="Click-Image" name="Click-Image" alt="" style="width:150px;height:150px;object-fit:cover;cursor:pointer">
+                            }
+                            @Html.HiddenFor(model => model.Image)
+                            @Html.ValidationMessageFor(model => model.Image, null, new { @class = "text-danger" })
+                        </div>
                     </div>
 
                     <div class="form-group">
                         @Html.LabelFor(model => model.Education, new { @class = "text-dark" })
                         @Html.TextBoxFor(model => model.Education, new { @class = "form-control", placeholder = "InserText", @type = "text" })
-                        @Html.ValidationMessageFor(model => model.Education, null, new { @class = "text-danger form-text text-muted" })
+                        @Html.ValidationMessageFor(model => model.Education, null, new { @class = "text-danger" })
                     </div>
 
                     <div class="form-group">
                         @Html.LabelFor(model => model.WorkExperience, new { @class = "text-dark" })
                         @Html.TextBoxFor(model => model.WorkExperience, new { @class = "form-control", placeholder = "InserText", @type = "text" })
-                        @Html.ValidationMessageFor(model => model.WorkExperience, null, new { @class = "text-danger form-text text-muted" })
+                        @Html.ValidationMessageFor(model => model.WorkExperience, null, new { @class = "text-danger" })
                     </div>
 
                     <div class="form-group">
                         @Html.LabelFor(model => model.Password, new { @class = "text-dark" })
                         @Html.TextBoxFor(model => model.Password, new { @class = "form-control", placeholder = "InserText", @type = "password" })
-                        @Html.ValidationMessageFor(model => model.Password, null, new { @class = "text-danger form-text text-muted" })
+                        @Html.ValidationMessageFor(model => model.Password, null, new { @class = "text-danger" })
                     </div>
 
 
@@ -102,13 +120,13 @@
                         <br />
                         <div class="form-check form-check-inline">
                             <div class="custom-control custom-radio">
-                                <input type="radio" class="custom-control-input" id="Male" name="Sex" @checkRdMale>
+                                <input type="radio" class="custom-control-input" id="Male" name="Sex" value="true" @checkRdMale>
                                 <label class="custom-control-label" for="Male">Male</label>
                             </div>
                         </div>
                         <div class="form-check form-check-inline">
                             <div class="custom-control custom-radio">
-                                <input type="radio" class="custom-control-input" id="FeMale" name="Sex" @checkRdMale>
+                                <input type="radio" class="custom-control-input" id="FeMale" name="Sex" value="false" @checkRdFeMale>
                                 <label class="custom-control-label" for="FeMale">FeMale</label>
                             </div>
                         </div>
@@ -127,5 +145,27 @@
 </div>
 @section Scripts{
     @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $("#Click-Image").click(function () {
+            CKFinder.popup({
+                chooseFiles: true,
+                width: 800,
+                height: 600,
+                onInit: function (finder) {
+                    finder.on('files:choose', function (evt) {
+                        var file = evt.data.files.first();
+                        var output = document.getElementById("Image");
+                        output.value = file.get("url");
+                        $("#Click-Image").attr('src', file.get("url"));
+                    });
+
+                    finder.on('file:choose:resizedImage', function (evt) {
+                        var output = document.getElementById("Image");
+                        output.value = evt.data.resizedUrl;
+                    });
+                }
+            });
+        });
+    </script>
 }
 

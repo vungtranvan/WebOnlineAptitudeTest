@@ -100,25 +100,6 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Data.Services.Candidates
             }
             else
             {
-                //var cadi = Get(candidate.Id);
-                //if (cadi == null)
-                //{
-                //    return false;
-                //}
-
-                //candidate.CreatedDate = cadi.CreatedDate;
-                //candidate.UpdatedDate = DateTime.Now;
-                //if (candidate.Password == null)
-                //{
-                //    candidate.Password = cadi.Password;
-                //}
-                //else
-                //{
-                //    candidate.Password = candidate.Password.ToMD5();
-                //}
-
-                //_unitOfWork.CandidateRepository.Update(candidate);
-
                 var cadi = Get(candidate.Id);
                 if (cadi == null)
                 {
@@ -135,6 +116,7 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Data.Services.Candidates
                 cadi.WorkExperience = candidate.WorkExperience;
                 cadi.Birthday = candidate.Birthday;
                 cadi.Sex = candidate.Sex;
+                cadi.Image = candidate.Image;
                 if (candidate.Password != null)
                 {
                     cadi.Password = candidate.Password.ToMD5();
