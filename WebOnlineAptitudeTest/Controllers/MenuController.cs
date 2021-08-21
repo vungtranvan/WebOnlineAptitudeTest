@@ -9,7 +9,7 @@ using System.Xml.Linq;
 
 namespace WebOnlineAptitudeTest.Controllers
 {
-    public class MenuController : Controller
+    public class MenuController : BaseFrController
     {
         // GET: Menu
         public ActionResult Menu()

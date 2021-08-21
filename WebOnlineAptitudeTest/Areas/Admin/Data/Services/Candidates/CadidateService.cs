@@ -41,8 +41,7 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Data.Services.Candidates
             {
                 lstCandi = _unitOfWork.CandidateRepository.Get(
                     filter: c => c.Deleted == false && (c.UserName.ToLower().Contains(keyword.ToLower())
-                    || c.Name.ToLower().Contains(keyword.ToLower()) || c.Email.ToLower().Contains(keyword.ToLower())
-                    || c.Phone.ToLower().Contains(keyword.ToLower())),
+                    || c.Name.ToLower().Contains(keyword.ToLower()) || c.Email.ToLower().Contains(keyword.ToLower())),
                     orderBy: c => c.OrderByDescending(x => x.Id)).ToList();
             }
             else

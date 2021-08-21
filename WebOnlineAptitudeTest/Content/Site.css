@@ -1,5 +1,60 @@
-﻿.FlexIconAction {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+﻿.app {
+    padding: 20px;
+}
+.content::-webkit-scrollbar,
+.side-nav::-webkit-scrollbar {
+    width: 6px;
+    background-color: #F5F5F5;
+}
+
+.content::-webkit-scrollbar-thumb,
+.side-nav::-webkit-scrollbar-thumb {
+    background-color: #000000;
+}
+
+.content::-webkit-scrollbar-track,
+.side-nav::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    background-color: #F5F5F5;
+}
+
+.main {
+    /*direction: rtl;*/
+    height: 95vh;
+}
+
+.side-nav {
+    direction:rtl;
+}
+.side-nav > * {
+    direction: ltr;
+}
+
+.top-bar {
+    height: 40px;
+    display:flex;
+    column-gap: 15px;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.top-bar > div{
+    height: 30px;
+}
+.top-bar-time {
+    width:25%;
+}
+.top-bar-submit {
+    width: 20%;
+}
+
+.top-bar-question {
+    width: 55%;
+}
+
+@media only screen and (max-width: 600px) {
+    .main {
+        /*direction: rtl;*/
+        height: calc(95vh - 80px);
+    }
 }

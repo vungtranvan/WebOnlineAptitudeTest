@@ -195,6 +195,8 @@
     <Compile Include="Areas\Admin\Data\Services\User\IUserService.cs" />
     <Compile Include="Areas\Admin\Data\Model\User\LoginRequest.cs" />
     <Compile Include="Areas\Admin\Data\Services\User\UserService.cs" />
+    <Compile Include="Controllers\AuthFrontendController.cs" />
+    <Compile Include="Controllers\BaseFrController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MenuController.cs" />
     <Compile Include="CustomCKFinderAuthenticator.cs" />
@@ -1650,12 +1652,14 @@
     <Content Include="Views\Shared\_Layout - Copy.cshtml" />
     <Content Include="Views\Menu\Menu.cshtml" />
     <Content Include="Views\Menu\MenuMobile.cshtml" />
+    <Content Include="Views\AuthFrontend\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="userfiles\files\" />
     <Folder Include="userfiles\images\__thumbs\" />
     <Folder Include="userfiles\thumbs\files\__thumbs\sp-07.jpg\" />
+    <Folder Include="Views\BaseFr\" />
     <Folder Include="Views\LayoutPage\" />
   </ItemGroup>
   <ItemGroup>
