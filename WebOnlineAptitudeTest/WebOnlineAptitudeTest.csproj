@@ -999,7 +999,7 @@
     <Content Include="Content\assets\backend\plugins\assets\images\background\user-info.jpg" />
     <Content Include="Content\assets\backend\plugins\assets\images\background\weatherbg.jpg" />
     <Content Include="Content\assets\backend\plugins\assets\images\big\1.jpg" />
-    <Content Include="Content\assets\backend\plugins\assets\images\big\3.jpg" />
+    <Content Include="Content\assets\backend\plugins\assets\images\big\3.png" />
     <Content Include="Content\assets\backend\plugins\assets\images\big\5.jpg" />
     <Content Include="Content\assets\backend\plugins\assets\images\big\auth-bg.jpg" />
     <Content Include="Content\assets\backend\plugins\assets\images\big\auth-bg2.jpg" />
