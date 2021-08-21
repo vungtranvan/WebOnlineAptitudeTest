@@ -14,6 +14,18 @@ namespace WebOnlineAptitudeTest
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
+                name: "LoginFr",
+                url: "login",
+                defaults: new { controller = "AuthFrontend", action = "Index", id = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
+                name: "LogoutFr",
+                url: "logout",
+                defaults: new { controller = "AuthFrontend", action = "Logout", id = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
