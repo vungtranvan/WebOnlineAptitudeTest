@@ -1413,6 +1413,7 @@
     <Content Include="Content\assets\backend\plugins\dist\js\pages\morris\morris-data.min.js" />
     <Content Include="Content\assets\backend\plugins\dist\js\sidebarmenu.js" />
     <Content Include="Content\assets\backend\plugins\dist\js\sidebarmenu.min.js" />
+    <Content Include="Content\default-avatar.jpg" />
     <Content Include="Scripts\jquery.twbsPagination.min.js" />
     <Content Include="Scripts\plugins\CandidateJsController.js" />
     <Content Include="Content\assets\backend\dist\js\config-toastrJs.js" />
@@ -1430,7 +1431,6 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Areas\Admin\Views\web.config" />
-    <Content Include="Areas\Admin\Views\Shared\_LayoutAdmin01.cshtml" />
     <Content Include="Content\assets\backend\dist\fonts\.DS_Store" />
     <Content Include="Content\assets\backend\dist\fonts\roboto\Roboto-Black.ttf" />
     <Content Include="Content\assets\backend\dist\fonts\roboto\Roboto-BlackItalic.ttf" />
@@ -1615,6 +1615,8 @@
     <Content Include="Content\assets\backend\plugins\dist\css\icons\themify-icons\fonts\themify.woff" />
     <Content Include="Content\assets\backend\plugins\dist\css\icons\themify-icons\themify-icons.less" />
     <Content Include="Content\assets\backend\plugins\dist\js\pages\datatable\data.json" />
+    <Content Include="Areas\Admin\Views\Shared\_ModelDelete.cshtml" />
+    <Content Include="Areas\Admin\Views\Candidate\_ModelDetailCandidate.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />

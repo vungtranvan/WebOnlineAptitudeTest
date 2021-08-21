@@ -22,5 +22,13 @@ namespace WebOnlineAptitudeTest
 
             return d.Value.ToString("yyyy-MM-dd");
         }
+
+        public static string CutHostAndSchemePathFile(this string pathUrl)
+        {
+            var uri = new Uri(pathUrl);
+           // string pathOnly = uri.LocalPath;
+           // string queryOnly = uri.Query;
+            return uri.PathAndQuery;
+        }
     }
 }
