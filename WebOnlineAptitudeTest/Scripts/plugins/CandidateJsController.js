@@ -66,16 +66,16 @@ var cadiController = {
                         $('#textImage').attr("src", data.Image);
                     }
 
-                    $('#textDisplayName').text(data.Name);
-                    $('#textEmail').text(data.Email);
-                    $('#textBirthday').text(data.Birthday == null ? "" : cadiController.formatDate(data.Birthday));
-                    $('#textAddress').text(data.Address);
-                    $('#textPhone').text(data.Phone);
-                    $('#textEducation').text(data.Education);
-                    $('#textWorkExperience').text(data.WorkExperience);
-                    $('#textSex').text(data.Sex == true ? 'Male' : 'FeMale');
-                    $('#textCreatedDate').text(data.CreatedDate == null ? "" : cadiController.formatDate(data.CreatedDate));
-                    $('#textLastUpdatedDate').text(data.UpdatedDate == null ? "" : cadiController.formatDate(data.UpdatedDate));
+                    $('#textDisplayName').html(data.Name);
+                    $('#textEmail').html(data.Email);
+                    $('#textBirthday').html(data.Birthday == null ? "" : cadiController.formatDate(data.Birthday));
+                    $('#textAddress').html(data.Address == null ? `&emsp;` : data.Address);
+                    $('#textPhone').html(data.Phone == null ? `&emsp;` : data.Phone);
+                    $('#textEducation').html(data.Education == null ? `&emsp;` : data.Education);
+                    $('#textWorkExperience').html(data.WorkExperience == null ? `&emsp;` : data.WorkExperience );
+                    $('#textSex').html(data.Sex == true ? 'Male' : 'FeMale');
+                    $('#textCreatedDate').html(data.CreatedDate == null ? "" : cadiController.formatDate(data.CreatedDate));
+                    $('#textLastUpdatedDate').html(data.UpdatedDate == null ? "" : cadiController.formatDate(data.UpdatedDate));
 
                     //$('#textSex').val(data.CategoryId).attr("selected", "selected");
                     //if (data.Status == true) {
