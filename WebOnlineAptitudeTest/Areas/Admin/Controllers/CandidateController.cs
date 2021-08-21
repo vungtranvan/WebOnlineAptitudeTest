@@ -5,7 +5,7 @@ using System;
 
 namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
 {
-    public class CandidateController : Controller
+    public class CandidateController : BaseController
     {
         private ICadidateService _cadidateService;
         public CandidateController()
@@ -22,6 +22,7 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult Index()
         {
+            var ok = 123;
             return View();
         }
 
