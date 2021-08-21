@@ -25,34 +25,28 @@
         <div class="card">
             <div class="card-body">
                 <div class="header-card">
-                    <h4 class="card-title">List Candidate</h4>
                     <div class="button">
                         <a href="@Url.Action("InsertOrUpdate","Candidate", new { id=0})" class="btn waves-effect waves-light btn-primary"> Add New Candidate</a>
                     </div>
                 </div>
-                
-                <div class="dataTables_wrapper container-fluid dt-bootstrap4 mt-4">
-                    <div class="row">
-                        <div class="col-sm-12 col-md-6">
-                            <div class="dataTables_length" id="zero_config_length" style="display:flex">
-                                <label>
-                                    Show<select name="candidate" class="form-control form-control-sm pageSizeItem">
-                                        <option value="5">5</option>
-                                        <option value="10">10</option>
-                                        <option value="15">15</option>
-                                        <option value="20">20</option>
-                                    </select>entries
-                                </label>
-                            </div>
-                        </div>
-                        <div class="col-sm-12 col-md-6">
-                            <div id="zero_config_filter" class="dataTables_filter">
-                                <label>Search:<input type="search" class="form-control form-control-sm txtSearchCandidate" placeholder="" aria-controls="zero_config"></label>
-                            </div>
-                        </div>
+
+                <div class="mt-4" style="display: flex; justify-content: space-between;">
+                    <div style="display: flex; align-items: center;">
+                        <span>Show</span>
+                        <select name="candidate" class="form-control form-control-sm pageSizeItem" style="margin:0 10px">
+                            <option value="5">5</option>
+                            <option value="10">10</option>
+                            <option value="15">15</option>
+                            <option value="20">20</option>
+                        </select>
+                        <span>entries </span>
+                    </div>
+
+                    <div style="display: flex; align-items: center;">
+                        Search: <input type="search" class="form-control form-control-sm txtSearchCandidate" placeholder="" style="margin:0 0 0 10px">
                     </div>
                 </div>
-                <div class="table-responsive">
+                <div class="table-responsive mt-4">
                     <table class="table table-hover" id="tableCandidate">
                         <thead>
                             <tr>
