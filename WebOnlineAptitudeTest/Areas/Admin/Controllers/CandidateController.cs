@@ -21,15 +21,12 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            var c = 234;
-            var ok = 123;
             return View();
         }
 
         [HttpGet]
         public JsonResult LoadData(string keyword, int page, int pageSize = 3)
         {
-            var ok2 = 123;
             var result = _cadidateService.Get(keyword, page, pageSize);
 
             return Json(new
