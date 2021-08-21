@@ -15,7 +15,7 @@ namespace WebOnlineAptitudeTest
 
             routes.MapRoute(
                 name: "LoginFr",
-                url: "login",
+                url: "logins",
                 defaults: new { controller = "AuthFrontend", action = "Index", id = UrlParameter.Optional }
             );
 

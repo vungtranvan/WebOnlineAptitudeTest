@@ -12,7 +12,7 @@ namespace WebOnlineAptitudeTest.Controllers
         {
             if (System.Web.HttpContext.Current.Session["CandidateTest"].Equals(""))
             {
-                System.Web.HttpContext.Current.Response.Redirect("~/login");
+                System.Web.HttpContext.Current.Response.Redirect("~/logins");
             }
         }
     }

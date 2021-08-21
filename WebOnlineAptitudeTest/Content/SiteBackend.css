@@ -1,0 +1,9 @@
+﻿.FlexIconAction {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.dataTables_filter {
+    margin-left: 400px;
+}

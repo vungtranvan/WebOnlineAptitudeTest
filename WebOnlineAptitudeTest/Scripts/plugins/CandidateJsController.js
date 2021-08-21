@@ -115,9 +115,9 @@ var cadiController = {
                             Image: item.Image,
                             UserName: item.UserName,
                             Name: item.Name,
-                            Email: item.Email,
-                            CreatedDate: item.CreatedDate == null ? "" : cadiController.formatDate((item.CreatedDate)),
-                            UpdatedDate: item.UpdatedDate == null ? "" : cadiController.formatDate(item.UpdatedDate)
+                            Email: item.Email
+                            //CreatedDate: item.CreatedDate == null ? "" : cadiController.formatDate((item.CreatedDate)),
+                            //UpdatedDate: item.UpdatedDate == null ? "" : cadiController.formatDate(item.UpdatedDate)
                         });
                     });
                     $('#tblDataCandidate').html(html);
