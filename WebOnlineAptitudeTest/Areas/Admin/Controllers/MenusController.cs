@@ -7,7 +7,7 @@ using System.Xml.Linq;
 
 namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
 {
-    public class MenuController : Controller
+    public class MenusController : Controller
     {
         // GET: Admin/Menu
         public ActionResult Index()
