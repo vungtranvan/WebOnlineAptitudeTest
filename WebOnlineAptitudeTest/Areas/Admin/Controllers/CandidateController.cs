@@ -59,11 +59,12 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public ActionResult InsertOrUpdate(int id)
+        public ActionResult InsertOrUpdate(int? id)
         {
-            var candidate = _cadidateService.Get(id);
-            if (id != 0)
+            var candidate = new Candidate();
+            if (id.Value != 0)
             {
+                candidate = _cadidateService.Get(id.Value);
                 candidate.Password = "";
             }
             return View(candidate);
