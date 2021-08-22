@@ -33,11 +33,10 @@ namespace WebOnlineAptitudeTest.Controllers
                     reQuestQuest = testRequest.Get(key);
                 }
             }
-            var abc = HttpUtility.ParseQueryString(collection);
+            //var abc = HttpUtility.ParseQueryString(collection);
 
 
-            var value = abc.Get("q2");
-;
+            //var value = abc.Get("q2");
 
             List<string> lstAppendColumn = new List<string>();
             lstAppendColumn.Add("First");
