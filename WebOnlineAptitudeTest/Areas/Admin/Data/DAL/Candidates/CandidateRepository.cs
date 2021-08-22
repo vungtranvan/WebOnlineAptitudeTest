@@ -8,11 +8,11 @@ using WebOnlineAptitudeTest.Models.Entities;
 
 namespace WebOnlineAptitudeTest.Areas.Admin.Data.DAL.Candidates
 {
-    public class CadidateRepository : ICadidateRepository
+    public class CandidateRepository : ICandidateRepository
     {
         private UnitOfWork _unitOfWork;
 
-        public CadidateRepository()
+        public CandidateRepository()
         {
             if (_unitOfWork == null)
             {

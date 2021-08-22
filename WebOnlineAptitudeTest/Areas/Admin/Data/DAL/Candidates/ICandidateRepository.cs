@@ -8,7 +8,7 @@ using WebOnlineAptitudeTest.Models.Entities;
 
 namespace WebOnlineAptitudeTest.Areas.Admin.Data.DAL.Candidates
 {
-    public interface ICadidateRepository
+    public interface ICandidateRepository
     {
         PagingModel<Candidate> Get(string keyword, int page, int pageSize);
         Candidate Get(int id);

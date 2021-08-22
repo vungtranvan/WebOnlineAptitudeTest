@@ -8,15 +8,15 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
 {
     public class CandidateController : BaseController
     {
-        private ICadidateRepository _cadidateService;
+        private ICandidateRepository _candidateRepository;
         public CandidateController()
         {
-            _cadidateService = new CadidateRepository();
+            _candidateRepository = new CandidateRepository();
         }
 
-        public CandidateController(ICadidateRepository cadidateService)
+        public CandidateController(ICandidateRepository candidateRepository)
         {
-            _cadidateService = cadidateService;
+            _candidateRepository = candidateRepository;
         }
 
         [HttpGet]
@@ -29,7 +29,7 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
         [HttpGet]
         public JsonResult LoadData(string keyword, int page, int pageSize = 3)
         {
-            var result = _cadidateService.Get(keyword, page, pageSize);
+            var result = _candidateRepository.Get(keyword, page, pageSize);
 
             return Json(new
             {
@@ -42,7 +42,7 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
         [HttpGet]
         public JsonResult Details(int id)
         {
-            var candidate = _cadidateService.Get(id);
+            var candidate = _candidateRepository.Get(id);
 
             if (candidate == null)
             {
@@ -65,7 +65,7 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
         {
             if (id != null)
             {
-                var candidate = _cadidateService.Get(id.Value);
+                var candidate = _candidateRepository.Get(id.Value);
                 candidate.Password = "";
                 return View(candidate);
             }
@@ -84,28 +84,28 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
                 if (string.IsNullOrEmpty(candidate.Password))
                     ModelState.AddModelError("Password", "This field is required");
 
-                if (_cadidateService.CheckExitEmail(candidate.Email))
+                if (_candidateRepository.CheckExitEmail(candidate.Email))
                     ModelState.AddModelError("Email", "Email already exists !!!");
-                if (_cadidateService.CheckExitPhone(candidate.Phone) && candidate.Phone != null)
+                if (_candidateRepository.CheckExitPhone(candidate.Phone) && candidate.Phone != null)
                     ModelState.AddModelError("Phone", "Phone already exists !!!");
-                if (_cadidateService.CheckExitUserName(candidate.UserName))
+                if (_candidateRepository.CheckExitUserName(candidate.UserName))
                     ModelState.AddModelError("UserName", "UserName already exists !!!");
             }
             else
             {
-                var c = _cadidateService.Get(idCandi);
+                var c = _candidateRepository.Get(idCandi);
 
                 if (c == null)
                     return HttpNotFound();
 
-                if (_cadidateService.CheckExitEmail(candidate.Email) && !c.Email.Equals(candidate.Email))
+                if (_candidateRepository.CheckExitEmail(candidate.Email) && !c.Email.Equals(candidate.Email))
                     ModelState.AddModelError("Email", "Email already exists !!!");
                 if (c.Phone != null)
                 {
-                    if (_cadidateService.CheckExitPhone(candidate.Phone) && !c.Phone.Equals(candidate.Phone))
+                    if (_candidateRepository.CheckExitPhone(candidate.Phone) && !c.Phone.Equals(candidate.Phone))
                         ModelState.AddModelError("Phone", "Phone already exists !!!");
                 }
-                if (_cadidateService.CheckExitUserName(candidate.UserName) && !c.UserName.Equals(candidate.UserName))
+                if (_candidateRepository.CheckExitUserName(candidate.UserName) && !c.UserName.Equals(candidate.UserName))
                     ModelState.AddModelError("UserName", "UserName already exists !!!");
 
             }
@@ -128,7 +128,7 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
                 candidate.Image = candidate.Image.CutHostAndSchemePathFile();
             }
 
-            var result = _cadidateService.InsertOrUpdate(candidate);
+            var result = _candidateRepository.InsertOrUpdate(candidate);
 
             if (result == true)
             {
@@ -163,7 +163,7 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
             var status = true;
             var message = "Delete Successfull !!!";
             var title = "Notification";
-            var result = _cadidateService.Delete(id);
+            var result = _candidateRepository.Delete(id);
             if (result == false)
             {
                 status = false;
