@@ -1,15 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <menus>
   <section title="MANGAGER">
-
-    <menu title="Home" action="index" controller="home" icon="sidebar" />
     
-    <menu title="Account Admin" icon="bar-chart">
+    <menu title="Admin" icon="bar-chart">
       <add title="List" action="Index" controller="Account"/>
       <add title="Add New" action="InsertOrUpdate" controller="Account" param="new { id=0})"/>
     </menu>
-    
+
+    <menu title="Candidate" icon="bar-chart">
+      <add title="List" action="Index" controller="Candidate"/>
+      <add title="Add New" action="InsertOrUpdate" controller="Candidate" param="new { id=0})"/>
+    </menu>
+
+
   </section>
+  
   
   <section title="TEST">
     

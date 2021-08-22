@@ -12,15 +12,20 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
         // GET: Admin/Homes
         public ActionResult Index()
         {
-            var xml = XDocument.Load(Server.MapPath("~/Areas/Admin/etc/menu.xml"));
-            var menus = xml.Descendants("menus").FirstOrDefault();
-            var section = menus.Descendants("section").ToList();
+            
 
-            ViewBag.section = section;
+            ViewBag.section = CreateMenu();
 
             return View();
         }
 
+        protected List<XElement> CreateMenu()
+        {
+            var xml = XDocument.Load(Server.MapPath("~/Areas/Admin/etc/menu.xml"));
+            var menus = xml.Descendants("menus").FirstOrDefault();
+            var section = menus.Descendants("section").ToList();
+            return section;
+        }
         // GET: Admin/Menu
     
     }

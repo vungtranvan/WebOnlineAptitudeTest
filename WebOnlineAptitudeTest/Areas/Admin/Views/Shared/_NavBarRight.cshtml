@@ -64,7 +64,7 @@
                                     <i data-feather="@iconMenu2" class="feather-icon"></i><span class="hide-menu">@menu.Attribute("title").Value </span>
                                 </a>
                                 <ul aria-expanded="false" class="collapse  first-level base-level-line">
-                                    @foreach (var add in menusection.Descendants("add"))
+                                    @foreach (var add in menu.Descendants("add"))
                                     {
 
                                         string acction = add.Attribute("action") != null ? add.Attribute("action").Value : "";
