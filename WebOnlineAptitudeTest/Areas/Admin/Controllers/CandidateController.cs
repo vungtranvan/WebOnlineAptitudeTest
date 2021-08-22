@@ -2,6 +2,7 @@
 using WebOnlineAptitudeTest.Models.Entities;
 using WebOnlineAptitudeTest.Areas.Admin.Data.DAL.Candidates;
 using System;
+using System.Collections.Generic;
 
 namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
 {
@@ -21,6 +22,7 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult Index()
         {
+            ViewBag.ListpageSize = new List<int>() { 5, 10, 15, 20, 50, 100 };
             return View();
         }
 
@@ -64,7 +66,7 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
             if (id != null)
             {
                 var candidate = _cadidateService.Get(id.Value);
-               candidate.Password = "";
+                candidate.Password = "";
                 return View(candidate);
             }
             return View();
