@@ -28,7 +28,7 @@ namespace WebOnlineAptitudeTest.Areas.Admin
             context.MapRoute(
                 "Admin_default",
                 "admin/{controller}/{action}/{id}",
-                defaults: new { controller = "Homes", action = "Index", id = UrlParameter.Optional }
+                defaults: new { controller = "Auth", action = "Index", id = UrlParameter.Optional }
             );
         }
     }
