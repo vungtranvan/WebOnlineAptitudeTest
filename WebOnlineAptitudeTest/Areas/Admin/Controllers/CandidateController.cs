@@ -1,19 +1,19 @@
 ﻿using System.Web.Mvc;
 using WebOnlineAptitudeTest.Models.Entities;
-using WebOnlineAptitudeTest.Areas.Admin.Data.Services.Candidates;
+using WebOnlineAptitudeTest.Areas.Admin.Data.DAL.Candidates;
 using System;
 
 namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
 {
     public class CandidateController : BaseController
     {
-        private ICadidateService _cadidateService;
+        private ICadidateRepository _cadidateService;
         public CandidateController()
         {
-            _cadidateService = new CadidateService();
+            _cadidateService = new CadidateRepository();
         }
 
-        public CandidateController(ICadidateService cadidateService)
+        public CandidateController(ICadidateRepository cadidateService)
         {
             _cadidateService = cadidateService;
         }
@@ -61,13 +61,13 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult InsertOrUpdate(int? id)
         {
-            var candidate = new Candidate();
-            if (id.Value != 0)
+            if (id != null)
             {
-                candidate = _cadidateService.Get(id.Value);
-                candidate.Password = "";
+                var candidate = _cadidateService.Get(id.Value);
+               candidate.Password = "";
+                return View(candidate);
             }
-            return View(candidate);
+            return View();
         }
 
         [HttpPost]

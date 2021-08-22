@@ -5,7 +5,7 @@ using System.Web;
 using WebOnlineAptitudeTest.Models.DAL;
 using WebOnlineAptitudeTest.Models.Entities;
 
-namespace WebOnlineAptitudeTest.Areas.Admin.Data.Services.User
+namespace WebOnlineAptitudeTest.Areas.Admin.Data.DAL.User
 {
     public class UserRepository : IUserRepository
     {

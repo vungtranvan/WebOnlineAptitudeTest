@@ -34,7 +34,16 @@
                 @using (Html.BeginForm())
                 {
                     @Html.AntiForgeryToken()
-                    @Html.HiddenFor(model => model.Id)
+
+                    if (Model == null)
+                    {
+                        <input type="hidden" name="Id" value="0" />
+                    }
+                    else
+                    {
+                        @Html.HiddenFor(model => model.Id)
+                    }
+
                     <div class="form-group">
 
                         @Html.LabelFor(model => model.UserName, new { @class = "text-dark" })
@@ -78,8 +87,6 @@
                         @Html.ValidationMessageFor(model => model.Birthday, null, new { @class = "text-danger" })
                     </div>
 
-
-
                     <div class="form-group">
                         <label class="control-label col-md-4" for="Image">Image</label>
                         <div class="col-md-8">
@@ -113,7 +120,6 @@
                         @Html.TextBoxFor(model => model.Password, new { @class = "form-control", placeholder = "InserText", @type = "password" })
                         @Html.ValidationMessageFor(model => model.Password, null, new { @class = "text-danger" })
                     </div>
-
 
                     <div class="form-group">
                         <label class="text-dark">Sex</label>

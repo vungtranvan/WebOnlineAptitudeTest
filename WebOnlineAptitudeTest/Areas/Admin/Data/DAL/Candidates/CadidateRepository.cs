@@ -6,13 +6,13 @@ using WebOnlineAptitudeTest.Areas.Admin.Data.Model.Pagings;
 using WebOnlineAptitudeTest.Models.DAL;
 using WebOnlineAptitudeTest.Models.Entities;
 
-namespace WebOnlineAptitudeTest.Areas.Admin.Data.Services.Candidates
+namespace WebOnlineAptitudeTest.Areas.Admin.Data.DAL.Candidates
 {
-    public class CadidateService : ICadidateService
+    public class CadidateRepository : ICadidateRepository
     {
         private UnitOfWork _unitOfWork;
 
-        public CadidateService()
+        public CadidateRepository()
         {
             if (_unitOfWork == null)
             {

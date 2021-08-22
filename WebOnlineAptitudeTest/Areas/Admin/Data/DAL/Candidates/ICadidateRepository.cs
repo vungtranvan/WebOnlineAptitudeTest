@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using WebOnlineAptitudeTest.Areas.Admin.Data.Model.Pagings;
 using WebOnlineAptitudeTest.Models.Entities;
 
-namespace WebOnlineAptitudeTest.Areas.Admin.Data.Services.Candidates
+namespace WebOnlineAptitudeTest.Areas.Admin.Data.DAL.Candidates
 {
-    public interface ICadidateService
+    public interface ICadidateRepository
     {
         PagingModel<Candidate> Get(string keyword, int page, int pageSize);
         Candidate Get(int id);

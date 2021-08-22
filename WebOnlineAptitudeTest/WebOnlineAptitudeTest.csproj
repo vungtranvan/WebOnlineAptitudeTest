@@ -192,11 +192,11 @@
     <Compile Include="Areas\Admin\Controllers\HomesController.cs" />
     <Compile Include="Areas\Admin\Controllers\MenusController.cs" />
     <Compile Include="Areas\Admin\Data\Model\Pagings\PagingModel.cs" />
-    <Compile Include="Areas\Admin\Data\Services\Candidates\CadidateService.cs" />
-    <Compile Include="Areas\Admin\Data\Services\Candidates\ICadidateService.cs" />
-    <Compile Include="Areas\Admin\Data\Services\User\IUserService.cs" />
+    <Compile Include="Areas\Admin\Data\DAL\Candidates\CadidateRepository.cs" />
+    <Compile Include="Areas\Admin\Data\DAL\Candidates\ICadidateRepository.cs" />
+    <Compile Include="Areas\Admin\Data\DAL\User\IUserRepository.cs" />
     <Compile Include="Areas\Admin\Data\Model\User\LoginRequest.cs" />
-    <Compile Include="Areas\Admin\Data\Services\User\UserService.cs" />
+    <Compile Include="Areas\Admin\Data\DAL\User\UserRepository.cs" />
     <Compile Include="Controllers\AuthFrontendController.cs" />
     <Compile Include="Controllers\BaseFrController.cs" />
     <Compile Include="Controllers\HomeController.cs" />

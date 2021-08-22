@@ -27,34 +27,19 @@
 
                         string actionMenu = menu.Attribute("action") != null ? menu.Attribute("action").Value : "";
                         string controllerMenu = menu.Attribute("controller") != null ? menu.Attribute("controller").Value : "";
-                        int idMenu = menu.Attribute("id") != null ? Convert.ToInt32(menu.Attribute("id").Value) : -1;
 
                         string iconMenu = menu.Attribute("icon") != null ? menu.Attribute("icon").Value : "";
 
 
                         if (actionMenu != "" && controllerMenu != "")
                         {
-                            if (idMenu >= 0)
-                            {
-                                <li class="sidebar-item">
-                                    <a href="@Url.Action(actionMenu,controllerMenu,new { id=idMenu})" class="sidebar-link">
-                                        <i data-feather="@iconMenu" class="feather-icon"></i><span class="hide-menu">
-                                            @menu.Attribute("title").Value
-                                        </span>
-                                    </a>
-                                </li>
-                            }
-                            else
-                            {
-                                <li class="sidebar-item">
-                                    <a href="@Url.Action(actionMenu,controllerMenu)" class="sidebar-link">
-                                        <i data-feather="@iconMenu" class="feather-icon"></i><span class="hide-menu">
-                                            @menu.Attribute("title").Value
-                                        </span>
-                                    </a>
-                                </li>
-                            }
-
+                            <li class="sidebar-item">
+                                <a href="@Url.Action(actionMenu,controllerMenu)" class="sidebar-link">
+                                    <i data-feather="@iconMenu" class="feather-icon"></i><span class="hide-menu">
+                                        @menu.Attribute("title").Value
+                                    </span>
+                                </a>
+                            </li>
                         }
                         else
                         {
@@ -71,37 +56,18 @@
 
                                         string acction = add.Attribute("action") != null ? add.Attribute("action").Value : "";
                                         string controller = add.Attribute("controller") != null ? add.Attribute("controller").Value : "";
-                                        int id = add.Attribute("id") != null ? Convert.ToInt32(add.Attribute("id").Value) : -1;
-
-
 
                                         <li class="sidebar-item">
-                                            @if (id >= 0)
-                                            {
-                                                <a href="@Url.Action(acction,controller,new { id=id})" class="sidebar-link">
-
-                                                    <span class="hide-menu">
-                                                        @add.Attribute("title").Value
-                                                    </span>
-                                                </a>
-                                            }
-                                            else
-                                            {
-                                                <a href="@Url.Action(acction,controller)" class="sidebar-link">
-                                                    <span class="hide-menu">
-                                                        @add.Attribute("title").Value
-                                                    </span>
-                                                </a>
-                                            }
-
+                                            <a href="@Url.Action(acction,controller)" class="sidebar-link">
+                                                <span class="hide-menu">
+                                                    @add.Attribute("title").Value
+                                                </span>
+                                            </a>
                                         </li>
                                     }
                                 </ul>
                             </li>
                         }
-
-
-
                     }
                 }
 

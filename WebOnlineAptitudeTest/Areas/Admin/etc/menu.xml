@@ -4,12 +4,12 @@
     
     <menu title="Admin" icon="bar-chart">
       <add title="List" action="Index" controller="Account"/>
-      <add title="Add New" action="InsertOrUpdate" controller="Account" id="0" />
+      <add title="Add New" action="InsertOrUpdate" controller="Account" />
     </menu>
 
     <menu title="Candidate" icon="bar-chart">
       <add title="List" action="Index" controller="Candidate"/>
-      <add title="Add New" action="InsertOrUpdate" controller="Candidate" id="0" />
+      <add title="Add New" action="InsertOrUpdate" controller="Candidate" />
     </menu>
 
 
@@ -22,7 +22,7 @@
 
     <menu title="Account Admin" icon="bar-chart">
       <add title="List" action="Index" controller="Account"/>
-      <add title="Add New" action="InsertOrUpdate" controller="Account" id="0" />
+      <add title="Add New" action="InsertOrUpdate" controller="Account" />
     </menu>
 
   </section>

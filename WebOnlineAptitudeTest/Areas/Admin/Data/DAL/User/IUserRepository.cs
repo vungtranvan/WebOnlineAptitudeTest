@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WebOnlineAptitudeTest.Models.Entities;
 
-namespace WebOnlineAptitudeTest.Areas.Admin.Data.Services.User
+namespace WebOnlineAptitudeTest.Areas.Admin.Data.DAL.User
 {
     public interface IUserRepository
     {
