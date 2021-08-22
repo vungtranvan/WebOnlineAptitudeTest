@@ -4,16 +4,7 @@
     justify-content: space-between;
 }
 
-
-.dataTables_length label {
-    display: flex;
-}
-
-.dataTables_filter label {
-    display: flex;
-}
-
-.dataTables_filter label {
-    width: 200px;
-    margin-left: 320px
+.error, .text-danger {
+    font-size: 70%;
+    color: rgb(255, 79, 112);
 }

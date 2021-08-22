@@ -10,5 +10,6 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Data.DAL.User
     public interface IUserRepository
     {
         Models.Entities.Admin GetByUserName(string userName);
+        bool ChangePassword(string userName, string passOld, string passNew);
     }
 }

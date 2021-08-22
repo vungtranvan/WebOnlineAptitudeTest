@@ -185,6 +185,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\AccountController.cs" />
     <Compile Include="Areas\Admin\Controllers\AuthController.cs" />
     <Compile Include="Areas\Admin\Controllers\BaseController.cs" />
     <Compile Include="Areas\Admin\Controllers\CandidateController.cs" />
@@ -1620,8 +1621,8 @@
     <Content Include="Content\assets\backend\plugins\dist\css\icons\themify-icons\fonts\themify.woff" />
     <Content Include="Content\assets\backend\plugins\dist\css\icons\themify-icons\themify-icons.less" />
     <Content Include="Content\assets\backend\plugins\dist\js\pages\datatable\data.json" />
-    <Content Include="Areas\Admin\Views\Shared\_ModelDelete.cshtml" />
-    <Content Include="Areas\Admin\Views\Candidate\_ModelDetailCandidate.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_ModalDelete.cshtml" />
+    <Content Include="Areas\Admin\Views\Candidate\_ModalDetailCandidate.cshtml" />
     <Content Include="Areas\Admin\Views\CategoryExams\Create.cshtml" />
     <Content Include="Areas\Admin\Views\CategoryExams\Delete.cshtml" />
     <Content Include="Areas\Admin\Views\CategoryExams\Details.cshtml" />
@@ -1629,6 +1630,7 @@
     <Content Include="Areas\Admin\Views\CategoryExams\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_NavBarRight1.cshtml" />
     <Content Include="Areas\Admin\Views\Menus\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_ModalChangePassword.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -1641,6 +1643,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\mustache.min.js" />
+    <Content Include="Scripts\plugins\changePassAdmin.js" />
     <Content Include="Scripts\sweetalert2.all.min.js" />
     <Content Include="Scripts\toastr.js" />
     <Content Include="Scripts\toastr.min.js" />
@@ -1666,6 +1669,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\Admin\Views\Account\" />
     <Folder Include="userfiles\files\" />
     <Folder Include="userfiles\images\__thumbs\" />
     <Folder Include="userfiles\thumbs\files\__thumbs\sp-07.jpg\" />
