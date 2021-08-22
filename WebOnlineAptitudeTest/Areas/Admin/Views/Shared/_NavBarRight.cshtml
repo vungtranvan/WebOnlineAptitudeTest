@@ -1,7 +1,4 @@
-﻿<h1>@ViewBag.section</h1>
-<h1>aaaa</h1>
-
-<aside class="left-sidebar" data-sidebarbg="skin6">
+﻿<aside class="left-sidebar" data-sidebarbg="skin6">
     <!-- Sidebar scroll-->
     <div class="scroll-sidebar" data-sidebarbg="skin6">
         <!-- Sidebar navigation-->
@@ -14,93 +11,107 @@
                     </a>
                 </li>
 
+                <li class="list-divider"></li>
+                <li class="nav-small-cap"><span class="hide-menu">Mangager</span></li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link has-arrow" href="javascript:void(0)"
+                       aria-expanded="false">
+                        <i data-feather="file-text" class="feather-icon"></i><span class="hide-menu">Account Admin </span>
+                    </a>
+                    <ul aria-expanded="false" class="collapse  first-level base-level-line">
+                        <li class="sidebar-item">
+                            <a href="@Url.Action("Index","Account")" class="sidebar-link">
+                                <span class="hide-menu">
+                                    List
+                                </span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a href="@Url.Action("InsertOrUpdate","Account", new { id=0})" class="sidebar-link">
+                                <span class="hide-menu">
+                                    Add New
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link has-arrow" href="javascript:void(0)"
+                       aria-expanded="false">
+                        <i data-feather="grid" class="feather-icon"></i><span class="hide-menu">Candidate </span>
+                    </a>
+                    <ul aria-expanded="false" class="collapse  first-level base-level-line">
+                        <li class="sidebar-item">
+                            <a href="@Url.Action("Index","Candidate")" class="sidebar-link">
+                                <span class="hide-menu">
+                                    List
+                                </span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a href="@Url.Action("InsertOrUpdate","Candidate", new { id=0})" class="sidebar-link">
+                                <span class="hide-menu">
+                                   Add New
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link has-arrow" href="javascript:void(0)"
+                       aria-expanded="false">
+                        <i data-feather="bar-chart" class="feather-icon"></i><span class="hide-menu">Question </span>
+                    </a>
+                    <ul aria-expanded="false" class="collapse  first-level base-level-line">
+                        <li class="sidebar-item">
+                            <a href="chart-morris.html" class="sidebar-link">
+                                <span class="hide-menu">
+                                    List
+                                </span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a href="chart-chart-js.html" class="sidebar-link">
+                                <span class="hide-menu">
+                                    Add New
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                
+                <li class="sidebar-item">
+                    <a class="sidebar-link sidebar-link" href="ui-cards.html"
+                       aria-expanded="false">
+                        <i data-feather="sidebar" class="feather-icon"></i><span class="hide-menu">
+                            Cards
+                        </span>
+                    </a>
+                </li>
 
+                <li class="list-divider"></li>
+                <li class="nav-small-cap"><span class="hide-menu">Applications</span></li>
 
-                @foreach (var menusection in ViewBag.section)
-                {
-                    <li class="list-divider"></li>
-                    <li class="nav-small-cap"><span class="hide-menu">@menusection.Attribute("title").Value</span></li>
-
-                    foreach (var menu in menusection.Descendants("menu"))
-                    {
-
-                        string actionMenu = menu.Attribute("action") != null ? menu.Attribute("action").Value : "";
-                        string controllerMenu = menu.Attribute("controller") != null ? menu.Attribute("controller").Value : "";
-                        string paramMenu = menu.Attribute("param") != null ? menu.Attribute("param").Value : "";
-                        string iconMenu = menu.Attribute("icon") != null ? menu.Attribute("icon").Value : "";
-
-
-                        if (actionMenu != "" && controllerMenu != "")
-                        {
-                            if (paramMenu != "")
-                            {
-                                <li class="sidebar-item">
-                                    <a href="@Url.Action(actionMenu,controllerMenu,paramMenu)" class="sidebar-link">
-                                        <i data-feather="@iconMenu" class="feather-icon"></i><span class="hide-menu">
-                                            @menu.Attribute("icon").Value
-                                        </span>
-                                    </a>
-                                </li>
-                            }
-                            else
-                            {
-                                <li class="sidebar-item">
-                                    <a href="@Url.Action(actionMenu,controllerMenu)" class="sidebar-link">
-                                        <i data-feather="@iconMenu" class="feather-icon"></i><span class="hide-menu">
-                                            @menu.Attribute("icon").Value
-                                        </span>
-                                    </a>
-                                </li>
-                            }
-
-                        }
-                        else
-                        {
-                        string iconMenu2 = menu.Attribute("icon") != null ? menu.Attribute("icon").Value : "";
-
-                            <li class="sidebar-item">
-                                <a class="sidebar-link has-arrow" href="javascript:void(0)"
-                                   aria-expanded="false">
-                                    <i data-feather="@iconMenu2" class="feather-icon"></i><span class="hide-menu">@menu.Attribute("title").Value </span>
-                                </a>
-                                <ul aria-expanded="false" class="collapse  first-level base-level-line">
-                                    @foreach (var add in menu.Descendants("add"))
-                                    {
-
-                                        string acction = add.Attribute("action") != null ? add.Attribute("action").Value : "";
-                                        string controller = add.Attribute("controller") != null ? add.Attribute("controller").Value : "";
-                                        string param = add.Attribute("param") != null ? add.Attribute("param").Value : "";
-
-
-
-                                        <li class="sidebar-item">
-                                            @if (param != null && param != "")
-                                            {
-                                                <a href="@Url.Action(acction,controller,param)" class="sidebar-link">
-                                                    <span class="hide-menu">
-                                                        @add.Attribute("title").Value
-                                                    </span>
-                                                </a>
-                                            }
-                                            else
-                                            {
-                                                <a href="@Url.Action(acction,controller)" class="sidebar-link">
-                                                    <span class="hide-menu">
-                                                        @add.Attribute("title").Value
-                                                    </span>
-                                                </a>
-                                            }
-
-                                        </li>
-                                    }
-                                </ul>
-                            </li>
-                        }
-
-
-
-                    }
-                }
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="ticket-list.html"
+                       aria-expanded="false">
+                        <i data-feather="tag" class="feather-icon"></i><span class="hide-menu">
+                            Ticket List
+                        </span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link sidebar-link" href="app-chat.html"
+                       aria-expanded="false">
+                        <i data-feather="message-square" class="feather-icon"></i><span class="hide-menu">Chat</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link sidebar-link" href="app-calendar.html"
+                       aria-expanded="false">
+                        <i data-feather="calendar" class="feather-icon"></i><span class="hide-menu">Calendar</span>
+                    </a>
+                </li>
 
 
                 <li class="list-divider"></li>
