@@ -24,6 +24,11 @@ namespace WebOnlineAptitudeTest
             Session["DisplayNameAdmin"] = "";
             Session["ImageAdmin"] = "";
             Session["RememberLoginAdmin"] = "";
+
+            Session["CandidateTest"] = "";
+            Session["DisplayNameCandidate"] = "";
+            Session["ImageCandidate"] = "";
+            Session["RememberLoginCandidate"] = "";
         }
     }
 }

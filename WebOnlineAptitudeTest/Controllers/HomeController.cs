@@ -8,7 +8,7 @@ using WebOnlineAptitudeTest.Models.Entities;
 
 namespace WebOnlineAptitudeTest.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseFrController
     {
         public HomeController()
         {

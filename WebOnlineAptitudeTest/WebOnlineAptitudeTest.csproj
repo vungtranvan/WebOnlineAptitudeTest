@@ -195,6 +195,8 @@
     <Compile Include="Areas\Admin\Data\Services\User\IUserService.cs" />
     <Compile Include="Areas\Admin\Data\Model\User\LoginRequest.cs" />
     <Compile Include="Areas\Admin\Data\Services\User\UserService.cs" />
+    <Compile Include="Controllers\AuthFrontendController.cs" />
+    <Compile Include="Controllers\BaseFrController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MenuController.cs" />
     <Compile Include="CustomCKFinderAuthenticator.cs" />
@@ -999,7 +1001,7 @@
     <Content Include="Content\assets\backend\plugins\assets\images\background\user-info.jpg" />
     <Content Include="Content\assets\backend\plugins\assets\images\background\weatherbg.jpg" />
     <Content Include="Content\assets\backend\plugins\assets\images\big\1.jpg" />
-    <Content Include="Content\assets\backend\plugins\assets\images\big\3.jpg" />
+    <Content Include="Content\assets\backend\plugins\assets\images\big\3.png" />
     <Content Include="Content\assets\backend\plugins\assets\images\big\5.jpg" />
     <Content Include="Content\assets\backend\plugins\assets\images\big\auth-bg.jpg" />
     <Content Include="Content\assets\backend\plugins\assets\images\big\auth-bg2.jpg" />
@@ -1414,6 +1416,7 @@
     <Content Include="Content\assets\backend\plugins\dist\js\sidebarmenu.js" />
     <Content Include="Content\assets\backend\plugins\dist\js\sidebarmenu.min.js" />
     <Content Include="Content\default-avatar.jpg" />
+    <Content Include="Content\SiteBackend.css" />
     <Content Include="Scripts\jquery.twbsPagination.min.js" />
     <Content Include="Scripts\plugins\CandidateJsController.js" />
     <Content Include="Content\assets\backend\dist\js\config-toastrJs.js" />
@@ -1650,12 +1653,14 @@
     <Content Include="Views\Shared\_Layout - Copy.cshtml" />
     <Content Include="Views\Menu\Menu.cshtml" />
     <Content Include="Views\Menu\MenuMobile.cshtml" />
+    <Content Include="Views\AuthFrontend\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="userfiles\files\" />
     <Folder Include="userfiles\images\__thumbs\" />
     <Folder Include="userfiles\thumbs\files\__thumbs\sp-07.jpg\" />
+    <Folder Include="Views\BaseFr\" />
     <Folder Include="Views\LayoutPage\" />
   </ItemGroup>
   <ItemGroup>
