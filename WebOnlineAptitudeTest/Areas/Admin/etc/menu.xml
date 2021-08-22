@@ -4,12 +4,12 @@
     
     <menu title="Admin" icon="bar-chart">
       <add title="List" action="Index" controller="Account"/>
-      <add title="Add New" action="InsertOrUpdate" controller="Account" param="new { id=0})"/>
+      <add title="Add New" action="InsertOrUpdate" controller="Account" id="0" />
     </menu>
 
     <menu title="Candidate" icon="bar-chart">
       <add title="List" action="Index" controller="Candidate"/>
-      <add title="Add New" action="InsertOrUpdate" controller="Candidate" param="new { id=0})"/>
+      <add title="Add New" action="InsertOrUpdate" controller="Candidate" id="0" />
     </menu>
 
 
@@ -18,11 +18,11 @@
   
   <section title="TEST">
     
-    <menu title="Home" action="index" controller="home" icon="sidebar" />
+    <menu title="abc" action="index" controller="def" icon="sidebar" />
 
     <menu title="Account Admin" icon="bar-chart">
       <add title="List" action="Index" controller="Account"/>
-      <add title="Add New" action="InsertOrUpdate" controller="Account" param="new { id=0})"/>
+      <add title="Add New" action="InsertOrUpdate" controller="Account" id="0" />
     </menu>
 
   </section>

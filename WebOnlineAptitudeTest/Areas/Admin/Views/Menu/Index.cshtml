@@ -1,4 +1,5 @@
-﻿<h1>@ViewBag.section</h1>
+﻿
+<h1>@ViewBag.section</h1>
 <h1>aaaa</h1>
 
 <aside class="left-sidebar" data-sidebarbg="skin6">
@@ -26,18 +27,19 @@
 
                         string actionMenu = menu.Attribute("action") != null ? menu.Attribute("action").Value : "";
                         string controllerMenu = menu.Attribute("controller") != null ? menu.Attribute("controller").Value : "";
-                        string paramMenu = menu.Attribute("param") != null ? menu.Attribute("param").Value : "";
+                        int idMenu = menu.Attribute("id") != null ? Convert.ToInt32(menu.Attribute("id").Value) : -1;
+
                         string iconMenu = menu.Attribute("icon") != null ? menu.Attribute("icon").Value : "";
 
 
                         if (actionMenu != "" && controllerMenu != "")
                         {
-                            if (paramMenu != "")
+                            if (idMenu >= 0)
                             {
                                 <li class="sidebar-item">
-                                    <a href="@Url.Action(actionMenu,controllerMenu,new { id=0})" class="sidebar-link">
+                                    <a href="@Url.Action(actionMenu,controllerMenu,new { id=idMenu})" class="sidebar-link">
                                         <i data-feather="@iconMenu" class="feather-icon"></i><span class="hide-menu">
-                                            @menu.Attribute("icon").Value
+                                            @menu.Attribute("title").Value
                                         </span>
                                     </a>
                                 </li>
@@ -47,7 +49,7 @@
                                 <li class="sidebar-item">
                                     <a href="@Url.Action(actionMenu,controllerMenu)" class="sidebar-link">
                                         <i data-feather="@iconMenu" class="feather-icon"></i><span class="hide-menu">
-                                            @menu.Attribute("icon").Value
+                                            @menu.Attribute("title").Value
                                         </span>
                                     </a>
                                 </li>
@@ -56,7 +58,7 @@
                         }
                         else
                         {
-                        string iconMenu2 = menu.Attribute("icon") != null ? menu.Attribute("icon").Value : "";
+                            string iconMenu2 = menu.Attribute("icon") != null ? menu.Attribute("icon").Value : "";
 
                             <li class="sidebar-item">
                                 <a class="sidebar-link has-arrow" href="javascript:void(0)"
@@ -69,14 +71,15 @@
 
                                         string acction = add.Attribute("action") != null ? add.Attribute("action").Value : "";
                                         string controller = add.Attribute("controller") != null ? add.Attribute("controller").Value : "";
-                                        string param = add.Attribute("param") != null ? add.Attribute("param").Value : "";
+                                        int id = add.Attribute("id") != null ? Convert.ToInt32(add.Attribute("id").Value) : -1;
 
 
 
                                         <li class="sidebar-item">
-                                            @if (param != null && param != "")
+                                            @if (id >= 0)
                                             {
-                                                <a href="@Url.Action(acction,controller,param)" class="sidebar-link">
+                                                <a href="@Url.Action(actionMenu,controller,new { id=id})" class="sidebar-link">
+
                                                     <span class="hide-menu">
                                                         @add.Attribute("title").Value
                                                     </span>

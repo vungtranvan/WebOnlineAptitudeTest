@@ -190,6 +190,7 @@
     <Compile Include="Areas\Admin\Controllers\CandidateController.cs" />
     <Compile Include="Areas\Admin\Controllers\CategoryExamsController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomesController.cs" />
+    <Compile Include="Areas\Admin\Controllers\MenuController.cs" />
     <Compile Include="Areas\Admin\Data\Model\Pagings\PagingModel.cs" />
     <Compile Include="Areas\Admin\Data\Services\Candidates\CadidateService.cs" />
     <Compile Include="Areas\Admin\Data\Services\Candidates\ICadidateService.cs" />
@@ -1512,7 +1513,7 @@
     <Content Include="Content\toastr.less" />
     <Content Include="Areas\Admin\Views\Shared\_XMessage.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_LayoutAdmin.cshtml" />
-    <Content Include="Areas\Admin\Views\Shared\_NavBarRight1.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_NavBarRight.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_HeaderNavTop.cshtml" />
     <Content Include="Content\assets\backend\plugins\assets\extra-libs\datatables.net-bs4\package.json" />
     <Content Include="Content\assets\backend\plugins\assets\extra-libs\datatables.net-bs4\Readme.md" />
@@ -1626,7 +1627,8 @@
     <Content Include="Areas\Admin\Views\CategoryExams\Details.cshtml" />
     <Content Include="Areas\Admin\Views\CategoryExams\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\CategoryExams\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\Shared\_NavBarRight.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_NavBarRight1.cshtml" />
+    <Content Include="Areas\Admin\Views\Menu\Index.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />

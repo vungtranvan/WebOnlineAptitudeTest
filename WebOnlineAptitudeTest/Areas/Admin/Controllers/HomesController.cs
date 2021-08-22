@@ -14,18 +14,12 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
         {
             
 
-            ViewBag.section = CreateMenu();
+        
 
             return View();
         }
 
-        protected List<XElement> CreateMenu()
-        {
-            var xml = XDocument.Load(Server.MapPath("~/Areas/Admin/etc/menu.xml"));
-            var menus = xml.Descendants("menus").FirstOrDefault();
-            var section = menus.Descendants("section").ToList();
-            return section;
-        }
+      
         // GET: Admin/Menu
     
     }
