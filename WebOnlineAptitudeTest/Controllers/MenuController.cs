@@ -14,11 +14,11 @@ namespace WebOnlineAptitudeTest.Controllers
         // GET: Menu
         public ActionResult Menu()
         {
-            var xml = XDocument.Load(Server.MapPath("~/etc/menu.xml"));
-            var menus = xml.Descendants("menus").FirstOrDefault();
-            var menu = menus.Descendants("menu").ToList();
+            //var xml = XDocument.Load(Server.MapPath("~/etc/menu.xml"));
+            //var menus = xml.Descendants("menus").FirstOrDefault();
+            //var menu = menus.Descendants("menu").ToList();
 
-            ViewBag.menu = menu;
+            //ViewBag.menu = menu;
 
             return View();
         }

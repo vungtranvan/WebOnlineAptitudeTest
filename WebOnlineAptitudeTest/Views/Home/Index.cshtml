@@ -152,6 +152,8 @@
 
             function submitForm() {
                 clearInterval(countdown);
+                $(".count-down-percent").css("animation-play-state", "paused");
+
                 var form = $("#aptitutest_form").serialize();
 
                 ajax({ "collection": form, "partName": "GeneralKnowledge" }, baseUrl, function (data) {

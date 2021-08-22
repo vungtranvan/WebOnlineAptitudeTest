@@ -188,6 +188,7 @@
     <Compile Include="Areas\Admin\Controllers\AuthController.cs" />
     <Compile Include="Areas\Admin\Controllers\BaseController.cs" />
     <Compile Include="Areas\Admin\Controllers\CandidateController.cs" />
+    <Compile Include="Areas\Admin\Controllers\CategoryExamsController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomesController.cs" />
     <Compile Include="Areas\Admin\Data\Model\Pagings\PagingModel.cs" />
     <Compile Include="Areas\Admin\Data\Services\Candidates\CadidateService.cs" />
@@ -1426,7 +1427,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\toastr.css" />
     <Content Include="Content\toastr.min.css" />
-    <Content Include="etc\menu.xml" />
+    <Content Include="Areas\Admin\etc\menu.xml" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -1620,6 +1621,12 @@
     <Content Include="Content\assets\backend\plugins\dist\js\pages\datatable\data.json" />
     <Content Include="Areas\Admin\Views\Shared\_ModelDelete.cshtml" />
     <Content Include="Areas\Admin\Views\Candidate\_ModelDetailCandidate.cshtml" />
+    <Content Include="Areas\Admin\Views\CategoryExams\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\CategoryExams\Delete.cshtml" />
+    <Content Include="Areas\Admin\Views\CategoryExams\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\CategoryExams\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\CategoryExams\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_NavBarRight - Copy.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
