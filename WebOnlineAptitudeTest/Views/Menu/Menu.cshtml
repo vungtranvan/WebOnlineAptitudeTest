@@ -4,77 +4,299 @@
 
 <nav class="side-nav">
     
-    <a href="#" class="intro-x flex items-center w100% pt-4">
-        <img style="width: 70%; border-radius: 50%; display:block;margin: auto" alt="Midone Tailwind HTML Admin Template" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTTmdg1P4uN4BtHaInkUPU2Ecy47QLuoY_aPyJSSGPmvHNIdFQStNMPx9Y5IZHsxyzm4fY&usqp=CAU">
-    </a>
+    <div class="logo intro-x flex items-center">
+        <img alt="Midone Tailwind HTML Admin Template" 
+             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLWo0u-TB5eyu88DkM8Gvc6vWOOQlXxjSmAw&usqp=CAU">
+    </div>
     <div class="candidate">
-        <p class="candidate-name" style="color: #fff; text-align:center;font-size:24px" >Trần Thị Văn Hiếu Vững</p>
-        <p class="candidate-name" style="color: #fff; text-align:center;font-size:18px">CODE: 123456</p>
+        <p class="candidate-name"  >Trần Thị Văn Hiếu Vững</p>
+        <p class="candidate-code" >CODE: 123456</p>
     </div>
     <div class="side-nav__devider my-6"></div>
     <ul class="menu-bar">
-        <li class="memu-with-child">
-            <a href="javascript:;" class="side-menu">
+        @*General Knowledge*@
+        <li class="memu-with-child GeneralKnowledge">
+            <a href="javascript:;" class="side-menu" >
                 <div class="side-menu__icon"> <i data-feather="users"></i> </div>
-                <div class="side-menu__title"> Manager Account <i data-feather="chevron-down" class="menu__sub-icon"></i> </div>
+                <div class="side-menu__title">General Knowledge </div>
             </a>
             <ul class="">
+
                 <li>
-                    <a href="@Url.Action("Index","Account")" class="side-menu">
-                        <div class="side-menu__icon"> <i data-feather="list"></i> </div>
-                        <div class="side-menu__title"> List Account </div>
+                    <a href="#q_1" class="side-menu" target="_self">
+                        <div class="side-menu__icon"> 1. </div>
+                        <div class="side-menu__title"> Question 1 </div>
                     </a>
                 </li>
                 <li>
-                    <a href="@Url.Action("InsertOrUpdate","Account", new { id = 0 })" class="side-menu">
-                        <div class="side-menu__icon"> <i data-feather="edit"></i> </div>
-                        <div class="side-menu__title"> Add New Account </div>
+                    <a href="#q_1" class="side-menu" target="_self">
+                        <div class="side-menu__icon"> 1. </div>
+                        <div class="side-menu__title"> Question 1 </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#q_1" class="side-menu" target="_self">
+                        <div class="side-menu__icon"> 1. </div>
+                        <div class="side-menu__title"> Question 1 </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#q_1" class="side-menu" target="_self">
+                        <div class="side-menu__icon"> 1. </div>
+                        <div class="side-menu__title"> Question 1 </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#q_1" class="side-menu" target="_self">
+                        <div class="side-menu__icon"> 1. </div>
+                        <div class="side-menu__title"> Question 1 </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#q_1" class="side-menu" target="_self">
+                        <div class="side-menu__icon"> 1. </div>
+                        <div class="side-menu__title"> Question 1 </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#q_1" class="side-menu" target="_self">
+                        <div class="side-menu__icon"> 1. </div>
+                        <div class="side-menu__title"> Question 1 </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#q_1" class="side-menu" target="_self">
+                        <div class="side-menu__icon"> 1. </div>
+                        <div class="side-menu__title"> Question 1 </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#q_1" class="side-menu" target="_self">
+                        <div class="side-menu__icon"> 1. </div>
+                        <div class="side-menu__title"> Question 1 </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#q_1" class="side-menu" target="_self">
+                        <div class="side-menu__icon"> 1. </div>
+                        <div class="side-menu__title"> Question 1 </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#q_1" class="side-menu" target="_self">
+                        <div class="side-menu__icon"> 1. </div>
+                        <div class="side-menu__title"> Question 1 </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#q_1" class="side-menu" target="_self">
+                        <div class="side-menu__icon"> 1. </div>
+                        <div class="side-menu__title"> Question 1 </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#q_1" class="side-menu" target="_self">
+                        <div class="side-menu__icon"> 1. </div>
+                        <div class="side-menu__title"> Question 1 </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#q_1" class="side-menu" target="_self">
+                        <div class="side-menu__icon"> 1. </div>
+                        <div class="side-menu__title"> Question 1 </div>
                     </a>
                 </li>
             </ul>
         </li>
-        <li class="memu-with-child">
+        @*Mathematics*@
+        <li class="memu-with-child Mathematics">
             <a href="javascript:;" class="side-menu">
                 <div class="side-menu__icon"> <i data-feather="users"></i> </div>
-                <div class="side-menu__title"> Manager Account <i data-feather="chevron-down" class="menu__sub-icon"></i> </div>
+                <div class="side-menu__title">Mathematics </div>
             </a>
             <ul class="">
+
                 <li>
-                    <a href="@Url.Action("Index","Account")" class="side-menu">
-                        <div class="side-menu__icon"> <i data-feather="list"></i> </div>
-                        <div class="side-menu__title"> List Account </div>
+                    <a href="#q_1" class="side-menu" target="_self">
+                        <div class="side-menu__icon"> 1. </div>
+                        <div class="side-menu__title"> Question 1 </div>
                     </a>
                 </li>
                 <li>
-                    <a href="@Url.Action("InsertOrUpdate","Account", new { id = 0 })" class="side-menu">
-                        <div class="side-menu__icon"> <i data-feather="edit"></i> </div>
-                        <div class="side-menu__title"> Add New Account </div>
-                    </a>
-                </li>
-            </ul>
-        </li>
-        <li class="memu-with-child">
-            <a href="javascript:;" class="side-menu">
-                <div class="side-menu__icon"> <i data-feather="users"></i> </div>
-                <div class="side-menu__title"> Manager Account <i data-feather="chevron-down" class="menu__sub-icon"></i> </div>
-            </a>
-            <ul class="">
-                <li>
-                    <a href="@Url.Action("Index","Account")" class="side-menu">
-                        <div class="side-menu__icon"> <i data-feather="list"></i> </div>
-                        <div class="side-menu__title"> List Account </div>
+                    <a href="#q_1" class="side-menu" target="_self">
+                        <div class="side-menu__icon"> 1. </div>
+                        <div class="side-menu__title"> Question 1 </div>
                     </a>
                 </li>
                 <li>
-                    <a href="@Url.Action("InsertOrUpdate","Account", new { id = 0 })" class="side-menu">
-                        <div class="side-menu__icon"> <i data-feather="edit"></i> </div>
-                        <div class="side-menu__title"> Add New Account </div>
+                    <a href="#q_1" class="side-menu" target="_self">
+                        <div class="side-menu__icon"> 1. </div>
+                        <div class="side-menu__title"> Question 1 </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#q_1" class="side-menu" target="_self">
+                        <div class="side-menu__icon"> 1. </div>
+                        <div class="side-menu__title"> Question 1 </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#q_1" class="side-menu" target="_self">
+                        <div class="side-menu__icon"> 1. </div>
+                        <div class="side-menu__title"> Question 1 </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#q_1" class="side-menu" target="_self">
+                        <div class="side-menu__icon"> 1. </div>
+                        <div class="side-menu__title"> Question 1 </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#q_1" class="side-menu" target="_self">
+                        <div class="side-menu__icon"> 1. </div>
+                        <div class="side-menu__title"> Question 1 </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#q_1" class="side-menu" target="_self">
+                        <div class="side-menu__icon"> 1. </div>
+                        <div class="side-menu__title"> Question 1 </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#q_1" class="side-menu" target="_self">
+                        <div class="side-menu__icon"> 1. </div>
+                        <div class="side-menu__title"> Question 1 </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#q_1" class="side-menu" target="_self">
+                        <div class="side-menu__icon"> 1. </div>
+                        <div class="side-menu__title"> Question 1 </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#q_1" class="side-menu" target="_self">
+                        <div class="side-menu__icon"> 1. </div>
+                        <div class="side-menu__title"> Question 1 </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#q_1" class="side-menu" target="_self">
+                        <div class="side-menu__icon"> 1. </div>
+                        <div class="side-menu__title"> Question 1 </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#q_1" class="side-menu" target="_self">
+                        <div class="side-menu__icon"> 1. </div>
+                        <div class="side-menu__title"> Question 1 </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#q_1" class="side-menu" target="_self">
+                        <div class="side-menu__icon"> 1. </div>
+                        <div class="side-menu__title"> Question 1 </div>
                     </a>
                 </li>
             </ul>
         </li>
 
+        @*Computer Technology*@
+        <li class="memu-with-child ComputerTechnology">
+            <a href="javascript:;" class="side-menu">
+                <div class="side-menu__icon"> <i data-feather="users"></i> </div>
+                <div class="side-menu__title">Computer Technology </div>
+            </a>
+            <ul class="">
 
+                <li>
+                    <a href="#q_1" class="side-menu" target="_self">
+                        <div class="side-menu__icon"> 1. </div>
+                        <div class="side-menu__title"> Question 1 </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#q_1" class="side-menu" target="_self">
+                        <div class="side-menu__icon"> 1. </div>
+                        <div class="side-menu__title"> Question 1 </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#q_1" class="side-menu" target="_self">
+                        <div class="side-menu__icon"> 1. </div>
+                        <div class="side-menu__title"> Question 1 </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#q_1" class="side-menu" target="_self">
+                        <div class="side-menu__icon"> 1. </div>
+                        <div class="side-menu__title"> Question 1 </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#q_1" class="side-menu" target="_self">
+                        <div class="side-menu__icon"> 1. </div>
+                        <div class="side-menu__title"> Question 1 </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#q_1" class="side-menu" target="_self">
+                        <div class="side-menu__icon"> 1. </div>
+                        <div class="side-menu__title"> Question 1 </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#q_1" class="side-menu" target="_self">
+                        <div class="side-menu__icon"> 1. </div>
+                        <div class="side-menu__title"> Question 1 </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#q_1" class="side-menu" target="_self">
+                        <div class="side-menu__icon"> 1. </div>
+                        <div class="side-menu__title"> Question 1 </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#q_1" class="side-menu" target="_self">
+                        <div class="side-menu__icon"> 1. </div>
+                        <div class="side-menu__title"> Question 1 </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#q_1" class="side-menu" target="_self">
+                        <div class="side-menu__icon"> 1. </div>
+                        <div class="side-menu__title"> Question 1 </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#q_1" class="side-menu" target="_self">
+                        <div class="side-menu__icon"> 1. </div>
+                        <div class="side-menu__title"> Question 1 </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#q_1" class="side-menu" target="_self">
+                        <div class="side-menu__icon"> 1. </div>
+                        <div class="side-menu__title"> Question 1 </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#q_1" class="side-menu" target="_self">
+                        <div class="side-menu__icon"> 1. </div>
+                        <div class="side-menu__title"> Question 1 </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#q_1" class="side-menu" target="_self">
+                        <div class="side-menu__icon"> 1. </div>
+                        <div class="side-menu__title"> Question 1 </div>
+                    </a>
+                </li>
+            </ul>
+        </li>
 
     </ul>
 </nav>

@@ -1,19 +1,27 @@
-﻿.app {
+﻿html {
+    scroll-behavior: smooth;
+}
+
+.app {
     padding: 20px;
 }
-.content::-webkit-scrollbar,
-.side-nav::-webkit-scrollbar {
+
+.content form::-webkit-scrollbar,
+.side-nav::-webkit-scrollbar,
+.menu-bar > li > ul::-webkit-scrollbar {
     width: 6px;
     background-color: #F5F5F5;
 }
 
-.content::-webkit-scrollbar-thumb,
-.side-nav::-webkit-scrollbar-thumb {
+.content form::-webkit-scrollbar-thumb,
+.side-nav::-webkit-scrollbar-thumb,
+.menu-bar > li > ul::-webkit-scrollbar-thumb {
     background-color: #000000;
 }
 
-.content::-webkit-scrollbar-track,
-.side-nav::-webkit-scrollbar-track {
+.content form::-webkit-scrollbar-track,
+.side-nav::-webkit-scrollbar-track,
+.menu-bar > li > ul::-webkit-scrollbar-track {
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
     background-color: #F5F5F5;
 }
@@ -22,39 +30,178 @@
     /*direction: rtl;*/
     height: 95vh;
 }
+.top-bar {
+    margin-bottom: 1.25rem;
+}
+
+.logo img {
+    width: 147px;
+    height:147px;
+    object-fit: cover;
+    border-radius: 50%;
+    display: block;
+    margin: auto
+}
+.content {
+    overflow: hidden;
+    padding-bottom: 0;
+    border-bottom: 10px solid rgba(241, 245, 248, 1);
+}
+
+    .content form {
+        height: calc(100% - 67px);
+        overflow-y: auto;
+        scroll-behavior: smooth;
+        margin-bottom: 5px;
+    }
+
+        .content form > div:first-child {
+            margin: 0;
+        }
+
+        .content form > div:last-child {
+            margin-bottom: 100px;
+          
+        }
 
 .side-nav {
-    direction:rtl;
+    /*direction: rtl;*/
+
+    padding-bottom: 0;
+    height: 100%;
+    overflow-y: hidden;
+    overflow-x: no-display;
 }
-.side-nav > * {
-    direction: ltr;
+    .side-nav > * {
+        /*direction: ltr;*/
+    }
+
+.count-down {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+.menu-bar {
+    height: calc(100% - 294px);
+   
+}
+    .menu-bar > memu-with-child {
+        height: 50px;
+    }
+        .menu-bar > li > ul {
+            height: calc(100% - 50px);
+            overflow-y: scroll;
+            overflow-x: hidden;
+            direction: rtl;
+        }
+    .menu-bar > li > ul > li {
+        direction: ltr;
+    }
+.side-menu-with-child-open {
+    height: calc(100% - 100px);
 }
 
 .top-bar {
-    height: 40px;
-    display:flex;
+    height: auto;
+    display: flex;
     column-gap: 15px;
-    justify-content:space-between;
-    align-items:center;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 5px 0;
+    top: 1px;
+    row-gap: 15px;
+    width: 100%;
 }
 
-.top-bar > div{
-    height: 30px;
-}
+    .top-bar > div {
+        height: 30px;
+        box-sizing: unset;
+    }
+
 .top-bar-time {
-    width:25%;
+    width: 25%;
 }
+
 .top-bar-submit {
     width: 20%;
 }
 
+    .top-bar-submit button {
+        margin: 0;
+    }
+
 .top-bar-question {
-    width: 55%;
+    width: calc(55% - 30px);
 }
 
-@media only screen and (max-width: 600px) {
+.form-question {
+}
+
+.candidate-name {
+    color: #fff;
+    text-align: center;
+    font-size: 24px
+}
+.candidate-code {
+    color: #fff;
+    text-align: center;
+    font-size: 18px
+}
+
+@media only screen and (max-width: 1279px) {
+    .candidate-name {
+        font-size: 15px;
+    }
+    .candidate-code {
+        color: #fff;
+        text-align: center;
+        font-size: 14px
+    }
+    .side-nav__devider {
+        margin-bottom: 0;
+    }
+
+    .side-nav .logo {
+        margin-bottom: 15px;
+    }
+}
+
+@media only screen and (max-width: 800px) {
+   
+    .content form {
+        height: calc(98% - 40px);
+        overflow-y: auto;
+        margin-top: 20px;
+    }
+
+    .top-bar-time {
+        width: calc(70% - 15px);
+    }
+
+    .top-bar-submit {
+        width: 30%;
+    }
+
+    .top-bar-question {
+        width: 100%;
+    }
+}
+
+@media only screen and (max-width: 766px) {
     .main {
         /*direction: rtl;*/
         height: calc(95vh - 80px);
+    }
+}
+
+
+@-webkit-keyframes countdown {
+    0% {
+        width: 100%;
+    }
+
+    100% {
+        width: 0%;
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -17,18 +18,36 @@ namespace WebOnlineAptitudeTest.Controllers
             return View();
         }
 
-        public ActionResult About()
+        [HttpPost]
+        public ActionResult AptidudeTest(FormCollection testRequest)
         {
-            ViewBag.Message = "Your application description page.";
 
-            return View();
-        }
+            string reQuestQuest = "";
 
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
+            var collection  =  testRequest.Get("collection");
 
-            return View();
+            foreach (var key in testRequest.AllKeys)
+            {
+                if (key.Contains("collection"))
+                {
+                    reQuestQuest = testRequest.Get(key);
+                }
+            }
+            var abc = HttpUtility.ParseQueryString(collection);
+
+
+            var value = abc.Get("q2");
+;
+
+            List<string> lstAppendColumn = new List<string>();
+            lstAppendColumn.Add("First");
+            lstAppendColumn.Add("Second");
+            lstAppendColumn.Add("Third");
+
+            string Response = JsonConvert.SerializeObject(lstAppendColumn);
+
+
+            return Json(new { Response, Status = "Success", PartName = "123" }, JsonRequestBehavior.AllowGet);
         }
     }
 }

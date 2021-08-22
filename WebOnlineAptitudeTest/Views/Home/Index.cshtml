@@ -2,170 +2,242 @@
     ViewBag.Title = "Home Page";
 }
 
-<div class="top-bar sticky top-0 bg-theme-2">
+<div class="top-bar  bg-theme-2">
 
     <!-- BEGIN: Breadcrumb -->
-
-
     <div class="top-bar-question align-middle bg-gray-400 rounded">
 
     </div>
 
     <div class="top-bar-submit align-middle bg-gray-400 rounded ">
-
+        <div class="h-full w-full align-middle bg-yellow-600 rounded col-span-2 relative">
+            <button id="aptitutest_form_submit" type="button" class="button w-full h-full inline-block mr-1 mb-2 bg-theme-9 text-white inline-flex items-center text-xl font-medium leading-none"> Submit <i data-loading-icon="hearts" data-color="white" class="w-10 h-10 ml-auto"></i> </button>
+        </div>
     </div>
 
     <div class="top-bar-time align-middle bg-yellow-600 rounded relative">
-        <div class="w-3/4 h-full bg-theme-1 rounded flex justify-center align-middle"></div>
-        <p class="rounded h-auto text-lg text-white absolute" style="top:50%; left: 50%; transform: translate(-50%,-50%)">90%</p>
+        <div class="w-full count-down-percent h-full bg-theme-1 rounded flex justify-center align-middle"></div>
+        <p class="rounded count-down h-auto text-lg text-white absolute">00:00</p>
     </div>
     <!-- END: Breadcrumb -->
     <!-- BEGIN: Account Menu -->
     <!-- END: Account Menu -->
 </div>
 
-<form action="/" method="post" class="">
-    <div class="intro-y box px-5 pt-5 mt-5 overflow-auto">
-        <div class="flex flex-col lg:flex-row border-b border-gray-500 pb-5 -mx-5">
-            <div class="flex mt-6 lg:mt-0 items-center lg:items-start flex-1 flex-col justify-center text-gray-800 px-5 border-l border-r border-gray-200 border-t lg:border-t-0 pt-5 lg:pt-0">
-                <div class="truncate sm:whitespace-normal flex items-center"> <strong class="block mt-1">This line rendered as bold text.</strong> </div>
-            </div>
+<form action="" id="aptitutest_form" method="post" class="form-question">
 
-
+    @*start Question*@
+    <div class="box question mt-5" id="q_1">
+        <div class="pb-3 pt-3 pr-2 pl-2">
+            <div class="flex items-center"> <strong class="block mt-1">This line rendered as bold text.</strong> </div>
         </div>
-        <div class="nav-tabs flex flex-col sm:flex-row justify-center lg:justify-start">
-            <div class="flex mt-6 lg:mt-0 items-center lg:items-start flex-1 flex-col justify-center text-gray-500 mr-5 border-gray-500 border-t lg:border-t-0 pt-5 lg:pt-0">
 
-                <div class="truncate sm:whitespace-normal border-b border-t text-gray-600 border-gray-200 flex items-center">
-                    <div class="flex items-center w-20 ml-2">
-                        <div class="flex items-center justify-center  mt-2"> <input type="checkbox" class="input border border-gray-500"> </div>
-                    </div>
-                    <p class="p-2">-center lg:items-start flex-1 flex-col justify-center text-gray-600 px-5 border-l justify-center text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-rjustify-center text-gray-600 px-5 text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-l border-r border-r border-g</p>
+        <div class="awnsers">
+            <div class="border-b border-t text-gray-600 border-gray-200 flex items-center">
+
+                <div class="flex items-center justify-center p-3">
+                    <input name="q1" value="1" type="checkbox" class="input border border-gray-500">
                 </div>
 
-                <div class="truncate sm:whitespace-normal border-b border-t text-gray-600 border-gray-200 flex items-center">
-                    <div class="flex items-center w-20 ml-2">
-                        <div class="flex items-center justify-center  mt-2"> <input type="checkbox" class="input border border-gray-500"> </div>
-                    </div>
-                    <p class="p-2">-center lg:items-start flex-1 flex-col justify-center text-gray-600 px-5 border-l justify-center text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-rjustify-center text-gray-600 px-5 text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-l border-r border-r border-g</p>
-                </div>
-
-                <div class="truncate sm:whitespace-normal border-b border-t text-gray-600 border-gray-200 flex items-center">
-                    <div class="flex items-center w-20 ml-2">
-                        <div class="flex items-center justify-center  mt-2"> <input type="checkbox" class="input border border-gray-500"> </div>
-                    </div>
-                    <p class="p-2">-center lg:items-start flex-1 flex-col justify-center text-gray-600 px-5 border-l justify-center text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-rjustify-center text-gray-600 px-5 text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-l border-r border-r border-g</p>
-                </div>
-
-                <div class="truncate sm:whitespace-normal border-b border-t text-gray-600 border-gray-200 flex items-center">
-                    <div class="flex items-center w-20 ml-2">
-                        <div class="flex items-center justify-center  mt-2"> <input type="checkbox" class="input border border-gray-500"> </div>
-                    </div>
-                    <p class="p-2">-center lg:items-start flex-1 flex-col justify-center text-gray-600 px-5 border-l justify-center text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-rjustify-center text-gray-600 px-5 text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-l border-r border-r border-g</p>
-                </div>
-
+                <p class="p-2"> text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-rjustify-center text-gray-600 px-5 text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-l border-r border-r border-g</p>
             </div>
+        </div>
 
+        <div class="awnsers">
+            <div class="border-b border-t text-gray-600 border-gray-200 flex items-center">
+
+                <div class="flex items-center justify-center p-3">
+                    <input name="q1" value="2" type="checkbox" class="input border border-gray-500">
+                </div>
+
+                <p class="p-2"> text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-rjustify-center text-gray-600 px-5 text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-l border-r border-r border-g</p>
+            </div>
+        </div>
+        <div class="awnsers">
+            <div class="border-b border-t text-gray-600 border-gray-200 flex items-center">
+
+                <div class="flex items-center justify-center p-3">
+                    <input name="q1" value="3" type="checkbox" class="input border border-gray-500">
+                </div>
+
+                <p class="p-2"> text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-rjustify-center text-gray-600 px-5 text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-l border-r border-r border-g</p>
+            </div>
         </div>
     </div>
 
-    <div class="intro-y box px-5 pt-5 mt-5">
-        <div class="flex flex-col lg:flex-row border-b border-gray-500 pb-5 -mx-5">
-            <div class="flex mt-6 lg:mt-0 items-center lg:items-start flex-1 flex-col justify-center text-gray-800 px-5 border-l border-r border-gray-200 border-t lg:border-t-0 pt-5 lg:pt-0">
-                <div class="truncate sm:whitespace-normal flex items-center"> <strong class="block mt-1">This line rendered as bold text.</strong> </div>
-            </div>
-
-
+    @*start Question*@
+    <div class="box question mt-5" id="q_1">
+        <div class="pb-3 pt-3 pr-2 pl-2">
+            <div class="flex items-center"> <strong class="block mt-1">This line rendered as bold text.</strong> </div>
         </div>
-        <div class="nav-tabs flex flex-col sm:flex-row justify-center lg:justify-start">
-            <div class="flex mt-6 lg:mt-0 items-center lg:items-start flex-1 flex-col justify-center text-gray-500 mr-5 border-gray-500 border-t lg:border-t-0 pt-5 lg:pt-0">
 
-                <div class="truncate sm:whitespace-normal border-b border-t text-gray-600 border-gray-200 flex items-center">
-                    <div class="flex items-center w-20 ml-2">
-                        <div class="flex items-center justify-center  mt-2"> <input type="checkbox" class="input border border-gray-500"> </div>
-                    </div>
-                    <p class="p-2">-center lg:items-start flex-1 flex-col justify-center text-gray-600 px-5 border-l justify-center text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-rjustify-center text-gray-600 px-5 text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-l border-r border-r border-g</p>
+        <div class="awnsers">
+            <div class="border-b border-t text-gray-600 border-gray-200 flex items-center">
+
+                <div class="flex items-center justify-center p-3">
+                    <input name="q2" value="1" type="checkbox" class="input border border-gray-500">
                 </div>
 
-                <div class="truncate sm:whitespace-normal border-b border-t text-gray-600 border-gray-200 flex items-center">
-                    <div class="flex items-center w-20 ml-2">
-                        <div class="flex items-center justify-center  mt-2"> <input type="checkbox" class="input border border-gray-500"> </div>
-                    </div>
-                    <p class="p-2">-center lg:items-start flex-1 flex-col justify-center text-gray-600 px-5 border-l justify-center text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-rjustify-center text-gray-600 px-5 text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-l border-r border-r border-g</p>
-                </div>
-
-                <div class="truncate sm:whitespace-normal border-b border-t text-gray-600 border-gray-200 flex items-center">
-                    <div class="flex items-center w-20 ml-2">
-                        <div class="flex items-center justify-center  mt-2"> <input type="checkbox" class="input border border-gray-500"> </div>
-                    </div>
-                    <p class="p-2">-center lg:items-start flex-1 flex-col justify-center text-gray-600 px-5 border-l justify-center text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-rjustify-center text-gray-600 px-5 text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-l border-r border-r border-g</p>
-                </div>
-
-                <div class="truncate sm:whitespace-normal border-b border-t text-gray-600 border-gray-200 flex items-center">
-                    <div class="flex items-center w-20 ml-2">
-                        <div class="flex items-center justify-center  mt-2"> <input type="checkbox" class="input border border-gray-500"> </div>
-                    </div>
-                    <p class="p-2">-center lg:items-start flex-1 flex-col justify-center text-gray-600 px-5 border-l justify-center text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-rjustify-center text-gray-600 px-5 text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-l border-r border-r border-g</p>
-                </div>
-
+                <p class="p-2"> text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-rjustify-center text-gray-600 px-5 text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-l border-r border-r border-g</p>
             </div>
+        </div>
 
+        <div class="awnsers">
+            <div class="border-b border-t text-gray-600 border-gray-200 flex items-center">
+
+                <div class="flex items-center justify-center p-3">
+                    <input name="q2" value="2" type="checkbox" class="input border border-gray-500">
+                </div>
+
+                <p class="p-2"> text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-rjustify-center text-gray-600 px-5 text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-l border-r border-r border-g</p>
+            </div>
+        </div>
+        <div class="awnsers">
+            <div class="border-b border-t text-gray-600 border-gray-200 flex items-center">
+
+                <div class="flex items-center justify-center p-3">
+                    <input name="q2" value="3" type="checkbox" class="input border border-gray-500">
+                </div>
+
+                <p class="p-2"> text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-rjustify-center text-gray-600 px-5 text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-l border-r border-r border-g</p>
+            </div>
         </div>
     </div>
 
-    <div class="intro-y box px-5 pt-5 mt-5">
-        <div class="flex flex-col lg:flex-row border-b border-gray-500 pb-5 -mx-5">
-            <div class="flex mt-6 lg:mt-0 items-center lg:items-start flex-1 flex-col justify-center text-gray-800 px-5 border-l border-r border-gray-200 border-t lg:border-t-0 pt-5 lg:pt-0">
-                <div class="truncate sm:whitespace-normal flex items-center"> <strong class="block mt-1">This line rendered as bold text.</strong> </div>
-            </div>
-
-
-        </div>
-        <div class="nav-tabs flex flex-col sm:flex-row justify-center lg:justify-start">
-            <div class="flex mt-6 lg:mt-0 items-center lg:items-start flex-1 flex-col justify-center text-gray-500 mr-5 border-gray-500 border-t lg:border-t-0 pt-5 lg:pt-0">
-
-                <div class="truncate sm:whitespace-normal border-b border-t text-gray-600 border-gray-200 flex items-center">
-                    <div class="flex items-center w-20 ml-2">
-                        <div class="flex items-center justify-center  mt-2"> <input type="checkbox" class="input border border-gray-500"> </div>
-                    </div>
-                    <p class="p-2">-center lg:items-start flex-1 flex-col justify-center text-gray-600 px-5 border-l justify-center text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-rjustify-center text-gray-600 px-5 text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-l border-r border-r border-g</p>
-                </div>
-
-                <div class="truncate sm:whitespace-normal border-b border-t text-gray-600 border-gray-200 flex items-center">
-                    <div class="flex items-center w-20 ml-2">
-                        <div class="flex items-center justify-center  mt-2"> <input type="checkbox" class="input border border-gray-500"> </div>
-                    </div>
-                    <p class="p-2">-center lg:items-start flex-1 flex-col justify-center text-gray-600 px-5 border-l justify-center text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-rjustify-center text-gray-600 px-5 text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-l border-r border-r border-g</p>
-                </div>
-
-                <div class="truncate sm:whitespace-normal border-b border-t text-gray-600 border-gray-200 flex items-center">
-                    <div class="flex items-center w-20 ml-2">
-                        <div class="flex items-center justify-center  mt-2"> <input type="checkbox" class="input border border-gray-500"> </div>
-                    </div>
-                    <p class="p-2">-center lg:items-start flex-1 flex-col justify-center text-gray-600 px-5 border-l justify-center text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-rjustify-center text-gray-600 px-5 text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-l border-r border-r border-g</p>
-                </div>
-
-                <div class="truncate sm:whitespace-normal border-b border-t text-gray-600 border-gray-200 flex items-center">
-                    <div class="flex items-center w-20 ml-2">
-                        <div class="flex items-center justify-center  mt-2"> <input type="checkbox" class="input border border-gray-500"> </div>
-                    </div>
-                    <p class="p-2">-center lg:items-start flex-1 flex-col justify-center text-gray-600 px-5 border-l justify-center text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-rjustify-center text-gray-600 px-5 text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-l border-r border-r border-g</p>
-                </div>
-
-            </div>
-
-        </div>
-    </div>
-
-    <div class="top-bar grid grid-cols-12 gap-6">
-
-        <!-- BEGIN: Breadcrumb -->
-
-        <div class="h-12 mt-5 align-middle bg-yellow-600 rounded col-span-2 relative">
-            <button class="button w-full h-full inline-block mr-1 mb-2 bg-theme-9 text-white inline-flex items-center text-xl font-medium leading-none"> Success <i data-loading-icon="hearts" data-color="white" class="w-10 h-10 ml-auto"></i> </button>
-        </div>
-        <!-- END: Breadcrumb -->
-        <!-- BEGIN: Account Menu -->
-        <!-- END: Account Menu -->
-    </div>
 </form>
+
+@section Scripts{
+    <script>
+        $(function () {
+
+            let minute = 2;
+            let seconnd = minute * 60;
+
+            let baseUrl = '@Url.Action("AptidudeTest", "Home")';
+
+            let seconndShow = 0;
+
+            var countdown = setInterval(countDown, 1000);
+            var timeShow = [];
+            function countDown() {
+
+                timeShow[1] = (seconndShow.toString().length == 1) ? ("0" + seconndShow.toString()) : seconndShow.toString();
+
+                seconndShow = seconndShow - 1;
+                if (seconndShow < 0) {
+                    seconndShow = 59;
+                    minute = minute - 1;
+                    timeShow[0] = minute;
+
+                    console.log(minute);
+                    if (minute < 0) {
+                        minute = 0;
+                        submitForm();
+                    }
+                }
+
+                timeShow[0] = (minute.toString().length == 1) ? ("0" + minute.toString()) : minute.toString();
+
+                $(".count-down").html(timeShow.join(":"));
+
+                $(".count-down-percent").css("-webkit-animation", seconnd + "s" + " linear 0s 1 normal forwards running countdown");
+
+            };
+
+            $("#aptitutest_form_submit").on("click", function () {
+                console.log("aaaa");
+               
+                submitForm();
+            });
+
+            function submitForm() {
+                clearInterval(countdown);
+                var form = $("#aptitutest_form").serialize();
+
+                ajax({ "collection": form, "partName": "GeneralKnowledge" }, baseUrl, function (data) {
+
+                    createMenu(data.PartName);
+
+
+                });
+            }
+
+            ajax("", baseUrl, function (data) {
+
+                createMenu(data.PartName);
+              
+            });
+
+
+
+            function createMenu(name) {
+
+                let clear =  $(".memu-with-child");
+
+                clear.removeClass("side-menu-with-child-open");
+                clear.find(".side-menu").removeClass("side-menu--open side-menu--active side-menu-x");
+                clear.find(".side-menu").attr("onclick", "");
+
+
+                clear.find("ul").removeClass("side-menu__sub-open");
+                clear.find("ul").css("display", "none");
+
+                let element = $("." + name);;
+                element.addClass("side-menu-with-child-open");
+                element.find(".side-menu").addClass("side-menu--open side-menu--active side-menu-x");
+                element.find(".side-menu").attr("onclick","sideMenu(this)");
+
+
+                element.find("ul").addClass("side-menu__sub-open");
+                element.find("ul").css("display", "block");
+                
+            }
+
+
+            function ajax(data, url, callback) {
+
+                    $.ajax({
+                        url: url,
+                        type: "POST",
+                        dataType: "json",
+                        data: data,
+                        success: function (res) {
+                            res.Response = $.parseJSON(res.Response) ?? res.Response;
+                            callback(res);
+                        }
+                    });
+                }
+
+
+
+        });
+
+
+        function sideMenu(element) {
+            console.log(element);
+            if ($(element).parent().find('ul').length) {
+                if ($(element).parent().find('ul').first().is(':visible')) {
+                    $(element).find('.side-menu__sub-icon').removeClass('transform rotate-180');
+                    $(element).parent().removeClass('side-menu-with-child-open');
+
+                    $(element).removeClass('side-menu--open');
+
+                    $(element).parent().find('ul').first().slideUp({
+                        done: function done() {
+                            $(element).removeClass('side-menu__sub-open');
+                        }
+                    });
+                } else {
+                    $(element).find('.side-menu__sub-icon').addClass('transform rotate-180');
+                    $(element).parent().addClass('side-menu-with-child-open');
+                    $(element).addClass('side-menu--open');
+                    $(element).parent().find('ul').first().slideDown({
+                        done: function done() {
+                            $(element).addClass('side-menu__sub-open');
+                        }
+                    });
+                }
+            }
+        }
+    </script>
+}
