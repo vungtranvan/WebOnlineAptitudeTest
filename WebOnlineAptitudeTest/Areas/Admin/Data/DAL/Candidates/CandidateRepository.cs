@@ -20,7 +20,7 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Data.DAL.Candidates
             }
         }
 
-        public bool Delete(int id)
+        public bool Locked(int id)
         {
             var cadi = Get(id);
             if (cadi == null)

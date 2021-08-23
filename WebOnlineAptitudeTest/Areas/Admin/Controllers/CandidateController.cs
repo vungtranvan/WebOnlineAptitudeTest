@@ -158,12 +158,12 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public JsonResult Delete(int id)
+        public JsonResult Locked(int id)
         {
             var status = true;
             var message = "Delete Successfull !!!";
             var title = "Notification";
-            var result = _candidateRepository.Delete(id);
+            var result = _candidateRepository.Locked(id);
             if (result == false)
             {
                 status = false;

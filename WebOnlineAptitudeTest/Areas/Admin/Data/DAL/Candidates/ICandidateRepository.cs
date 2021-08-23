@@ -13,7 +13,7 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Data.DAL.Candidates
         PagingModel<Candidate> Get(string keyword, int page, int pageSize);
         Candidate Get(int id);
         bool InsertOrUpdate(Candidate candidate);
-        bool Delete(int id);
+        bool Locked(int id);
         bool CheckExitUserName(string userName);
         bool CheckExitEmail(string email);
         bool CheckExitPhone(string phone);

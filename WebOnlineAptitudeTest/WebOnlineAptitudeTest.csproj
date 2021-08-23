@@ -189,9 +189,12 @@
     <Compile Include="Areas\Admin\Controllers\AuthController.cs" />
     <Compile Include="Areas\Admin\Controllers\BaseController.cs" />
     <Compile Include="Areas\Admin\Controllers\CandidateController.cs" />
+    <Compile Include="Areas\Admin\Controllers\CategoryExamController.cs" />
     <Compile Include="Areas\Admin\Controllers\CategoryExamsController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomesController.cs" />
     <Compile Include="Areas\Admin\Controllers\MenusController.cs" />
+    <Compile Include="Areas\Admin\Data\DAL\CategoryExams\CategoryExamRepository.cs" />
+    <Compile Include="Areas\Admin\Data\DAL\CategoryExams\ICategoryExamRepository.cs" />
     <Compile Include="Areas\Admin\Data\Model\Pagings\PagingModel.cs" />
     <Compile Include="Areas\Admin\Data\DAL\Candidates\CandidateRepository.cs" />
     <Compile Include="Areas\Admin\Data\DAL\Candidates\ICandidateRepository.cs" />
@@ -1631,6 +1634,7 @@
     <Content Include="Areas\Admin\Views\Shared\_NavBarRight1.cshtml" />
     <Content Include="Areas\Admin\Views\Menus\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_ModalChangePassword.cshtml" />
+    <Content Include="Areas\Admin\Views\CategoryExam\Index.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />

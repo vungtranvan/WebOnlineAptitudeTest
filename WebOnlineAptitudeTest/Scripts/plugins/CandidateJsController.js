@@ -37,7 +37,7 @@ var cadiController = {
     },
     deleteCandidate: function (id) {
         $.ajax({
-            url: '/Candidate/Delete',
+            url: '/Candidate/Locked',
             type: 'POST',
             data: { id: id },
             dataType: 'json',
