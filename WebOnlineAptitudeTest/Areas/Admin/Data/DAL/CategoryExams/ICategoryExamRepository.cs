@@ -10,6 +10,7 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Data.DAL.CategoryExams
     public interface ICategoryExamRepository
     {
         List<CategoryExam> Get();
+        CategoryExam Get(int id);
         bool Update(CategoryExam category);
     }
 }

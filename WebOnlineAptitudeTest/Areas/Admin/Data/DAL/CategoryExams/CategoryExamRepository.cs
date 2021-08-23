@@ -20,6 +20,12 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Data.DAL.CategoryExams
             }
         }
 
+        public CategoryExam Get(int id)
+        {
+            var cate = _unitOfWork.CategoryExamRepository.GetByID(id);
+            return cate;
+        }
+
         public List<CategoryExam> Get()
         {
             return _unitOfWork.CategoryExamRepository.Get().ToList();

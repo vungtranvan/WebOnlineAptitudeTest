@@ -37,6 +37,7 @@
         });
 
         $('.btnSaveChangePass').off('click').on('click', function (e) {
+            e.preventDefault = false;
             if ($("#FormChangePass").valid()) {
                 var userName = $('#userNameAdmin').val();
                 var passOld = $('#passOld').val();
@@ -46,8 +47,8 @@
             }
         });
         $('.btnCancleChangePass').off('click').on('click', function (e) {
+            e.preventDefault = false;
             $('#changePassModal').modal('hide');
-            accController.resetInput();
         });
     },
     changePass: function (userName, passOld, passNew) {

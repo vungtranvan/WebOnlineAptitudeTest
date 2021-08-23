@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using WebOnlineAptitudeTest.Areas.Admin.Data.DAL.CategoryExams;
+using WebOnlineAptitudeTest.Models.Entities;
 
 namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
 {
@@ -26,6 +27,7 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
             return View();
         }
 
+        [HttpGet]
         public JsonResult LoadData()
         {
             var result = _categoryExamRepository.Get();
@@ -35,6 +37,36 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
                 data = result,
                 status = true
             }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public ActionResult Details(int id)
+        {
+            var result = _categoryExamRepository.Get(id);
+
+            return Json(new
+            {
+                data = result,
+                status = true
+            }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult Update(CategoryExam categoryExam)
+        {
+            var message = "Edit Successfull !!!";
+            var title = "Notification";
+            var result = _categoryExamRepository.Update(categoryExam);
+            if (result == false)
+            {
+                message = "Edit Error !!!";
+            }
+            return Json(new
+            {
+                message,
+                status = result,
+                title
+            });
         }
     }
 }

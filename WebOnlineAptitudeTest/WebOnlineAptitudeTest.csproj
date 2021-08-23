@@ -1635,6 +1635,7 @@
     <Content Include="Areas\Admin\Views\Menus\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_ModalChangePassword.cshtml" />
     <Content Include="Areas\Admin\Views\CategoryExam\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\CategoryExam\_ModalEditCategoryExam.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -1647,6 +1648,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\mustache.min.js" />
+    <Content Include="Scripts\plugins\CategoryExamJsController.js" />
     <Content Include="Scripts\plugins\changePassAdmin.js" />
     <Content Include="Scripts\sweetalert2.all.min.js" />
     <Content Include="Scripts\toastr.js" />
