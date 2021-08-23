@@ -44,7 +44,7 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
                 return View(request);
             }
 
-            var user = _unitOfWork.AdminRepository.GetByID(request.UserName);
+            var user = _unitOfWork.AdminRepository.Get(filter: x => x.UserName.Equals(request.UserName) && x.Deleted == false).FirstOrDefault();
 
             if (user == null)
             {
