@@ -68,14 +68,14 @@ var cadiController = {
 
                     $('#textDisplayName').html(data.Name);
                     $('#textEmail').html(data.Email);
-                    $('#textBirthday').html(data.Birthday == null ? "" : cadiController.formatDate(data.Birthday));
+                    $('#textBirthday').html(data.Birthday == null ? `&emsp;` : cadiController.formatDate(data.Birthday));
                     $('#textAddress').html(data.Address == null ? `&emsp;` : data.Address);
                     $('#textPhone').html(data.Phone == null ? `&emsp;` : data.Phone);
                     $('#textEducation').html(data.Education == null ? `&emsp;` : data.Education);
                     $('#textWorkExperience').html(data.WorkExperience == null ? `&emsp;` : data.WorkExperience );
                     $('#textSex').html(data.Sex == true ? 'Male' : 'FeMale');
-                    $('#textCreatedDate').html(data.CreatedDate == null ? "" : cadiController.formatDate(data.CreatedDate));
-                    $('#textLastUpdatedDate').html(data.UpdatedDate == null ? "" : cadiController.formatDate(data.UpdatedDate));
+                    $('#textCreatedDate').html(data.CreatedDate == null ? `&emsp;` : cadiController.formatDate(data.CreatedDate));
+                    $('#textLastUpdatedDate').html(data.UpdatedDate == null ? `&emsp;` : cadiController.formatDate(data.UpdatedDate));
 
                     //$('#textSex').val(data.CategoryId).attr("selected", "selected");
                     //if (data.Status == true) {
