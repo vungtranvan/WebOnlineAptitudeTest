@@ -1,24 +1,26 @@
 ﻿using System.Web.Mvc;
 using WebOnlineAptitudeTest.Models.Entities;
-using WebOnlineAptitudeTest.Areas.Admin.Data.DAL.Candidates;
 using System;
 using System.Collections.Generic;
+using WebOnlineAptitudeTest.Models.Repositories;
+using WebOnlineAptitudeTest.Models.Infrastructure;
+using System.Linq;
+using WebOnlineAptitudeTest.Areas.Admin.Data.Model.Pagings;
 
 namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
 {
     public class CandidateController : BaseController
     {
         private ICandidateRepository _candidateRepository;
-        public CandidateController()
-        {
-            _candidateRepository = new CandidateRepository();
-        }
+        private IUnitOfWork _unitOfWork;
 
-        public CandidateController(ICandidateRepository candidateRepository)
+        public CandidateController(ICandidateRepository candidateRepository, IUnitOfWork unitOfWork)
         {
             _candidateRepository = candidateRepository;
+            _unitOfWork = unitOfWork;
         }
 
+        #region Acction
         [HttpGet]
         public ActionResult Index()
         {
@@ -29,7 +31,7 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
         [HttpGet]
         public JsonResult LoadData(string keyword, int page, int pageSize = 3)
         {
-            var result = _candidateRepository.Get(keyword, page, pageSize);
+            var result = this.GetData(keyword, page, pageSize);
 
             return Json(new
             {
@@ -42,7 +44,7 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
         [HttpGet]
         public JsonResult Details(int id)
         {
-            var candidate = _candidateRepository.Get(id);
+            var candidate = _candidateRepository.GetSingleById(id);
 
             if (candidate == null)
             {
@@ -65,7 +67,7 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
         {
             if (id != null)
             {
-                var candidate = _candidateRepository.Get(id.Value);
+                var candidate = _candidateRepository.GetSingleById(id.Value);
                 candidate.Password = "";
                 return View(candidate);
             }
@@ -78,57 +80,48 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
         {
             var idCandi = candidate.Id;
 
-            // Validate data input
+            #region Validate data input
+            var checkEmail = _candidateRepository.CheckContains(c => c.Email.Equals(candidate.Email));
+            var checkPhone = _candidateRepository.CheckContains(c => c.Phone.Equals(candidate.Phone));
+            var checkUserName = _candidateRepository.CheckContains(c => c.UserName.Equals(candidate.UserName));
+
             if (idCandi == 0)
             {
                 if (string.IsNullOrEmpty(candidate.Password))
                     ModelState.AddModelError("Password", "This field is required");
 
-                if (_candidateRepository.CheckExitEmail(candidate.Email))
+                if (checkEmail)
                     ModelState.AddModelError("Email", "Email already exists !!!");
-                if (_candidateRepository.CheckExitPhone(candidate.Phone) && candidate.Phone != null)
+                if (checkPhone && candidate.Phone != null)
                     ModelState.AddModelError("Phone", "Phone already exists !!!");
-                if (_candidateRepository.CheckExitUserName(candidate.UserName))
+                if (checkUserName)
                     ModelState.AddModelError("UserName", "UserName already exists !!!");
             }
             else
             {
-                var c = _candidateRepository.Get(idCandi);
+                var candi = _candidateRepository.GetSingleById(idCandi);
 
-                if (c == null)
+                if (candi == null)
                     return HttpNotFound();
 
-                if (_candidateRepository.CheckExitEmail(candidate.Email) && !c.Email.Equals(candidate.Email))
+                if (checkEmail && !candi.Email.Equals(candidate.Email))
                     ModelState.AddModelError("Email", "Email already exists !!!");
-                if (c.Phone != null)
+                if (candi.Phone != null)
                 {
-                    if (_candidateRepository.CheckExitPhone(candidate.Phone) && !c.Phone.Equals(candidate.Phone))
+                    if (checkPhone)
                         ModelState.AddModelError("Phone", "Phone already exists !!!");
                 }
-                if (_candidateRepository.CheckExitUserName(candidate.UserName) && !c.UserName.Equals(candidate.UserName))
+                if (checkUserName && !candi.UserName.Equals(candidate.UserName))
                     ModelState.AddModelError("UserName", "UserName already exists !!!");
-
             }
 
             if (!ModelState.IsValid)
             {
                 return View(candidate);
             }
+            #endregion
 
-            // Xử lý ảnh
-            if (string.IsNullOrEmpty(candidate.Image))
-            {
-                candidate.Image = "/Content/default-avatar.jpg";
-            }
-            else
-            {
-                string hostUrl = Request.Url.Scheme + "://" + Request.Url.Host;
-                if (!candidate.Image.Contains(hostUrl))
-                    candidate.Image = hostUrl + candidate.Image;
-                candidate.Image = candidate.Image.CutHostAndSchemePathFile();
-            }
-
-            var result = _candidateRepository.InsertOrUpdate(candidate);
+            var result = SaveInserOrUpdate(candidate);
 
             if (result == true)
             {
@@ -154,27 +147,110 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
             }
 
             return RedirectToAction("Index");
-
         }
-
+ 
         [HttpPost]
         public JsonResult Locked(int id)
         {
-            var status = true;
-            var message = "Delete Successfull !!!";
             var title = "Notification";
-            var result = _candidateRepository.Locked(id);
-            if (result == false)
+            var cadi = _candidateRepository.GetSingleById(id);
+
+            if (cadi == null)
             {
-                status = false;
-                message = "Delete Error !!!";
+                return Json(new
+                {
+                    message = "Delete Error !!!",
+                    status = false,
+                    title
+                });
             }
+            cadi.Deleted = !cadi.Deleted;
+            _unitOfWork.Commit();
+
             return Json(new
             {
-                message,
-                status,
+                message = "Delete Successfull !!!",
+                status = true,
                 title
             });
         }
+        #endregion
+
+        #region Method
+        private bool SaveInserOrUpdate(Candidate candidate)
+        {
+            #region Processing Image
+            if (string.IsNullOrEmpty(candidate.Image))
+            {
+                candidate.Image = "/Content/default-avatar.jpg";
+            }
+            else
+            {
+                string hostUrl = Request.Url.Scheme + "://" + Request.Url.Host;
+                if (!candidate.Image.Contains(hostUrl))
+                    candidate.Image = hostUrl + candidate.Image;
+                candidate.Image = candidate.Image.CutHostAndSchemePathFile();
+            }
+            #endregion
+
+            if (candidate.Id == 0)
+            {
+                candidate.Password = candidate.Password.ToMD5();
+                candidate.Status = false;
+                candidate.CreatedDate = DateTime.Now;
+                candidate.Deleted = false;
+                _candidateRepository.Add(candidate);
+            }
+            else
+            {
+                var cadi = _candidateRepository.GetSingleById(candidate.Id);
+                if (cadi == null)
+                {
+                    return false;
+                }
+                cadi.UpdatedDate = DateTime.Now;
+                cadi.Name = candidate.Name;
+                cadi.UserName = candidate.UserName;
+                cadi.Email = candidate.Email;
+                cadi.Phone = candidate.Phone;
+                cadi.Address = candidate.Address;
+                cadi.Education = candidate.Education;
+                cadi.WorkExperience = candidate.WorkExperience;
+                cadi.Birthday = candidate.Birthday;
+                cadi.Sex = candidate.Sex;
+                cadi.Image = candidate.Image;
+                if (candidate.Password != null)
+                {
+                    cadi.Password = candidate.Password.ToMD5();
+                }
+                _candidateRepository.Update(cadi);
+            }
+            _unitOfWork.Commit();
+            return true;
+        }
+
+        private PagingModel<Candidate> GetData(string keyword, int page, int pageSize)
+        {
+            List<Candidate> lstCandi = new List<Candidate>();
+
+            if (!string.IsNullOrEmpty(keyword))
+            {
+                lstCandi = _candidateRepository.Get(
+                    filter: c => c.Deleted == false && (c.UserName.ToLower().Contains(keyword.ToLower())
+                    || c.Name.ToLower().Contains(keyword.ToLower()) || c.Email.ToLower().Contains(keyword.ToLower())),
+                    orderBy: c => c.OrderByDescending(x => x.Id)).ToList();
+            }
+            else
+            {
+                lstCandi = _candidateRepository.Get(filter: c => c.Deleted == false, orderBy: c => c.OrderByDescending(x => x.Id)).ToList();
+            }
+
+            int totalRow = lstCandi.Count();
+
+            var data = lstCandi.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+
+            return new PagingModel<Candidate>() { TotalRow = totalRow, Items = data };
+        }
+        #endregion
     }
 }

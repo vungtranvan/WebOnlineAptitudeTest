@@ -1,11 +1,18 @@
-﻿using CKSource.CKFinder.Connector.Config;
+﻿using Autofac;
+using Autofac.Integration.Mvc;
+using CKSource.CKFinder.Connector.Config;
 using CKSource.CKFinder.Connector.Core.Builders;
 using CKSource.CKFinder.Connector.Host.Owin;
 using CKSource.FileSystem.Local;
 using Microsoft.Owin;
 using Owin;
 using System;
+using System.Reflection;
 using System.Threading.Tasks;
+using System.Web.Mvc;
+using WebOnlineAptitudeTest.Models.Entities;
+using WebOnlineAptitudeTest.Models.Infrastructure;
+using WebOnlineAptitudeTest.Models.Repositories;
 
 [assembly: OwinStartup(typeof(WebOnlineAptitudeTest.Startup))]
 
@@ -17,6 +24,8 @@ namespace WebOnlineAptitudeTest
         {
             FileSystemFactory.RegisterFileSystem<LocalStorage>();
             app.Map("/ckfinder/connector", SetupConnector);
+
+            ConfigAutofac(app);
         }
         private static void SetupConnector(IAppBuilder app)
         {
@@ -65,6 +74,25 @@ namespace WebOnlineAptitudeTest
              * Add the CKFinder connector middleware to the web application pipeline.
              */
             app.UseConnector(connector);
+        }
+    
+        private void ConfigAutofac(IAppBuilder app)
+        {
+            var builder = new ContainerBuilder();
+            builder.RegisterControllers(Assembly.GetExecutingAssembly());
+
+            builder.RegisterType<UnitOfWork>().As<IUnitOfWork>().InstancePerRequest();
+            builder.RegisterType<DbFactory>().As<IDbFactory>().InstancePerRequest();
+
+            builder.RegisterType<OnlineTestDbContext>().AsSelf().InstancePerRequest();
+
+            // DI To All Repositories
+            builder.RegisterAssemblyTypes(typeof(AdminRepository).Assembly)
+                .Where(t => t.Name.EndsWith("Repository"))
+                .AsImplementedInterfaces().InstancePerRequest();
+
+            Autofac.IContainer container = builder.Build();
+            DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
         }
     }
 }

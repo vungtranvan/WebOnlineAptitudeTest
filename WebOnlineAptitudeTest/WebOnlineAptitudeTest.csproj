@@ -45,8 +45,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Autofac, Version=5.2.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
-      <HintPath>..\packages\Autofac.5.2.0\lib\net461\Autofac.dll</HintPath>
+    <Reference Include="Autofac, Version=6.0.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.6.0.0\lib\netstandard2.0\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="Autofac.Integration.Mvc, Version=6.0.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.Mvc5.6.0.0\lib\net472\Autofac.Integration.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="CKSource.CKFinder.Connector.Config, Version=3.5.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\CKSource.CKFinder.Connector.Config.3.5.2\lib\net461\CKSource.CKFinder.Connector.Config.dll</HintPath>
@@ -89,9 +92,18 @@
       <HintPath>..\packages\Pri.LongPath.2.0.40\lib\net45\Pri.LongPath.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Diagnostics.DiagnosticSource, Version=4.0.5.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Diagnostics.DiagnosticSource.4.7.1\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
+    </Reference>
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
     <Reference Include="System.Net" />
     <Reference Include="System.Net.Http.Extensions, Version=2.2.29.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Net.Http.Formatting.Extension.5.2.3.0\lib\System.Net.Http.Extensions.dll</HintPath>
@@ -102,8 +114,12 @@
     <Reference Include="System.Net.Http.Primitives, Version=4.2.29.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Net.Http.Formatting.Extension.5.2.3.0\lib\System.Net.Http.Primitives.dll</HintPath>
     </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.2\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.3\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
@@ -192,14 +208,8 @@
     <Compile Include="Areas\Admin\Controllers\CategoryExamController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomesController.cs" />
     <Compile Include="Areas\Admin\Controllers\MenusController.cs" />
-    <Compile Include="Areas\Admin\Data\DAL\CategoryExams\CategoryExamRepository.cs" />
-    <Compile Include="Areas\Admin\Data\DAL\CategoryExams\ICategoryExamRepository.cs" />
     <Compile Include="Areas\Admin\Data\Model\Pagings\PagingModel.cs" />
-    <Compile Include="Areas\Admin\Data\DAL\Candidates\CandidateRepository.cs" />
-    <Compile Include="Areas\Admin\Data\DAL\Candidates\ICandidateRepository.cs" />
-    <Compile Include="Areas\Admin\Data\DAL\User\IUserRepository.cs" />
     <Compile Include="Areas\Admin\Data\Model\User\LoginRequest.cs" />
-    <Compile Include="Areas\Admin\Data\DAL\User\UserRepository.cs" />
     <Compile Include="Controllers\AuthFrontendController.cs" />
     <Compile Include="Controllers\BaseFrController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -210,8 +220,6 @@
     </Compile>
     <Compile Include="Helper\MyHelper.cs" />
     <Compile Include="Helper\XMessage.cs" />
-    <Compile Include="Models\DAL\GenericRepository.cs" />
-    <Compile Include="Models\DAL\UnitOfWork.cs" />
     <Compile Include="Models\Entities\Admin.cs" />
     <Compile Include="Models\Entities\Answer.cs" />
     <Compile Include="Models\Entities\Candidate.cs" />
@@ -221,6 +229,21 @@
     <Compile Include="Models\Entities\OnlineTestDbContext.cs" />
     <Compile Include="Models\Entities\Question.cs" />
     <Compile Include="Models\Entities\Transfer.cs" />
+    <Compile Include="Models\Infrastructure\DbFactory.cs" />
+    <Compile Include="Models\Infrastructure\Disposable.cs" />
+    <Compile Include="Models\Infrastructure\IDbFactory.cs" />
+    <Compile Include="Models\Infrastructure\IRepository.cs" />
+    <Compile Include="Models\Infrastructure\IUnitOfWork.cs" />
+    <Compile Include="Models\Infrastructure\RepositoryBase.cs" />
+    <Compile Include="Models\Infrastructure\UnitOfWork.cs" />
+    <Compile Include="Models\Repositories\AdminRepository.cs" />
+    <Compile Include="Models\Repositories\AnswerRepository.cs" />
+    <Compile Include="Models\Repositories\CandidateRepository.cs" />
+    <Compile Include="Models\Repositories\CategoryExamRepository.cs" />
+    <Compile Include="Models\Repositories\HistoryTestDetailRepository.cs" />
+    <Compile Include="Models\Repositories\HistoryTestRepository.cs" />
+    <Compile Include="Models\Repositories\QuestionRepository.cs" />
+    <Compile Include="Models\Repositories\TransferRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -1674,6 +1697,7 @@
     <Folder Include="userfiles\thumbs\files\__thumbs\sp-07.jpg\" />
     <Folder Include="Views\BaseFr\" />
     <Folder Include="Views\LayoutPage\" />
+    <Folder Include="Views\Test\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

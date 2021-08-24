@@ -3,22 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using WebOnlineAptitudeTest.Areas.Admin.Data.DAL.CategoryExams;
 using WebOnlineAptitudeTest.Models.Entities;
+using WebOnlineAptitudeTest.Models.Infrastructure;
+using WebOnlineAptitudeTest.Models.Repositories;
 
 namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
 {
     public class CategoryExamController : BaseController
     {
         private ICategoryExamRepository _categoryExamRepository;
-        public CategoryExamController()
-        {
-            _categoryExamRepository = new CategoryExamRepository();
-        }
+        private IUnitOfWork _unitOfWork;
 
-        public CategoryExamController(ICategoryExamRepository categoryExamRepository)
+        public CategoryExamController(ICategoryExamRepository categoryExamRepository, IUnitOfWork unitOfWork)
         {
             _categoryExamRepository = categoryExamRepository;
+            _unitOfWork = unitOfWork;
         }
 
         // GET: Admin/CategoryExam
@@ -42,7 +41,7 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult Details(int id)
         {
-            var result = _categoryExamRepository.Get(id);
+            var result = _categoryExamRepository.GetSingleById(id);
 
             return Json(new
             {
@@ -56,15 +55,21 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
         {
             var message = "Edit Successfull !!!";
             var title = "Notification";
-            var result = _categoryExamRepository.Update(categoryExam);
-            if (result == false)
+            var status = true;
+
+            var cate = _categoryExamRepository.GetSingleById(categoryExam.Id);
+            if (cate == null)
             {
                 message = "Edit Error !!!";
+                status = false;
             }
+            cate.Name = categoryExam.Name;
+            _unitOfWork.Commit();
+
             return Json(new
             {
                 message,
-                status = result,
+                status,
                 title
             });
         }
