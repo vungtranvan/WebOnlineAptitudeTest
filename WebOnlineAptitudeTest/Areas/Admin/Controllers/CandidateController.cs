@@ -1,24 +1,24 @@
 ﻿using System.Web.Mvc;
 using WebOnlineAptitudeTest.Models.Entities;
-using WebOnlineAptitudeTest.Areas.Admin.Data.DAL.Candidates;
 using System;
 using System.Collections.Generic;
+using WebOnlineAptitudeTest.Models.Repositories;
+using WebOnlineAptitudeTest.Models.Infrastructure;
+using System.Linq;
+using WebOnlineAptitudeTest.Areas.Admin.Data.Model.Pagings;
 
 namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
 {
     public class CandidateController : BaseController
     {
-        private ICandidateRepository _candidateRepository;
-        public CandidateController()
-        {
-            _candidateRepository = new CandidateRepository();
-        }
+        private readonly ICandidateRepository _candidateRepository;
 
         public CandidateController(ICandidateRepository candidateRepository)
         {
             _candidateRepository = candidateRepository;
         }
 
+        #region Acction
         [HttpGet]
         public ActionResult Index()
         {
@@ -29,7 +29,7 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
         [HttpGet]
         public JsonResult LoadData(string keyword, int page, int pageSize = 3)
         {
-            var result = _candidateRepository.Get(keyword, page, pageSize);
+            var result = _candidateRepository.GetData(keyword, page, pageSize);
 
             return Json(new
             {
@@ -42,7 +42,7 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
         [HttpGet]
         public JsonResult Details(int id)
         {
-            var candidate = _candidateRepository.Get(id);
+            var candidate = _candidateRepository.GetSingleById(id);
 
             if (candidate == null)
             {
@@ -65,7 +65,7 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
         {
             if (id != null)
             {
-                var candidate = _candidateRepository.Get(id.Value);
+                var candidate = _candidateRepository.GetSingleById(id.Value);
                 candidate.Password = "";
                 return View(candidate);
             }
@@ -78,44 +78,48 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
         {
             var idCandi = candidate.Id;
 
-            // Validate data input
+            #region Validate data input
+            var checkEmail = _candidateRepository.CheckContains(c => c.Email.Equals(candidate.Email));
+            var checkPhone = _candidateRepository.CheckContains(c => c.Phone.Equals(candidate.Phone));
+            var checkUserName = _candidateRepository.CheckContains(c => c.UserName.Equals(candidate.UserName));
+
             if (idCandi == 0)
             {
                 if (string.IsNullOrEmpty(candidate.Password))
                     ModelState.AddModelError("Password", "This field is required");
 
-                if (_candidateRepository.CheckExitEmail(candidate.Email))
+                if (checkEmail)
                     ModelState.AddModelError("Email", "Email already exists !!!");
-                if (_candidateRepository.CheckExitPhone(candidate.Phone) && candidate.Phone != null)
+                if (checkPhone && candidate.Phone != null)
                     ModelState.AddModelError("Phone", "Phone already exists !!!");
-                if (_candidateRepository.CheckExitUserName(candidate.UserName))
+                if (checkUserName)
                     ModelState.AddModelError("UserName", "UserName already exists !!!");
             }
             else
             {
-                var c = _candidateRepository.Get(idCandi);
+                var candi = _candidateRepository.GetSingleById(idCandi);
 
-                if (c == null)
+                if (candi == null)
                     return HttpNotFound();
 
-                if (_candidateRepository.CheckExitEmail(candidate.Email) && !c.Email.Equals(candidate.Email))
+                if (checkEmail && !candi.Email.Equals(candidate.Email))
                     ModelState.AddModelError("Email", "Email already exists !!!");
-                if (c.Phone != null)
+                if (candi.Phone != null)
                 {
-                    if (_candidateRepository.CheckExitPhone(candidate.Phone) && !c.Phone.Equals(candidate.Phone))
+                    if (checkPhone)
                         ModelState.AddModelError("Phone", "Phone already exists !!!");
                 }
-                if (_candidateRepository.CheckExitUserName(candidate.UserName) && !c.UserName.Equals(candidate.UserName))
+                if (checkUserName && !candi.UserName.Equals(candidate.UserName))
                     ModelState.AddModelError("UserName", "UserName already exists !!!");
-
             }
 
             if (!ModelState.IsValid)
             {
                 return View(candidate);
             }
+            #endregion
 
-            // Xử lý ảnh
+            #region Processing Image
             if (string.IsNullOrEmpty(candidate.Image))
             {
                 candidate.Image = "/Content/default-avatar.jpg";
@@ -127,6 +131,7 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
                     candidate.Image = hostUrl + candidate.Image;
                 candidate.Image = candidate.Image.CutHostAndSchemePathFile();
             }
+            #endregion
 
             var result = _candidateRepository.InsertOrUpdate(candidate);
 
@@ -154,27 +159,31 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
             }
 
             return RedirectToAction("Index");
-
         }
-
+ 
         [HttpPost]
         public JsonResult Locked(int id)
         {
-            var status = true;
-            var message = "Delete Successfull !!!";
             var title = "Notification";
-            var result = _candidateRepository.Locked(id);
-            if (result == false)
+            var cadi = _candidateRepository.Locked(id);
+
+            if (!cadi)
             {
-                status = false;
-                message = "Delete Error !!!";
+                return Json(new
+                {
+                    message = "Delete Error !!!",
+                    status = false,
+                    title
+                });
             }
+
             return Json(new
             {
-                message,
-                status,
+                message = "Delete Successfull !!!",
+                status = true,
                 title
             });
         }
+        #endregion
     }
 }

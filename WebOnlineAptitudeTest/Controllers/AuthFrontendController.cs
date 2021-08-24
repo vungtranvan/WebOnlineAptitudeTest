@@ -5,17 +5,18 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using WebOnlineAptitudeTest.Areas.Admin.Data.Model.User;
-using WebOnlineAptitudeTest.Models.DAL;
+using WebOnlineAptitudeTest.Models.Infrastructure;
+using WebOnlineAptitudeTest.Models.Repositories;
 
 namespace WebOnlineAptitudeTest.Controllers
 {
     public class AuthFrontendController : Controller
     {
-        private UnitOfWork _unitOfWork;
+        private readonly ICandidateRepository _candidateRepository;
 
-        public AuthFrontendController()
+        public AuthFrontendController(ICandidateRepository candidateRepository)
         {
-            _unitOfWork = new UnitOfWork();
+            _candidateRepository = candidateRepository;
         }
 
         [HttpGet]
@@ -44,7 +45,7 @@ namespace WebOnlineAptitudeTest.Controllers
                 return View(request);
             }
 
-            var candi = _unitOfWork.CandidateRepository.Get(filter:x=>x.UserName.Equals(request.UserName)).FirstOrDefault();
+            var candi = _candidateRepository.Get(filter: x => x.UserName.Equals(request.UserName) && x.Deleted == false).FirstOrDefault();
 
             if (candi == null)
             {
