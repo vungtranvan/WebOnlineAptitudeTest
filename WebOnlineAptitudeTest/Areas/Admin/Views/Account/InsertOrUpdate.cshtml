@@ -1,0 +1,133 @@
+﻿
+@model WebOnlineAptitudeTest.Models.Entities.Admin
+
+@{
+    ViewBag.Title = (Model == null ? "Add New Admin" : "Admin Edit");
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+    var checkRdMale = Model == null ? "checked" : (Model.Sex == true ? "checked" : "");
+    var checkRdFeMale = Model == null ? "" : (Model.Sex != true ? "checked" : "");
+}
+
+@section Breadcrumb{
+    <div class="page-breadcrumb">
+        <div class="row">
+            <div class="col-7 align-self-center">
+                <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">@(Model == null ? "Add New Admin" : "Admin Edit")</h3>
+                <div class="d-flex align-items-center">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb m-0 p-0">
+                            <li class="breadcrumb-item"><a href="/admin" class="text-muted">Home</a></li>
+                            <li class="breadcrumb-item text-muted active" aria-current="page"><a href="/Admin/Candidate" class="text-muted">Admin</a></li>
+                            <li class="breadcrumb-item text-muted active" aria-current="page">@(Model == null ? "Add New Admin" : "Admin Edit")</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-group">
+
+                        @Html.LabelFor(model => model.UserName, new { @class = "text-dark" })
+                        @Html.TextBoxFor(model => model.UserName, new { @class = "form-control", placeholder = "InserText", @type = "text" })
+                        @Html.ValidationMessageFor(model => model.UserName, null, new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+
+                        @Html.LabelFor(model => model.DisplayName, new { @class = "text-dark" })
+                        @Html.TextBoxFor(model => model.DisplayName, new { @class = "form-control", placeholder = "InserText", @type = "text" })
+                        @Html.ValidationMessageFor(model => model.UserName, null, new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Email, new { @class = "text-dark" })
+                        @Html.TextBoxFor(model => model.Email, new { @class = "form-control", placeholder = "InserText", @type = "text" })
+                        @Html.ValidationMessageFor(model => model.Email, null, new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="Image">Image</label>
+                        <div class="col-md-8">
+                            @if (Model == null)
+                            {
+                                <img src="/Content/default-avatar.jpg" id="Click-Image" name="Click-Image" alt="" style="width:150px;height:150px;object-fit:cover;cursor:pointer">
+                            }
+                            else
+                            {
+                                <img src="@Model.Image" id="Click-Image" name="Click-Image" alt="" style="width:150px;height:150px;object-fit:cover;cursor:pointer">
+                            }
+                            @Html.HiddenFor(model => model.Image)
+                            @Html.ValidationMessageFor(model => model.Image, null, new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Password, new { @class = "text-dark" })
+                        @Html.TextBoxFor(model => model.Password, new { @class = "form-control", placeholder = "InserText", @type = "password" })
+                        @Html.ValidationMessageFor(model => model.Password, null, new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        <label class="text-dark">Sex</label>
+                        <br />
+                        <div class="form-check form-check-inline">
+                            <div class="custom-control custom-radio">
+                                <input type="radio" class="custom-control-input" id="Male" name="Sex" value="true" @checkRdMale>
+                                <label class="custom-control-label" for="Male">Male</label>
+                            </div>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <div class="custom-control custom-radio">
+                                <input type="radio" class="custom-control-input" id="FeMale" name="Sex" value="false" @checkRdFeMale>
+                                <label class="custom-control-label" for="FeMale">FeMale</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-right mt-5">
+                        <a href="@Url.Action("Index", "Admin")" class=" btn waves-effect waves-light btn-danger"><i class="fas fa-arrow-circle-right"></i> Cancel</a>
+                        <button type="submit" class="btn waves-effect waves-light btn-success"><i class="fas fa-download"></i> Save</button>
+                    </div>
+                }
+
+            </div>
+        </div>
+
+    </div>
+</div>
+@section Scripts{
+    <script>
+        $("#Click-Image").click(function () {
+            CKFinder.popup({
+                chooseFiles: true,
+                width: 800,
+                height: 600,
+                onInit: function (finder) {
+                    finder.on('files:choose', function (evt) {
+                        var file = evt.data.files.first();
+                        var output = document.getElementById("Image");
+                        output.value = file.get("url");
+                        $("#Click-Image").attr('src', file.get("url"));
+                    });
+
+                    finder.on('file:choose:resizedImage', function (evt) {
+                        var output = document.getElementById("Image");
+                        output.value = evt.data.resizedUrl;
+                    });
+                }
+            });
+        });
+    </script>
+}
+
