@@ -10,6 +10,7 @@ namespace WebOnlineAptitudeTest.Models.Repositories
     public interface ICategoryExamRepository : IRepository<CategoryExam>
     {
     }
+
     public class CategoryExamRepository : RepositoryBase<CategoryExam>, ICategoryExamRepository
     {
         public CategoryExamRepository(IDbFactory dbFactory) : base(dbFactory)

@@ -10,6 +10,7 @@ namespace WebOnlineAptitudeTest.Models.Repositories
     public interface IHistoryTestRepository : IRepository<HistoryTest>
     {
     }
+
     public class HistoryTestRepository : RepositoryBase<HistoryTest>, IHistoryTestRepository
     {
         public HistoryTestRepository(IDbFactory dbFactory) : base(dbFactory)

@@ -10,6 +10,7 @@ namespace WebOnlineAptitudeTest.Models.Repositories
     public interface ITransferRepository : IRepository<Transfer>
     {
     }
+
     public class TransferRepository : RepositoryBase<Transfer>, ITransferRepository
     {
         public TransferRepository(IDbFactory dbFactory) : base(dbFactory)

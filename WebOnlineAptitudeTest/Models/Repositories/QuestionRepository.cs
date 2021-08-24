@@ -10,6 +10,7 @@ namespace WebOnlineAptitudeTest.Models.Repositories
     public interface IQuestionRepository : IRepository<Question>
     {
     }
+
     public class QuestionRepository : RepositoryBase<Question>, IQuestionRepository
     {
         public QuestionRepository(IDbFactory dbFactory) : base(dbFactory)

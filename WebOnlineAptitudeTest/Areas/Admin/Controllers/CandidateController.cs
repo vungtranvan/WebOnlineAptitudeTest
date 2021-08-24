@@ -11,13 +11,11 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
 {
     public class CandidateController : BaseController
     {
-        private ICandidateRepository _candidateRepository;
-        private IUnitOfWork _unitOfWork;
+        private readonly ICandidateRepository _candidateRepository;
 
-        public CandidateController(ICandidateRepository candidateRepository, IUnitOfWork unitOfWork)
+        public CandidateController(ICandidateRepository candidateRepository)
         {
             _candidateRepository = candidateRepository;
-            _unitOfWork = unitOfWork;
         }
 
         #region Acction
@@ -31,7 +29,7 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
         [HttpGet]
         public JsonResult LoadData(string keyword, int page, int pageSize = 3)
         {
-            var result = this.GetData(keyword, page, pageSize);
+            var result = _candidateRepository.GetData(keyword, page, pageSize);
 
             return Json(new
             {
@@ -121,7 +119,21 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
             }
             #endregion
 
-            var result = SaveInserOrUpdate(candidate);
+            #region Processing Image
+            if (string.IsNullOrEmpty(candidate.Image))
+            {
+                candidate.Image = "/Content/default-avatar.jpg";
+            }
+            else
+            {
+                string hostUrl = Request.Url.Scheme + "://" + Request.Url.Host;
+                if (!candidate.Image.Contains(hostUrl))
+                    candidate.Image = hostUrl + candidate.Image;
+                candidate.Image = candidate.Image.CutHostAndSchemePathFile();
+            }
+            #endregion
+
+            var result = _candidateRepository.InsertOrUpdate(candidate);
 
             if (result == true)
             {
@@ -153,9 +165,9 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
         public JsonResult Locked(int id)
         {
             var title = "Notification";
-            var cadi = _candidateRepository.GetSingleById(id);
+            var cadi = _candidateRepository.Locked(id);
 
-            if (cadi == null)
+            if (!cadi)
             {
                 return Json(new
                 {
@@ -164,8 +176,6 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
                     title
                 });
             }
-            cadi.Deleted = !cadi.Deleted;
-            _unitOfWork.Commit();
 
             return Json(new
             {
@@ -173,83 +183,6 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
                 status = true,
                 title
             });
-        }
-        #endregion
-
-        #region Method
-        private bool SaveInserOrUpdate(Candidate candidate)
-        {
-            #region Processing Image
-            if (string.IsNullOrEmpty(candidate.Image))
-            {
-                candidate.Image = "/Content/default-avatar.jpg";
-            }
-            else
-            {
-                string hostUrl = Request.Url.Scheme + "://" + Request.Url.Host;
-                if (!candidate.Image.Contains(hostUrl))
-                    candidate.Image = hostUrl + candidate.Image;
-                candidate.Image = candidate.Image.CutHostAndSchemePathFile();
-            }
-            #endregion
-
-            if (candidate.Id == 0)
-            {
-                candidate.Password = candidate.Password.ToMD5();
-                candidate.Status = false;
-                candidate.CreatedDate = DateTime.Now;
-                candidate.Deleted = false;
-                _candidateRepository.Add(candidate);
-            }
-            else
-            {
-                var cadi = _candidateRepository.GetSingleById(candidate.Id);
-                if (cadi == null)
-                {
-                    return false;
-                }
-                cadi.UpdatedDate = DateTime.Now;
-                cadi.Name = candidate.Name;
-                cadi.UserName = candidate.UserName;
-                cadi.Email = candidate.Email;
-                cadi.Phone = candidate.Phone;
-                cadi.Address = candidate.Address;
-                cadi.Education = candidate.Education;
-                cadi.WorkExperience = candidate.WorkExperience;
-                cadi.Birthday = candidate.Birthday;
-                cadi.Sex = candidate.Sex;
-                cadi.Image = candidate.Image;
-                if (candidate.Password != null)
-                {
-                    cadi.Password = candidate.Password.ToMD5();
-                }
-                _candidateRepository.Update(cadi);
-            }
-            _unitOfWork.Commit();
-            return true;
-        }
-
-        private PagingModel<Candidate> GetData(string keyword, int page, int pageSize)
-        {
-            List<Candidate> lstCandi = new List<Candidate>();
-
-            if (!string.IsNullOrEmpty(keyword))
-            {
-                lstCandi = _candidateRepository.Get(
-                    filter: c => c.Deleted == false && (c.UserName.ToLower().Contains(keyword.ToLower())
-                    || c.Name.ToLower().Contains(keyword.ToLower()) || c.Email.ToLower().Contains(keyword.ToLower())),
-                    orderBy: c => c.OrderByDescending(x => x.Id)).ToList();
-            }
-            else
-            {
-                lstCandi = _candidateRepository.Get(filter: c => c.Deleted == false, orderBy: c => c.OrderByDescending(x => x.Id)).ToList();
-            }
-
-            int totalRow = lstCandi.Count();
-
-            var data = lstCandi.Skip((page - 1) * pageSize).Take(pageSize).ToList();
-
-            return new PagingModel<Candidate>() { TotalRow = totalRow, Items = data };
         }
         #endregion
     }

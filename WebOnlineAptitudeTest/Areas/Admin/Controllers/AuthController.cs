@@ -12,8 +12,8 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
 {
     public class AuthController : Controller
     {
-        private IAdminRepository _adminRepository;
-        private IUnitOfWork _unitOfWork;
+        private readonly IAdminRepository _adminRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
         public AuthController(IAdminRepository adminRepository, IUnitOfWork unitOfWork)
         {

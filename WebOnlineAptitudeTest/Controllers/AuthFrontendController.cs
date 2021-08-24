@@ -12,13 +12,11 @@ namespace WebOnlineAptitudeTest.Controllers
 {
     public class AuthFrontendController : Controller
     {
-        private ICandidateRepository _candidateRepository;
-        private IUnitOfWork _unitOfWork;
+        private readonly ICandidateRepository _candidateRepository;
 
-        public AuthFrontendController(ICandidateRepository candidateRepository, IUnitOfWork unitOfWork)
+        public AuthFrontendController(ICandidateRepository candidateRepository)
         {
             _candidateRepository = candidateRepository;
-            _unitOfWork = unitOfWork;
         }
 
         [HttpGet]

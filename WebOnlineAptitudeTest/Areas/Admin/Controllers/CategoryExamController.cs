@@ -11,8 +11,8 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
 {
     public class CategoryExamController : BaseController
     {
-        private ICategoryExamRepository _categoryExamRepository;
-        private IUnitOfWork _unitOfWork;
+        private readonly ICategoryExamRepository _categoryExamRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
         public CategoryExamController(ICategoryExamRepository categoryExamRepository, IUnitOfWork unitOfWork)
         {
@@ -64,6 +64,7 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
                 status = false;
             }
             cate.Name = categoryExam.Name;
+            _categoryExamRepository.Update(cate);
             _unitOfWork.Commit();
 
             return Json(new
