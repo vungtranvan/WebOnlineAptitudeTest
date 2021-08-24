@@ -10,6 +10,8 @@ namespace WebOnlineAptitudeTest.Models.Entities
     public partial class Admin
     {
         [Key]
+        public int Id { get; set; }
+
         [StringLength(50)]
         public string UserName { get; set; }
 
