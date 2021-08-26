@@ -13,10 +13,12 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
     public class QuestionController : Controller
     {
         private readonly IQuestionRepository _questionRepository;
+        private readonly ICategoryExamRepository _categoryExamRepository;
 
-        public QuestionController(IQuestionRepository questionRepository)
+        public QuestionController(IQuestionRepository questionRepository, ICategoryExamRepository categoryExamRepository)
         {
             _questionRepository = questionRepository;
+            _categoryExamRepository = categoryExamRepository;
         }
         // GET: Admin/Question
         public ActionResult Index()
@@ -30,17 +32,21 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
             if (id != null)
             {
                 var question = _questionRepository.GetSingleById(id.Value);
-     
+                this.DropDownCategoryExam(question.CategoryExamId);
                 return View(question);
             }
+            this.DropDownCategoryExam();
             return View();
         }
 
         [HttpPost]
-       
-        public ActionResult InsertOrUpdate(IEnumerable<Answer> anwser,Question question)
+        public ActionResult InsertOrUpdate(IEnumerable<Answer> anwser, Question question)
         {
-
+            if (!ModelState.IsValid)
+            {
+                this.DropDownCategoryExam(question.CategoryExamId);
+                return View();
+            }
             var q = question.Mark;
 
             foreach (var item in anwser)
@@ -48,7 +54,24 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
                 var abc = item.Name;
             }
 
+            this.DropDownCategoryExam();
             return View();
+        }
+
+        private void DropDownCategoryExam(int categoryExamId = 0)
+        {
+            int selectDrop = 0;
+            var lstCateEx = _categoryExamRepository.GetAll().ToList();
+
+            if (categoryExamId != 0)
+            {
+                foreach (var item in lstCateEx)
+                {
+                    if (item.Id == categoryExamId)
+                        selectDrop = lstCateEx.IndexOf(item);
+                }
+            }
+            ViewBag.CategoryExamId = new SelectList(lstCateEx, "Id", "Name", selectDrop);
         }
     }
 }
