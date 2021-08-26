@@ -19,6 +19,8 @@ namespace WebOnlineAptitudeTest.Models.Entities
 
         [Required]
         [StringLength(50)]
+        [Display(Name="Question")]
+        [DataType(DataType.MultilineText)]
         public string Name { get; set; }
 
         public int CategoryExamId { get; set; }

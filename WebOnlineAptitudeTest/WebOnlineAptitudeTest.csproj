@@ -208,6 +208,7 @@
     <Compile Include="Areas\Admin\Controllers\CategoryExamController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomesController.cs" />
     <Compile Include="Areas\Admin\Controllers\MenusController.cs" />
+    <Compile Include="Areas\Admin\Controllers\QuestionController.cs" />
     <Compile Include="Areas\Admin\Data\Model\Pagings\PagingModel.cs" />
     <Compile Include="Areas\Admin\Data\Model\User\LoginRequest.cs" />
     <Compile Include="Controllers\AuthFrontendController.cs" />
@@ -1653,6 +1654,8 @@
     <Content Include="Areas\Admin\Views\CategoryExam\Index.cshtml" />
     <Content Include="Areas\Admin\Views\CategoryExam\_ModalEditCategoryExam.cshtml" />
     <Content Include="Areas\Admin\Views\Account\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Question\InsertOrUpdate1.cshtml" />
+    <Content Include="Areas\Admin\Views\Question\InsertOrUpdate.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />

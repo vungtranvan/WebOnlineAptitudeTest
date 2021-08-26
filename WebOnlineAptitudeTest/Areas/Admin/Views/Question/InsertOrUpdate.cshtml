@@ -1,0 +1,195 @@
+﻿@model WebOnlineAptitudeTest.Models.Entities.Question
+
+@{
+    ViewBag.Title = "InsertOrUpdate";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@section Styles {
+    <style>
+        .note-editor .note-editable p {
+            margin: 0;
+        }
+    </style>
+}
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Question</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="form-group">
+            <div class="row d-flex">
+                <div class="col-md-2" style="">
+                    @Html.LabelFor(model => model.Mark, htmlAttributes: new { @class = "control-label" })
+                    <div class="">
+                        @Html.EditorFor(model => model.Mark, new { htmlAttributes = new { @class = "form-control", Name = "question.Mark" } })
+                        @Html.ValidationMessageFor(model => model.Mark, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="card">
+                <div class="card-body question-content">
+                    <div class="card-title">
+                        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label" })
+                    </div>
+                    <div class="">
+                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control question summernote", Name = "question.Name", @id = "question" } })
+                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="card">
+                <div class="card-body">
+                    <div class="anwser">
+
+                        <hr class="list-divider" />
+                    </div>
+                    <button class="btn btn-warning" id="add_more" type="button"> Add more answer.... </button>
+                </div>
+
+            </div>
+
+        </div>
+        @*<div class="form-group">
+                @Html.LabelFor(model => model.CategoryExamId, "CategoryExamId", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("CategoryExamId", null, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.CategoryExamId, "", new { @class = "text-danger" })
+                </div>
+            </div>*@
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    <script>
+        let anwserCount = 1;
+
+
+
+        $(document).ready(function () {
+
+
+
+            let answerTarget = ` <div class="anwser-content anwser-first">
+                            <div class="card-title">
+                                @Html.LabelFor(model => model.Answers.FirstOrDefault().Name, htmlAttributes: new { @class = "control-label" })
+                            </div>
+                            <div class="">
+                                <input type="checkbox" name="anwser[0].Correct" class="anwser-correct" value="true"/>
+                                <textarea class="form-control summernote text-box multi-line" name="anwser[0].Name"></textarea>
+                                @Html.ValidationMessageFor(model => model.Answers.FirstOrDefault().Name, "", new { @class = "text-danger" })
+                            </div>
+                        </div>`;
+
+            answerTarget = $($.parseHTML(answerTarget));
+
+            answerTarget.find(".control-label").html(answerTarget.find(".control-label").text() + "  1");
+
+            answerCloneFirst = answerTarget.clone();
+            answerCloneFirst.appendTo(".anwser");
+
+
+            $('.summernote').summernote({
+                placeholder: 'Enter content....',
+                tabsize: 2,
+                height: 100,
+                minHeight: 100,
+                focus: true,
+                toolbar: [
+                    ['style', ['bold', 'italic', 'underline', 'clear']],
+                    ['fontsize', ['fontsize']]
+                ]
+            });
+
+            $(".note-codable").attr("disabled", "disabled");
+
+
+      
+
+
+            $("#add_more").on("click", function () {
+                anwserCount += 1;
+
+                let anwserClone = answerTarget.clone();
+
+
+                anwserClone.find(".summernote").summernote({
+                    placeholder: 'Enter content....',
+                    tabsize: 2,
+                    height: 100,
+                    minHeight: 100,
+                    focus: true,
+                    toolbar: [
+                        ['style', ['bold', 'italic', 'underline', 'clear']],
+                        ['fontsize', ['fontsize']]
+                    ]
+                });
+
+                anwserClone.find(".card-title").find(".control-label")
+                    .html(anwserClone.find(".card-title")
+                        .find(".control-label").html()
+                        .slice(0, -1) + anwserCount
+                );
+
+                anwserClone.find(".summernote.text-box").attr("name", "anwser[" + (anwserCount - 1) + "].Name");
+                anwserClone.find(".anwser-correct").attr("name", "anwser[" + (anwserCount - 1) + "].Correct")
+
+                anwserClone.appendTo(".anwser");
+                $(".note-codable").attr("disabled", "disabled");
+
+
+            });
+
+
+            $("form").submit(function () {
+
+
+                // Let's find the input to check
+                var $textarea = $(this).find("textarea");
+
+                $textarea.each(function (index) {
+                    $(this).val(htmlencode($(this).val()));
+                });
+                    // Value is falsey (i.e. null), lets set a new one
+                //$textarea.val("whatever you want");
+
+                //console.log($textarea.val());
+
+
+
+            });
+
+            function htmlencode(str) {
+                return str.replace(/[&<>"']/g, function ($0) {
+                    return "&" + { "&": "amp", "<": "lt", ">": "gt", '"': "quot", "'": "#39" }[$0] + ";";
+                });
+            }
+
+        });
+    </script>
+}

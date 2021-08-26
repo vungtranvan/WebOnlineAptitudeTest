@@ -19,6 +19,7 @@
     <link href="/Content/assets/backend/plugins/dist/css/style.min.css" rel="stylesheet">
     <link href="/Content/toastr.min.css" rel="stylesheet" />
     <link href="/Content/SiteBackend.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-bs4.css" rel="stylesheet">
     @RenderSection("Styles", false)
 </head>
 
@@ -88,9 +89,11 @@
 
 
     @Scripts.Render("~/bundles/jquery")
-    <script src="/Content/assets/backend/plugins/assets/libs/jquery/dist/jquery.min.js"></script>
+    @*<script src="/Content/assets/backend/plugins/assets/libs/jquery/dist/jquery.min.js"></script>*@
     <script src="/Content/assets/backend/plugins/assets/libs/popper.js/dist/umd/popper.min.js"></script>
     <script src="/Content/assets/backend/plugins/assets/libs/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-bs4.js"></script>
+
     <!-- apps -->
     <!-- apps -->
     <script src="/Content/assets/backend/plugins/dist/js/app-style-switcher.js"></script>
@@ -107,6 +110,8 @@
     <script src="/Content/assets/backend/plugins/assets/extra-libs/jvector/jquery-jvectormap-2.0.2.min.js"></script>
     <script src="/Content/assets/backend/plugins/assets/extra-libs/jvector/jquery-jvectormap-world-mill-en.js"></script>
     <script src="/Content/assets/backend/plugins/dist/js/pages/dashboards/dashboard1.min.js"></script>
+
+
     <script src="/Scripts/toastr.min.js"></script>
     <script src="/Content/assets/backend/dist/js/config-toastrJs.js"></script>
     <script src="/CKFinderScripts/ckfinder.js"></script>

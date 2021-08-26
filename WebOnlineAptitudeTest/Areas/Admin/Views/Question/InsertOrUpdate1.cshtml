@@ -1,0 +1,135 @@
+﻿@model WebOnlineAptitudeTest.Models.Entities.Question
+
+@{
+    ViewBag.Title = "InsertOrUpdate";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@section Styles {
+    <style>
+        .note-editor .note-editable p{
+           margin:0;
+        }
+      
+    </style>
+}
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <h4>Question</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.Id)
+
+    <!--<div class="form-group">
+        <div class="row d-flex">
+            <div class="col-md-2" style="">
+                @Html.LabelFor(model => model.Mark, htmlAttributes: new { @class = "control-label" })
+                <div class="">
+                    @Html.EditorFor(model => model.Mark, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Mark, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="card">
+            <div class="card-body question-content">
+                <div class="card-title">
+                    @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label" })
+                </div>
+                <div class="">
+                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control question summernote" } })
+                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+    </div>
+  
+    <div class="form-group">
+        <div class="card">
+            <div class="card-body">
+                <div class="anwser-content">
+                    <div class="card-title">
+                        @Html.LabelFor(model => model.Answers.FirstOrDefault().Name, htmlAttributes: new { @class = "control-label" })
+                    </div>
+                    <div class="">
+                        @Html.EditorFor(model => model.Answers.FirstOrDefault().Name, new { htmlAttributes = new { @class = "form-control summernote" } })
+                        @Html.ValidationMessageFor(model => model.Answers.FirstOrDefault().Name, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <hr class="list-divider" />
+                <button class="btn btn-warning" id="add_more" type="button"> Add more.... </button>
+            </div>
+        </div>
+
+    </div>-->
+
+    @*<div class="form-group">
+            @Html.LabelFor(model => model.CategoryExamId, "CategoryExamId", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("CategoryExamId", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.CategoryExamId, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+
+
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Save" class="btn btn-default" />
+        </div>
+    </div>
+
+</div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('form').each(function () {
+                if ($(this).data('validator'))
+                    $(this).data('validator').settings.ignore = ".note-editor *";
+            });
+
+            $('.summernote').summernote({
+                callbacks: {
+                    onInit: function () {
+                        //The trick:
+                        var textarea = $(this);
+                        textarea.val(textarea.summernote("code"));
+                    }
+                },
+                placeholder: 'Enter content....',
+                tabsize: 2,
+                height: 100,
+                minHeight: 100,
+                focus: false,
+                spellCheck: false,
+                toolbar: [
+                    ['style', ['bold', 'italic', 'underline', 'clear']],
+                    ['fontsize', ['fontsize']],
+                    ['color', ['color']]
+                ]
+            });
+
+            $(".anwser-content .control-label").html($(".anwser-content .control-label").html() + "  1");
+            $(".question-content textarea").attr("name", "question");
+            $(".anwser-content textarea").attr("name", "anser_1");
+
+            $("#add_more").on("click", function () {
+                
+            });
+
+        });
+    </script>
+}
