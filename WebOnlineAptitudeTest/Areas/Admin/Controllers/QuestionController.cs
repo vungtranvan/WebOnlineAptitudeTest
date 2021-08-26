@@ -29,6 +29,9 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult InsertOrUpdate(int? id)
         {
+
+            ViewBag.CategoryId = new SelectList(_categoryExamRepository.GetAll().AsEnumerable(), "CategoryId", "CategoryName");
+
             if (id != null)
             {
                 var question = _questionRepository.GetSingleById(id.Value);

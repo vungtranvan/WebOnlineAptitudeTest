@@ -54,7 +54,16 @@
             <div class="card">
                 <div class="card-body">
                     <div class="anwser">
-
+                        <div class="anwser-content anwser-first">
+                            <div class="card-title">
+                                @Html.LabelFor(model => model.Answers.FirstOrDefault().Name, htmlAttributes: new { @class = "control-label" }) 1
+                            </div>
+                            <div class="">
+                                <input type="checkbox" name="anwser[0].Correct" class="anwser-correct" value="true" />
+                                <textarea class="form-control summernote text-box multi-line" name="anwser[0].Name"></textarea>
+                                @Html.ValidationMessageFor(model => model.Answers.FirstOrDefault().Name, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
                         <hr class="list-divider" />
                     </div>
                     <button class="btn btn-warning" id="add_more" type="button"> Add more answer.... </button>
@@ -110,8 +119,8 @@
 
             answerTarget.find(".control-label").html(answerTarget.find(".control-label").text() + "  1");
 
-            answerCloneFirst = answerTarget.clone();
-            answerCloneFirst.appendTo(".anwser");
+            //answerCloneFirst = answerTarget.clone();
+            //answerCloneFirst.appendTo(".anwser");
 
 
             $('.summernote').summernote({
@@ -129,7 +138,7 @@
             $(".note-codable").attr("disabled", "disabled");
 
 
-
+      
 
 
             $("#add_more").on("click", function () {
@@ -175,13 +184,7 @@
                 $textarea.each(function (index) {
                     $(this).val(htmlencode($(this).val()));
                 });
-                    // Value is falsey (i.e. null), lets set a new one
-                //$textarea.val("whatever you want");
-
-                //console.log($textarea.val());
-
-
-
+ 
             });
 
             function htmlencode(str) {
