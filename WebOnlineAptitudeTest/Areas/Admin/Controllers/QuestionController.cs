@@ -43,19 +43,28 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public ActionResult InsertOrUpdate(IEnumerable<Answer> anwser, Question question)
+        public ActionResult InsertOrUpdate(Question question, int? id)
         {
             if (!ModelState.IsValid)
             {
                 this.DropDownCategoryExam(question.CategoryExamId);
+                List<String> errora = new List<string>();
+
+                foreach (ModelState modelState in ViewData.ModelState.Values)
+                {
+                    foreach (ModelError error in modelState.Errors)
+                    {
+                        errora.Add(error.ErrorMessage);
+                    }
+                }
+
+                var abc = errora;
+
                 return View();
             }
-            var q = question.Mark;
+            question.Id = id != null ? id.Value : 0;
+            this._questionRepository.InsertOrUpdate(question);
 
-            foreach (var item in anwser)
-            {
-                var abc = item.Name;
-            }
 
             this.DropDownCategoryExam();
             return View();

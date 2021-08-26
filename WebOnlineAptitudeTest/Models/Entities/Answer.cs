@@ -15,6 +15,7 @@
 
         [DataType(DataType.MultilineText)]
         [Display(Name = "Answer")]
+        [Required]
         public string Name { get; set; }
 
         public bool Correct { get; set; }
