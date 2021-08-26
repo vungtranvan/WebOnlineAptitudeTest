@@ -13,10 +13,12 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
     public class QuestionController : Controller
     {
         private readonly IQuestionRepository _questionRepository;
+        private readonly ICategoryExamRepository _categoryExamRepository;
 
-        public QuestionController(IQuestionRepository questionRepository)
+        public QuestionController(IQuestionRepository questionRepository,ICategoryExamRepository categoryExamRepository)
         {
             _questionRepository = questionRepository;
+            _categoryExamRepository = categoryExamRepository;
         }
         // GET: Admin/Question
         public ActionResult Index()
@@ -27,6 +29,9 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult InsertOrUpdate(int? id)
         {
+
+            ViewBag.CategoryId = new SelectList(_categoryExamRepository.GetAll().AsEnumerable(), "CategoryId", "CategoryName");
+
             if (id != null)
             {
                 var question = _questionRepository.GetSingleById(id.Value);
