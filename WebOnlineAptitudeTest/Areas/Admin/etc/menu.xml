@@ -27,5 +27,10 @@
       <add title="Add New" action="InsertOrUpdate" controller="Question" />
     </menu>
 
+    <menu title="Test Schedule" icon="bar-chart">
+      <add title="List" action="Index" controller="TestSchedule"/>
+      <add title="Add New" action="InsertOrUpdate" controller="TestSchedule" />
+    </menu>
+
   </section>
 </menus>

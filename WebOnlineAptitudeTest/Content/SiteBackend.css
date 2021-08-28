@@ -8,3 +8,8 @@
     font-size: 70%;
     color: rgb(255, 79, 112);
 }
+
+.btn.btn-Custom {
+    min-width: 145px;
+    max-width: 145px;
+}

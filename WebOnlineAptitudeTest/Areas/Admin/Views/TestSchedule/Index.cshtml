@@ -1,17 +1,17 @@
 ﻿@{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Test Schedule";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
 }
 @section Breadcrumb{
     <div class="page-breadcrumb">
         <div class="row">
             <div class="col-7 align-self-center">
-                <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">Candidate</h3>
+                <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">Test Schedule</h3>
                 <div class="d-flex align-items-center">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb m-0 p-0">
                             <li class="breadcrumb-item"><a href="/admin" class="text-muted">Home</a></li>
-                            <li class="breadcrumb-item text-muted active" aria-current="page">Candidate</li>
+                            <li class="breadcrumb-item text-muted active" aria-current="page">Test Schedule</li>
                         </ol>
                     </nav>
                 </div>
@@ -26,7 +26,7 @@
             <div class="card-body">
                 <div class="header-card">
                     <div class="button">
-                        <a href="@Url.Action("InsertOrUpdate","Candidate")" class="btn waves-effect waves-light btn-Custom btn-primary"> Add New</a>
+                        <a href="@Url.Action("InsertOrUpdate","TestSchedule")" class="btn waves-effect waves-light btn-Custom btn-primary"> Add New</a>
                     </div>
                 </div>
 
@@ -43,22 +43,23 @@
                     </div>
 
                     <div style="display: flex; align-items: center;">
-                        Search: <input type="search" class="form-control form-control-sm txtSearchCandidate" placeholder="" style="margin:0 0 0 0.3rem">
+                        Search: <input type="search" class="form-control form-control-sm txtSearch" placeholder="" style="margin:0 0 0 0.3rem">
                     </div>
                 </div>
                 <div class="table-responsive mt-4">
-                    <table class="table table-hover" id="tableCandidate">
+                    <table class="table table-hover" id="tableTestSchedule">
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
-                                <th scope="col">Image</th>
-                                <th scope="col">Username</th>
-                                <th scope="col">Display Name</th>
-                                <th scope="col">Email</th>
+                                <th scope="col">Candidate Name</th>
+                                <th scope="col">Test Start Schedule</th>
+                                <th scope="col">Test End Schedule</th>
+                                <th scope="col">Total Mark</th>
+                                <th scope="col">Status</th>
                                 <th scope="col" class="text-center">Action</th>
                             </tr>
                         </thead>
-                        <tbody id="tblDataCandidate">
+                        <tbody id="tblDataTestSchedule">
                         </tbody>
                     </table>
                 </div>
@@ -70,10 +71,8 @@
 </div>
 
 @Html.Partial("_ModalDelete")
-@Html.Partial("_ModalDetailCandidate")
-
 
 @section Scripts{
     <script src="/Scripts/jquery.twbsPagination.min.js"></script>
-    <script src="/Scripts/plugins/CandidateJsController.js"></script>
+    <script src="/Scripts/plugins/TestScheduleJsController.js"></script>
 }

@@ -206,9 +206,12 @@
     <Compile Include="Areas\Admin\Controllers\BaseController.cs" />
     <Compile Include="Areas\Admin\Controllers\CandidateController.cs" />
     <Compile Include="Areas\Admin\Controllers\CategoryExamController.cs" />
+    <Compile Include="Areas\Admin\Controllers\TestScheduleController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomesController.cs" />
     <Compile Include="Areas\Admin\Controllers\MenusController.cs" />
     <Compile Include="Areas\Admin\Controllers\QuestionController.cs" />
+    <Compile Include="Areas\Admin\Data\Model\HisToryTests\HisToryTestInsertOrUpdateModel.cs" />
+    <Compile Include="Areas\Admin\Data\Model\HisToryTests\HistoryTestViewModel.cs" />
     <Compile Include="Areas\Admin\Data\Model\Pagings\PagingModel.cs" />
     <Compile Include="Areas\Admin\Data\Model\User\LoginRequest.cs" />
     <Compile Include="Controllers\AuthFrontendController.cs" />
@@ -216,6 +219,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MenuController.cs" />
     <Compile Include="CustomCKFinderAuthenticator.cs" />
+    <Compile Include="Enums\EnumStatusHistoryTest.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -1656,6 +1660,8 @@
     <Content Include="Areas\Admin\Views\Account\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Question\InsertOrUpdate1.cshtml" />
     <Content Include="Areas\Admin\Views\Question\InsertOrUpdate.cshtml" />
+    <Content Include="Areas\Admin\Views\TestSchedule\InsertOrUpdate.cshtml" />
+    <Content Include="Areas\Admin\Views\TestSchedule\Index.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -1670,6 +1676,7 @@
     <Content Include="Scripts\mustache.min.js" />
     <Content Include="Scripts\plugins\CategoryExamJsController.js" />
     <Content Include="Scripts\plugins\changePassAdmin.js" />
+    <Content Include="Scripts\plugins\TestScheduleJsController.js" />
     <Content Include="Scripts\sweetalert2.all.min.js" />
     <Content Include="Scripts\toastr.js" />
     <Content Include="Scripts\toastr.min.js" />

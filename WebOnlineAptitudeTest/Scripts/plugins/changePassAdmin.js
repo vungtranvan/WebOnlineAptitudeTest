@@ -32,12 +32,12 @@
         });
 
         $('#btnChangePassword').off('click').on('click', function (e) {
-            e.preventDefault = false;
+            e.preventDefault();
             $('#changePassModal').modal('show');
         });
 
         $('.btnSaveChangePass').off('click').on('click', function (e) {
-            e.preventDefault = false;
+            e.preventDefault();
             if ($("#FormChangePass").valid()) {
                 var userName = $('#userNameAdmin').val();
                 var passOld = $('#passOld').val();
@@ -47,7 +47,7 @@
             }
         });
         $('.btnCancleChangePass').off('click').on('click', function (e) {
-            e.preventDefault = false;
+            e.preventDefault();
             $('#changePassModal').modal('hide');
         });
     },
