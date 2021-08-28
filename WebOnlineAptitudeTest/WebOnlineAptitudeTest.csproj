@@ -1446,6 +1446,7 @@
     <Content Include="Content\default-avatar.jpg" />
     <Content Include="Content\SiteBackend.css" />
     <Content Include="Scripts\jquery.twbsPagination.min.js" />
+    <Content Include="Scripts\plugins\AdminJsController.js" />
     <Content Include="Scripts\plugins\CandidateJsController.js" />
     <Content Include="Content\assets\backend\dist\js\config-toastrJs.js" />
     <Content Include="Content\bootstrap-theme.css" />
@@ -1653,6 +1654,8 @@
     <Content Include="Areas\Admin\Views\CategoryExam\Index.cshtml" />
     <Content Include="Areas\Admin\Views\CategoryExam\_ModalEditCategoryExam.cshtml" />
     <Content Include="Areas\Admin\Views\Account\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Account\InsertOrUpdate.cshtml" />
+    <Content Include="Areas\Admin\Views\Account\_ModalDetailsAccount.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -1667,6 +1670,7 @@
     <Content Include="Scripts\mustache.min.js" />
     <Content Include="Scripts\plugins\CategoryExamJsController.js" />
     <Content Include="Scripts\plugins\changePassAdmin.js" />
+    <Content Include="Scripts\plugins\IndexJsController.js" />
     <Content Include="Scripts\sweetalert2.all.min.js" />
     <Content Include="Scripts\toastr.js" />
     <Content Include="Scripts\toastr.min.js" />

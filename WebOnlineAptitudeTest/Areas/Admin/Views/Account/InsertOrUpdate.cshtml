@@ -1,8 +1,7 @@
-﻿
-@model WebOnlineAptitudeTest.Models.Entities.Admin
+﻿@model WebOnlineAptitudeTest.Models.Entities.Admin
 
 @{
-    ViewBag.Title = (Model == null ? "Add New Admin" : "Admin Edit");
+    ViewBag.Title = (Model == null ? "Add New Account" : "Account Edit");
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
     var checkRdMale = Model == null ? "checked" : (Model.Sex == true ? "checked" : "");
     var checkRdFeMale = Model == null ? "" : (Model.Sex != true ? "checked" : "");
@@ -12,13 +11,13 @@
     <div class="page-breadcrumb">
         <div class="row">
             <div class="col-7 align-self-center">
-                <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">@(Model == null ? "Add New Admin" : "Admin Edit")</h3>
+                <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">@(Model == null ? "Add New Account" : "Account Edit")</h3>
                 <div class="d-flex align-items-center">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb m-0 p-0">
                             <li class="breadcrumb-item"><a href="/admin" class="text-muted">Home</a></li>
-                            <li class="breadcrumb-item text-muted active" aria-current="page"><a href="/Admin/Candidate" class="text-muted">Admin</a></li>
-                            <li class="breadcrumb-item text-muted active" aria-current="page">@(Model == null ? "Add New Admin" : "Admin Edit")</li>
+                            <li class="breadcrumb-item text-muted active" aria-current="page"><a href="/Admin/Account" class="text-muted">Account</a></li>
+                            <li class="breadcrumb-item text-muted active" aria-current="page">@(Model == null ? "Add New Account" : "Account Edit")</li>
                         </ol>
                     </nav>
                 </div>
@@ -36,6 +35,15 @@
                 {
                     @Html.AntiForgeryToken()
 
+                    if (Model == null)
+                    {
+                        <input type="hidden" name="Id" value="0" />
+                    }
+                    else
+                    {
+                        @Html.HiddenFor(model => model.Id)
+                    }
+
                     <div class="form-group">
 
                         @Html.LabelFor(model => model.UserName, new { @class = "text-dark" })
@@ -44,12 +52,10 @@
                     </div>
 
                     <div class="form-group">
-
                         @Html.LabelFor(model => model.DisplayName, new { @class = "text-dark" })
                         @Html.TextBoxFor(model => model.DisplayName, new { @class = "form-control", placeholder = "InserText", @type = "text" })
-                        @Html.ValidationMessageFor(model => model.UserName, null, new { @class = "text-danger" })
+                        @Html.ValidationMessageFor(model => model.DisplayName, null, new { @class = "text-danger" })
                     </div>
-
                     <div class="form-group">
                         @Html.LabelFor(model => model.Email, new { @class = "text-dark" })
                         @Html.TextBoxFor(model => model.Email, new { @class = "form-control", placeholder = "InserText", @type = "text" })
@@ -71,6 +77,7 @@
                             @Html.ValidationMessageFor(model => model.Image, null, new { @class = "text-danger" })
                         </div>
                     </div>
+
 
                     <div class="form-group">
                         @Html.LabelFor(model => model.Password, new { @class = "text-dark" })
