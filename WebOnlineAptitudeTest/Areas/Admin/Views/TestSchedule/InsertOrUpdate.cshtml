@@ -1,0 +1,140 @@
+﻿@model WebOnlineAptitudeTest.Areas.Admin.Data.Model.HisToryTests.HisToryTestInsertOrUpdateModel
+
+@{
+    ViewBag.Title = (Model == null ? "Add New Test Schedule" : " Test Schedule Edit");
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@section Breadcrumb{
+    <div class="page-breadcrumb">
+        <div class="row">
+            <div class="col-7 align-self-center">
+                <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">@(Model == null ? "Add New Test Schedule" : "Test Schedule Edit")</h3>
+                <div class="d-flex align-items-center">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb m-0 p-0">
+                            <li class="breadcrumb-item"><a href="/admin" class="text-muted">Home</a></li>
+                            <li class="breadcrumb-item text-muted active" aria-current="page"><a href="/Admin/TestSchedule" class="text-muted">Test Schedule</a></li>
+                            <li class="breadcrumb-item text-muted active" aria-current="page">@(Model == null ? "Add New Test Schedule" : "Test Schedule Edit")</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+
+                    if (Model == null)
+                    {
+                        <input type="hidden" name="TypeAction" value="0" />
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.CandidateId, "CandidateId", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.DropDownList("CandidateId", null, htmlAttributes: new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.CandidateId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        @Html.HiddenFor(model => model.TypeAction)
+                    }
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.TimeTest, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            <div class="checkbox">
+                                @Html.EditorFor(model => model.TimeTest)
+                                @Html.ValidationMessageFor(model => model.TimeTest, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+
+                    if (Model == null)
+                    {
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.TestStartSchedule, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.TextBox("TestStartSchedule", null, new { type = "datetime-local", @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.TestStartSchedule, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.TestEndSchedule, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.TextBox("TestEndSchedule", null, new { type = "datetime-local", @class = "form-control", @readonly = "" })
+                                @Html.ValidationMessageFor(model => model.TestEndSchedule, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.TestStartSchedule, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.TextBox("TestStartSchedule", Model.TestStartSchedule.ToString("yyyy-MM-dd HH:mm:ss").Replace(' ', 'T'), new { type = "datetime-local", @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.TestStartSchedule, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.TestEndSchedule, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.TextBox("TestEndSchedule", Model.TestEndSchedule.ToString("yyyy-MM-dd HH:mm:ss").Replace(' ', 'T'), new { type = "datetime-local", @class = "form-control", @readonly = "" })
+                                @Html.ValidationMessageFor(model => model.TestEndSchedule, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    }
+
+                    <div class="text-right mt-5">
+                        <a href="@Url.Action("Index", "TestSchedule")" class=" btn waves-effect btn-Custom waves-light btn-danger">Cancel</a>
+                        <button type="submit" class="btn waves-effect btn-Custom waves-light btn-primary">Save Change</button>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script>
+
+        $(document).ready(function () {
+            var startDateObj = document.getElementById('TestStartSchedule');
+
+            startDateObj.onblur = function () {
+                var timeTest = $('#TimeTest').val();
+                var timeTestStartDate = $(this).val();
+
+                if (timeTest > 0 && timeTestStartDate != null) {
+                    setDateTimeToTestEndSchedule(timeTestStartDate, timeTest);
+                }
+            };
+
+            $('#TimeTest').off('input').on('input', function () {
+                var timeTest = $(this).val();
+                var timeTestStartDate = $('#TestStartSchedule').val();
+
+                if (timeTest > 0 && timeTestStartDate != null) {
+                    setDateTimeToTestEndSchedule(timeTestStartDate, timeTest);
+                }
+            });
+        });
+
+        function setDateTimeToTestEndSchedule(valDate, valMinutes) {
+            var d = new Date(valDate);
+            d.setMinutes(d.getMinutes() + valMinutes * 3);
+            $('#TestEndSchedule').val(new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().substring(0, 19));
+        }
+    </script>
+}

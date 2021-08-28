@@ -1,0 +1,257 @@
+﻿@model WebOnlineAptitudeTest.Models.Entities.Question
+
+@{
+    ViewBag.Title = "InsertOrUpdate";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@section Styles {
+    <style>
+        .note-editor .note-editable p {
+            margin: 0;
+        }
+        .cursor-pointer {
+            cursor: pointer;
+        }
+          
+    </style>
+}
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <div class="">
+        @Html.LabelFor(model => model.CategoryExamId, "question.CategoryExamId", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="">
+            @Html.DropDownList("CategoryExamId", (SelectList)ViewBag.CategoryExamId, htmlAttributes: new { @class = "form-control" ,Name = "question.CategoryExamId" })
+            @Html.ValidationMessageFor(model => model.CategoryExamId, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.Id)
+
+  
+
+    <div class="form-group">
+        <div class="card">
+            <div class="card-body question-content">
+                <div class="card-title d-flex">
+                    @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label" })
+
+                    <div class="d-flex" style="">
+                        <div class="pl-2 pr-2 box">
+                            @Html.EditorFor(model => model.Mark, new { htmlAttributes = new { @class = "form-control", Name = "question.Mark" } })
+                            @Html.ValidationMessageFor(model => model.Mark, "", new { @class = "text-danger", data_valmsg_for = "question.Mark" })
+                        </div>
+                    </div>
+                    @Html.LabelFor(model => model.Mark, htmlAttributes: new { @class = "control-label" })
+                    <div class="question-enable ml-auto">
+                        <label class="switch">
+                            <input type="checkbox" name="question.Status" value="true" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="">
+                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control question summernote", Name = "question.Name", @id = "question" } })
+                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="card">
+            <div class="card-body">
+                <div class="anwser">
+                    <div class="anwser-content anwser-first">
+                        <input type="number" name="question.Answers[0].AnswerInQuestion" class="AnswerInQuestion" hidden value="1" />
+
+                        <div class="answer-tool d-flex mb-2">
+                            <div class="card-title ">
+                                @Html.LabelFor(model => model.Answers.FirstOrDefault().Name, htmlAttributes: new { @class = "control-label" }) 
+                                <span>1</span>
+                            </div>
+                            <div class="anwser-correct-check">
+                                <div class="custom-control custom-checkbox cursor-pointer">
+                                    <input type="checkbox" class="custom-control-input anwser-correct" value="true" name="question.Answers[0].Correct" id="anwser_correct_1">
+                                    <label class="custom-control-label anwser-correct-label  cursor-pointer" for="anwser_correct_1">
+                                        <span> is Correct</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="remove-answer ml-auto">
+                                <button class="btn btn-rounded btn-danger btn-sm" type="button">Remove answer</button>
+                            </div>
+                        </div>
+
+                        <div class="">
+                            <textarea class="form-control summernote text-box multi-line" name="question.Answers[0].Name"></textarea>
+                            @Html.ValidationMessageFor(model => model.Answers.FirstOrDefault().Name, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <button class="btn btn-warning" id="add_more" type="button"> Add more answer.... </button>
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Save" class="btn btn-default" />
+        </div>
+    </div>
+
+</div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    <script>
+        let anwserCount = 1;
+
+
+
+        $(document).ready(function () {
+
+
+
+
+            let answerTarget = $(".anwser-content").clone();
+    
+
+            //answerTarget = $($.parseHTML(answerTarget));
+
+    
+
+            //answerCloneFirst = answerTarget.clone();
+            //answerCloneFirst.appendTo(".anwser");
+
+
+            $('.summernote').summernote({
+                placeholder: 'Enter content....',
+                tabsize: 2,
+                height: 100,
+                minHeight: 100,
+                focus: true,
+                toolbar: [
+                    ['style', ['bold', 'italic', 'underline', 'clear']],
+                    ['fontsize', ['fontsize']]
+                ]
+            });
+
+            $(".note-codable").attr("disabled", "disabled");
+
+
+
+
+
+            $("#add_more").on("click", function () {
+                anwserCount = $(".anwser-content").length;
+                anwserCount += 1;
+
+                let anwserClone = answerTarget.clone();
+
+
+                anwserClone.find(".summernote").summernote({
+                    placeholder: 'Enter content....',
+                    tabsize: 2,
+                    height: 100,
+                    minHeight: 100,
+                    focus: true,
+                    toolbar: [
+                        ['style', ['bold', 'italic', 'underline', 'clear']],
+                        ['fontsize', ['fontsize']]
+                    ]
+                });
+
+                changeControl(anwserClone, anwserCount);
+
+                anwserClone.appendTo(".anwser").show();
+
+                //$(".anwser").append(anwserClone).fadeIn();
+
+                $("html, body").animate({
+                    scrollTop: $(
+                        'html, body').get(0).scrollHeight
+                }, 700);
+
+
+            });
+
+            $(".anwser").on("click",".remove-answer", function () {
+
+                var answer = $(this).closest(".anwser-content");
+
+                answer.css("animation", ".5s ease-out 0s 1 slideInFromRight");
+               ;
+
+
+                setTimeout(function () { answer.css("animation", ".2s ease-out 0s 1 heightToZero")}, 500);
+
+                setTimeout(function () {
+                    answer.remove();
+                    $(".anwser-content").each(function (index, element) {
+                        changeControl($(element), index + 1);
+                        console.log(index)
+                    });
+                }, 700);
+
+            
+
+                return false;
+
+
+            });
+
+
+            $("form").submit(function () {
+                // Let's find the input to check
+                var $textarea = $(this).find("textarea");
+
+
+                $textarea.each(function (index) {
+                    $(this).val(htmlencode($(this).val()));
+                });
+
+            });
+
+
+
+            function htmlencode(str) {
+                return str.replace(/[&<>"']/g, function ($0) {
+                    return "&" + { "&": "amp", "<": "lt", ">": "gt", '"': "quot", "'": "#39" }[$0] + ";";
+                });
+            }
+
+            function changeControl(element, count) {
+
+                element.find(".card-title").find("span").html(count);
+
+                element.find(".summernote.text-box").attr("name", "question.Answers[" + (count - 1) + "].Name");
+                element.find(".anwser-correct").attr("name", "question.Answers[" + (count - 1) + "].Correct");
+                element.find(".AnswerInQuestion").attr("name", "question.Answers[" + (count - 1) + "].AnswerInQuestion");
+                element.find(".AnswerInQuestion").attr("value", count);
+                element.find(".anwser-correct").attr("id", "anwser_correct_" + count);
+                element.find(".anwser-correct-label").attr("for", "anwser_correct_" + count);
+                element.find(".note-codable").attr("disabled", "disabled");
+                element.css("animation", ".5s ease-out 0s 1 slideInFromLeft");
+            }
+
+
+
+        });
+    </script>
+}

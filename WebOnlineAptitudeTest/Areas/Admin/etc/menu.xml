@@ -11,18 +11,25 @@
       <add title="List" action="Index" controller="Candidate"/>
       <add title="Add New" action="InsertOrUpdate" controller="Candidate" />
     </menu>
-    <menu title="Category Exam" action="Index" controller="CategoryExam" icon="bar-chart" />
+
 
   </section>
-  
-  
-  <section title="TEST">
-    
-    <menu title="abc" action="index" controller="def" icon="sidebar" />
 
-    <menu title="Account Admin" icon="bar-chart">
-      <add title="List" action="Index" controller="Account"/>
-      <add title="Add New" action="InsertOrUpdate" controller="Account" />
+
+
+  <section title="TEST">
+
+    <menu title="Category Exam" action="Index" controller="CategoryExam" icon="bar-chart" />
+
+
+    <menu title="Question" icon="bar-chart">
+      <add title="List" action="Index" controller="Question"/>
+      <add title="Add New" action="InsertOrUpdate" controller="Question" />
+    </menu>
+
+    <menu title="Test Schedule" icon="bar-chart">
+      <add title="List" action="Index" controller="TestSchedule"/>
+      <add title="Add New" action="InsertOrUpdate" controller="TestSchedule" />
     </menu>
 
   </section>

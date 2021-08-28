@@ -18,11 +18,15 @@ namespace WebOnlineAptitudeTest.Models.Entities
         public int Id { get; set; }
 
         [Required]
-        [StringLength(50)]
+        [StringLength(225)]
+        [Display(Name="Question")]
+        [DataType(DataType.MultilineText)]
         public string Name { get; set; }
 
         public int CategoryExamId { get; set; }
 
+        [RegularExpression(@"(1|2|3|4|5){1}$",
+     ErrorMessage = "only allowed 1 - 5")]
         public double Mark { get; set; }
 
         public DateTime? UpdatedDate { get; set; }
@@ -33,7 +37,7 @@ namespace WebOnlineAptitudeTest.Models.Entities
 
         public bool? Deleted { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        //[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Answer> Answers { get; set; }
 
         public virtual CategoryExam CategoryExam { get; set; }

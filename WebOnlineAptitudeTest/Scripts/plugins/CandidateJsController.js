@@ -3,34 +3,35 @@
     pageIndex: 1
 }
 
-var cadiController = {
+var candiController = {
     init: function () {
-        cadiController.loadData();
+        candiController.loadData();
     },
     registerEvents: function () {
         $('.txtSearchCandidate').off('input').on('input', function () {
-            cadiController.loadData(true);
+            candiController.loadData(true);
         });
 
         $('.pageSizeItem').off('change').on('change', function () {
             candidateConfig.pageSize = $(this).val();
-            cadiController.loadData(true);
+            candiController.loadData(true);
         });
 
         $('.btnDelete').off('click').on('click', function (e) {
-            e.preventDefault = false;
+            e.preventDefault();
             $('#id-item').text($(this).data('id'));
             $('#modal-delete').modal('show');
         });
 
         $('.Save-Delete').off('click').on('click', function (e) {
+            e.preventDefault();
             var id = $('#id-item').text();
-            cadiController.deleteCandidate(id);
+            candiController.deleteCandidate(id);
             $('#modal-delete').modal('hide');
         });
         $('.btnDetail').off('click').on('click', function (e) {
-            e.preventDefault = false;
-            cadiController.getDetailCandidate($(this).data('id'));
+            e.preventDefault();
+            candiController.getDetailCandidate($(this).data('id'));
             $('#modal-detailCadidate').modal('show');
         });
 
@@ -43,7 +44,7 @@ var cadiController = {
             dataType: 'json',
             success: function (response) {
                 if (response.status == true) {
-                    cadiController.loadData(true);
+                    candiController.loadData(true);
                     toastr.success(response.message, response.title);
                 } else {
                     toastr.error(response.message, response.title);
@@ -68,14 +69,14 @@ var cadiController = {
 
                     $('#textDisplayName').html(data.Name);
                     $('#textEmail').html(data.Email);
-                    $('#textBirthday').html(data.Birthday == null ? `&emsp;` : cadiController.formatDate(data.Birthday));
+                    $('#textBirthday').html(data.Birthday == null ? `&emsp;` : candiController.formatDate(data.Birthday));
                     $('#textAddress').html(data.Address == null ? `&emsp;` : data.Address);
                     $('#textPhone').html(data.Phone == null ? `&emsp;` : data.Phone);
                     $('#textEducation').html(data.Education == null ? `&emsp;` : data.Education);
-                    $('#textWorkExperience').html(data.WorkExperience == null ? `&emsp;` : data.WorkExperience );
+                    $('#textWorkExperience').html(data.WorkExperience == null ? `&emsp;` : data.WorkExperience);
                     $('#textSex').html(data.Sex == true ? 'Male' : 'FeMale');
-                    $('#textCreatedDate').html(data.CreatedDate == null ? `&emsp;` : cadiController.formatDate(data.CreatedDate));
-                    $('#textLastUpdatedDate').html(data.UpdatedDate == null ? `&emsp;` : cadiController.formatDate(data.UpdatedDate));
+                    $('#textCreatedDate').html(data.CreatedDate == null ? `&emsp;` : candiController.formatDate(data.CreatedDate));
+                    $('#textLastUpdatedDate').html(data.UpdatedDate == null ? `&emsp;` : candiController.formatDate(data.UpdatedDate));
 
                     //$('#textSex').val(data.CategoryId).attr("selected", "selected");
                     //if (data.Status == true) {
@@ -107,20 +108,24 @@ var cadiController = {
                 if (response.status == true) {
                     var data = response.data;
                     var html = '';
-                    var template = $('#data-template').html();
                     $.each(data, function (i, item) {
-                        html += Mustache.render(template, {
-                            STT: i + 1,
-                            Id: item.Id,
-                            Image: item.Image,
-                            UserName: item.UserName,
-                            Name: item.Name,
-                            Email: item.Email
-                            //CreatedDate: item.CreatedDate == null ? "" : cadiController.formatDate((item.CreatedDate)),
-                            //UpdatedDate: item.UpdatedDate == null ? "" : cadiController.formatDate(item.UpdatedDate)
-                        });
+                        html +=
+                            `<tr class="intro-x">
+                                <td scope="col">${i+1}</td>
+                                <td><img src="${item.Image}" style="width:30px" alt="" /></td>
+                                <td>${item.UserName}</td>
+                                <td>${item.Name}</td>
+                                <td>${item.Email}</td>
+                                <td class="FlexIconAction">
+                                        <a class="flex items-center text-theme-6 btnDetail" href="#" data-id="${item.Id}"> <i class="fas fa-search-plus"></i> Details </a>
+                                        <a class="flex items-center mr-3" href="/Admin/Candidate/InsertOrUpdate/${item.Id}"> <i class="fas fa-edit"></i> Edit </a>
+                                        <a class="flex items-center text-theme-6 btnDelete" href="#" data-id="${item.Id}"> <i class="fas fa-trash-alt"></i> Delete </a>
+                                </td>
+                             </tr>`;
                     });
+
                     $('#tblDataCandidate').html(html);
+
                     if (response.data.length == 0) {
                         $('#tableCandidate').hide();
                         $('.textEmpty').show();
@@ -128,10 +133,10 @@ var cadiController = {
                         $('.textEmpty').hide();
                         $('#tableCandidate').show();
                     }
-                    cadiController.pagination(response.totalRow, function () {
-                        cadiController.loadData();
+                    candiController.pagination(response.totalRow, function () {
+                        candiController.loadData();
                     }, changePageSize);
-                    cadiController.registerEvents();
+                    candiController.registerEvents();
 
                 }
             }
@@ -154,7 +159,6 @@ var cadiController = {
     pagination: function (totalRow, callback, changePageSize) {
         var totalPage = Math.ceil(totalRow / candidateConfig.pageSize);
 
-        //Unbind pagination if it existed or click change pageSize
         if ($('#pagination').length === 0 || changePageSize === true) {
             $('#pagination').empty();
             $('#pagination').removeData('twbs-pagination');
@@ -176,4 +180,4 @@ var cadiController = {
     }
 }
 
-cadiController.init();
+candiController.init();
