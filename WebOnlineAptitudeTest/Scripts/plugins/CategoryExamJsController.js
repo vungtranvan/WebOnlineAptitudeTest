@@ -13,18 +13,18 @@
         });
 
         $('.btnUpdate').off('click').on('click', function (e) {
-            e.preventDefault = false;
+            e.preventDefault();
             categoryExamController.getDetailCategoryExam($(this).data('id'));
             $('#modal-updateCateExam').modal('show');
         });
 
         $('.btnCancleCateExam').off('click').on('click', function (e) {
-            e.preventDefault = false;
+            e.preventDefault();
             $('#modal-updateCateExam').modal('hide');
         });
 
         $('.btnUpdateCateExam').off('click').on('click', function (e) {
-            e.preventDefault = false;
+            e.preventDefault();
             if ($("#FormUpdateCategoryExam").valid()) {
                 var id = $('#textIdCateExam').val();
                 var name = $('#textNameCateExam').val();
@@ -79,17 +79,20 @@
                 if (response.status == true) {
                     var data = response.data;
                     var html = '';
-                    var template = $('#data-template').html();
                    
                     $.each(data, function (i, item) {
-                        html += Mustache.render(template, {
-                            STT: i + 1,
-                            Id: item.Id,
-                            Name: item.Name,
-                        });
+                        html +=
+                                `<tr class="intro-x">
+                                    <td>${i+1}</td>
+                                    <td>${item.Name}</td>
+                                    <td class="FlexIconAction">
+                                        <a class="flex items-center text-theme-6 btnUpdate" href="#" data-id="${item.Id}"> <i class="fas fa-edit"></i> Edit </a>
+                                    </td>
+                                 </tr>`;
                     });
 
                     $('#tblDataCategoryExam').html(html);
+
                     if (response.data.length == 0) {
                         $('#tableCategoryExam').hide();
                         $('.textEmpty').show();

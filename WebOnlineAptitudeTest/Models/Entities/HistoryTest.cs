@@ -17,11 +17,11 @@ namespace WebOnlineAptitudeTest.Models.Entities
 
         public int Id { get; set; }
 
-        public int CandidateId { get; set; }
-
         public int CategoryExamId { get; set; }
 
-        public double TotalMark { get; set; }
+        public int CandidateId { get; set; }
+
+        public int TimeTest { get; set; }
 
         public DateTime TestStartSchedule { get; set; }
 
@@ -31,6 +31,8 @@ namespace WebOnlineAptitudeTest.Models.Entities
 
         public DateTime? DateEndTest { get; set; }
 
+        public double? TotalMark { get; set; }
+
         public int? Status { get; set; }
 
         public bool? Deleted { get; set; }
@@ -39,7 +41,6 @@ namespace WebOnlineAptitudeTest.Models.Entities
 
         public virtual CategoryExam CategoryExam { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<HistoryTestDetail> HistoryTestDetails { get; set; }
     }
 }

@@ -28,7 +28,9 @@ namespace WebOnlineAptitudeTest.Models.Entities
         [StringLength(50, ErrorMessage = "This field max length is 50")]
         public string Name { get; set; }
 
+        [Required(ErrorMessage = "This field is required")]
         [StringLength(50, ErrorMessage = "This field max length is 50")]
+        [RegularExpression(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$", ErrorMessage = "Email is not formatted")]
         public string Email { get; set; }
 
         public string Image { get; set; }

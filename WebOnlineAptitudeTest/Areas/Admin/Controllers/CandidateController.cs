@@ -12,10 +12,12 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
     public class CandidateController : BaseController
     {
         private readonly ICandidateRepository _candidateRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public CandidateController(ICandidateRepository candidateRepository)
+        public CandidateController(ICandidateRepository candidateRepository, IUnitOfWork unitOfWork)
         {
             _candidateRepository = candidateRepository;
+            _unitOfWork = unitOfWork;
         }
 
         #region Acction
@@ -29,6 +31,7 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
         [HttpGet]
         public JsonResult LoadData(string keyword, int page, int pageSize = 3)
         {
+            _unitOfWork.DbContext.Configuration.ProxyCreationEnabled = false;
             var result = _candidateRepository.GetData(keyword, page, pageSize);
 
             return Json(new
@@ -42,6 +45,7 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
         [HttpGet]
         public JsonResult Details(int id)
         {
+            _unitOfWork.DbContext.Configuration.ProxyCreationEnabled = false;
             var candidate = _candidateRepository.GetSingleById(id);
 
             if (candidate == null)
