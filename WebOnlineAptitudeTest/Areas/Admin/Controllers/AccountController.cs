@@ -10,11 +10,12 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
 {
     public class AccountController : BaseController
     {
-        // chuc nang search đau
         private readonly IAdminRepository _adminRepository;
-        public AccountController(IAdminRepository adminRepository)
+        private readonly IUnitOfWork _unitOfWork;
+        public AccountController(IAdminRepository adminRepository, IUnitOfWork unitOfWork)
         {
             _adminRepository = adminRepository;
+            _unitOfWork = unitOfWork;
         }
         
         public ActionResult Index()
@@ -25,6 +26,7 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
 
         public JsonResult LoadData(string keyword, int page, int pageSize)
         {
+            _unitOfWork.DbContext.Configuration.ProxyCreationEnabled = false;
             var result = _adminRepository.GetData(keyword, page, pageSize);
 
             return Json(new
@@ -58,6 +60,7 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
 
         public JsonResult Details(int id)
         {
+            _unitOfWork.DbContext.Configuration.ProxyCreationEnabled = false;
             var acc = _adminRepository.GetSingleById(id);
 
             if (acc == null)
@@ -176,6 +179,7 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
         [HttpGet]
         public JsonResult Locked(int id)
         {
+            _unitOfWork.DbContext.Configuration.ProxyCreationEnabled = false;
             var title = "Notification";
             var account = _adminRepository.Locked(id);
 

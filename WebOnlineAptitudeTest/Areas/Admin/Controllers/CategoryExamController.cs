@@ -29,11 +29,12 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
         [HttpGet]
         public JsonResult LoadData()
         {
-            var result = _categoryExamRepository.Get();
+            _unitOfWork.DbContext.Configuration.ProxyCreationEnabled = false;
+            var data = _categoryExamRepository.Get().ToList();
 
             return Json(new
             {
-                data = result,
+                data = data,
                 status = true
             }, JsonRequestBehavior.AllowGet);
         }
@@ -41,6 +42,7 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult Details(int id)
         {
+            _unitOfWork.DbContext.Configuration.ProxyCreationEnabled = false;
             var result = _categoryExamRepository.GetSingleById(id);
 
             return Json(new

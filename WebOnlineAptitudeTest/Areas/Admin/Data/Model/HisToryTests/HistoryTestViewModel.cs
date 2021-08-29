@@ -11,7 +11,6 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Data.Model.HisToryTests
         public string CandidateName { get; set; }
         public DateTime? TestStartSchedule { get; set; }
         public DateTime TestEndSchedule { get; set; }
-        public double? TotalMark { get; set; }
         public int? Status { get; set; }
     }
 }

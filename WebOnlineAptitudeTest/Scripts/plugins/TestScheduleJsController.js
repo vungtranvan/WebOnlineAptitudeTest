@@ -63,14 +63,23 @@ var testScheduleController = {
                     var data = response.data;
                     var html = '';
                     $.each(data, function (i, item) {
+
+                        var status = 'Undone';
+                        if (item.Status == 1) {
+                            status = 'InProgress';
+                        } else if (item.Status == 2) {
+                            status = 'Done';
+                        } else if (item.Status == 3) {
+                            status = 'Quit';
+                        }
+
                         html +=
                             `<tr class="intro-x">
                                 <td scope="col">${i + 1}</td>
                                 <td>${item.CandidateName}</td>
                                 <td>${testScheduleController.formatDate(item.TestStartSchedule)}</td>
                                 <td>${testScheduleController.formatDate(item.TestEndSchedule)}</td>
-                                <td>${item.TotalMark}</td>
-                                <td>${item.Status}</td>
+                                <td>${status}</td>
                                 <td class="FlexIconAction">
                                         <a class="flex items-center mr-3" href="/Admin/TestSchedule/InsertOrUpdate/${item.CandidateId}"> <i class="fas fa-edit"></i> Edit </a>
                                         <a class="flex items-center text-theme-6 btnDelete" href="#" data-id="${item.CandidateId}"> <i class="fas fa-trash-alt"></i> Delete </a>

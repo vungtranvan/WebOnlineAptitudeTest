@@ -8,19 +8,23 @@ using System.Web;
 using System.Web.Mvc;
 using WebOnlineAptitudeTest.Areas.Admin.Data.Model.HisToryTests;
 using WebOnlineAptitudeTest.Models.Entities;
+using WebOnlineAptitudeTest.Models.Infrastructure;
 using WebOnlineAptitudeTest.Models.Repositories;
 
 namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
 {
-    public class TestScheduleController : Controller
+    public class TestScheduleController : BaseController
     {
         private readonly IHistoryTestRepository _historyTestRepository;
         private readonly ICandidateRepository _candidateRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public TestScheduleController(IHistoryTestRepository historyTestRepository, ICandidateRepository candidateRepository)
+        public TestScheduleController(IHistoryTestRepository historyTestRepository,
+            ICandidateRepository candidateRepository, IUnitOfWork unitOfWork)
         {
             _historyTestRepository = historyTestRepository;
             _candidateRepository = candidateRepository;
+            _unitOfWork = unitOfWork;
         }
 
         [HttpGet]
@@ -34,6 +38,7 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
         [HttpGet]
         public JsonResult LoadData(string keyword, int page, int pageSize = 3)
         {
+            _unitOfWork.DbContext.Configuration.ProxyCreationEnabled = false;
             var result = _historyTestRepository.GetData(keyword, page, pageSize);
 
             return Json(new
