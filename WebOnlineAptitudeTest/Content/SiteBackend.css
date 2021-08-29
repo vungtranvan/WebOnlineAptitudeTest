@@ -145,7 +145,8 @@ input:checked + .slider:before {
     padding-left: 0;
 }
 
-.anwser .custom-control-label::after, .custom-control-label::before {
+.anwser .custom-control-label::after,
+.anwser .custom-control-label::before {
     width: 1.5rem;
     height: 1.5rem;
     left: 0;

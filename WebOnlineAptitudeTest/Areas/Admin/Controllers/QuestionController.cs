@@ -14,11 +14,16 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
     {
         private readonly IQuestionRepository _questionRepository;
         private readonly ICategoryExamRepository _categoryExamRepository;
+        private readonly IAnswerRepository _answerRepository;
 
-        public QuestionController(IQuestionRepository questionRepository, ICategoryExamRepository categoryExamRepository)
+        public QuestionController(IQuestionRepository questionRepository,
+            ICategoryExamRepository categoryExamRepository,
+            IAnswerRepository answerRepository)
         {
             _questionRepository = questionRepository;
             _categoryExamRepository = categoryExamRepository;
+            _answerRepository = answerRepository;
+
         }
         // GET: Admin/Question
         public ActionResult Index()
@@ -60,14 +65,23 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
 
                 var abc = errora;
 
-                return View();
             }
-            question.Id = id != null ? id.Value : 0;
-            this._questionRepository.InsertOrUpdate(question);
+            else
+            {
+                question.Id = id != null ? id.Value : 0;
 
+                this._questionRepository.InsertOrUpdate(question);
+
+                if (id != null)
+                {
+                    this._answerRepository.ChangeAnswer(question.Id, question.Answers);
+
+                }
+            }
 
             this.DropDownCategoryExam();
-            return View();
+            return RedirectToAction("InsertOrUpdate");
+
         }
 
         private void DropDownCategoryExam(int categoryExamId = 0)

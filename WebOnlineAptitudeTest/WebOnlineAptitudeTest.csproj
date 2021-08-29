@@ -243,6 +243,7 @@
     <Compile Include="Models\Repositories\CategoryExamRepository.cs" />
     <Compile Include="Models\Repositories\HistoryTestDetailRepository.cs" />
     <Compile Include="Models\Repositories\HistoryTestRepository.cs" />
+    <Compile Include="Models\Repositories\QuestionRepository - Copy.cs" />
     <Compile Include="Models\Repositories\QuestionRepository.cs" />
     <Compile Include="Models\Repositories\TransferRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -1654,8 +1655,8 @@
     <Content Include="Areas\Admin\Views\CategoryExam\Index.cshtml" />
     <Content Include="Areas\Admin\Views\CategoryExam\_ModalEditCategoryExam.cshtml" />
     <Content Include="Areas\Admin\Views\Account\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\Question\InsertOrUpdate1.cshtml" />
     <Content Include="Areas\Admin\Views\Question\InsertOrUpdate.cshtml" />
+    <Content Include="Areas\Admin\Views\Question\InsertOrUpdate - Copy.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />

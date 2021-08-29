@@ -3,8 +3,6 @@
 @{
     ViewBag.Title = "InsertOrUpdate";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
-
-
 }
 
 @section Styles {
@@ -47,99 +45,43 @@
                         <div class="d-flex" style="">
                             <div class="pl-2 pr-2 box">
                                 @Html.EditorFor(model => model.Mark, new { htmlAttributes = new { @class = "form-control", Name = "question.Mark" } })
-
                                 @Html.ValidationMessageFor(model => model.Mark, "", new { @class = "text-danger", data_valmsg_for = "question.Mark" })
                             </div>
                         </div>
                         @Html.LabelFor(model => model.Mark, htmlAttributes: new { @class = "control-label" })
                         <div class="question-enable ml-auto">
                             <label class="switch">
-
-                                @if (Model != null)
-                                {
-                                    <input type="checkbox" @(Model.Status == true ? "checked" : "" ) name="question.Status" value="true">
-                                }
-                                else
-                                {
-                                    <input type="checkbox" checked name="question.Status" value="true">
-                                }
-
+                                <input type="checkbox" name="question.Status" value="true" checked>
                                 <span class="slider"></span>
                             </label>
                         </div>
                     </div>
                     <div class="">
-               
-                        <div class="form-control question summernote" id="question">@if (Model != null)
-                            {
-                                @Html.Raw(HttpUtility.HtmlDecode(@Model.Name));
-                            }</div>
+                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control question summernote", Name = "question.Name", @id = "question" } })
+                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                    </div>
 
-                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                 </div>
-
             </div>
         </div>
-    </div>
-    <div class="form-group">
-        <div class="card">
-            <div class="card-body">
-                <div class="anwser">
-                    @if (Model == null || Model.Answers == null)
-                    {
-
-
-                        <div class="anwser-content anwser-first">
-                            <input type="number" name="question.Answers[0].AnswerInQuestion" class="AnswerInQuestion" hidden value="1" />
-
-                            <div class="answer-tool d-flex mb-2">
-                                <div class="card-title ">
-                                    @Html.LabelFor(model => model.Answers.FirstOrDefault().Name, htmlAttributes: new { @class = "control-label" })
-                                    <span>1</span>
-                                </div>
-                                <div class="anwser-correct-check">
-                                    <div class="custom-control custom-checkbox cursor-pointer">
-                                        <input type="checkbox" class="custom-control-input anwser-correct" value="true" name="question.Answers[0].Correct" id="anwser_correct_1">
-                                        <label class="custom-control-label anwser-correct-label  cursor-pointer" for="anwser_correct_1">
-                                            <span> is Correct</span>
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="remove-answer ml-auto">
-                                    <button class="btn btn-rounded btn-danger btn-sm" type="button">Remove answer</button>
-                                </div>
-                            </div>
-
-                            <div class="">
-                                <div class="form-control summernote text-box multi-line" name="question.Answers[0].Name"></div>
-                                @Html.ValidationMessageFor(model => model.Answers.FirstOrDefault().Name, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-
-
-                    }
-                    else
-                    {
-                        int i = 0;
-                        foreach (var aw in Model.Answers)
-                        {
-
+        @if (Model == null)
+        {
+            <div class="form-group">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="anwser">
                             <div class="anwser-content anwser-first">
-                                <input type="text" hidden value="@aw.Id" class="AnswerId" name="question.Answers[@i].Id" id="@aw.Id">
-                                <input type="number" name="question.Answers[@i].AnswerInQuestion" class="AnswerInQuestion" hidden value="@aw.AnswerInQuestion" />
-                                <span class="count-answer " hidden>@i</span>
-
+                                <input type="number" name="question.Answers[0].AnswerInQuestion" class="AnswerInQuestion" hidden value="1" />
 
                                 <div class="answer-tool d-flex mb-2">
                                     <div class="card-title ">
                                         @Html.LabelFor(model => model.Answers.FirstOrDefault().Name, htmlAttributes: new { @class = "control-label" })
-                                        <span>@aw.AnswerInQuestion</span>
+                                        <span>1</span>
                                     </div>
                                     <div class="anwser-correct-check">
                                         <div class="custom-control custom-checkbox cursor-pointer">
-                                            <input type="checkbox" @( aw.Correct == true ? "checked" : "" ) class="custom-control-input anwser-correct" value="true" name="question.Answers[@i].Correct" id="anwser_correct_@i">
-                                            <label class="custom-control-label anwser-correct-label  cursor-pointer" for="anwser_correct_@i">
+                                            <input type="checkbox" class="custom-control-input anwser-correct" value="true" name="question.Answers[0].Correct" id="anwser_correct_1">
+                                            <label class="custom-control-label anwser-correct-label  cursor-pointer" for="anwser_correct_1">
                                                 <span> is Correct</span>
                                             </label>
                                         </div>
@@ -150,29 +92,69 @@
                                 </div>
 
                                 <div class="">
-                                    <div class="form-control summernote text-box multi-line"> @Html.Raw(HttpUtility.HtmlDecode(aw.Name))</div>
+                                    <textarea class="form-control summernote text-box multi-line" name="question.Answers[0].Name"></textarea>
                                     @Html.ValidationMessageFor(model => model.Answers.FirstOrDefault().Name, "", new { @class = "text-danger" })
                                 </div>
                             </div>
-                            { i++; }
-                        }
-                    }
+                        </div>
+                        <button class="btn btn-warning" id="add_more" type="button"> Add more answer.... </button>
+                    </div>
+
                 </div>
-                <button class="btn btn-warning" id="add_more" type="button"> Add more answer.... </button>
-
             </div>
+        }
+        else
+        {
 
+            foreach (var aw in Model.Answers)
+            {
+                <div class="form-group">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="anwser">
+                                <div class="anwser-content anwser-first">
+                                    <input type="number" name="question.Answers[0].AnswerInQuestion" class="AnswerInQuestion" hidden value="1" />
+
+                                    <div class="answer-tool d-flex mb-2">
+                                        <div class="card-title ">
+                                            @Html.LabelFor(model => model.Answers.FirstOrDefault().Name, htmlAttributes: new { @class = "control-label" })
+                                            <span>1</span>
+                                        </div>
+                                        <div class="anwser-correct-check">
+                                            <div class="custom-control custom-checkbox cursor-pointer">
+                                                <input type="checkbox" class="custom-control-input anwser-correct" value="true" name="question.Answers[0].Correct" id="anwser_correct_1">
+                                                <label class="custom-control-label anwser-correct-label  cursor-pointer" for="anwser_correct_1">
+                                                    <span> is Correct</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="remove-answer ml-auto">
+                                            <button class="btn btn-rounded btn-danger btn-sm" type="button">Remove answer</button>
+                                        </div>
+                                    </div>
+
+                                    <div class="">
+                                        <textarea class="form-control summernote text-box multi-line" name="question.Answers[0].Name"></textarea>
+                                        @Html.ValidationMessageFor(model => model.Answers.FirstOrDefault().Name, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="btn btn-warning" id="add_more" type="button"> Add more answer.... </button>
+                        </div>
+
+                    </div>
+                </div>
+            }
+        }
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
         </div>
+
     </div>
-
-
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Save" class="btn btn-default" />
-        </div>
-    </div>
-
-</div>
 }
 
 <div>
@@ -181,8 +163,6 @@
 
 @section Scripts {
     <script>
-
-
         let anwserCount = 1;
 
 
@@ -192,9 +172,15 @@
 
 
 
-            let answerTarget = $(".anwser-content").first().clone();
-            answerTarget.find(".summernote").html('');
-            answerTarget.find(".AnswerId").val('0');
+            let answerTarget = $(".anwser-content").clone();
+
+
+            //answerTarget = $($.parseHTML(answerTarget));
+
+
+
+            //answerCloneFirst = answerTarget.clone();
+            //answerCloneFirst.appendTo(".anwser");
 
 
             $('.summernote').summernote({
@@ -209,17 +195,9 @@
                 ]
             });
 
-            //$(".note-codable").attr("disabled", "disabled");
+            $(".note-codable").attr("disabled", "disabled");
 
 
-
-
-            $(".question-content").find(".note-codable").attr("name", "question.Name");
-
-            $(".anwser-content").each(function (index, element) {
-                console.log(index);
-                $(element).find(".note-codable").attr("name", "question.Answers[" + index + "].Name");
-            });
 
 
 
@@ -229,7 +207,6 @@
 
                 let anwserClone = answerTarget.clone();
 
-                
 
                 anwserClone.find(".summernote").summernote({
                     placeholder: 'Enter content....',
@@ -247,7 +224,7 @@
 
                 anwserClone.appendTo(".anwser").show();
 
-
+                //$(".anwser").append(anwserClone).fadeIn();
 
                 $("html, body").animate({
                     scrollTop: $(
@@ -262,7 +239,7 @@
                 var answer = $(this).closest(".anwser-content");
 
                 answer.css("animation", ".5s ease-out 0s 1 slideInFromRight");
-                
+                ;
 
 
                 setTimeout(function () { answer.css("animation", ".2s ease-out 0s 1 heightToZero") }, 500);
@@ -271,8 +248,13 @@
                     answer.remove();
                     $(".anwser-content").each(function (index, element) {
                         changeControl($(element), index + 1);
+                        console.log(index)
                     });
                 }, 700);
+
+
+
+                return false;
 
 
             });
@@ -280,26 +262,12 @@
 
             $("form").submit(function () {
                 // Let's find the input to check
-                var $contents = $(this).find(".note-editable");
-                var $form = $(this);
+                var $textarea = $(this).find("textarea");
 
 
-
-                $contents.each(function (index) {
-
-                    $(this).find("script").remove();
-
-                    $noteHtml = $(this).html();
-
-                    $noteHtmlNoBreak = $noteHtml.replace(/(\r\n|\n|\r)/gm, "");
- 
-                    $(this).parent().find(".note-codable").val(htmlencode($noteHtmlNoBreak));
-
-                    console.log($(this).parent().find(".note-codable").val());
-
-
+                $textarea.each(function (index) {
+                    $(this).val(htmlencode($(this).val()));
                 });
-     
 
             });
 
@@ -315,24 +283,18 @@
 
                 element.find(".card-title").find("span").html(count);
 
-             /*   element.find(".summernote.text-box").attr("name", "question.Answers[" + (count - 1) + "].Name");*/
+                element.find(".summernote.text-box").attr("name", "question.Answers[" + (count - 1) + "].Name");
                 element.find(".anwser-correct").attr("name", "question.Answers[" + (count - 1) + "].Correct");
                 element.find(".AnswerInQuestion").attr("name", "question.Answers[" + (count - 1) + "].AnswerInQuestion");
-                element.find(".AnswerId").attr("name", "question.Answers[" + (count - 1) + "].Id");
-                element.find(".note-codable").attr("name", "question.Answers[" + (count - 1) + "].Name");
-
-
                 element.find(".AnswerInQuestion").attr("value", count);
                 element.find(".anwser-correct").attr("id", "anwser_correct_" + count);
                 element.find(".anwser-correct-label").attr("for", "anwser_correct_" + count);
-                //element.find(".note-codable").attr("disabled", "disabled");
+                element.find(".note-codable").attr("disabled", "disabled");
                 element.css("animation", ".5s ease-out 0s 1 slideInFromLeft");
             }
 
-     
+
 
         });
     </script>
-
-    @*<script>alert("aaaa")</script>*@
 }
