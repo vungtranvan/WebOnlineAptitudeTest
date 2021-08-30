@@ -81,6 +81,22 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult InsertOrUpdate(HisToryTestInsertOrUpdateModel historyTest)
         {
+            //validate data input
+            if (historyTest.TimeTest <= 0)
+                ModelState.AddModelError("TimeTest", "Time test must be bigger 0");
+
+            if (historyTest.TestStartSchedule <= DateTime.Now)
+                ModelState.AddModelError("TestStartSchedule", "Test start schedule must be bigger Time Now");
+
+            if (historyTest.TestEndSchedule <= historyTest.TestStartSchedule)
+                ModelState.AddModelError("TestEndSchedule", "Test end schedule must be bigger Test start schedule");
+
+            if (historyTest.TimeTest > 0 && historyTest.TestStartSchedule != null && historyTest.TestEndSchedule != null)
+            {
+                if (historyTest.TestEndSchedule < historyTest.TestStartSchedule.AddMinutes(historyTest.TimeTest * 3))
+                    ModelState.AddModelError("TestEndSchedule", "Test end schedule invalid (TestEndSchedule >= (TestStartSchedule + (TimeTest*3)))");
+            }
+
             if (!ModelState.IsValid)
             {
                 this.DropDownCandidate(historyTest.CandidateId);

@@ -84,8 +84,7 @@ namespace WebOnlineAptitudeTest.Models.Repositories
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="historyTest">entities</param>
-        /// <param name="type">0 is insert | 1 is update</param>
+        /// <param name="historyTest">entities | historyTest.TypeAction == 0 ? "Insert" : "Update"</param>
         /// <returns></returns>
         public bool InsertOrUpdate(HisToryTestInsertOrUpdateModel historyTest)
         {
@@ -139,6 +138,11 @@ namespace WebOnlineAptitudeTest.Models.Repositories
             {
                 item.Deleted = true;
             }
+
+            // Update Status Candidate
+            var candi = _candidateRepository.GetSingleById(candidateId);
+            candi.Status = false;
+
             _unitOfWork.Commit();
             return true;
         }

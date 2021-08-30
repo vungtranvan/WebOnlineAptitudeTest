@@ -24,7 +24,8 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Data.Model.HisToryTests
         public DateTime TestStartSchedule { get; set; }
 
         [Display(Name = "Test End Schedule")]
-        public DateTime? TestEndSchedule { get; set; }
+        [Required(ErrorMessage = "This field is required")]
+        public DateTime TestEndSchedule { get; set; }
 
     }
 }

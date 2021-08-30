@@ -67,6 +67,7 @@
                         <div class="form-group">
                             @Html.LabelFor(model => model.TestEndSchedule, htmlAttributes: new { @class = "control-label" })
                             @Html.TextBox("TestEndSchedule", null, new { type = "datetime-local", @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.TestEndSchedule, "", new { @class = "text-danger" })
                         </div>
                     }
                     else
@@ -79,7 +80,8 @@
 
                         <div class="form-group">
                             @Html.LabelFor(model => model.TestEndSchedule, htmlAttributes: new { @class = "control-label" })
-                            @Html.TextBox("TestEndSchedule", Model.TestEndSchedule.Value.ToString("yyyy-MM-dd HH:mm:ss").Replace(' ', 'T'), new { type = "datetime-local", @class = "form-control" })
+                            @Html.TextBox("TestEndSchedule", Model.TestEndSchedule.ToString("yyyy-MM-dd HH:mm:ss").Replace(' ', 'T'), new { type = "datetime-local", @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.TestEndSchedule, "", new { @class = "text-danger" })
                         </div>
                     }
 
@@ -93,7 +95,7 @@
     </div>
 </div>
 @section Scripts{
-    <script>
+    @*<script>
         $(document).ready(function () {
             var startDateObj = document.getElementById('TestStartSchedule');
             document.getElementById("TestEndSchedule").disabled = true;
@@ -131,5 +133,5 @@
         function myFunctionSubmit() {
             document.getElementById("TestEndSchedule").disabled = false;
         }
-    </script>
+    </script>*@
 }

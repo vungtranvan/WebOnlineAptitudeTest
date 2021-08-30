@@ -12,7 +12,7 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
 {
 
 
-    public class QuestionController : BaseController
+    public class QuestionController : Controller
     {
         private readonly IQuestionRepository _questionRepository;
         private readonly ICategoryExamRepository _categoryExamRepository;
@@ -44,16 +44,10 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
         {
             _unitOfWork.DbContext.Configuration.ProxyCreationEnabled = false;
             var result = _questionRepository.GetData(keyword, page, pageSize);
-       
 
-            var abc  =  JsonConvert.SerializeObject(result.Items, Formatting.Indented,
-            new JsonSerializerSettings
-            {
-                PreserveReferencesHandling = PreserveReferencesHandling.Objects
-            });
             return Json(new
             {
-                data = abc,
+                data = result.Items,
                 totalRow = result.TotalRow,
                 status = true
             }, JsonRequestBehavior.AllowGet);
@@ -84,7 +78,7 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
         public ActionResult InsertOrUpdate(int? id)
         {
 
-            ViewBag.CategoryId = new SelectList(_categoryExamRepository.GetAll().AsEnumerable(), "CategoryId", "CategoryName");
+          //  ViewBag.CategoryId = new SelectList(_categoryExamRepository.GetAll().AsEnumerable(), "CategoryId", "CategoryName");
 
             if (id != null)
             {

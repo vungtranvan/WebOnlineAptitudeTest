@@ -105,13 +105,9 @@ var candiController = {
             },
             dataType: 'json',
             success: function (response) {
-                response.data = JSON.parse(response.data);
-
                 console.log(response.data);
-            
-
-                
                 if (response.status == true) {
+                    console.log(response.data);
                     var data = response.data;
                     var html = '';
                     $.each(data, function (i, item) {
@@ -124,7 +120,7 @@ var candiController = {
                                                 <a class="qIcon collapsed" href="#collapseOne" data-toggle="collapse" aria-expanded="false" aria-controls="collapseOne"> </a>
                                                 <span class="qId"> `+ item.Id + `</span>
                                                 <span class="qContent">`+ item.Name + `</span>
-                                                <span class="qCategory">`+ item.CategoryExam.Name +`</span>
+                                                <span class="qCategory">`+ item.CategoryExamName +`</span>
                                                 <span class="qMark">5 </span>
                                                 <span class="qStatus">true</span>
                                                 <span class="qDeleted">true</span>
@@ -156,7 +152,7 @@ var candiController = {
                                 </div>`;
                     });
 
-                    $('#tblDataQuestion #questTableContent').html(html);
+                    $('#questTableContent').html(html);
 
                     if (response.data.length == 0) {
                         $('#tableQuestion').hide();
