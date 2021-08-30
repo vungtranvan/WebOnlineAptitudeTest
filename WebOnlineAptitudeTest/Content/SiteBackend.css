@@ -236,6 +236,7 @@ input:checked + .slider:before {
 }
 .listQuest {
     border-top: 1px solid rgba(255,79,112);
+    padding: 5px 0;
 }
 .tblDataQuestion .custom-accordion-title:first-child {
     border-top: 0;
@@ -261,10 +262,10 @@ input:checked + .slider:before {
     width: 5%;
 }
 .tblDataQuestion .card-body .aContent {
-    width: 90%;
+    width: 80%;
 }
 .tblDataQuestion .card-body .aCorrect {
-    width: 5%;
+    width: 15%;
 }
 
 .tblDataQuestion .qIcon::before {
@@ -277,6 +278,15 @@ input:checked + .slider:before {
 .tblDataQuestion .custom-tbl-title span {
     text-align: center;
     align-items: center;
+}
+.tblDataQuestion .qContent,
+.tblDataQuestion .aContent {
+    text-align: left;
+    justify-content: flex-start !important;
+}
+.tblDataQuestion .qContent p,
+.tblDataQuestion .aContent p{
+    margin: 0;
 }
 @keyframes slideInFromLeft {
     0% {

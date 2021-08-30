@@ -61,7 +61,7 @@ namespace WebOnlineAptitudeTest.Models.Repositories
 
             if (!string.IsNullOrEmpty(keyword))
             {
-                lstQuestion = base.GetMulti(x => x.Deleted == false && (x.Name.Contains(keyword)
+                lstQuestion = base.GetMulti(x => (x.Deleted == false || x.Deleted == null )&& (x.Name.Contains(keyword)
                    || x.CategoryExam.Name.Contains(keyword)), new string[] { "CategoryExam", "Answers" })
                 .Select(b => new Question
                 {
@@ -70,7 +70,7 @@ namespace WebOnlineAptitudeTest.Models.Repositories
                     Status = b.Status,
                     Deleted = b.Deleted,
                     Mark = b.Mark,
-                    //Answers = b.Answers,
+                    Answers = b.Answers,
                     CategoryExamId = b.CategoryExamId,
                     CategoryExamName = b.CategoryExam.Name,
                     CreatedDate = b.CreatedDate,
@@ -79,7 +79,7 @@ namespace WebOnlineAptitudeTest.Models.Repositories
             }
             else
             {
-                lstQuestion = base.GetMulti(x => x.Deleted == false, new string[] { "CategoryExam", "Answers" })
+                lstQuestion = base.GetMulti(x => x.Deleted == false || x.Deleted == null, new string[] { "CategoryExam", "Answers" })
                 .Select(b => new Question
                 {
                     Id = b.Id,
@@ -87,7 +87,7 @@ namespace WebOnlineAptitudeTest.Models.Repositories
                     Status = b.Status,
                     Deleted = b.Deleted,
                     Mark = b.Mark,
-                    //Answers = b.Answers,
+                    Answers = b.Answers,
                     CategoryExamId = b.CategoryExamId,
                     CategoryExamName = b.CategoryExam.Name,
                     CreatedDate = b.CreatedDate,

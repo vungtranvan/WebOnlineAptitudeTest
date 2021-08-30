@@ -1,4 +1,5 @@
-﻿var candidateConfig = {
+﻿
+var candidateConfig = {
     pageSize: $('.pageSizeItem').val(),
     pageIndex: 1
 }
@@ -107,8 +108,9 @@ var candiController = {
             success: function (response) {
                 console.log(response.data);
                 if (response.status == true) {
-                    console.log(response.data);
-                    var data = response.data;
+
+                    var data = JSON.parse(response.data);
+                    console.log(data);
                     var html = '';
                     $.each(data, function (i, item) {
                         html +=
@@ -117,20 +119,20 @@ var candiController = {
 
                                         <div class="custom-accordion-title d-block">
                                             <span class="d-flex listQuest">
-                                                <a class="qIcon collapsed" href="#collapseOne" data-toggle="collapse" aria-expanded="false" aria-controls="collapseOne"> </a>
-                                                <span class="qId"> `+ item.Id + `</span>
+                                                <a class="qIcon collapsed" href="#collapse_`+ item.Id + `" data-toggle="collapse" aria-expanded="false" aria-controls="collapse_` + item.Id + `"> </a>
+                                                <span class="qId"> `+ (i + 1) + `</span>
                                                 <span class="qContent">`+ item.Name + `</span>
-                                                <span class="qCategory">`+ item.CategoryExamName +`</span>
-                                                <span class="qMark">5 </span>
-                                                <span class="qStatus">true</span>
-                                                <span class="qDeleted">true</span>
-                                                <a class="qEdit">Edit</a>
+                                                <span class="qCategory">`+ item.CategoryExamName + `</span>
+                                                <span class="qMark">`+ item.Mark + `</span>
+                                                <span class="qStatus">`+ item.Status + `</span>
+                                                <span class="qDeleted">`+ item.Deleted + `</span>
+                                                <a class="qEdit" href="Question/InsertOrUpdate/`+ item.Id + `" >Edit</a>
 
                                             </span>
                                         </div>
 
                                     </div>
-                                    <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                                    <div id="collapse_`+ item.Id + `" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
                                         <div class="card-body">
                                             <span class="d-flex answer-title">
                                                 <span class="aId"> ID</span>
@@ -138,17 +140,20 @@ var candiController = {
                                                 <span class="aContent">Content</span>
 
                                             </span>
-                                        </div>
-                                        <div class="card-body">
-                                            <span class="d-flex listQuest">
-                                                <span class="aId"> 1</span>
-                                                <span class="aCorrect">true</span>
-                                                <span class="aContent">Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt.Cras dapibus. Vivamus elementum semper nisi</span>
-                                            </span>
-                                        </div>
-    
+                                        </div>`;
 
-                                    </div>
+                        $.each(item.Answers, function (j, ans) {
+                            html += ` <div class="card-body">
+                                            <span class="d-flex listQuest">
+                                                <span class="aId"> `+ (j + 1) + `</span>
+                                                <span class="aCorrect">`+ ans.Correct + `</span>
+                                                <span class="aContent">`+ ans.Name + `</span>
+                                            </span>
+                                        </div>`;
+
+                        });
+
+                        html += `</div>
                                 </div>`;
                     });
 

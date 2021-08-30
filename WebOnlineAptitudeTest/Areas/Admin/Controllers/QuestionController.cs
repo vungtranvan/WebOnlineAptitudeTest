@@ -45,9 +45,15 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
             _unitOfWork.DbContext.Configuration.ProxyCreationEnabled = false;
             var result = _questionRepository.GetData(keyword, page, pageSize);
 
+            var abc = JsonConvert.SerializeObject(result.Items, Formatting.Indented,
+               new JsonSerializerSettings
+               {
+                   ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+               });
+
             return Json(new
             {
-                data = result.Items,
+                data = abc,
                 totalRow = result.TotalRow,
                 status = true
             }, JsonRequestBehavior.AllowGet);
