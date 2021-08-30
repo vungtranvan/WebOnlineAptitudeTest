@@ -83,9 +83,6 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult InsertOrUpdate(int? id)
         {
-
-          //  ViewBag.CategoryId = new SelectList(_categoryExamRepository.GetAll().AsEnumerable(), "CategoryId", "CategoryName");
-
             if (id != null)
             {
                 var question = _questionRepository.GetSingleById(id.Value);
@@ -129,24 +126,14 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
             }
 
             this.DropDownCategoryExam();
-            return RedirectToAction("InsertOrUpdate");
+            return RedirectToAction("Index");
 
         }
 
         private void DropDownCategoryExam(int categoryExamId = 0)
         {
-            int selectDrop = 0;
             var lstCateEx = _categoryExamRepository.GetAll().ToList();
-
-            if (categoryExamId != 0)
-            {
-                foreach (var item in lstCateEx)
-                {
-                    if (item.Id == categoryExamId)
-                        selectDrop = lstCateEx.IndexOf(item);
-                }
-            }
-            ViewBag.CategoryExamId = new SelectList(lstCateEx, "Id", "Name", selectDrop);
+            ViewBag.NewsItemList = new SelectList(lstCateEx, "Id", "Name", categoryExamId);
         }
     }
 }
