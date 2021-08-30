@@ -12,7 +12,9 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Data.Model.HisToryTests
         /// 0: insert | 1: update
         /// </summary>
         public int? TypeAction { get; set; }
+
         [Display(Name = "Candidate Name")]
+        [Required(ErrorMessage = "This field is required")]
         public int CandidateId { get; set; }
 
         [Display(Name = "Time To Do A One Subject ")]

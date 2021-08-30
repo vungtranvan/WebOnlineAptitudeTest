@@ -155,19 +155,9 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
 
         private void DropDownCandidate(int candidateId = 0)
         {
-            int selectDrop = 0;
             var lstCandi = _candidateRepository.Get(filter: x => x.Status == false
                            && x.Deleted == false, orderBy: c => c.OrderByDescending(y => y.Id)).ToList();
-
-            if (candidateId != 0)
-            {
-                foreach (var item in lstCandi)
-                {
-                    if (item.Id == candidateId)
-                        selectDrop = lstCandi.IndexOf(item);
-                }
-            }
-            ViewBag.CandidateId = new SelectList(lstCandi, "Id", "Name", selectDrop);
+            ViewBag.NewsItemList = new SelectList(lstCandi, "Id", "Name", candidateId);
         }
     }
 }

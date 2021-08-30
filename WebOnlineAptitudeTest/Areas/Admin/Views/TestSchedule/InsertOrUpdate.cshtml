@@ -38,7 +38,7 @@
 
                         <div class="form-group">
                             @Html.LabelFor(model => model.CandidateId, htmlAttributes: new { @class = "control-label" })
-                            @Html.DropDownList("CandidateId", null, htmlAttributes: new { @class = "form-control" })
+                            @Html.DropDownList("CandidateId", ViewBag.NewsItemList as SelectList, "------ Select one ------", htmlAttributes: new { @class = "form-control" })
                             @Html.ValidationMessageFor(model => model.CandidateId, "", new { @class = "text-danger" })
 
                         </div>
@@ -96,42 +96,42 @@
 </div>
 @section Scripts{
     @*<script>
-        $(document).ready(function () {
-            var startDateObj = document.getElementById('TestStartSchedule');
-            document.getElementById("TestEndSchedule").disabled = true;
-            //document.getElementById("TestEndSchedule").readOnly = true;
+            $(document).ready(function () {
+                var startDateObj = document.getElementById('TestStartSchedule');
+                document.getElementById("TestEndSchedule").disabled = true;
+                //document.getElementById("TestEndSchedule").readOnly = true;
 
-            startDateObj.onblur = function () {
-                var timeTest = $('#TimeTest').val();
-                var timeTestStartDate = $(this).val();
-                setDateTimeToTestEndSchedule(timeTestStartDate, timeTest);
-            };
+                startDateObj.onblur = function () {
+                    var timeTest = $('#TimeTest').val();
+                    var timeTestStartDate = $(this).val();
+                    setDateTimeToTestEndSchedule(timeTestStartDate, timeTest);
+                };
 
-            $('#TimeTest').off('input').on('input', function () {
-                var timeTest = $(this).val();
-                var timeTestStartDate = $('#TestStartSchedule').val();
-                setDateTimeToTestEndSchedule(timeTestStartDate, timeTest);
+                $('#TimeTest').off('input').on('input', function () {
+                    var timeTest = $(this).val();
+                    var timeTestStartDate = $('#TestStartSchedule').val();
+                    setDateTimeToTestEndSchedule(timeTestStartDate, timeTest);
+                });
+
+                $('.btnSaveChange').off('input').on('input', function () {
+                    var timeTest = $(this).val();
+                    var timeTestStartDate = $('#TestStartSchedule').val();
+                    setDateTimeToTestEndSchedule(timeTestStartDate, timeTest);
+                });
             });
 
-            $('.btnSaveChange').off('input').on('input', function () {
-                var timeTest = $(this).val();
-                var timeTestStartDate = $('#TestStartSchedule').val();
-                setDateTimeToTestEndSchedule(timeTestStartDate, timeTest);
-            });
-        });
-
-        function setDateTimeToTestEndSchedule(timeTestStartDate, timeTest) {
-            if (timeTest > 0 && timeTestStartDate != null) {
-                var d = new Date(timeTestStartDate);
-                d.setMinutes(d.getMinutes() + timeTest * 3);
-                $('#TestEndSchedule').val(new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().substring(0, 19));
-            } else {
-                $('#TestEndSchedule').val('');
+            function setDateTimeToTestEndSchedule(timeTestStartDate, timeTest) {
+                if (timeTest > 0 && timeTestStartDate != null) {
+                    var d = new Date(timeTestStartDate);
+                    d.setMinutes(d.getMinutes() + timeTest * 3);
+                    $('#TestEndSchedule').val(new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().substring(0, 19));
+                } else {
+                    $('#TestEndSchedule').val('');
+                }
             }
-        }
 
-        function myFunctionSubmit() {
-            document.getElementById("TestEndSchedule").disabled = false;
-        }
-    </script>*@
+            function myFunctionSubmit() {
+                document.getElementById("TestEndSchedule").disabled = false;
+            }
+        </script>*@
 }
