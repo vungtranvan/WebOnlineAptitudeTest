@@ -45,7 +45,7 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
             _unitOfWork.DbContext.Configuration.ProxyCreationEnabled = false;
             var result = _questionRepository.GetData(keyword, page, pageSize);
 
-            var abc = JsonConvert.SerializeObject(result.Items, Formatting.Indented,
+            var resultData = JsonConvert.SerializeObject(result.Items, Formatting.Indented,
                new JsonSerializerSettings
                {
                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
@@ -53,7 +53,7 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
 
             return Json(new
             {
-                data = abc,
+                data = resultData,
                 totalRow = result.TotalRow,
                 status = true
             }, JsonRequestBehavior.AllowGet);
@@ -113,7 +113,6 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
                 }
 
                 var abc = errora;
-
             }
             else
             {
@@ -123,13 +122,21 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
 
                 if (id != null)
                 {
-                    this._answerRepository.ChangeAnswer(question.Id, question.Answers);
 
+                    this._answerRepository.ChangeAnswer(question.Id, question.Answers);
+                    this.DropDownCategoryExam();
+
+                    return RedirectToAction("InsertOrUpdate");
+
+                }else
+                {
+                    return RedirectToAction("Index");
                 }
+
             }
 
-            this.DropDownCategoryExam();
-            return RedirectToAction("InsertOrUpdate");
+            return RedirectToAction("Index");
+
 
         }
 
@@ -147,6 +154,29 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
                 }
             }
             ViewBag.CategoryExamId = new SelectList(lstCateEx, "Id", "Name", selectDrop);
+        }
+
+        public JsonResult Locked(int id)
+        {
+            var title = "Notification";
+            var cadi = _questionRepository.Locked(id);
+
+            if (!cadi)
+            {
+                return Json(new
+                {
+                    message = "Delete Error !!!",
+                    status = false,
+                    title
+                });
+            }
+
+            return Json(new
+            {
+                message = "Delete Successfull !!!",
+                status = true,
+                title
+            });
         }
     }
 }

@@ -1,21 +1,21 @@
 ﻿
-var candidateConfig = {
+var questionConfig = {
     pageSize: $('.pageSizeItem').val(),
     pageIndex: 1
 }
 
-var candiController = {
+var questController = {
     init: function () {
-        candiController.loadData();
+        questController.loadData();
     },
     registerEvents: function () {
         $('.txtSearchQuestion').off('input').on('input', function () {
-            candiController.loadData(true);
+            questController.loadData(true);
         });
 
         $('.pageSizeItem').off('change').on('change', function () {
-            candidateConfig.pageSize = $(this).val();
-            candiController.loadData(true);
+            questionConfig.pageSize = $(this).val();
+            questController.loadData(true);
         });
 
         $('.btnDelete').off('click').on('click', function (e) {
@@ -27,13 +27,8 @@ var candiController = {
         $('.Save-Delete').off('click').on('click', function (e) {
             e.preventDefault();
             var id = $('#id-item').text();
-            candiController.deleteQuestion(id);
+            questController.deleteQuestion(id);
             $('#modal-delete').modal('hide');
-        });
-        $('.btnDetail').off('click').on('click', function (e) {
-            e.preventDefault();
-            candiController.getDetailQuestion($(this).data('id'));
-            $('#modal-detailCadidate').modal('show');
         });
 
     },
@@ -45,7 +40,7 @@ var candiController = {
             dataType: 'json',
             success: function (response) {
                 if (response.status == true) {
-                    candiController.loadData(true);
+                    questController.loadData(true);
                     toastr.success(response.message, response.title);
                 } else {
                     toastr.error(response.message, response.title);
@@ -53,46 +48,7 @@ var candiController = {
             }
         });
     },
-    getDetailQuestion: function (id) {
-        $.ajax({
-            url: '/Question/Details',
-            type: 'GET',
-            data: { id: id },
-            dataType: 'json',
-            success: function (response) {
-                if (response.status == true) {
-                    var data = response.data;
 
-                    $('#textUserName').text(data.UserName);
-                    if (data.Image != '' || data.Image != null) {
-                        $('#textImage').attr("src", data.Image);
-                    }
-
-                    $('#textDisplayName').html(data.Name);
-                    $('#textEmail').html(data.Email);
-                    $('#textBirthday').html(data.Birthday == null ? `&emsp;` : candiController.formatDate(data.Birthday));
-                    $('#textAddress').html(data.Address == null ? `&emsp;` : data.Address);
-                    $('#textPhone').html(data.Phone == null ? `&emsp;` : data.Phone);
-                    $('#textEducation').html(data.Education == null ? `&emsp;` : data.Education);
-                    $('#textWorkExperience').html(data.WorkExperience == null ? `&emsp;` : data.WorkExperience);
-                    $('#textSex').html(data.Sex == true ? 'Male' : 'FeMale');
-                    $('#textCreatedDate').html(data.CreatedDate == null ? `&emsp;` : candiController.formatDate(data.CreatedDate));
-                    $('#textLastUpdatedDate').html(data.UpdatedDate == null ? `&emsp;` : candiController.formatDate(data.UpdatedDate));
-
-                    //$('#textSex').val(data.CategoryId).attr("selected", "selected");
-                    //if (data.Status == true) {
-                    //    $('.Status label input:first').prop("checked", true);
-                    //} else {
-                    //    $('.Status label input:last').prop("checked", true);
-                    //}
-
-                } else {
-                    $('#modal-detailCadidate').modal('hide');
-                    toastr.error("Can not find Question", "Notification");
-                }
-            }
-        });
-    },
     loadData: function (changePageSize) {
         var keyword = $('.txtSearchQuestion').val();
 
@@ -101,16 +57,16 @@ var candiController = {
             type: 'GET',
             data: {
                 keyword: keyword,
-                page: candidateConfig.pageIndex,
-                pageSize: candidateConfig.pageSize
+                page: questionConfig.pageIndex,
+                pageSize: questionConfig.pageSize
             },
             dataType: 'json',
             success: function (response) {
-                console.log(response.data);
+      
                 if (response.status == true) {
 
                     var data = JSON.parse(response.data);
-                    console.log(data);
+
                     var html = '';
                     $.each(data, function (i, item) {
                         html +=
@@ -125,9 +81,14 @@ var candiController = {
                                                 <span class="qCategory">`+ item.CategoryExamName + `</span>
                                                 <span class="qMark">`+ item.Mark + `</span>
                                                 <span class="qStatus">`+ item.Status + `</span>
-                                                <span class="qDeleted">`+ item.Deleted + `</span>
+                                                <span class="qAction">
                                                 <a class="qEdit" href="Question/InsertOrUpdate/`+ item.Id + `" >Edit</a>
+                                                <a class="qDelete btnDelete" href=":javascript" data-id=`+ item.Id +`  >Delete</a>
 
+                                                </span>
+
+
+                                                
                                             </span>
                                         </div>
 
@@ -166,31 +127,17 @@ var candiController = {
                         $('.textEmpty').hide();
                         $('#tableQuestion').show();
                     }
-                    candiController.pagination(response.totalRow, function () {
-                        candiController.loadData();
+                    questController.pagination(response.totalRow, function () {
+                        questController.loadData();
                     }, changePageSize);
-                    candiController.registerEvents();
+                    questController.registerEvents();
 
                 }
             }
         });
     },
-    formatDate: function (dateString) {
-        var newDate = new Date(parseInt(dateString.replace('/Date(', '')));
-        var dd = newDate.getDate();
-        var mm = newDate.getMonth() + 1;
-        var yyyy = newDate.getFullYear();
-        if (dd < 10) {
-            dd = '0' + dd;
-        }
-        if (mm < 10) {
-            mm = '0' + mm;
-        }
-        newDate = mm + '/' + dd + '/' + yyyy;
-        return newDate;
-    },
     pagination: function (totalRow, callback, changePageSize) {
-        var totalPage = Math.ceil(totalRow / candidateConfig.pageSize);
+        var totalPage = Math.ceil(totalRow / questionConfig.pageSize);
 
         if ($('#pagination').length === 0 || changePageSize === true) {
             $('#pagination').empty();
@@ -206,11 +153,11 @@ var candiController = {
             last: '<i class="fas fa-angle-double-right"></i>',
             visiblePages: 8,
             onPageClick: function (event, page) {
-                candidateConfig.pageIndex = page;
+                questionConfig.pageIndex = page;
                 setTimeout(callback, 0);
             }
         });
     }
 }
 
-candiController.init();
+questController.init();

@@ -47,79 +47,41 @@
                         Search: <input type="search" class="form-control form-control-sm txtSearchQuestion" placeholder="" style="margin:0 0 0 0.3rem">
                     </div>
                 </div>
-              
-                    <div class="table table-hover mt-4" id="tableQuestion">
+
+                <div class="table table-hover mt-4" id="tableQuestion">
+                    <div>
                         <div>
-                            <div>
-                                <div scope="col"></div>
-                              
-                            </div>
+                            <div scope="col"></div>
+
                         </div>
-                        <div id="tblDataQuestion" class="tblDataQuestion">
-                            <div id="accordion" class="custom-accordion mb-4">
-                                <div class="custom-tbl-title d-block">
-                                    <span class="d-flex title-quest">
-                                        <span class="qShowAnswer"> Show Answer</span>
-                                        <span class="qId"> ID</span>
-                                        <span class="qContent">Content</span>
-                                        <span class="qCategory">Part</span>
-                                        <span class="qMark">Mark </span>
-                                        <span class="qStatus">Status</span>
-                                        <span class="qDeleted">Deleted</span>
-                                        <span class="qEdit">Action</span>
-                                    </span>
-                                </div>
-                                <div id="questTableContent">
-                                    @*<div class="card mb-0">
-            <div class="card-header" id="headingOne">
-
-                <div class="custom-accordion-title d-block">
-                    <span class="d-flex listQuest">
-                        <a class="qIcon collapsed" href="#collapseOne" data-toggle="collapse" aria-expanded="false" aria-controls="collapseOne"> </a>
-                        <span class="qId"> 1</span>
-                        <span class="qContent">Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt.Cras dapibus. Vivamus elementum semper nisi</span>
-                        <span class="qCategory">Computer Technology</span>
-                        <span class="qMark">5 </span>
-                        <span class="qStatus">true</span>
-                        <span class="qDeleted">true</span>
-                        <a class="qEdit">Edit</a>
-
-                    </span>
-                </div>
-
-            </div>
-            <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
-                <div class="card-body">
-                    <span class="d-flex answer-title">
-                        <span class="aId"> ID</span>
-                        <span class="aCorrect">Correct</span>
-                        <span class="aContent">Content</span>
-
-                    </span>
-                </div>
-                <div class="card-body">
-                    <span class="d-flex listQuest">
-                        <span class="aId"> 1</span>
-                        <span class="aCorrect">true</span>
-                        <span class="aContent">Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt.Cras dapibus. Vivamus elementum semper nisi</span>
-                    </span>
-                </div>
-
-
-            </div>
-        </div>*@ <!-- end card-->
-                                </div>
+                    </div>
+                    <div id="tblDataQuestion" class="tblDataQuestion">
+                        <div id="accordion" class="custom-accordion mb-4">
+                            <div class="custom-tbl-title d-block">
+                                <span class="d-flex title-quest">
+                                    <span class="qShowAnswer"> Show Answer</span>
+                                    <span class="qId"> ID</span>
+                                    <span class="qContent">Content</span>
+                                    <span class="qCategory">Part</span>
+                                    <span class="qMark">Mark </span>
+                                    <span class="qStatus">Status</span>
+                                    <span class="qAction">Action</span>
+                                </span>
+                            </div>
+                            <div id="questTableContent">
+                                @*table content*@
                             </div>
                         </div>
                     </div>
                 </div>
-                <p class="text-center textEmpty">List empty</p>
-                <ul id="pagination" class="pagination flex-wrap .pagination-rounded-flat pagination-success mt-3"></ul>
             </div>
+            <p class="text-center textEmpty">List empty</p>
+            <ul id="pagination" class="pagination flex-wrap .pagination-rounded-flat pagination-success mt-3"></ul>
         </div>
     </div>
+</div>
 
-
+@Html.Partial("_ModalDelete")
 
 @section Scripts{
     <script src="/Scripts/jquery.twbsPagination.min.js"></script>

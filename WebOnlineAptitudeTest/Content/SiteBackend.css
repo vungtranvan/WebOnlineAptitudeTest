@@ -173,14 +173,13 @@ input:checked + .slider:before {
     color: #fff;
     box-sizing: border-box;
     outline: 0;
-    text-align: inherit;
+
     font-weight: 500;
     display: flex;
-    justify-content: center;
+
     font-weight: 400;
 }
-.tblDataQuestion .custom-accordion-title .listQuest span,
-.tblDataQuestion .custom-accordion-title .listQuest a {
+.tblDataQuestion .custom-accordion-title .listQuest span {
     align-items: center;
     padding: 10px 0;
 }
@@ -191,17 +190,21 @@ input:checked + .slider:before {
 .tblDataQuestion .qId,
 .qShowAnswer {
     width: 5%;
+    justify-content: center;
+    text-align: center;
 }
 .tblDataQuestion .qIcon {
     width: 5%;
     font-size: 30px !important;
+    justify-content: center;
 }
     .tblDataQuestion .qIcon:hover,
-    .tblDataQuestion a.qEdit:hover{
+    .tblDataQuestion .qAction a:hover {
         background-color: red;
     }
 .tblDataQuestion .qContent {
     width: 45%;
+    text-align: left;
 }
 
 .tblDataQuestion .qCategory {
@@ -213,16 +216,24 @@ input:checked + .slider:before {
 .tblDataQuestion .qStatus {
     width: 10%;
 }
-.tblDataQuestion .qDeleted {
-    width: 10%;
+
+.tblDataQuestion .qAction {
+    width: 20%;
+    justify-content: space-around;
+    padding: 0 !important;
+    text-align: center;
 }
-.tblDataQuestion .qEdit {
-    width: 10%;
+.qAction a {
+    padding: 0 10px;
+    height:100%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
 }
 
 .tblDataQuestion .card-body .listQuest span {
     color: #333;
-    align-items:center;
+    align-items: center;
 }
 
 .tblDataQuestion .custom-accordion-title {
@@ -260,12 +271,16 @@ input:checked + .slider:before {
 
 .tblDataQuestion .card-body .aId {
     width: 5%;
+    text-align:center;
+    justify-content:center;
 }
 .tblDataQuestion .card-body .aContent {
     width: 80%;
 }
 .tblDataQuestion .card-body .aCorrect {
     width: 15%;
+    text-align: center;
+    justify-content: center;
 }
 
 .tblDataQuestion .qIcon::before {
@@ -276,7 +291,6 @@ input:checked + .slider:before {
 }
 
 .tblDataQuestion .custom-tbl-title span {
-    text-align: center;
     align-items: center;
 }
 .tblDataQuestion .qContent,

@@ -169,17 +169,19 @@
 
 
     <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Save" class="btn btn-default" />
+        <div class="form-row">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" class="btn waves-effect btn-Custom waves-light btn-primary" value="Save Change" />
+                <a href='@Url.Action("Index","Question")' class="btn waves-effect btn-Custom waves-light btn-danger" >Cancer</a>
+
+            </div>
+
         </div>
     </div>
 
 </div>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
 
 @section Scripts {
     <script>

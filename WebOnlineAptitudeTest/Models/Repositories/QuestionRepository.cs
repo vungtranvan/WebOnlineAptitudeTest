@@ -137,7 +137,14 @@ namespace WebOnlineAptitudeTest.Models.Repositories
 
         public bool Locked(int id)
         {
-            throw new NotImplementedException();
+            var quest = base.GetSingleById(id);
+            if (quest == null)
+            {
+                return false;
+            }
+            quest.Deleted = !quest.Deleted;
+            _unitOfWork.Commit();
+            return true;
         }
     }
 }
