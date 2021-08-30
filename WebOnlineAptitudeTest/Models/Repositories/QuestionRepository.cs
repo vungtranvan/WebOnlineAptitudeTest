@@ -30,7 +30,50 @@ namespace WebOnlineAptitudeTest.Models.Repositories
 
         public PagingModel<Question> GetData(string keyword, int page, int pageSize)
         {
-            throw new NotImplementedException();
+            List<Question> lstCandi = base.DbContext.Questions.Include(a => a.Answers).Include(a => a.CategoryExam)
+            .Select(q => new {
+            Id = q.Id,
+            Name = q.Name,
+            Status = q.Status,
+            Deleted = q.Deleted,
+            Mark = q.Mark,
+            Answers = q.Answers,
+            CategoryExamId = q.CategoryExamId,
+            CategoryExamName = q.CategoryExam.Name,
+            CreatedDate = q.CreatedDate,
+            UpdatedDate = q.UpdatedDate
+            }).ToList().Select(b=> new Question {
+                Id = b.Id,
+                Name = b.Name,
+                Status = b.Status,
+                Deleted = b.Deleted,
+                Mark = b.Mark,
+                Answers = b.Answers,
+                CategoryExamId = b.CategoryExamId,
+                CategoryExamName = b.CategoryExamName,
+                CreatedDate = b.CreatedDate,
+                UpdatedDate = b.UpdatedDate
+            } ).ToList();
+
+
+
+            if (!string.IsNullOrEmpty(keyword))
+            {
+                lstCandi = base.Get(
+                    filter: c => c.Deleted == false && (c.Name.ToLower().Contains(keyword.ToLower())
+                    || c.Name.ToLower().Contains(keyword.ToLower()) || c.Status.ToString().ToLower().Contains(keyword.ToLower())),
+                    orderBy: c => c.OrderByDescending(x => x.Id)).ToList();
+            }
+            else
+            {
+                lstCandi = base.Get(filter: c => c.Deleted == false || c.Deleted == null, orderBy: c => c.OrderByDescending(x => x.Id)).ToList();
+            }
+
+            int totalRow = lstCandi.Count();
+
+            var data = lstCandi.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+
+            return new PagingModel<Question>() { TotalRow = totalRow, Items = data };
         }
 
         public bool InsertOrUpdate(Question question)

@@ -159,6 +159,125 @@ input:checked + .slider:before {
     top: 0;
 }
 
+
+/*questList*/
+
+.tblDataQuestion .custom-accordion-title span,
+.tblDataQuestion .custom-accordion-title a,
+.tblDataQuestion .card-body .listQuest span {
+    font-family: Rubik,sans-serif;
+    font-size: 1rem;
+    line-height: normal;
+    word-wrap: break-word;
+    border-collapse: collapse;
+    color: #fff;
+    box-sizing: border-box;
+    outline: 0;
+    text-align: inherit;
+    font-weight: 500;
+    display: flex;
+    justify-content: center;
+    font-weight: 400;
+}
+.tblDataQuestion .custom-accordion-title .listQuest span,
+.tblDataQuestion .custom-accordion-title .listQuest a {
+    align-items: center;
+    padding: 10px 0;
+}
+.tblDataQuestion  .card-body {
+    padding: 0;
+}
+
+.tblDataQuestion .qId,
+.qShowAnswer {
+    width: 5%;
+}
+.tblDataQuestion .qIcon {
+    width: 5%;
+    font-size: 30px !important;
+}
+    .tblDataQuestion .qIcon:hover,
+    .tblDataQuestion a.qEdit:hover{
+        background-color: red;
+    }
+.tblDataQuestion .qContent {
+    width: 45%;
+}
+
+.tblDataQuestion .qCategory {
+    width: 15%;
+}
+.tblDataQuestion .qMark {
+    width: 10%;
+}
+.tblDataQuestion .qStatus {
+    width: 10%;
+}
+.tblDataQuestion .qDeleted {
+    width: 10%;
+}
+.tblDataQuestion .qEdit {
+    width: 10%;
+}
+
+.tblDataQuestion .card-body .listQuest span {
+    color: #333;
+    align-items:center;
+}
+
+.tblDataQuestion .custom-accordion-title {
+    background-color: #28405c;
+    border-top: 1px solid #e8eef3;
+    border-color: #fff;
+    /*border-bottom: 1px solid #e8eef3;*/
+    align-self: center;
+    padding: 0;
+    
+}
+.listQuest {
+    border-top: 1px solid rgba(255,79,112);
+}
+.tblDataQuestion .custom-accordion-title:first-child {
+    border-top: 0;
+}
+
+.tblDataQuestion .custom-tbl-title {
+  background-color: rgba(255,79,112);
+  color: #fff;
+}
+.tblDataQuestion .custom-accordion-title:hover {
+    background-color: #030108;
+}
+.tblDataQuestion .card-header {
+  padding: 0;
+}
+.tblDataQuestion .card-body .answer-title {
+    background-color: rgba(255,79,112);
+    color:#fff;
+    text-align:center;
+}
+
+.tblDataQuestion .card-body .aId {
+    width: 5%;
+}
+.tblDataQuestion .card-body .aContent {
+    width: 90%;
+}
+.tblDataQuestion .card-body .aCorrect {
+    width: 5%;
+}
+
+.tblDataQuestion .qIcon::before {
+    content:"-";
+}
+.tblDataQuestion .qIcon.collapsed::before {
+    content: "+";
+}
+
+.tblDataQuestion .custom-tbl-title span {
+    text-align: center;
+    align-items: center;
+}
 @keyframes slideInFromLeft {
     0% {
         transform: translateX(100%);

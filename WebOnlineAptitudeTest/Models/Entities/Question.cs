@@ -5,6 +5,7 @@ namespace WebOnlineAptitudeTest.Models.Entities
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
+    using System.Web.Mvc;
 
     [Table("Question")]
     public partial class Question
@@ -21,9 +22,13 @@ namespace WebOnlineAptitudeTest.Models.Entities
         [StringLength(225)]
         [Display(Name="Question")]
         [DataType(DataType.MultilineText)]
+        [AllowHtml]
         public string Name { get; set; }
 
         public int CategoryExamId { get; set; }
+        [NotMapped]
+        public string CategoryExamName { get; set; }
+
 
         [RegularExpression(@"(1|2|3|4|5){1}$",
      ErrorMessage = "only allowed 1 - 5")]

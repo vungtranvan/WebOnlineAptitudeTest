@@ -72,7 +72,7 @@
                
                         <div class="form-control question summernote" id="question">@if (Model != null)
                             {
-                                @Html.Raw(HttpUtility.HtmlDecode(@Model.Name));
+                                @Html.Raw(@Model.Name);
                             }</div>
 
                     @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
@@ -150,7 +150,9 @@
                                 </div>
 
                                 <div class="">
-                                    <div class="form-control summernote text-box multi-line"> @Html.Raw(HttpUtility.HtmlDecode(aw.Name))</div>
+                                    <div class="form-control summernote text-box multi-line">@Html.Raw(aw.Name)</div>
+
+
                                     @Html.ValidationMessageFor(model => model.Answers.FirstOrDefault().Name, "", new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -208,9 +210,6 @@
                     ['fontsize', ['fontsize']]
                 ]
             });
-
-            //$(".note-codable").attr("disabled", "disabled");
-
 
 
 
@@ -293,7 +292,8 @@
 
                     $noteHtmlNoBreak = $noteHtml.replace(/(\r\n|\n|\r)/gm, "");
  
-                    $(this).parent().find(".note-codable").val(htmlencode($noteHtmlNoBreak));
+                    $(this).parent().find(".note-codable").val($noteHtmlNoBreak);
+
 
                     console.log($(this).parent().find(".note-codable").val());
 

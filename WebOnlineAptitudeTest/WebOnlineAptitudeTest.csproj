@@ -247,7 +247,6 @@
     <Compile Include="Models\Repositories\CategoryExamRepository.cs" />
     <Compile Include="Models\Repositories\HistoryTestDetailRepository.cs" />
     <Compile Include="Models\Repositories\HistoryTestRepository.cs" />
-    <Compile Include="Models\Repositories\QuestionRepository - Copy.cs" />
     <Compile Include="Models\Repositories\QuestionRepository.cs" />
     <Compile Include="Models\Repositories\TransferRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -1454,6 +1453,7 @@
     <Content Include="Scripts\jquery.twbsPagination.min.js" />
     <Content Include="Scripts\plugins\AdminAccJsController.js" />
     <Content Include="Scripts\plugins\AdminJsController.js" />
+    <Content Include="Scripts\plugins\QuestionJsController.js" />
     <Content Include="Scripts\plugins\CandidateJsController.js" />
     <Content Include="Content\assets\backend\dist\js\config-toastrJs.js" />
     <Content Include="Content\bootstrap-theme.css" />
@@ -1662,11 +1662,11 @@
     <Content Include="Areas\Admin\Views\CategoryExam\_ModalEditCategoryExam.cshtml" />
     <Content Include="Areas\Admin\Views\Account\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Question\InsertOrUpdate.cshtml" />
-    <Content Include="Areas\Admin\Views\Question\InsertOrUpdate - Copy.cshtml" />
     <Content Include="Areas\Admin\Views\TestSchedule\InsertOrUpdate.cshtml" />
     <Content Include="Areas\Admin\Views\TestSchedule\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Account\InsertOrUpdate.cshtml" />
     <Content Include="Areas\Admin\Views\Account\_ModalDetailsAccount.cshtml" />
+    <Content Include="Areas\Admin\Views\Question\Index.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />

@@ -73,5 +73,10 @@ namespace WebOnlineAptitudeTest.Models.Entities
                 .WithRequired(e => e.Question)
                 .WillCascadeOnDelete(false);
         }
+
+        internal object QuestionView(Func<object, bool> filter, Func<object, object> orderBy)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -5,6 +5,7 @@
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
+    using System.Web.Mvc;
 
     [Table("Answer")]
     public partial class Answer
@@ -16,6 +17,7 @@
         [DataType(DataType.MultilineText)]
         [Display(Name = "Answer")]
         [Required]
+        [AllowHtml]
         public string Name { get; set; }
 
         public bool Correct { get; set; }
