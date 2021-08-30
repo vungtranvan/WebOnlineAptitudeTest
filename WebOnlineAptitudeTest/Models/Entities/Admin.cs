@@ -12,16 +12,17 @@ namespace WebOnlineAptitudeTest.Models.Entities
         [Key]
         public int Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "This field is required")]
         [StringLength(50)]
         public string UserName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "This field is required")]
         [StringLength(50)]
         public string DisplayName { get; set; }
 
-        [Required]
-        [StringLength(50)]
+        [Required(ErrorMessage = "This field is required")]
+        [StringLength(50, ErrorMessage = "This field max length is 50")]
+        [RegularExpression(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$", ErrorMessage = "Email is not formatted")]
         public string Email { get; set; }
 
         public string Image { get; set; }

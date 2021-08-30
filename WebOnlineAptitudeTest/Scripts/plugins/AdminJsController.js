@@ -1,110 +1,118 @@
-﻿var adminConfig = {
-    pageSize: $('.pageSizeItem').val(),
-    pageIndex: 1
+﻿$(function () {
+    LoadData()
+})
+
+var pageSize = $('.pageSizeItem').val();
+var pageIndex = 1;
+
+$(".txtSearchAdmin").off('input').on('input', function () {
+    LoadData(true)
+});
+
+$(".pageSizeItem").off('change').on('change', function () {
+    pageSize = $(this).val();
+    LoadData(true)
+})
+
+function LoadData(changePageSize) {
+    var keysearch = $(".txtSearchAdmin").val()
+
+    $.ajax({
+        type: "GET",
+        url: "/Admin/Account/LoadData",
+        data: { keyword: keysearch, page: pageIndex, pageSize: pageSize },
+        success: function (res) {
+
+            if (res.status == true) {
+                var data = res.data
+                var html = ''
+                $.each(data, function (key, item) {
+                    html += '<tr>'
+                    html += '<td scope="col">' + (key + 1) + '</td>'
+                    html += '<td> <img src="' + item.Image + '" width="30" alt="" /></td>'
+                    html += '<td>' + item.UserName + '</td>'
+                    html += '<td>' + item.Email + '</td>'
+                    html += '<td class="FlexIconAction">'
+                    html += '<a class="flex items-center text-theme-6 btnDetail" href="javascript:void(0)" onclick="GetDetail(' + item.Id + ')"> <i class="fas fa-search-plus"></i> Details </a>'
+                    html += '<a class="flex items-center mr-3" href="/Admin/Account/InsertOrUpdate/' + item.Id + '"> <i class="fas fa-edit"></i> Edit </a>'
+                    html += '<a class="flex items-center text-theme-6 btnDelete" href="#" onclick="GetDelete(' + item.Id + ')"> <i class="fas fa-trash-alt"></i> Delete </a>'
+                    html += '</td>'
+                    html += '</tr>'
+                });
+
+                $("#tblDataAdmin").html(html)
+
+                Paginate(res.totalRow, function () {
+                    LoadData();
+                }, changePageSize);
+            }
+        }
+    })
 }
 
-var adminController = {
-    init: function () {
-        adminController.loadData();
-    },
-    registerEvents: function () {
-        $('.txtSearchAdmin').off('input').on('input', function () {
-            adminController.loadData(true);
-        });
+function Paginate(totalRow, callback, changePageSize) {
+    var totalPage = Math.ceil(totalRow / pageSize);
 
-        $('.pageSizeItem').off('change').on('change', function () {
-            adminConfig.pageSize = $(this).val();
-            adminController.loadData(true);
-        });
+    if ($('#pagination').length === 0 || changePageSize === true) {
+        $('#pagination').empty();
+        $('#pagination').removeData('twbs-pagination');
+        $('#pagination').unbind("page");
+    }
 
-        $('.btnDelete').off('click').on('click', function (e) {
-            e.preventDefault = false;
-            $('#id-item').text($(this).data('id'));
-            $('#modal-delete').modal('show');
-        });
+    $('#pagination').twbsPagination({
+        totalPages: totalPage,
+        first: '<i class="fas fa-angle-double-left"></i>',
+        prev: '<i class=" fas fa-angle-left"></i>',
+        next: '<i class="fas fa-angle-right"></i>',
+        last: '<i class="fas fa-angle-double-right"></i>',
+        visiblePages: 8,
+        onPageClick: function (event, page) {
+            pageIndex = page;
+            setTimeout(callback, 0);
+        }
+    });
+}
 
-        $('.Save-Delete').off('click').on('click', function (e) {
-            var id = $('#id-item').text();
-            adminController.deleteAdmin(id);
-            $('#modal-delete').modal('hide');
-        });
-        $('.btnDetail').off('click').on('click', function (e) {
-            e.preventDefault = false;
-            adminController.getDetailAdmin($(this).data('id'));
-            $('#modal-detailAdmin').modal('show');
-        });
-
-    },
-    loadData: function (changePageSize) {
-        var keyword = $('.txtSearchAdmin').val();
-
+function GetDelete(id) {
+    $('#modal-delete').modal('show');
+    $(document).on("click", ".Save-Delete", function () {
+        console.log("oke")
+        $("#modal-delete").modal("hide")
         $.ajax({
-            url: '/Account/LoadData',
-            type: 'GET',
-            data: {
-                keyword: keyword,
-                page: adminConfig.pageIndex,
-                pageSize: adminConfig.pageSize
-            },
-            dataType: 'json',
-            success: function (response) {
-                if (response.status == true) {
-                    var data = response.data;
-                    var html = '';
-                    var template = $('#data-template').html();
-                    $.each(data, function (i, item) {
-                        html += Mustache.render(template, {
-                            STT: i + 1,
-                            Id: item.Id,
-                            Image: item.Image,
-                            UserName: item.UserName,
-                            Name: item.Name,
-                            Email: item.Email
-                            //CreatedDate: item.CreatedDate == null ? "" : cadiController.formatDate((item.CreatedDate)),
-                            //UpdatedDate: item.UpdatedDate == null ? "" : cadiController.formatDate(item.UpdatedDate)
-                        });
-                    });
-                    $('#tblDataAdmin').html(html);
-                    if (response.data.length == 0) {
-                        $('#tblDataAdmin').hide();
-                        $('.textEmpty').show();
-                    } else {
-                        $('.textEmpty').hide();
-                        $('#tblDataAdmin').show();
-                    }
-                    adminController.pagination(response.totalRow, function () {
-                        adminController.loadData();
-                    }, changePageSize);
-                    adminController.registerEvents();
-
+            type: "GET",
+            url: "/Admin/Account/Locked/" + id,
+            success: function (res) {
+                if (res.status == true) {
+                    LoadData(true)
+                    toastr.success(res.message, res.title);
                 }
             }
-        });
-    },
-    pagination: function (totalRow, changePageSize) {
-        var totalPage = Math.ceil(totalRow / adminConfig.pageSize);
-        console.log("totalpage: " + totalPage)
-        //Unbind pagination if it existed or click change pageSize
-        if ($('#pagination').length === 0 || changePageSize === true) {
-            console.log("oke")
-            $('#pagination').empty();
-            $('#pagination').removeData('twbs-pagination');
-            $('#pagination').unbind("page");
-        }
-
-        $('#pagination').twbsPagination({
-            totalpages: totalPage,
-            first: '<i class="fas fa-angle-double-left"></i>',
-            prev: '<i class=" fas fa-angle-left"></i>',
-            next: '<i class="fas fa-angle-right"></i>',
-            last: '<i class="fas fa-angle-double-right"></i>',
-            visiblePages: 8,
-            onPageClick: function (event, page) {
-                adminConfig.pageIndex = page;
-            }
-        });
-    }
+        })
+    })
 }
 
-adminController.init();
+function GetDetail(id) {
 
+    $.ajax({
+        type: "GET",
+        url: "/Admin/Account/Details/" + id,
+        success: function (res) {
+            if (res.status == true) {
+                var item = res.data
+                $("#textUserName").html(item.UserName)
+                $("#textDisplayName").html(item.DisplayName)
+                $("#textEmail").html(item.Email)
+                if (item.Sex == true) {
+                    $("#textSex").html("Male")
+                } else {
+                    $("#textSex").html("Female")
+                }
+                $("#textImage").attr("src", item.Image)
+                $("#textCreatedDate").html(res.createdDate)
+                $("#textLastUpdatedDate").html(res.updatedDate)
+                $("#modal-detailAccount").modal('show')
+            }
+        }
+    })
+
+}

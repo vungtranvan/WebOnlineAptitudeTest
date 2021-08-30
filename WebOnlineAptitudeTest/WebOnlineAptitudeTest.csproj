@@ -1451,7 +1451,6 @@
     <Content Include="Content\default-avatar.jpg" />
     <Content Include="Content\SiteBackend.css" />
     <Content Include="Scripts\jquery.twbsPagination.min.js" />
-    <Content Include="Scripts\plugins\AdminAccJsController.js" />
     <Content Include="Scripts\plugins\AdminJsController.js" />
     <Content Include="Scripts\plugins\QuestionJsController.js" />
     <Content Include="Scripts\plugins\CandidateJsController.js" />
@@ -1681,7 +1680,6 @@
     <Content Include="Scripts\mustache.min.js" />
     <Content Include="Scripts\plugins\CategoryExamJsController.js" />
     <Content Include="Scripts\plugins\changePassAdmin.js" />
-    <Content Include="Scripts\plugins\IndexJsController.js" />
     <Content Include="Scripts\plugins\TestScheduleJsController.js" />
     <Content Include="Scripts\sweetalert2.all.min.js" />
     <Content Include="Scripts\toastr.js" />
