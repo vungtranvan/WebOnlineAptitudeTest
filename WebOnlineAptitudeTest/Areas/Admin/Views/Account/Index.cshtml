@@ -28,7 +28,7 @@
             <div class="card-body">
                 <div class="header-card">
                     <div class="button">
-                        <a href="@Url.Action("InsertOrUpdate","Account")" class="btn waves-effect waves-light btn-primary"> Add New Account</a>
+                        <a href="@Url.Action("InsertOrUpdate","Account")" class="btn waves-effect waves-light btn-Custom btn-primary"> Add New</a>
                     </div>
                 </div>
 
@@ -72,114 +72,8 @@
 @Html.Partial("_ModalDelete")
 @Html.Partial("_ModalDetailsAccount")
 
-
 @section Scripts{
-    <script src="/Scripts/mustache.min.js"></script>
     <script src="/Scripts/jquery.twbsPagination.min.js"></script>
     <script src="/Scripts/plugins/AdminJsController.js"></script>
-    <script src="~/Scripts/plugins/IndexJsController.js"></script>
-
-    <script>
-        $(function () {
-            LoadData()
-        })
-        var pageCurrent = 1
-
-        $(".txtSearchAdmin").keyup(function () {
-            LoadData()
-        });
-
-        function LoadData() {
-            var pageSize = $('.pageSizeItem').val()
-            var keysearch = $(".txtSearchAdmin").val()
-
-            $.ajax({
-                type: "GET",
-                url: "/Admin/Account/LoadData",
-                data: { keyword: keysearch, page: pageCurrent, pageSize: pageSize },
-                success: function (res) {
-                    console.log("total: " + res.totalRow)
-
-                    if (res.status == true) {
-                        var data = res.data
-                        var html = ''
-                        $.each(data, function (key, item) {
-                            html += '<tr>'
-                            html += '<td scope="col">' + (key + 1) + '</td>'
-                            html += '<td> <img src="' + item.Image + '" width="30" alt="" /></td>'
-                            html += '<td>' + item.UserName + '</td>' 
-                            html += '<td>' + item.Email + '</td>'
-                            html += '<td class="FlexIconAction">'
-                            html += '<a class="flex items-center text-theme-6 btnDetail" href="javascript:void(0)" onclick="GetDetail(' + item.Id + ')"> <i class="fas fa-search-plus"></i> Details </a>'
-                            html += '<a class="flex items-center mr-3" href="/Admin/Account/InsertOrUpdate/' + item.Id + '"> <i class="fas fa-edit"></i> Edit </a>'
-                            html += '<a class="flex items-center text-theme-6 btnDelete" href="#" onclick="GetDelete(' + item.Id + ')"> <i class="fas fa-trash-alt"></i> Delete </a>'
-                            html += '</td>'
-                            html += '</tr>'
-                        });
-
-                        $("#tblDataAdmin").html(html)
-
-                        var totalPage = Math.ceil(res.totalRow / adminConfig.pageSize);
-                        $('#pagination').twbsPagination({
-                            totalPages: totalPage,
-                            first: '<i class="fas fa-angle-double-left"></i>',
-                            prev: '<i class=" fas fa-angle-left"></i>',
-                            next: '<i class="fas fa-angle-right"></i>',
-                            last: '<i class="fas fa-angle-double-right"></i>',
-                            visiblePages: 8,
-                            onPageClick: function (event, page) {
-                                pageCurrent = page;
-                                LoadData()
-                            }
-                        });
-                    }
-                }
-            })
-        }
-
-        function GetDelete(id) {
-            $('#modal-delete').modal('show');
-            $(document).on("click", ".Save-Delete", function () {
-                console.log("oke")
-                $("#modal-delete").modal("hide")
-                $.ajax({
-                    type: "GET",
-                    url: "/Admin/Account/Locked/" + id,
-                    success: function (res) {
-                        if (res.status == true) {
-                            LoadData()
-                            toastr.success(res.message, res.title);
-                        }
-                    }
-                })
-            })
-        }
-
-        function GetDetail(id) {
-            
-            $.ajax({
-                type: "GET",
-                url: "/Admin/Account/Details/" + id,
-                success: function (res) {
-                    if (res.status == true) {
-                        var item = res.data
-                        $("#textUserName").html(item.UserName)
-                        $("#textDisplayName").html(item.DisplayName)
-                        $("#textEmail").html(item.Email)
-                        if (item.Sex == true) {
-                            $("#textSex").html("Male")
-                        } else {
-                            $("#textSex").html("Female")
-                        }
-                        $("#textImage").attr("src", item.Image)
-                        $("#textCreatedDate").html(res.createdDate)
-                        $("#textLastUpdatedDate").html(res.updatedDate)
-                        $("#modal-detailAccount").modal('show')
-                    }
-                }
-            })
-
-        }
-    </script>
 }
 
