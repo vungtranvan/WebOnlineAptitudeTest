@@ -73,53 +73,7 @@ namespace WebOnlineAptitudeTest.Models.Repositories.Implement
             //};
             return null;
         }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="historyTest">entities | historyTest.TypeAction == 0 ? "Insert" : "Update"</param>
-        /// <returns></returns>
-        public bool InsertOrUpdate(HisToryTestInsertOrUpdateModel historyTest)
-        {
-            //foreach (var item in _categoryExamRepository.Get())
-            //{
-            //    if (historyTest.TypeAction == 0)
-            //    {
-            //        var model = new HistoryTest()
-            //        {
-            //            CandidateId = historyTest.CandidateId,
-            //            TestEndSchedule = (System.DateTime)historyTest.TestEndSchedule,
-            //            TestStartSchedule = historyTest.TestStartSchedule,
-            //            TimeTest = historyTest.TimeTest,
-            //            CategoryExamId = item.Id,
-            //            Deleted = false,
-            //            Status = (int)EnumStatusHistoryTest.Undone
-            //        };
-            //        base.Add(model);
-            //    }
-            //    else
-            //    {
-            //        var history = base.Get(filter: h => h.CategoryExamId == item.Id && h.CandidateId == historyTest.CandidateId).FirstOrDefault();
-            //        if (history == null)
-            //            return false;
-
-            //        history.TestStartSchedule = historyTest.TestStartSchedule;
-            //        history.TestEndSchedule = (System.DateTime)historyTest.TestEndSchedule;
-            //        history.TimeTest = historyTest.TimeTest;
-            //        base.Update(history);
-            //    }
-            //};
-
-            // Update Status Candidate
-            if (historyTest.TypeAction == 0)
-            {
-                var candi = _candidateRepository.GetSingleById(historyTest.CandidateId);
-                candi.Status = true;
-            }
-            _unitOfWork.Commit();
-            return true;
-        }
-
+       
         public bool Locked(int candidateId)
         {
             var history = Get(filter: h => h.CandidateId == candidateId);
@@ -138,21 +92,6 @@ namespace WebOnlineAptitudeTest.Models.Repositories.Implement
 
             _unitOfWork.Commit();
             return true;
-        }
-
-        public void UpdateCandidateQuit()
-        {
-            //var lst = base.DbContext.HistoryTests.Where(x => (x.Status == (int)EnumStatusHistoryTest.Undone 
-            //|| x.Status == (int)EnumStatusHistoryTest.InProgress)
-            //&& x.TestEndSchedule < DateTime.Now);
-            //if (lst.Count() > 0)
-            //{
-            //    foreach (var item in lst)
-            //    {
-            //        item.Status = (int)EnumStatusHistoryTest.Quit;
-            //    }
-            //    _unitOfWork.Commit();
-            //}
         }
     }
 }

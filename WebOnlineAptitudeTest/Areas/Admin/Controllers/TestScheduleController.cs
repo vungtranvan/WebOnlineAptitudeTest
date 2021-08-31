@@ -15,14 +15,14 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
 {
     public class TestScheduleController : BaseController
     {
-        private readonly IHistoryTestRepository _historyTestRepository;
+        private readonly ITestScheduleRepository _testScheduleRepository;
         private readonly ICandidateRepository _candidateRepository;
         private readonly IUnitOfWork _unitOfWork;
 
-        public TestScheduleController(IHistoryTestRepository historyTestRepository,
+        public TestScheduleController(ITestScheduleRepository testScheduleRepository,
             ICandidateRepository candidateRepository, IUnitOfWork unitOfWork)
         {
-            _historyTestRepository = historyTestRepository;
+            _testScheduleRepository = testScheduleRepository;
             _candidateRepository = candidateRepository;
             _unitOfWork = unitOfWork;
         }
@@ -39,7 +39,7 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
         public JsonResult LoadData(string keyword, int page, int pageSize = 3)
         {
             _unitOfWork.DbContext.Configuration.ProxyCreationEnabled = false;
-            var result = _historyTestRepository.GetData(keyword, page, pageSize);
+            var result = _testScheduleRepository.GetData(keyword, page, pageSize);
 
             return Json(new
             {
@@ -134,7 +134,7 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
         public JsonResult Locked(int id)
         {
             var title = "Notification";
-            var result = _historyTestRepository.Locked(id);
+            var result = _testScheduleRepository.Locked(id);
 
             if (!result)
             {

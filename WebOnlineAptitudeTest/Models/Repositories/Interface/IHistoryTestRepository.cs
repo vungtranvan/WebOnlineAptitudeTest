@@ -12,10 +12,7 @@ namespace WebOnlineAptitudeTest.Models.Repositories.Interface
 {
     public interface IHistoryTestRepository : IRepository<HistoryTest>
     {
-        bool InsertOrUpdate(HisToryTestInsertOrUpdateModel historyTest);
         PagingModel<HistoryTestViewModel> GetData(string keyword, int page, int pageSize);
         bool Locked(int candidateId);
-
-        void UpdateCandidateQuit();
     }
 }
