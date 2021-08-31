@@ -4,6 +4,7 @@
 
 .app {
     padding: 20px;
+    width: 100%;   
 }
 
 .content form::-webkit-scrollbar,
@@ -90,7 +91,7 @@
     }
         .menu-bar > li > ul {
             height: calc(100% - 50px);
-            overflow-y: scroll;
+            overflow-y: auto;
             overflow-x: hidden;
             direction: rtl;
         }

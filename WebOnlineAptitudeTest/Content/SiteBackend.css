@@ -86,12 +86,18 @@ input:checked + .slider:before {
 }
 
 .anwser-content {
-    /* This section calls the slideInFromLeft animation we defined above */
-    /*animation: 1s ease-out 0s 1 slideInFromLeft;*/
+
     background-color: rgba(1,202,241,.5);
     padding: 7px 30px;
 }
 
+.note-editor .note-editable p {
+    margin: 0;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
 .question-content {
     background-color: rgba(255,79,112,.5);
     padding: 30px;
@@ -121,6 +127,18 @@ input:checked + .slider:before {
     color: #8971ea;
     font-size: 18px;
 }
+
+.anwser-content .messager,
+.question-content .messager {
+    font-size: 15px;
+}
+.question-content .messager {
+    color: #8971ea;
+}
+.anwser-content .messager {
+    transform: translateY(-11px);
+    display:block;
+}
 .answer-tool {
     align-items: center;
 }
@@ -135,6 +153,7 @@ input:checked + .slider:before {
         font-size: 24px;
     }
 
+    .
 #add_more {
     margin-top: 10px;
 }
@@ -240,7 +259,6 @@ input:checked + .slider:before {
     background-color: #28405c;
     border-top: 1px solid #e8eef3;
     border-color: #fff;
-    /*border-bottom: 1px solid #e8eef3;*/
     align-self: center;
     padding: 0;
     

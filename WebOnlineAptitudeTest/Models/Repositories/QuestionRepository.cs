@@ -15,6 +15,7 @@ namespace WebOnlineAptitudeTest.Models.Repositories
         bool InsertOrUpdate(Question question);
         bool Locked(int id);
         PagingModel<Question> GetData(string keyword, int page, int pageSize);
+        List<Question> GetQuestion(int CategoryExamId);
     }
 
     public class QuestionRepository : RepositoryBase<Question>, IQuestionRepository
@@ -30,38 +31,12 @@ namespace WebOnlineAptitudeTest.Models.Repositories
 
         public PagingModel<Question> GetData(string keyword, int page, int pageSize)
         {
-            //List<Question> lstQuestion = base.DbContext.Questions.Include(a => a.Answers).Include(a => a.CategoryExam)
-            //    .Select(q => new
-            //    {
-            //        Id = q.Id,
-            //        Name = q.Name,
-            //        Status = q.Status,
-            //        Deleted = q.Deleted,
-            //        Mark = q.Mark,
-            //        Answers = q.Answers,
-            //        CategoryExamId = q.CategoryExamId,
-            //        CategoryExamName = q.CategoryExam.Name,
-            //        CreatedDate = q.CreatedDate,
-            //        UpdatedDate = q.UpdatedDate
-            //    }).ToList().Select(b => new Question
-            //    {
-            //        Id = b.Id,
-            //        Name = b.Name,
-            //        Status = b.Status,
-            //        Deleted = b.Deleted,
-            //        Mark = b.Mark,
-            //        Answers = b.Answers,
-            //        CategoryExamId = b.CategoryExamId,
-            //        CategoryExamName = b.CategoryExamName,
-            //        CreatedDate = b.CreatedDate,
-            //        UpdatedDate = b.UpdatedDate
-            //    }).ToList();
 
             List<Question> lstQuestion = new List<Question>();
 
             if (!string.IsNullOrEmpty(keyword))
             {
-                lstQuestion = base.GetMulti(x => (x.Deleted == false || x.Deleted == null )&& (x.Name.Contains(keyword)
+                lstQuestion = base.GetMulti(x => (x.Deleted == false || x.Deleted == null) && (x.Name.Contains(keyword)
                    || x.CategoryExam.Name.Contains(keyword)), new string[] { "CategoryExam", "Answers" })
                 .Select(b => new Question
                 {
@@ -145,6 +120,25 @@ namespace WebOnlineAptitudeTest.Models.Repositories
             quest.Deleted = !quest.Deleted;
             _unitOfWork.Commit();
             return true;
+        }
+        public List<Question> GetQuestion(int CategoryExamId)
+        {
+            List<Question> lstQuestion = new List<Question>();
+
+            lstQuestion = base.GetMulti(x => (x.Deleted == false || x.Deleted == null) && x.CategoryExamId == CategoryExamId, new string[] { "CategoryExam", "Answers" })
+            .Select(b => new Question
+            {
+                Id = b.Id,
+                Name = b.Name,
+                Status = b.Status,
+                Deleted = b.Deleted,
+                Mark = b.Mark,
+                Answers = b.Answers,
+                CategoryExamId = b.CategoryExamId,
+                CategoryExamName = b.CategoryExam.Name
+            }).OrderByDescending(x => x.Id).ToList();
+
+            return lstQuestion;
         }
     }
 }
