@@ -7,17 +7,10 @@ using System.Data.Entity;
 using WebOnlineAptitudeTest.Areas.Admin.Data.Model.Pagings;
 using WebOnlineAptitudeTest.Models.Entities;
 using WebOnlineAptitudeTest.Models.Infrastructure;
+using WebOnlineAptitudeTest.Models.Repositories.Interface;
 
-namespace WebOnlineAptitudeTest.Models.Repositories
+namespace WebOnlineAptitudeTest.Models.Repositories.Implement
 {
-    public interface IQuestionRepository : IRepository<Question>
-    {
-        bool InsertOrUpdate(Question question);
-        bool Locked(int id);
-        PagingModel<Question> GetData(string keyword, int page, int pageSize);
-        List<Question> GetQuestion(int CategoryExamId);
-    }
-
     public class QuestionRepository : RepositoryBase<Question>, IQuestionRepository
     {
         private readonly IUnitOfWork _unitOfWork;

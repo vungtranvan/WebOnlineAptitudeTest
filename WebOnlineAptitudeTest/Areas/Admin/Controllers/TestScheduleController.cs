@@ -9,7 +9,6 @@ using System.Web.Mvc;
 using WebOnlineAptitudeTest.Areas.Admin.Data.Model.HisToryTests;
 using WebOnlineAptitudeTest.Models.Entities;
 using WebOnlineAptitudeTest.Models.Infrastructure;
-using WebOnlineAptitudeTest.Models.Repositories;
 using WebOnlineAptitudeTest.Models.Repositories.Interface;
 
 namespace WebOnlineAptitudeTest.Areas.Admin.Controllers

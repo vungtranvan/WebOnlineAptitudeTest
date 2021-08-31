@@ -8,17 +8,8 @@ using WebOnlineAptitudeTest.Models.Entities;
 using WebOnlineAptitudeTest.Models.Infrastructure;
 using WebOnlineAptitudeTest.Models.Repositories.Interface;
 
-namespace WebOnlineAptitudeTest.Models.Repositories
+namespace WebOnlineAptitudeTest.Models.Repositories.Implement
 {
-    public interface IHistoryTestRepository : IRepository<HistoryTest>
-    {
-        bool InsertOrUpdate(HisToryTestInsertOrUpdateModel historyTest);
-        PagingModel<HistoryTestViewModel> GetData(string keyword, int page, int pageSize);
-        bool Locked(int candidateId);
-
-        void UpdateCandidateQuit();
-    }
-
     public class HistoryTestRepository : RepositoryBase<HistoryTest>, IHistoryTestRepository
     {
         private readonly ICategoryExamRepository _categoryExamRepository;
@@ -131,7 +122,7 @@ namespace WebOnlineAptitudeTest.Models.Repositories
 
         public bool Locked(int candidateId)
         {
-            var history = base.Get(filter: h => h.CandidateId == candidateId);
+            var history = Get(filter: h => h.CandidateId == candidateId);
             if (history.Count() == 0)
             {
                 return false;
