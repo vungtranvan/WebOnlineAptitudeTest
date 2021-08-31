@@ -27,82 +27,9 @@
 <form action="" id="aptitutest_form" method="post" class="form-question">
 
     @*start Question*@
-    <div class="box question mt-5" id="q_1">
-        <div class="pb-3 pt-3 pr-2 pl-2">
-            <div class="flex items-center"> <strong class="block mt-1">This line rendered as bold text.</strong> </div>
-        </div>
 
-        <div class="awnsers">
-            <div class="border-b border-t text-gray-600 border-gray-200 flex items-center">
 
-                <div class="flex items-center justify-center p-3">
-                    <input name="q1" value="1" type="checkbox" class="input border border-gray-500">
-                </div>
 
-                <p class="p-2"> text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-rjustify-center text-gray-600 px-5 text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-l border-r border-r border-g</p>
-            </div>
-        </div>
-
-        <div class="awnsers">
-            <div class="border-b border-t text-gray-600 border-gray-200 flex items-center">
-
-                <div class="flex items-center justify-center p-3">
-                    <input name="q1" value="2" type="checkbox" class="input border border-gray-500">
-                </div>
-
-                <p class="p-2"> text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-rjustify-center text-gray-600 px-5 text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-l border-r border-r border-g</p>
-            </div>
-        </div>
-        <div class="awnsers">
-            <div class="border-b border-t text-gray-600 border-gray-200 flex items-center">
-
-                <div class="flex items-center justify-center p-3">
-                    <input name="q1" value="3" type="checkbox" class="input border border-gray-500">
-                </div>
-
-                <p class="p-2"> text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-rjustify-center text-gray-600 px-5 text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-l border-r border-r border-g</p>
-            </div>
-        </div>
-    </div>
-
-    @*start Question*@
-    <div class="box question mt-5" id="q_1">
-        <div class="pb-3 pt-3 pr-2 pl-2">
-            <div class="flex items-center"> <strong class="block mt-1">This line rendered as bold text.</strong> </div>
-        </div>
-
-        <div class="awnsers">
-            <div class="border-b border-t text-gray-600 border-gray-200 flex items-center">
-
-                <div class="flex items-center justify-center p-3">
-                    <input name="q2" value="1" type="checkbox" class="input border border-gray-500">
-                </div>
-
-                <p class="p-2"> text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-rjustify-center text-gray-600 px-5 text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-l border-r border-r border-g</p>
-            </div>
-        </div>
-
-        <div class="awnsers">
-            <div class="border-b border-t text-gray-600 border-gray-200 flex items-center">
-
-                <div class="flex items-center justify-center p-3">
-                    <input name="q2" value="2" type="checkbox" class="input border border-gray-500">
-                </div>
-
-                <p class="p-2"> text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-rjustify-center text-gray-600 px-5 text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-l border-r border-r border-g</p>
-            </div>
-        </div>
-        <div class="awnsers">
-            <div class="border-b border-t text-gray-600 border-gray-200 flex items-center">
-
-                <div class="flex items-center justify-center p-3">
-                    <input name="q2" value="3" type="checkbox" class="input border border-gray-500">
-                </div>
-
-                <p class="p-2"> text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-rjustify-center text-gray-600 px-5 text-gray-600 px-5 border-l border-rjustify-center text-gray-600 px-5 border-l border-r border-r border-g</p>
-            </div>
-        </div>
-    </div>
 
 </form>
 
@@ -113,7 +40,12 @@
             let minute = 2;
             let seconnd = minute * 60;
 
-            let baseUrl = '@Url.Action("AptidudeTest", "Home")';
+
+            let createQuestUrl = '@Url.Action("CreateQuest", "Home")';
+            let confirmUrl = '@Url.Action("AptidudeTest", "Home")';
+
+
+
 
             let seconndShow = 0;
 
@@ -145,8 +77,7 @@
             };
 
             $("#aptitutest_form_submit").on("click", function () {
-                console.log("aaaa");
-               
+
                 submitForm();
             });
 
@@ -154,9 +85,17 @@
                 clearInterval(countdown);
                 $(".count-down-percent").css("animation-play-state", "paused");
 
-                var form = $("#aptitutest_form").serialize();
+                //var form = $("#aptitutest_form").serialize();
 
-                ajax({ "collection": form, "partName": "GeneralKnowledge" }, baseUrl, function (data) {
+                let formData = new FormData($("#aptitutest_form")[0]);
+                //formData.append("Choises[0].Abc", 123);
+
+                let myForm = document.getElementById('aptitutest_form');
+                let formData1 = new FormData(myForm);
+
+                console.log(formData1.get("q1"));
+
+                ajax(formData, confirmUrl, function (data) {
 
                     createMenu(data.PartName);
 
@@ -164,15 +103,60 @@
                 });
             }
 
-            ajax("", baseUrl, function (data) {
+            //create quest
+            ajax("", createQuestUrl, function (res) {
 
-                createMenu(data.PartName);
-              
+                console.log(res);
+
+                let content = ``;
+                let menu = ``;
+                $.each(res.data, function (i, q) {
+                    //add content
+                    content += `
+                    <div class="box question mt-5" id="q_`+ q.Id +`">
+                        <div class="pb-3 pt-3 pr-2 pl-2">
+                            <div class="flex items-center">`+ q.Name + ` </div>
+                        </div>`;
+
+                    $.each(q.Answers, function (j, a) {
+
+                        content += `<div class="awnsers">
+                            <div class="border-b border-t text-gray-600 border-gray-200 flex items-center">
+
+                                <div class="flex items-center justify-center p-3">
+                                    <input name="" value="1" type="checkbox" class="input border border-gray-500">
+                                </div>
+
+                                <div class="p-2"> `+a.Name+` </div>
+                            </div>
+                        </div>`
+                    });
+
+                    content += `</div>`;
+
+
+
+                // add menu
+                menu += `<li>
+                    <a href="#q_`+q.Id+`" class="side-menu" target="_self">
+                        <div class="side-menu__icon"> `+(i+1)+`. </div>
+                        <div class="side-menu__title"> Question `+ (i + 1) +` </div>
+                    </a>
+                </li>`;
+
+
+                });
+
+                $("#aptitutest_form").html(content);
+                $("#sidemenu_content_" + res.PartId).html(menu);
+
+                createMenu(res.PartId);
+
             });
 
 
 
-            function createMenu(name) {
+            function createMenu(id) {
 
                 let clear =  $(".memu-with-child");
 
@@ -184,7 +168,8 @@
                 clear.find("ul").removeClass("side-menu__sub-open");
                 clear.find("ul").css("display", "none");
 
-                let element = $("." + name);;
+                let element = $(".sidemenu_" + id);
+
                 element.addClass("side-menu-with-child-open");
                 element.find(".side-menu").addClass("side-menu--open side-menu--active side-menu-x");
                 element.find(".side-menu").attr("onclick","sideMenu(this)");
@@ -192,7 +177,7 @@
 
                 element.find("ul").addClass("side-menu__sub-open");
                 element.find("ul").css("display", "block");
-                
+
             }
 
 
@@ -202,9 +187,16 @@
                         url: url,
                         type: "POST",
                         dataType: "json",
+                        processData: false,
+                        contentType: false,
                         data: data,
                         success: function (res) {
-                            res.Response = $.parseJSON(res.Response) ?? res.Response;
+                            try {
+                                res.data = $.parseJSON(res.data)
+                            } catch (e) {
+
+                            }
+
                             callback(res);
                         }
                     });
@@ -216,7 +208,7 @@
 
 
         function sideMenu(element) {
-            console.log(element);
+
             if ($(element).parent().find('ul').length) {
                 if ($(element).parent().find('ul').first().is(':visible')) {
                     $(element).find('.side-menu__sub-icon').removeClass('transform rotate-180');

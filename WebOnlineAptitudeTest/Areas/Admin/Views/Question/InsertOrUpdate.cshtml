@@ -7,17 +7,6 @@
 
 }
 
-@section Styles {
-    <style>
-        .note-editor .note-editable p {
-            margin: 0;
-        }
-
-        .cursor-pointer {
-            cursor: pointer;
-        }
-    </style>
-}
 
 
 @using (Html.BeginForm())
@@ -75,7 +64,7 @@
                                 @Html.Raw(@Model.Name);
                             }</div>
 
-                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = " messager" })
                 </div>
 
             </div>
@@ -112,7 +101,7 @@
 
                             <div class="">
                                 <div class="form-control summernote text-box multi-line" name="question.Answers[0].Name"></div>
-                                @Html.ValidationMessageFor(model => model.Answers.FirstOrDefault().Name, "", new { @class = "text-danger" })
+                                @Html.ValidationMessageFor(model => model.Answers.FirstOrDefault().Name, "", new { @class = "text-danger messager" })
                             </div>
                         </div>
 
@@ -153,7 +142,7 @@
                                     <div class="form-control summernote text-box multi-line">@Html.Raw(aw.Name)</div>
 
 
-                                    @Html.ValidationMessageFor(model => model.Answers.FirstOrDefault().Name, "", new { @class = "text-danger" })
+                                    @Html.ValidationMessageFor(model => model.Answers.FirstOrDefault().Name, "", new { @class = "text-danger messager" })
                                 </div>
                             </div>
                             { i++; }
@@ -248,8 +237,6 @@
 
                 anwserClone.appendTo(".anwser").show();
 
-
-
                 $("html, body").animate({
                     scrollTop: $(
                         'html, body').get(0).scrollHeight
@@ -282,36 +269,54 @@
             $("form").submit(function () {
                 // Let's find the input to check
                 var $contents = $(this).find(".note-editable");
-                var $form = $(this);
 
-
+                var emptyAns = false;
 
                 $contents.each(function (index) {
-
-                    $(this).find("script").remove();
+                    $contentAnswer = $(this);
+                    $contentAnswer.find("script").remove();
 
                     $noteHtml = $(this).html();
+
+                    if ($noteHtml.length <= 0 || $noteHtml == "<p><br></p>") {
+                        emptyAns = true;
+                        if (index <= 0) {
+                            $contentAnswer.closest(".question-content").find(".messager").html("The Questtion field is required.");
+
+                        } else {
+                            $contentAnswer.closest(".anwser-content").find(".messager").html("The Answer field is required.");
+
+                        }
+
+                    }
+                    else {
+                        if (index <= 0) {
+                            $contentAnswer.closest(".question-content").find(".messager").html("");
+
+                        } else {
+                            $contentAnswer.closest(".anwser-content").find(".messager").html("");
+
+                        }
+                    }
 
                     $noteHtmlNoBreak = $noteHtml.replace(/(\r\n|\n|\r)/gm, "");
  
                     $(this).parent().find(".note-codable").val($noteHtmlNoBreak);
 
-
-                    console.log($(this).parent().find(".note-codable").val());
-
-
                 });
-     
+                if (emptyAns == true) {
+                    return false;
+                }
 
             });
 
 
 
-            function htmlencode(str) {
-                return str.replace(/[&<>"']/g, function ($0) {
-                    return "&" + { "&": "amp", "<": "lt", ">": "gt", '"': "quot", "'": "#39" }[$0] + ";";
-                });
-            }
+            //function htmlencode(str) {
+            //    return str.replace(/[&<>"']/g, function ($0) {
+            //        return "&" + { "&": "amp", "<": "lt", ">": "gt", '"': "quot", "'": "#39" }[$0] + ";";
+            //    });
+            //}
 
             function changeControl(element, count) {
 
@@ -336,5 +341,4 @@
         });
     </script>
 
-    @*<script>alert("aaaa")</script>*@
 }
