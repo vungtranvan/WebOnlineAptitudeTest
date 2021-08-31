@@ -19,6 +19,7 @@ namespace WebOnlineAptitudeTest.Models.Entities
         public virtual DbSet<HistoryTest> HistoryTests { get; set; }
         public virtual DbSet<HistoryTestDetail> HistoryTestDetails { get; set; }
         public virtual DbSet<Question> Questions { get; set; }
+        public virtual DbSet<TestSchedule> TestSchedules { get; set; }
         public virtual DbSet<Transfer> Transfers { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -72,11 +73,6 @@ namespace WebOnlineAptitudeTest.Models.Entities
                 .HasMany(e => e.HistoryTestDetails)
                 .WithRequired(e => e.Question)
                 .WillCascadeOnDelete(false);
-        }
-
-        internal object QuestionView(Func<object, bool> filter, Func<object, object> orderBy)
-        {
-            throw new NotImplementedException();
         }
     }
 }

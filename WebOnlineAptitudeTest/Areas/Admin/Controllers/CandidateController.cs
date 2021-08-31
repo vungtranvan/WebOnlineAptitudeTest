@@ -2,10 +2,9 @@
 using WebOnlineAptitudeTest.Models.Entities;
 using System;
 using System.Collections.Generic;
-using WebOnlineAptitudeTest.Models.Repositories;
 using WebOnlineAptitudeTest.Models.Infrastructure;
 using System.Linq;
-using WebOnlineAptitudeTest.Areas.Admin.Data.Model.Pagings;
+using WebOnlineAptitudeTest.Models.Repositories.Interface;
 
 namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
 {

@@ -5,29 +5,22 @@ using System.Web;
 using WebOnlineAptitudeTest.Areas.Admin.Data.Model.Pagings;
 using WebOnlineAptitudeTest.Models.Entities;
 using WebOnlineAptitudeTest.Models.Infrastructure;
+using WebOnlineAptitudeTest.Models.Repositories.Interface;
 
-namespace WebOnlineAptitudeTest.Models.Repositories
+namespace WebOnlineAptitudeTest.Models.Repositories.Implement
 {
-    public interface IAdminRepository : IRepository<Admin>
-    {
-        bool ChangePass(string userName, string passOld, string passNew);
-        bool InsertOrUpdate(Admin acc);
-        bool Locked(int id);
-        PagingModel<Admin> GetData(string keyword, int page, int pageSize);
-    }
-
     public class AdminRepository : RepositoryBase<Admin>, IAdminRepository
     {
         private readonly IUnitOfWork _unitOfWork;
-        public AdminRepository(IDbFactory dbFactory,IUnitOfWork unitOfWork) : base(dbFactory)
+        public AdminRepository(IDbFactory dbFactory, IUnitOfWork unitOfWork) : base(dbFactory)
         {
             _unitOfWork = unitOfWork;
         }
 
         public bool ChangePass(string userName, string passOld, string passNew)
         {
-            var user = base.Get(filter: x => x.UserName.Equals(userName)).FirstOrDefault();
-            if (!user.Password.Equals(MyHelper.ToMD5(passOld)))
+            var user = Get(filter: x => x.UserName.Equals(userName)).FirstOrDefault();
+            if (!user.Password.Equals(passOld.ToMD5()))
             {
                 return false;
             }
@@ -39,7 +32,7 @@ namespace WebOnlineAptitudeTest.Models.Repositories
             return true;
         }
 
-        public bool InsertOrUpdate(Models.Entities.Admin acc)
+        public bool InsertOrUpdate(Admin acc)
         {
             if (acc.Id == 0)
             {
@@ -76,14 +69,14 @@ namespace WebOnlineAptitudeTest.Models.Repositories
 
             if (!string.IsNullOrEmpty(keyword))
             {
-                lstAcc = base.Get(
+                lstAcc = Get(
                     filter: c => c.Deleted == false && (c.UserName.ToLower().Contains(keyword.ToLower())
                     || c.DisplayName.ToLower().Contains(keyword.ToLower()) || c.Email.ToLower().Contains(keyword.ToLower())),
                     orderBy: c => c.OrderByDescending(x => x.Id)).ToList();
             }
             else
             {
-                lstAcc = base.Get(filter: c => c.Deleted == false, orderBy: c => c.OrderByDescending(x => x.Id)).ToList();
+                lstAcc = Get(filter: c => c.Deleted == false, orderBy: c => c.OrderByDescending(x => x.Id)).ToList();
             }
 
             int totalRow = lstAcc.Count();

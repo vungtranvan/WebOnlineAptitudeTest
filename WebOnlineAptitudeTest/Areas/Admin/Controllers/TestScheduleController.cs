@@ -10,6 +10,7 @@ using WebOnlineAptitudeTest.Areas.Admin.Data.Model.HisToryTests;
 using WebOnlineAptitudeTest.Models.Entities;
 using WebOnlineAptitudeTest.Models.Infrastructure;
 using WebOnlineAptitudeTest.Models.Repositories;
+using WebOnlineAptitudeTest.Models.Repositories.Interface;
 
 namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
 {
@@ -58,74 +59,75 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult InsertOrUpdate(int? id)
         {
-            if (id != null)
-            {
-                var historyTest = _historyTestRepository.Get(x => x.CandidateId == id).FirstOrDefault();
+            //if (id != null)
+            //{
+            //    var historyTest = _historyTestRepository.Get(x => x.CandidateId == id).FirstOrDefault();
 
-                var model = new HisToryTestInsertOrUpdateModel()
-                {
-                    TypeAction = 1,
-                    CandidateId = historyTest.CandidateId,
-                    TestEndSchedule = historyTest.TestEndSchedule,
-                    TestStartSchedule = historyTest.TestStartSchedule,
-                    TimeTest = historyTest.TimeTest
-                };
-                return View(model);
-            }
+            //    var model = new HisToryTestInsertOrUpdateModel()
+            //    {
+            //        TypeAction = 1,
+            //        CandidateId = historyTest.CandidateId,
+            //        TestEndSchedule = historyTest.TestEndSchedule,
+            //        TestStartSchedule = historyTest.TestStartSchedule,
+            //        TimeTest = historyTest.TimeTest
+            //    };
+            //    return View(model);
+            //}
 
-            this.DropDownCandidate();
+            //this.DropDownCandidate();
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [ValidateInput(false)]
         public ActionResult InsertOrUpdate(HisToryTestInsertOrUpdateModel historyTest)
         {
             //validate data input
-            if (historyTest.TimeTest <= 0)
-                ModelState.AddModelError("TimeTest", "Time test must be bigger 0");
+            //if (historyTest.TimeTest <= 0)
+            //    ModelState.AddModelError("TimeTest", "Time test must be bigger 0");
 
-            if (historyTest.TestStartSchedule <= DateTime.Now)
-                ModelState.AddModelError("TestStartSchedule", "Test start schedule must be bigger Time Now");
+            //if (historyTest.TestStartSchedule <= DateTime.Now)
+            //    ModelState.AddModelError("TestStartSchedule", "Test start schedule must be bigger Time Now");
 
-            if (historyTest.TestEndSchedule <= historyTest.TestStartSchedule)
-                ModelState.AddModelError("TestEndSchedule", "Test end schedule must be bigger Test start schedule");
+            //if (historyTest.TestEndSchedule <= historyTest.TestStartSchedule)
+            //    ModelState.AddModelError("TestEndSchedule", "Test end schedule must be bigger Test start schedule");
 
-            if (historyTest.TimeTest > 0 && historyTest.TestStartSchedule != null && historyTest.TestEndSchedule != null)
-            {
-                if (historyTest.TestEndSchedule < historyTest.TestStartSchedule.AddMinutes(historyTest.TimeTest * 3))
-                    ModelState.AddModelError("TestEndSchedule", "Test end schedule invalid (TestEndSchedule >= (TestStartSchedule + (TimeTest*3)))");
-            }
+            //if (historyTest.TimeTest > 0 && historyTest.TestStartSchedule != null && historyTest.TestEndSchedule != null)
+            //{
+            //    if (historyTest.TestEndSchedule < historyTest.TestStartSchedule.AddMinutes(historyTest.TimeTest * 3))
+            //        ModelState.AddModelError("TestEndSchedule", "Test end schedule invalid (TestEndSchedule >= (TestStartSchedule + (TimeTest*3)))");
+            //}
 
-            if (!ModelState.IsValid)
-            {
-                this.DropDownCandidate(historyTest.CandidateId);
-                return View(historyTest);
-            }
-            var result = _historyTestRepository.InsertOrUpdate(historyTest);
+            //if (!ModelState.IsValid)
+            //{
+            //    this.DropDownCandidate(historyTest.CandidateId);
+            //    return View(historyTest);
+            //}
+            //var result = _historyTestRepository.InsertOrUpdate(historyTest);
 
-            if (result == true)
-            {
-                if (historyTest.TypeAction == 0)
-                {
-                    TempData["XMessage"] = new XMessage("Notification", "Add Successfull !!!", EnumCategoryMess.success);
-                }
-                else
-                {
-                    TempData["XMessage"] = new XMessage("Notification", "Edit Successfull !!!", EnumCategoryMess.success);
-                }
-            }
-            else
-            {
-                if (historyTest.TypeAction == 0)
-                {
-                    TempData["XMessage"] = new XMessage("Notification", "Add Error !!!", EnumCategoryMess.error);
-                }
-                else
-                {
-                    TempData["XMessage"] = new XMessage("Notification", "Edit Error !!!", EnumCategoryMess.error);
-                }
-            }
+            //if (result == true)
+            //{
+            //    if (historyTest.TypeAction == 0)
+            //    {
+            //        TempData["XMessage"] = new XMessage("Notification", "Add Successfull !!!", EnumCategoryMess.success);
+            //    }
+            //    else
+            //    {
+            //        TempData["XMessage"] = new XMessage("Notification", "Edit Successfull !!!", EnumCategoryMess.success);
+            //    }
+            //}
+            //else
+            //{
+            //    if (historyTest.TypeAction == 0)
+            //    {
+            //        TempData["XMessage"] = new XMessage("Notification", "Add Error !!!", EnumCategoryMess.error);
+            //    }
+            //    else
+            //    {
+            //        TempData["XMessage"] = new XMessage("Notification", "Edit Error !!!", EnumCategoryMess.error);
+            //    }
+            //}
             return RedirectToAction("Index");
         }
 

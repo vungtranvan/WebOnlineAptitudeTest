@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using WebOnlineAptitudeTest.Models.Entities;
 using WebOnlineAptitudeTest.Models.Infrastructure;
-using WebOnlineAptitudeTest.Models.Repositories;
+using WebOnlineAptitudeTest.Models.Repositories.Implement;
 
 [assembly: OwinStartup(typeof(WebOnlineAptitudeTest.Startup))]
 
