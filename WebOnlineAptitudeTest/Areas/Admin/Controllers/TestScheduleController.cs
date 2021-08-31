@@ -6,14 +6,14 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using WebOnlineAptitudeTest.Areas.Admin.Data.Model.HisToryTests;
+using WebOnlineAptitudeTest.Areas.Admin.Data.Model.TestSchedules;
 using WebOnlineAptitudeTest.Models.Entities;
 using WebOnlineAptitudeTest.Models.Infrastructure;
 using WebOnlineAptitudeTest.Models.Repositories.Interface;
 
 namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
 {
-    public class TestScheduleController : BaseController
+    public class TestScheduleController : Controller
     {
         private readonly ITestScheduleRepository _testScheduleRepository;
         private readonly ICandidateRepository _candidateRepository;
@@ -58,75 +58,71 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult InsertOrUpdate(int? id)
         {
-            //if (id != null)
-            //{
-            //    var historyTest = _historyTestRepository.Get(x => x.CandidateId == id).FirstOrDefault();
+            if (id != null)
+            {
+                if (_testScheduleRepository.CheckStatus(id.Value))
+                {
+                    var model = _testScheduleRepository.GetInsertOrUpdateRequest(id.Value);
+                    this.MultiSelectListCandidate(model.CandidateId);
+                    return View(model);
+                }
+                TempData["XMessage"] = new XMessage("Notification", "Unable to update because the exam is starting or has ended !!!", EnumCategoryMess.error);
+                return RedirectToAction("Index");
+            }
 
-            //    var model = new HisToryTestInsertOrUpdateModel()
-            //    {
-            //        TypeAction = 1,
-            //        CandidateId = historyTest.CandidateId,
-            //        TestEndSchedule = historyTest.TestEndSchedule,
-            //        TestStartSchedule = historyTest.TestStartSchedule,
-            //        TimeTest = historyTest.TimeTest
-            //    };
-            //    return View(model);
-            //}
-
-            //this.DropDownCandidate();
+            this.MultiSelectListCandidate();
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [ValidateInput(false)]
-        public ActionResult InsertOrUpdate(HisToryTestInsertOrUpdateModel historyTest)
+        public ActionResult InsertOrUpdate(TestScheduleInsertOrUpdateRequest model)
         {
             //validate data input
-            //if (historyTest.TimeTest <= 0)
-            //    ModelState.AddModelError("TimeTest", "Time test must be bigger 0");
+            if (model.TimeTest <= 0)
+                ModelState.AddModelError("TimeTest", "Time test must be bigger 0");
 
-            //if (historyTest.TestStartSchedule <= DateTime.Now)
-            //    ModelState.AddModelError("TestStartSchedule", "Test start schedule must be bigger Time Now");
+            if (model.DateStart <= DateTime.Now)
+                ModelState.AddModelError("DateStart", "Test start schedule must be bigger Time Now");
 
-            //if (historyTest.TestEndSchedule <= historyTest.TestStartSchedule)
-            //    ModelState.AddModelError("TestEndSchedule", "Test end schedule must be bigger Test start schedule");
+            if (model.DateEnd <= model.DateStart)
+                ModelState.AddModelError("DateEnd", "Test end schedule must be bigger Test start schedule");
 
-            //if (historyTest.TimeTest > 0 && historyTest.TestStartSchedule != null && historyTest.TestEndSchedule != null)
-            //{
-            //    if (historyTest.TestEndSchedule < historyTest.TestStartSchedule.AddMinutes(historyTest.TimeTest * 3))
-            //        ModelState.AddModelError("TestEndSchedule", "Test end schedule invalid (TestEndSchedule >= (TestStartSchedule + (TimeTest*3)))");
-            //}
+            if (model.TimeTest > 0 && model.DateStart != null && model.DateEnd != null)
+            {
+                if (model.DateEnd < model.DateStart.AddMinutes(model.TimeTest * 3))
+                    ModelState.AddModelError("DateEnd", "Test end schedule invalid (DateEnd >= (DateStart + (TimeTest*3)))");
+            }
 
-            //if (!ModelState.IsValid)
-            //{
-            //    this.DropDownCandidate(historyTest.CandidateId);
-            //    return View(historyTest);
-            //}
-            //var result = _historyTestRepository.InsertOrUpdate(historyTest);
+            if (!ModelState.IsValid)
+            {
+                this.MultiSelectListCandidate(model.CandidateId);
+                return View(model);
+            }
+            var result = _testScheduleRepository.InsertOrUpdate(model);
 
-            //if (result == true)
-            //{
-            //    if (historyTest.TypeAction == 0)
-            //    {
-            //        TempData["XMessage"] = new XMessage("Notification", "Add Successfull !!!", EnumCategoryMess.success);
-            //    }
-            //    else
-            //    {
-            //        TempData["XMessage"] = new XMessage("Notification", "Edit Successfull !!!", EnumCategoryMess.success);
-            //    }
-            //}
-            //else
-            //{
-            //    if (historyTest.TypeAction == 0)
-            //    {
-            //        TempData["XMessage"] = new XMessage("Notification", "Add Error !!!", EnumCategoryMess.error);
-            //    }
-            //    else
-            //    {
-            //        TempData["XMessage"] = new XMessage("Notification", "Edit Error !!!", EnumCategoryMess.error);
-            //    }
-            //}
+            if (result == true)
+            {
+                if (model.Id == 0)
+                {
+                    TempData["XMessage"] = new XMessage("Notification", "Add Successfull !!!", EnumCategoryMess.success);
+                }
+                else
+                {
+                    TempData["XMessage"] = new XMessage("Notification", "Edit Successfull !!!", EnumCategoryMess.success);
+                }
+            }
+            else
+            {
+                if (model.Id == 0)
+                {
+                    TempData["XMessage"] = new XMessage("Notification", "Add Error !!!", EnumCategoryMess.error);
+                }
+                else
+                {
+                    TempData["XMessage"] = new XMessage("Notification", "Edit Error !!!", EnumCategoryMess.error);
+                }
+            }
             return RedirectToAction("Index");
         }
 
@@ -154,11 +150,30 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
             });
         }
 
-        private void DropDownCandidate(int candidateId = 0)
+        private void MultiSelectListCandidate(List<int> lstcandidateId = null)
         {
             var lstCandi = _candidateRepository.Get(filter: x => x.Status == false
                            && x.Deleted == false, orderBy: c => c.OrderByDescending(y => y.Id)).ToList();
-            ViewBag.NewsItemList = new SelectList(lstCandi, "Id", "Name", candidateId);
+
+            if (lstcandidateId != null)
+            {
+                foreach (var item in _candidateRepository.Get(filter: x => x.Status == true))
+                {
+                    foreach (var c in lstcandidateId)
+                    {
+                        if (item.Id == c)
+                        {
+                            lstCandi.Add(item);
+                        }
+                    }
+                }
+
+                ViewBag.NewsItemList = new MultiSelectList(lstCandi, "Id", "Name", lstcandidateId);
+            }
+            else
+            {
+                ViewBag.NewsItemList = new MultiSelectList(lstCandi, "Id", "Name");
+            }
         }
     }
 }

@@ -210,9 +210,10 @@
     <Compile Include="Areas\Admin\Controllers\HomesController.cs" />
     <Compile Include="Areas\Admin\Controllers\MenusController.cs" />
     <Compile Include="Areas\Admin\Controllers\QuestionController.cs" />
-    <Compile Include="Areas\Admin\Data\Model\HisToryTests\HisToryTestInsertOrUpdateModel.cs" />
     <Compile Include="Areas\Admin\Data\Model\HisToryTests\HistoryTestViewModel.cs" />
     <Compile Include="Areas\Admin\Data\Model\Pagings\PagingModel.cs" />
+    <Compile Include="Areas\Admin\Data\Model\TestSchedules\TestScheduleInsertOrUpdateRequest.cs" />
+    <Compile Include="Areas\Admin\Data\Model\TestSchedules\TestScheduleViewModel.cs" />
     <Compile Include="Areas\Admin\Data\Model\User\LoginRequest.cs" />
     <Compile Include="Controllers\AuthFrontendController.cs" />
     <Compile Include="Controllers\BaseFrController.cs" />
@@ -220,6 +221,7 @@
     <Compile Include="Controllers\MenuController.cs" />
     <Compile Include="CustomCKFinderAuthenticator.cs" />
     <Compile Include="Enums\EnumStatusHistoryTest.cs" />
+    <Compile Include="Enums\EnumStatusTestSchedule.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

@@ -21,7 +21,7 @@ namespace WebOnlineAptitudeTest.Models.Entities
 
         public int CandidateId { get; set; }
 
-        public int? TestScheduleId { get; set; }
+        public int TestScheduleId { get; set; }
 
         public int TimeTest { get; set; }
 
