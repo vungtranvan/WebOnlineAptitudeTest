@@ -15,7 +15,7 @@
 
     <div class="form-horizontal">
         <div class="">
-            @Html.LabelFor(model => model.CategoryExamId, "question.CategoryExamId", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.CategoryExamId, "CategoryExam Name", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="">
                 @Html.DropDownList("CategoryExamId", (SelectList)ViewBag.NewsItemList, htmlAttributes: new { @class = "form-control", Name = "question.CategoryExamId" })
                 @Html.ValidationMessageFor(model => model.CategoryExamId, "", new { @class = "text-danger" })
@@ -161,7 +161,7 @@
         <div class="form-row">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" class="btn waves-effect btn-Custom waves-light btn-primary" value="Save Change" />
-                <a href='@Url.Action("Index","Question")' class="btn waves-effect btn-Custom waves-light btn-danger" >Cancer</a>
+                <a href='@Url.Action("Index","Question")' class="btn waves-effect btn-Custom waves-light btn-danger" >Cancel</a>
 
             </div>
 

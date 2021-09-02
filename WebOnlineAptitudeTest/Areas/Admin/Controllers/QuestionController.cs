@@ -33,7 +33,7 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            ViewBag.ListpageSize = new List<int>() { 5, 10, 15, 20, 50, 100 };
+            ViewBag.ListpageSize = new List<int>() { 10, 15, 20, 50, 100 };
             return View();
         }
 
@@ -92,6 +92,7 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [ValidateInput(false)]
         public ActionResult InsertOrUpdate(Question question, int? id)
         {
             if (!ModelState.IsValid)
@@ -113,7 +114,7 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
             {
                 question.Id = id != null ? id.Value : 0;
 
-                this._questionRepository.InsertOrUpdate(question);
+                var result = this._questionRepository.InsertOrUpdate(question);
 
                 if (id != null)
                 {
@@ -121,17 +122,34 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
                     this._answerRepository.ChangeAnswer(question.Id, question.Answers);
                     this.DropDownCategoryExam();
 
-                    return RedirectToAction("InsertOrUpdate");
+                    if (result == true)
+                    {
+                        TempData["XMessage"] = new XMessage("Notification", "Edit Successfull !!!", EnumCategoryMess.success);
+                    }
+                    else
+                    {
+                        TempData["XMessage"] = new XMessage("Notification", "Edit Error !!!", EnumCategoryMess.error);
+                    }
 
-                }else
-                {
-                    return RedirectToAction("Index");
                 }
+                else
+                {
+                    if (result == true)
+                    {
+                        TempData["XMessage"] = new XMessage("Notification", "Add Successfull !!!", EnumCategoryMess.success);
+                    }
+                    else
+                    {
+                        TempData["XMessage"] = new XMessage("Notification", "Add Error !!!", EnumCategoryMess.error);
+                    }
+
+                }
+                return RedirectToAction("Index");
 
             }
 
             this.DropDownCategoryExam();
-            return RedirectToAction("Index");
+            return RedirectToAction("InsertOrUpdate");
 
 
         }
