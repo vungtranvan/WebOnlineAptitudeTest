@@ -32,11 +32,13 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
             _unitOfWork.DbContext.Configuration.ProxyCreationEnabled = false;
             var data = _categoryExamRepository.Get().ToList();
 
-            return Json(new
+            var json = Json(new
             {
                 data = data,
                 status = true
             }, JsonRequestBehavior.AllowGet);
+            json.MaxJsonLength = Int32.MaxValue;
+            return json;
         }
 
         [HttpGet]

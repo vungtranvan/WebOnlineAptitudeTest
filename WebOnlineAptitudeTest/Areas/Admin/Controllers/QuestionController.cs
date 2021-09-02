@@ -49,12 +49,14 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
                });
 
-            return Json(new
+            var json = Json(new
             {
                 data = resultData,
                 totalRow = result.TotalRow,
                 status = true
             }, JsonRequestBehavior.AllowGet);
+            json.MaxJsonLength = Int32.MaxValue;
+            return json;
         }
         [HttpGet]
         public JsonResult Details(int id)

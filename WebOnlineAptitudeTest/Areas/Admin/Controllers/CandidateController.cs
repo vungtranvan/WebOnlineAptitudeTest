@@ -33,12 +33,14 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
             _unitOfWork.DbContext.Configuration.ProxyCreationEnabled = false;
             var result = _candidateRepository.GetData(keyword, page, pageSize);
 
-            return Json(new
+            var json = Json(new
             {
                 data = result.Items,
                 totalRow = result.TotalRow,
                 status = true
             }, JsonRequestBehavior.AllowGet);
+            json.MaxJsonLength = Int32.MaxValue;
+            return json;
         }
 
         [HttpGet]
