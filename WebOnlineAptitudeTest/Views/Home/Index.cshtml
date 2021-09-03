@@ -42,7 +42,7 @@
 
 
             let createQuestUrl = '@Url.Action("CreateQuest", "Home")';
-            let confirmUrl = '@Url.Action("AptidudeTest", "Home")';
+            let confirmUrl = '@Url.Action("ConfirmTest", "Home")';
 
 
 
@@ -83,10 +83,13 @@
 
             function submitForm() {
                 clearInterval(countdown);
+
+
                 $(".count-down-percent").css("animation-play-state", "paused");
 
                 //var form = $("#aptitutest_form").serialize();
-
+                console.log(($("#aptitutest_form").serializeArray()));
+                return false;
                 let formData = new FormData($("#aptitutest_form")[0]);
                 //formData.append("Choises[0].Abc", 123);
 
@@ -99,8 +102,17 @@
 
                     createMenu(data.PartName);
 
-
                 });
+            }
+
+            function objectifyForm(formArray) {
+                //serialize data function
+                var returnArray = {};
+                for (var i = 0; i < formArray.length; i++) {
+
+                    returnArray[formArray[i]['name']] = formArray[i]['value'];
+                }
+                return returnArray;
             }
 
             //create quest
@@ -117,14 +129,17 @@
                         <div class="pb-3 pt-3 pr-2 pl-2">
                             <div class="flex items-center">`+ q.Name + ` </div>
                         </div>`;
+                    let numberCorrect = 0;
 
                     $.each(q.Answers, function (j, a) {
+ 
+
 
                         content += `<div class="awnsers">
                             <div class="border-b border-t text-gray-600 border-gray-200 flex items-center">
 
                                 <div class="flex items-center justify-center p-3">
-                                    <input name="" value="1" type="checkbox" class="input border border-gray-500">
+                                    <input name="quest[`+i+`].Answer[`+j+`]" value="1" type="checkbox" class="input border border-gray-500">
                                 </div>
 
                                 <div class="p-2"> `+a.Name+` </div>

@@ -35,7 +35,7 @@ namespace WebOnlineAptitudeTest.Controllers
             return View();
         }
 
-        public ActionResult AptidudeTest(ResultViewModel resultViewModel)
+        public ActionResult ConfirmTest(ResultViewModel resultViewModel)
         {
 
             //string reQuestQuest = "";
