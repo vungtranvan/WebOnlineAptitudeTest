@@ -4,14 +4,10 @@ using System.Linq;
 using System.Web;
 using WebOnlineAptitudeTest.Models.Entities;
 using WebOnlineAptitudeTest.Models.Infrastructure;
+using WebOnlineAptitudeTest.Models.Repositories.Interface;
 
-namespace WebOnlineAptitudeTest.Models.Repositories
+namespace WebOnlineAptitudeTest.Models.Repositories.Implement
 {
-    public interface IAnswerRepository : IRepository<Answer>
-    {
-        bool ChangeAnswer(int questId, ICollection<Answer> listChanged);
-    }
-
     public class AnswerRepository : RepositoryBase<Answer>, IAnswerRepository
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -37,7 +33,7 @@ namespace WebOnlineAptitudeTest.Models.Repositories
             {
                 base.Delete(aRemove);
             }
-     
+
 
             // update 
             var listToUpdate = (from ansData in answerDatas
@@ -53,7 +49,7 @@ namespace WebOnlineAptitudeTest.Models.Repositories
 
                 base.Update(itemUpdate);
             }
-        
+
 
             // add
 

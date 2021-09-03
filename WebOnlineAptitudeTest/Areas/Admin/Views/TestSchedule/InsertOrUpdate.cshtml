@@ -1,4 +1,4 @@
-﻿@model WebOnlineAptitudeTest.Areas.Admin.Data.Model.HisToryTests.HisToryTestInsertOrUpdateModel
+﻿@model WebOnlineAptitudeTest.Areas.Admin.Data.Model.TestSchedules.TestScheduleInsertOrUpdateRequest
 
 @{
     ViewBag.Title = (Model == null ? "Add New Test Schedule" : " Test Schedule Edit");
@@ -34,20 +34,17 @@
 
                     if (Model == null)
                     {
-                        <input type="hidden" name="TypeAction" value="0" />
-
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.CandidateId, htmlAttributes: new { @class = "control-label" })
-                            @Html.DropDownList("CandidateId", ViewBag.NewsItemList as SelectList, "------ Select one ------", htmlAttributes: new { @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.CandidateId, "", new { @class = "text-danger" })
-
-                        </div>
+                        <input type="hidden" name="Id" value="0" />
                     }
                     else
                     {
-                        @Html.HiddenFor(model => model.TypeAction)
-                        @Html.HiddenFor(model => model.CandidateId)
+                        @Html.HiddenFor(model => model.Id)
                     }
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                    </div>
 
                     <div class="form-group">
                         @Html.LabelFor(model => model.TimeTest, htmlAttributes: new { @class = "control-label" })
@@ -55,35 +52,40 @@
                         @Html.ValidationMessageFor(model => model.TimeTest, "", new { @class = "text-danger" })
                     </div>
 
-
                     if (Model == null)
                     {
                         <div class="form-group">
-                            @Html.LabelFor(model => model.TestStartSchedule, htmlAttributes: new { @class = "control-label" })
-                            @Html.TextBox("TestStartSchedule", null, new { type = "datetime-local", @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.TestStartSchedule, "", new { @class = "text-danger" })
+                            @Html.LabelFor(model => model.DateStart, htmlAttributes: new { @class = "control-label" })
+                            @Html.TextBox("DateStart", null, new { type = "datetime-local", @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.DateStart, "", new { @class = "text-danger" })
                         </div>
 
                         <div class="form-group">
-                            @Html.LabelFor(model => model.TestEndSchedule, htmlAttributes: new { @class = "control-label" })
-                            @Html.TextBox("TestEndSchedule", null, new { type = "datetime-local", @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.TestEndSchedule, "", new { @class = "text-danger" })
+                            @Html.LabelFor(model => model.DateEnd, htmlAttributes: new { @class = "control-label" })
+                            @Html.TextBox("DateEnd", null, new { type = "datetime-local", @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.DateEnd, "", new { @class = "text-danger" })
                         </div>
                     }
                     else
                     {
                         <div class="form-group">
-                            @Html.LabelFor(model => model.TestStartSchedule, htmlAttributes: new { @class = "control-label" })
-                            @Html.TextBox("TestStartSchedule", Model.TestStartSchedule.ToString("yyyy-MM-dd HH:mm:ss").Replace(' ', 'T'), new { type = "datetime-local", @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.TestStartSchedule, "", new { @class = "text-danger" })
+                            @Html.LabelFor(model => model.DateStart, htmlAttributes: new { @class = "control-label" })
+                            @Html.TextBox("DateStart", Model.DateStart.ToString("yyyy-MM-dd HH:mm:ss").Replace(' ', 'T'), new { type = "datetime-local", @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.DateStart, "", new { @class = "text-danger" })
                         </div>
 
                         <div class="form-group">
-                            @Html.LabelFor(model => model.TestEndSchedule, htmlAttributes: new { @class = "control-label" })
-                            @Html.TextBox("TestEndSchedule", Model.TestEndSchedule.ToString("yyyy-MM-dd HH:mm:ss").Replace(' ', 'T'), new { type = "datetime-local", @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.TestEndSchedule, "", new { @class = "text-danger" })
+                            @Html.LabelFor(model => model.DateEnd, htmlAttributes: new { @class = "control-label" })
+                            @Html.TextBox("DateEnd", Model.DateEnd.ToString("yyyy-MM-dd HH:mm:ss").Replace(' ', 'T'), new { type = "datetime-local", @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.DateEnd, "", new { @class = "text-danger" })
                         </div>
                     }
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.CandidateId, htmlAttributes: new { @class = "control-label" })
+                        @Html.ListBoxFor(model => model.CandidateId, ViewBag.NewsItemList as MultiSelectList, htmlAttributes: new { @class = "form-control", size = "5", multiple = "multiple" })
+                        @Html.ValidationMessageFor(model => model.CandidateId, "", new { @class = "text-danger" })
+                    </div>
 
                     <div class="text-right mt-5">
                         <a href="@Url.Action("Index", "TestSchedule")" class=" btn waves-effect btn-Custom waves-light btn-danger">Cancel</a>

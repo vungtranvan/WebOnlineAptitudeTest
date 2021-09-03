@@ -3,8 +3,8 @@
     XMessage sms = (XMessage)TempData["XMessage"];
     if (sms != null)
     {
-        <p id="messMsg">@sms.Msg</p>
-        <p id="messTitle">@sms.Title</p>
+        <p id="messMsg" style="display:none">@sms.Msg</p>
+        <p id="messTitle" style="display:none">@sms.Title</p>
         if (sms.Types == EnumCategoryMess.error)
         {
             <script>

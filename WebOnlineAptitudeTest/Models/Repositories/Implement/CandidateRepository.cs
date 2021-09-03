@@ -5,16 +5,10 @@ using System.Web;
 using WebOnlineAptitudeTest.Areas.Admin.Data.Model.Pagings;
 using WebOnlineAptitudeTest.Models.Entities;
 using WebOnlineAptitudeTest.Models.Infrastructure;
+using WebOnlineAptitudeTest.Models.Repositories.Interface;
 
-namespace WebOnlineAptitudeTest.Models.Repositories
+namespace WebOnlineAptitudeTest.Models.Repositories.Implement
 {
-    public interface ICandidateRepository : IRepository<Candidate>
-    {
-        bool InsertOrUpdate(Candidate candidate);
-        bool Locked(int id);
-        PagingModel<Candidate> GetData(string keyword, int page, int pageSize);
-    }
-
     public class CandidateRepository : RepositoryBase<Candidate>, ICandidateRepository
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -68,14 +62,14 @@ namespace WebOnlineAptitudeTest.Models.Repositories
 
             if (!string.IsNullOrEmpty(keyword))
             {
-                lstCandi = base.Get(
+                lstCandi = Get(
                     filter: c => c.Deleted == false && (c.UserName.ToLower().Contains(keyword.ToLower())
                     || c.Name.ToLower().Contains(keyword.ToLower()) || c.Email.ToLower().Contains(keyword.ToLower())),
                     orderBy: c => c.OrderByDescending(x => x.Id)).ToList();
             }
             else
             {
-                lstCandi = base.Get(filter: c => c.Deleted == false, orderBy: c => c.OrderByDescending(x => x.Id)).ToList();
+                lstCandi = Get(filter: c => c.Deleted == false, orderBy: c => c.OrderByDescending(x => x.Id)).ToList();
             }
 
             int totalRow = lstCandi.Count();

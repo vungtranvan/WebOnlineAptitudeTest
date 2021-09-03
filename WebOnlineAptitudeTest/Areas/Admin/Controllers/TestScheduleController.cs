@@ -6,23 +6,23 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using WebOnlineAptitudeTest.Areas.Admin.Data.Model.HisToryTests;
+using WebOnlineAptitudeTest.Areas.Admin.Data.Model.TestSchedules;
 using WebOnlineAptitudeTest.Models.Entities;
 using WebOnlineAptitudeTest.Models.Infrastructure;
-using WebOnlineAptitudeTest.Models.Repositories;
+using WebOnlineAptitudeTest.Models.Repositories.Interface;
 
 namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
 {
-    public class TestScheduleController : BaseController
+    public class TestScheduleController : Controller
     {
-        private readonly IHistoryTestRepository _historyTestRepository;
+        private readonly ITestScheduleRepository _testScheduleRepository;
         private readonly ICandidateRepository _candidateRepository;
         private readonly IUnitOfWork _unitOfWork;
 
-        public TestScheduleController(IHistoryTestRepository historyTestRepository,
+        public TestScheduleController(ITestScheduleRepository testScheduleRepository,
             ICandidateRepository candidateRepository, IUnitOfWork unitOfWork)
         {
-            _historyTestRepository = historyTestRepository;
+            _testScheduleRepository = testScheduleRepository;
             _candidateRepository = candidateRepository;
             _unitOfWork = unitOfWork;
         }
@@ -39,14 +39,16 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
         public JsonResult LoadData(string keyword, int page, int pageSize = 3)
         {
             _unitOfWork.DbContext.Configuration.ProxyCreationEnabled = false;
-            var result = _historyTestRepository.GetData(keyword, page, pageSize);
+            var result = _testScheduleRepository.GetData(keyword, page, pageSize);
 
-            return Json(new
+            var json = Json(new
             {
                 data = result.Items,
                 totalRow = result.TotalRow,
                 status = true
             }, JsonRequestBehavior.AllowGet);
+            json.MaxJsonLength = Int32.MaxValue;
+            return json;
         }
 
         [HttpGet]
@@ -60,53 +62,50 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
         {
             if (id != null)
             {
-                var historyTest = _historyTestRepository.Get(x => x.CandidateId == id).FirstOrDefault();
-
-                var model = new HisToryTestInsertOrUpdateModel()
+                if (_testScheduleRepository.CheckStatus(id.Value))
                 {
-                    TypeAction = 1,
-                    CandidateId = historyTest.CandidateId,
-                    TestEndSchedule = historyTest.TestEndSchedule,
-                    TestStartSchedule = historyTest.TestStartSchedule,
-                    TimeTest = historyTest.TimeTest
-                };
-                return View(model);
+                    var model = _testScheduleRepository.GetInsertOrUpdateRequest(id.Value);
+                    this.MultiSelectListCandidate(model.CandidateId);
+                    return View(model);
+                }
+                TempData["XMessage"] = new XMessage("Notification", "Unable to update because the exam is starting or has ended !!!", EnumCategoryMess.error);
+                return RedirectToAction("Index");
             }
 
-            this.DropDownCandidate();
+            this.MultiSelectListCandidate();
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult InsertOrUpdate(HisToryTestInsertOrUpdateModel historyTest)
+        public ActionResult InsertOrUpdate(TestScheduleInsertOrUpdateRequest model)
         {
             //validate data input
-            if (historyTest.TimeTest <= 0)
+            if (model.TimeTest <= 0)
                 ModelState.AddModelError("TimeTest", "Time test must be bigger 0");
 
-            if (historyTest.TestStartSchedule <= DateTime.Now)
-                ModelState.AddModelError("TestStartSchedule", "Test start schedule must be bigger Time Now");
+            if (model.DateStart <= DateTime.Now)
+                ModelState.AddModelError("DateStart", "Test start schedule must be bigger Time Now");
 
-            if (historyTest.TestEndSchedule <= historyTest.TestStartSchedule)
-                ModelState.AddModelError("TestEndSchedule", "Test end schedule must be bigger Test start schedule");
+            if (model.DateEnd <= model.DateStart)
+                ModelState.AddModelError("DateEnd", "Test end schedule must be bigger Test start schedule");
 
-            if (historyTest.TimeTest > 0 && historyTest.TestStartSchedule != null && historyTest.TestEndSchedule != null)
+            if (model.TimeTest > 0 && model.DateStart != null && model.DateEnd != null)
             {
-                if (historyTest.TestEndSchedule < historyTest.TestStartSchedule.AddMinutes(historyTest.TimeTest * 3))
-                    ModelState.AddModelError("TestEndSchedule", "Test end schedule invalid (TestEndSchedule >= (TestStartSchedule + (TimeTest*3)))");
+                if (model.DateEnd < model.DateStart.AddMinutes(model.TimeTest * 3))
+                    ModelState.AddModelError("DateEnd", "Test end schedule invalid (DateEnd >= (DateStart + (TimeTest*3)))");
             }
 
             if (!ModelState.IsValid)
             {
-                this.DropDownCandidate(historyTest.CandidateId);
-                return View(historyTest);
+                this.MultiSelectListCandidate(model.CandidateId);
+                return View(model);
             }
-            var result = _historyTestRepository.InsertOrUpdate(historyTest);
+            var result = _testScheduleRepository.InsertOrUpdate(model);
 
             if (result == true)
             {
-                if (historyTest.TypeAction == 0)
+                if (model.Id == 0)
                 {
                     TempData["XMessage"] = new XMessage("Notification", "Add Successfull !!!", EnumCategoryMess.success);
                 }
@@ -117,7 +116,7 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
             }
             else
             {
-                if (historyTest.TypeAction == 0)
+                if (model.Id == 0)
                 {
                     TempData["XMessage"] = new XMessage("Notification", "Add Error !!!", EnumCategoryMess.error);
                 }
@@ -133,7 +132,7 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
         public JsonResult Locked(int id)
         {
             var title = "Notification";
-            var result = _historyTestRepository.Locked(id);
+            var result = _testScheduleRepository.Locked(id);
 
             if (!result)
             {
@@ -153,11 +152,30 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
             });
         }
 
-        private void DropDownCandidate(int candidateId = 0)
+        private void MultiSelectListCandidate(List<int> lstcandidateId = null)
         {
             var lstCandi = _candidateRepository.Get(filter: x => x.Status == false
                            && x.Deleted == false, orderBy: c => c.OrderByDescending(y => y.Id)).ToList();
-            ViewBag.NewsItemList = new SelectList(lstCandi, "Id", "Name", candidateId);
+
+            if (lstcandidateId != null)
+            {
+                foreach (var item in _candidateRepository.Get(filter: x => x.Status == true))
+                {
+                    foreach (var c in lstcandidateId)
+                    {
+                        if (item.Id == c)
+                        {
+                            lstCandi.Add(item);
+                        }
+                    }
+                }
+
+                ViewBag.NewsItemList = new MultiSelectList(lstCandi, "Id", "Name", lstcandidateId);
+            }
+            else
+            {
+                ViewBag.NewsItemList = new MultiSelectList(lstCandi, "Id", "Name");
+            }
         }
     }
 }

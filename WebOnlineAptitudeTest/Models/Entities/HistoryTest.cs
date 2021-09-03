@@ -21,11 +21,9 @@ namespace WebOnlineAptitudeTest.Models.Entities
 
         public int CandidateId { get; set; }
 
+        public int TestScheduleId { get; set; }
+
         public int TimeTest { get; set; }
-
-        public DateTime TestStartSchedule { get; set; }
-
-        public DateTime TestEndSchedule { get; set; }
 
         public DateTime? DateStartTest { get; set; }
 
@@ -40,6 +38,8 @@ namespace WebOnlineAptitudeTest.Models.Entities
         public virtual Candidate Candidate { get; set; }
 
         public virtual CategoryExam CategoryExam { get; set; }
+
+        public virtual TestSchedule TestSchedule { get; set; }
 
         public virtual ICollection<HistoryTestDetail> HistoryTestDetails { get; set; }
     }

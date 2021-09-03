@@ -5,16 +5,9 @@ using System.Web;
 using WebOnlineAptitudeTest.Models.Entities;
 using WebOnlineAptitudeTest.Models.Infrastructure;
 
-namespace WebOnlineAptitudeTest.Models.Repositories
+namespace WebOnlineAptitudeTest.Models.Repositories.Interface
 {
     public interface IHistoryTestDetailRepository : IRepository<HistoryTestDetail>
     {
-    }
-
-    public class HistoryTestDetailRepository : RepositoryBase<HistoryTestDetail>, IHistoryTestDetailRepository
-    {
-        public HistoryTestDetailRepository(IDbFactory dbFactory) : base(dbFactory)
-        {
-        }
     }
 }

@@ -69,20 +69,19 @@ var testScheduleController = {
                             status = 'InProgress';
                         } else if (item.Status == 2) {
                             status = 'Done';
-                        } else if (item.Status == 3) {
-                            status = 'Quit';
                         }
 
                         html +=
                             `<tr class="intro-x">
                                 <td scope="col">${i + 1}</td>
-                                <td>${item.CandidateName}</td>
-                                <td>${testScheduleController.formatDate(item.TestStartSchedule)}</td>
-                                <td>${testScheduleController.formatDate(item.TestEndSchedule)}</td>
+                                <td>${item.Name}</td>
+                                <td>${item.TimeTest}</td>
+                                <td>${testScheduleController.formatDate(item.DateStart)}</td>
+                                <td>${testScheduleController.formatDate(item.DateEnd)}</td>
                                 <td>${status}</td>
                                 <td class="FlexIconAction">
-                                        <a class="flex items-center mr-3" href="/Admin/TestSchedule/InsertOrUpdate/${item.CandidateId}"> <i class="fas fa-edit"></i> Edit </a>
-                                        <a class="flex items-center text-theme-6 btnDelete" href="#" data-id="${item.CandidateId}"> <i class="fas fa-trash-alt"></i> Delete </a>
+                                        <a class="flex items-center mr-3" href="/Admin/TestSchedule/InsertOrUpdate/${item.Id}"> <i class="fas fa-edit"></i> Edit </a>
+                                        <a class="flex items-center text-theme-6 btnDelete" href="#" data-id="${item.Id}"> <i class="fas fa-trash-alt"></i> Delete </a>
                                 </td>
                              </tr>`;
                     });

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using WebOnlineAptitudeTest.Models.Infrastructure;
-using WebOnlineAptitudeTest.Models.Repositories;
+using WebOnlineAptitudeTest.Models.Repositories.Interface;
 
 namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
 {
@@ -29,12 +29,14 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
             _unitOfWork.DbContext.Configuration.ProxyCreationEnabled = false;
             var result = _adminRepository.GetData(keyword, page, pageSize);
 
-            return Json(new
+            var json = Json(new
             {
                 data = result.Items,
                 totalRow = result.TotalRow,
                 status = true
             }, JsonRequestBehavior.AllowGet);
+            json.MaxJsonLength = Int32.MaxValue;
+            return json;
         }
 
         [HttpPost]

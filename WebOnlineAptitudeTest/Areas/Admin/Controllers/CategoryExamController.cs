@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using WebOnlineAptitudeTest.Models.Entities;
 using WebOnlineAptitudeTest.Models.Infrastructure;
-using WebOnlineAptitudeTest.Models.Repositories;
+using WebOnlineAptitudeTest.Models.Repositories.Interface;
 
 namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
 {
@@ -32,11 +32,13 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
             _unitOfWork.DbContext.Configuration.ProxyCreationEnabled = false;
             var data = _categoryExamRepository.Get().ToList();
 
-            return Json(new
+            var json = Json(new
             {
                 data = data,
                 status = true
             }, JsonRequestBehavior.AllowGet);
+            json.MaxJsonLength = Int32.MaxValue;
+            return json;
         }
 
         [HttpGet]

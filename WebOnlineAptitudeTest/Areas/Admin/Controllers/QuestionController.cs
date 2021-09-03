@@ -6,13 +6,11 @@ using System.Web;
 using System.Web.Mvc;
 using WebOnlineAptitudeTest.Models.Entities;
 using WebOnlineAptitudeTest.Models.Infrastructure;
-using WebOnlineAptitudeTest.Models.Repositories;
+using WebOnlineAptitudeTest.Models.Repositories.Interface;
 
 namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
 {
-
-
-    public class QuestionController : Controller
+    public class QuestionController : BaseController
     {
         private readonly IQuestionRepository _questionRepository;
         private readonly ICategoryExamRepository _categoryExamRepository;
@@ -35,7 +33,7 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            ViewBag.ListpageSize = new List<int>() { 5, 10, 15, 20, 50, 100 };
+            ViewBag.ListpageSize = new List<int>() { 10, 15, 20, 50, 100 };
             return View();
         }
 
@@ -51,12 +49,14 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
                });
 
-            return Json(new
+            var json = Json(new
             {
                 data = resultData,
                 totalRow = result.TotalRow,
                 status = true
             }, JsonRequestBehavior.AllowGet);
+            json.MaxJsonLength = Int32.MaxValue;
+            return json;
         }
         [HttpGet]
         public JsonResult Details(int id)
@@ -94,6 +94,7 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [ValidateInput(false)]
         public ActionResult InsertOrUpdate(Question question, int? id)
         {
             if (!ModelState.IsValid)
@@ -115,7 +116,7 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
             {
                 question.Id = id != null ? id.Value : 0;
 
-                this._questionRepository.InsertOrUpdate(question);
+                var result = this._questionRepository.InsertOrUpdate(question);
 
                 if (id != null)
                 {
@@ -123,17 +124,34 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
                     this._answerRepository.ChangeAnswer(question.Id, question.Answers);
                     this.DropDownCategoryExam();
 
-                    return RedirectToAction("InsertOrUpdate");
+                    if (result == true)
+                    {
+                        TempData["XMessage"] = new XMessage("Notification", "Edit Successfull !!!", EnumCategoryMess.success);
+                    }
+                    else
+                    {
+                        TempData["XMessage"] = new XMessage("Notification", "Edit Error !!!", EnumCategoryMess.error);
+                    }
 
-                }else
-                {
-                    return RedirectToAction("Index");
                 }
+                else
+                {
+                    if (result == true)
+                    {
+                        TempData["XMessage"] = new XMessage("Notification", "Add Successfull !!!", EnumCategoryMess.success);
+                    }
+                    else
+                    {
+                        TempData["XMessage"] = new XMessage("Notification", "Add Error !!!", EnumCategoryMess.error);
+                    }
+
+                }
+                return RedirectToAction("Index");
 
             }
 
             this.DropDownCategoryExam();
-            return RedirectToAction("Index");
+            return RedirectToAction("InsertOrUpdate");
 
 
         }
