@@ -1,5 +1,6 @@
 namespace WebOnlineAptitudeTest.Models.Entities
 {
+    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
@@ -44,9 +45,9 @@ namespace WebOnlineAptitudeTest.Models.Entities
 
         //[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Answer> Answers { get; set; }
-
+        [JsonIgnore]
         public virtual CategoryExam CategoryExam { get; set; }
-
+        [JsonIgnore]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<HistoryTestDetail> HistoryTestDetails { get; set; }
     }

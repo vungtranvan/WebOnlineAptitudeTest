@@ -65,6 +65,11 @@ namespace WebOnlineAptitudeTest.Models.Repositories.Implement
             return new PagingModel<Candidate>() { TotalRow = totalRow, Items = data };
         }
 
+        //public int GetCurrentCategoryId()
+        //{
+           
+        //}
+       
         public bool Locked(int candidateId)
         {
             var history = Get(filter: h => h.CandidateId == candidateId);
