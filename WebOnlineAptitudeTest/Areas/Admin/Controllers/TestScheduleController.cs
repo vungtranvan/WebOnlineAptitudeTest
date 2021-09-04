@@ -84,14 +84,13 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
             if (model.DateStart <= DateTime.Now)
                 ModelState.AddModelError("DateStart", "Test start schedule must be bigger Time Now");
 
-            if (model.DateEnd <= model.DateStart)
-                ModelState.AddModelError("DateEnd", "Test end schedule must be bigger Test start schedule");
-
-            //if (model.DateStart != null && model.DateEnd != null)
-            //{
-            //    if (model.DateEnd < model.DateStart.AddMinutes(model.TimeTest * 3))
-            //        ModelState.AddModelError("DateEnd", "Test end schedule invalid (DateEnd >= (DateStart + (TimeTest*3)))");
-            //}
+            if (model.DateStart != null && model.DateEnd != null)
+            {
+                var countTime = _unitOfWork.DbContext.CategoryExams.Select(x => x.TimeTest).Sum();
+                var dateTimeMinValid = model.DateStart.AddMinutes(countTime);
+                if (model.DateEnd < dateTimeMinValid)
+                    ModelState.AddModelError("DateEnd", $"Test end schedule invalid (DateEnd >= {dateTimeMinValid.ToString("MM/dd/yyyy HH:mm")})");
+            }
 
             if (!ModelState.IsValid)
             {

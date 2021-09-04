@@ -92,7 +92,7 @@
                                 `<tr class="intro-x">
                                     <td>${i+1}</td>
                                     <td>${item.Name}</td>
-                                    <td>${item.TimeTest}</td>
+                                    <td class="text-center">${item.TimeTest}</td>
                                     <td class="FlexIconAction">
                                         <a class="flex items-center text-theme-6 btnUpdate" href="#" data-id="${item.Id}"> <i class="fas fa-edit"></i> Edit </a>
                                     </td>

@@ -44,6 +44,7 @@ namespace WebOnlineAptitudeTest
                     "~/CKFinderScripts/ckfinder.js")
                     .Include("~/Scripts/jquery.validate*")
                     .Include("~/Scripts/plugins/changePassAdmin.js")
+                    .Include("~/Scripts/plugins/logoutAdmin.js")
                     );
 
             bundles.Add(new StyleBundle("~/Content/css").Include(

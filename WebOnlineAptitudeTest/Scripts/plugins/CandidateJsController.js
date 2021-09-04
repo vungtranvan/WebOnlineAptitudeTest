@@ -147,13 +147,23 @@ var candiController = {
         var dd = newDate.getDate();
         var mm = newDate.getMonth() + 1;
         var yyyy = newDate.getFullYear();
+        let hours = newDate.getHours();
+        let minutes = newDate.getMinutes();
+
         if (dd < 10) {
             dd = '0' + dd;
         }
         if (mm < 10) {
             mm = '0' + mm;
         }
-        newDate = mm + '/' + dd + '/' + yyyy;
+        if (hours < 10) {
+            hours = '0' + hours;
+        }
+        if (minutes < 10) {
+            minutes = '0' + minutes;
+        }
+
+        newDate = mm + '/' + dd + '/' + yyyy + ' ' + hours + ':' + minutes;
         return newDate;
     },
     pagination: function (totalRow, callback, changePageSize) {
