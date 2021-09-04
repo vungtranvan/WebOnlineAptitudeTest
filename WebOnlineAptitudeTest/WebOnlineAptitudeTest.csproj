@@ -206,6 +206,7 @@
     <Compile Include="Areas\Admin\Controllers\BaseController.cs" />
     <Compile Include="Areas\Admin\Controllers\CandidateController.cs" />
     <Compile Include="Areas\Admin\Controllers\CategoryExamController.cs" />
+    <Compile Include="Areas\Admin\Controllers\HistoryTestsController.cs" />
     <Compile Include="Areas\Admin\Controllers\TestScheduleController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomesController.cs" />
     <Compile Include="Areas\Admin\Controllers\MenusController.cs" />
@@ -1683,6 +1684,7 @@
     <Content Include="Areas\Admin\Views\Account\_ModalDetailsAccount.cshtml" />
     <Content Include="Areas\Admin\Views\Question\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_ModalLogout.cshtml" />
+    <Content Include="Areas\Admin\Views\HistoryTests\Index.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
