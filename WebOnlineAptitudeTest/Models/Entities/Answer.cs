@@ -21,7 +21,7 @@
         [AllowHtml]
         public string Name { get; set; }
 
-        [JsonIgnore]
+
         public bool Correct { get; set; }
 
         public int? AnswerInQuestion { get; set; }

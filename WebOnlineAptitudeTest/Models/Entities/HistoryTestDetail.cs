@@ -19,7 +19,6 @@ namespace WebOnlineAptitudeTest.Models.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int QuestionId { get; set; }
 
-        [Required]
         [StringLength(50)]
         public string AnswerChoice { get; set; }
 

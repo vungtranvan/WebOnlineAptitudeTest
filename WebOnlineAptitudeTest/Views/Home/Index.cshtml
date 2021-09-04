@@ -37,46 +37,27 @@
     <script>
         $(function () {
 
-            let minute = 2;
-            let seconnd = minute * 60;
+            //let minute = 2;
+            //let seconnd = minute * 60;
 
 
-            let applyQuest = '@Url.Action("ApplyQuest", "Home")';
-            let createQuestUrl = '@Url.Action("CreateQuest", "Home")';
+            let checkQuestUrl = '@Url.Action("CheckQuest", "Home")';
+            let startQuestQuestUrl = '@Url.Action("StartQuest", "Home")';
+            let createQuestQuestUrl = '@Url.Action("CreateQuest", "Home")';
+
+            let seconnd = 0;
+            let minute = 0;
+            let seconndShow = 0;
+            let countdown = 0;
+
+            let historyTestId = -1;
 
             let confirmUrl = '@Url.Action("ConfirmTest", "Home")';
 
 
 
 
-            let seconndShow = 0;
-
-            var countdown = setInterval(countDown, 1000);
-            var timeShow = [];
-            function countDown() {
-
-                timeShow[1] = (seconndShow.toString().length == 1) ? ("0" + seconndShow.toString()) : seconndShow.toString();
-
-                seconndShow = seconndShow - 1;
-                if (seconndShow < 0) {
-                    seconndShow = 59;
-                    minute = minute - 1;
-                    timeShow[0] = minute;
-
-                    //console.log(minute);
-                    if (minute < 0) {
-                        minute = 0;
-                        submitForm();
-                    }
-                }
-
-                timeShow[0] = (minute.toString().length == 1) ? ("0" + minute.toString()) : minute.toString();
-
-                $(".count-down").html(timeShow.join(":"));
-
-                $(".count-down-percent").css("-webkit-animation", seconnd + "s" + " linear 0s 1 normal forwards running countdown");
-
-            };
+            
 
             $("#aptitutest_form_submit").on("click", function () {
 
@@ -86,10 +67,7 @@
             function submitForm() {
                 clearInterval(countdown);
 
-
                 $(".count-down-percent").css("animation-play-state", "paused");
-
-
 
                 resultQuest = [];
 
@@ -112,12 +90,11 @@
                     });
 
                 });
-                console.log(resultQuest);
 
 
                 ajax('{ resultQuest : ' + JSON.stringify(resultQuest) +
-                    `,candidateId: "name",
-                     categoryId: "id"}`, confirmUrl, function (data) {
+                    `, historyTestId: "`+ historyTestId+`"}`, confirmUrl, function (data) {
+                        console.log(data);
 
                         createQuest(1);
 
@@ -127,67 +104,88 @@
 
             //create quest
             function createQuest(CandidateId) {
-                ajax(`{ CandidateId: ` + CandidateId + `}`, applyQuest, function (res) {
+                ajax(`{ CandidateId: ` + CandidateId + `}`, checkQuestUrl, function (res) {
                     console.log(res);
+                    //return false;
                     switch (res.data) {
                         case "NotInSchedule":
                             alert("goi giam khao")
                             break;
-                        default:
-                    let content = ``;
-                    let menu = ``;
-                    $.each(res.data, function (i, q) {
-                        //add content
-                        content += `
-                    <div class="box question mt-5" id="q_`+ q.Id + `">
-                        <div class="pb-3 pt-3 pr-2 pl-2">
-                            <div class="flex items-center">`+ (i + 1) + `.&nbsp;&nbsp;` + q.Name + `&nbsp;&nbsp;[` + q.Mark + ` Mark(s)] </div>
-                        </div>
-                      <input value="`+ q.Id + `" hidden class="questId"`;
-
-                        let numberCorrect = 0;
-
-                        $.each(q.Answers, function (j, a) {
-
-
-
-                            content +=
-                      `<div class="awnsers">
-                            <div class="border-b border-t text-gray-600 border-gray-200 flex items-center">
-
-                                <div class="flex items-center justify-center p-3">
-                                    <input value="`+ a.AnswerInQuestion + `" type="checkbox" class="corect input border border-gray-500">
-                                </div>
-
-                                <div class="p-2"> `+ a.Name + ` </div>
-                            </div>
-                        </div>`
-                        });
-
-                        content += `</div>`;
-
-
-
-                        // add menu
-                        menu +=
-                   `<li>
-                       <a href="#q_`+ q.Id + `" class="side-menu" target="_self">
-                         <div class="side-menu__icon"> `+ (i + 1) + `. </div>
-                         <div class="side-menu__title"> Question `+ (i + 1) + ` </div>
-                        </a>
-                   </li>`;
-
-
-                    });
-
-                    $("#aptitutest_form").html(content);
-                    $("#sidemenu_content_" + res.currentCategoryId).html(menu);
-
-                    createMenu(res.currentCategoryId);
+                        case "NotStart":
+                            var r = confirm("Wellcome ru want start quest " + res.currentCategoryName);
+                            if (r == true) {
+                                ajax(`{ historyTestId: ` + res.historyTestId + `}`, startQuestQuestUrl, function (resStart) {
+                                    if (resStart.Status == "Success") {
+                                        createQuest(CandidateId);
+                                    }
+                                });
+                            } else {
+                               // logout
+                            }
                             break;
+                        case "Continue":
+                            ajax(`{ CategoryExamId: ` + res.currentCategoryId + `}`, createQuestQuestUrl, function (resQuestContent) {
+                                let content = ``;
+                                let menu = ``;
+                                console.log(resQuestContent);
+                                $.each(resQuestContent.data, function (i, q) {
+                                    //add content
+                                    content += `
+                                            <div class="box question mt-5" id="q_`+ q.Id + `">
+                                                <div class="pb-3 pt-3 pr-2 pl-2">
+                                                    <div class="flex items-center">`+ (i + 1) + `.&nbsp;&nbsp;` + q.Name + `&nbsp;&nbsp;[` + q.Mark + ` Mark(s)] </div>
+                                                </div>
+                                              <input value="`+ q.Id + `" hidden class="questId">`;
+
+
+                                    $.each(q.Answers, function (j, a) {
+                                        content +=
+                                            `<div class="awnsers">
+                                                <div class="border-b border-t text-gray-600 border-gray-200 flex items-center">
+
+                                                    <div class="flex items-center justify-center p-3">
+                                                        <input value="`+ a.AnswerInQuestion + `" type="checkbox" class="corect input border border-gray-500">
+                                                    </div>
+
+                                                    <div class="p-2"> `+ a.Name + ` </div>
+                                                </div>
+                                            </div>`
+                                    });
+
+                                    content += `</div>`;
+
+
+                                    // add menu
+                                    menu +=
+                                        `<li>
+                                             <a href="#q_`+ q.Id + `" class="side-menu" target="_self">
+                                               <div class="side-menu__icon"> `+ (i + 1) + `. </div>
+                                               <div class="side-menu__title"> Question `+ (i + 1) + ` </div>
+                                             </a>
+                                         </li>`;
+
+
+                                });
+                                $("#aptitutest_form").html(content);
+                                $("#sidemenu_content_" + res.currentCategoryId).html(menu);
+
+                                console.log(historyTestId);
+                                historyTestId = res.historyTestId;
+                                console.log(historyTestId);
+      
+                                createMenu(res.currentCategoryId);
+                                checkTime(res.timeSecond);
+
+                            })
+                            break;
+                        case "AllOver":
+                            alert("all over");
+                            $("#aptitutest_form").html("");
+                            break;
+                      
                     }
                     });
-          
+
 
             };
 
@@ -214,6 +212,43 @@
                 element.find("ul").css("display", "block");
 
             }
+
+
+            function checkTime(seconndlast) {
+
+                 seconnd = seconndlast;
+                 minute = Math.floor(seconnd / 60);
+                 seconndShow = seconnd - (minute * 60);
+                 countdown = setInterval(countDown, 1000);
+
+            }
+            function countDown() {
+                let timeShow = [];
+
+
+                timeShow[1] = (seconndShow.toString().length == 1) ? ("0" + seconndShow.toString()) : seconndShow.toString();   
+
+                seconndShow = seconndShow - 1;
+
+                if (seconndShow < 0) {
+                    seconndShow = 59;
+                    minute = minute - 1;
+                    timeShow[0] = minute;
+
+                    //console.log(minute);
+                    if (minute < 0) {
+                        minute = 0;
+                        submitForm();
+                    }
+                }
+
+                timeShow[0] = (minute.toString().length == 1) ? ("0" + minute.toString()) : minute.toString();
+
+                $(".count-down").html(timeShow.join(":"));
+
+                $(".count-down-percent").css("-webkit-animation", seconnd + "s" + " linear 0s 1 normal forwards running countdown");
+
+            };
 
 
             function ajax(data, url, callback) {
