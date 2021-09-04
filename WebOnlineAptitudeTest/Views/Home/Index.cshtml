@@ -41,7 +41,9 @@
             let seconnd = minute * 60;
 
 
+            let applyQuest = '@Url.Action("ApplyQuest", "Home")';
             let createQuestUrl = '@Url.Action("CreateQuest", "Home")';
+
             let confirmUrl = '@Url.Action("ConfirmTest", "Home")';
 
 
@@ -61,7 +63,7 @@
                     minute = minute - 1;
                     timeShow[0] = minute;
 
-                    console.log(minute);
+                    //console.log(minute);
                     if (minute < 0) {
                         minute = 0;
                         submitForm();
@@ -87,89 +89,107 @@
 
                 $(".count-down-percent").css("animation-play-state", "paused");
 
-                //var form = $("#aptitutest_form").serialize();
-                console.log(($("#aptitutest_form").serializeArray()));
-                return false;
-                let formData = new FormData($("#aptitutest_form")[0]);
-                //formData.append("Choises[0].Abc", 123);
 
-                let myForm = document.getElementById('aptitutest_form');
-                let formData1 = new FormData(myForm);
 
-                console.log(formData1.get("q1"));
+                resultQuest = [];
 
-                ajax(formData, confirmUrl, function (data) {
+                $.each($(".question"), function (i, q) {
+                    let QuestionId = $(this).find(".questId").val();
 
-                    createMenu(data.PartName);
+                    let Result = "";
+
+                    let Answer = $(this).find(".awnsers");
+                    $.each(Answer, function () {
+                        if ($(this).find(".corect").is(":checked")) {
+                            Result += $(this).find(".corect").val() + ",";
+                        }
+                    })
+
+                    resultQuest.push({
+                        "id": i,
+                        "QuestionId": QuestionId,
+                        "Result": Result.slice(0, -1)
+                    });
+
+                });
+                console.log(resultQuest);
+
+
+                ajax('{ resultQuest : ' + JSON.stringify(resultQuest) +
+                    `,candidateId: "name",
+                     categoryId: "id"}`, confirmUrl, function (data) {
+
+                        createQuest(1);
 
                 });
             }
-
-            function objectifyForm(formArray) {
-                //serialize data function
-                var returnArray = {};
-                for (var i = 0; i < formArray.length; i++) {
-
-                    returnArray[formArray[i]['name']] = formArray[i]['value'];
-                }
-                return returnArray;
-            }
+            createQuest(1);
 
             //create quest
-            ajax("", createQuestUrl, function (res) {
-
-                console.log(res);
-
-                let content = ``;
-                let menu = ``;
-                $.each(res.data, function (i, q) {
-                    //add content
-                    content += `
-                    <div class="box question mt-5" id="q_`+ q.Id +`">
+            function createQuest(CandidateId) {
+                ajax(`{ CandidateId: ` + CandidateId + `}`, applyQuest, function (res) {
+                    console.log(res);
+                    switch (res.data) {
+                        case "NotInSchedule":
+                            alert("goi giam khao")
+                            break;
+                        default:
+                    let content = ``;
+                    let menu = ``;
+                    $.each(res.data, function (i, q) {
+                        //add content
+                        content += `
+                    <div class="box question mt-5" id="q_`+ q.Id + `">
                         <div class="pb-3 pt-3 pr-2 pl-2">
-                            <div class="flex items-center">`+ q.Name + ` </div>
-                        </div>`;
-                    let numberCorrect = 0;
+                            <div class="flex items-center">`+ (i + 1) + `.&nbsp;&nbsp;` + q.Name + `&nbsp;&nbsp;[` + q.Mark + ` Mark(s)] </div>
+                        </div>
+                      <input value="`+ q.Id + `" hidden class="questId"`;
 
-                    $.each(q.Answers, function (j, a) {
- 
+                        let numberCorrect = 0;
+
+                        $.each(q.Answers, function (j, a) {
 
 
-                        content += `<div class="awnsers">
+
+                            content +=
+                      `<div class="awnsers">
                             <div class="border-b border-t text-gray-600 border-gray-200 flex items-center">
 
                                 <div class="flex items-center justify-center p-3">
-                                    <input name="quest[`+i+`].Answer[`+j+`]" value="1" type="checkbox" class="input border border-gray-500">
+                                    <input value="`+ a.AnswerInQuestion + `" type="checkbox" class="corect input border border-gray-500">
                                 </div>
 
-                                <div class="p-2"> `+a.Name+` </div>
+                                <div class="p-2"> `+ a.Name + ` </div>
                             </div>
                         </div>`
+                        });
+
+                        content += `</div>`;
+
+
+
+                        // add menu
+                        menu +=
+                   `<li>
+                       <a href="#q_`+ q.Id + `" class="side-menu" target="_self">
+                         <div class="side-menu__icon"> `+ (i + 1) + `. </div>
+                         <div class="side-menu__title"> Question `+ (i + 1) + ` </div>
+                        </a>
+                   </li>`;
+
+
                     });
 
-                    content += `</div>`;
+                    $("#aptitutest_form").html(content);
+                    $("#sidemenu_content_" + res.currentCategoryId).html(menu);
 
+                    createMenu(res.currentCategoryId);
+                            break;
+                    }
+                    });
+          
 
-
-                // add menu
-                menu += `<li>
-                    <a href="#q_`+q.Id+`" class="side-menu" target="_self">
-                        <div class="side-menu__icon"> `+(i+1)+`. </div>
-                        <div class="side-menu__title"> Question `+ (i + 1) +` </div>
-                    </a>
-                </li>`;
-
-
-                });
-
-                $("#aptitutest_form").html(content);
-                $("#sidemenu_content_" + res.PartId).html(menu);
-
-                createMenu(res.PartId);
-
-            });
-
-
+            };
 
             function createMenu(id) {
 
@@ -201,9 +221,8 @@
                     $.ajax({
                         url: url,
                         type: "POST",
+                        contentType: "application/json; charset=utf-8",
                         dataType: "json",
-                        processData: false,
-                        contentType: false,
                         data: data,
                         success: function (res) {
                             try {

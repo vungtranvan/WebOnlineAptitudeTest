@@ -73,6 +73,11 @@ namespace WebOnlineAptitudeTest.Models.Repositories.Implement
             //};
             return null;
         }
+
+        //public int GetCurrentCategoryId()
+        //{
+           
+        //}
        
         public bool Locked(int candidateId)
         {
