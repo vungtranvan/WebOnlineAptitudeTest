@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using WebOnlineAptitudeTest.Areas.Admin.Data.Model.Pagings;
+using WebOnlineAptitudeTest.Areas.Admin.Data.Model.User;
 using WebOnlineAptitudeTest.Models.Entities;
 using WebOnlineAptitudeTest.Models.Infrastructure;
 using WebOnlineAptitudeTest.Models.Repositories.Interface;
@@ -17,19 +18,16 @@ namespace WebOnlineAptitudeTest.Models.Repositories.Implement
             _unitOfWork = unitOfWork;
         }
 
-        public bool ChangePass(string userName, string passOld, string passNew)
+        public ResetPasswordResult ChangePass(string userName, string passOld, string passNew)
         {
-            var user = Get(filter: x => x.UserName.Equals(userName)).FirstOrDefault();
+            var user = base.GetSingleByCondition(x => x.UserName.Equals(userName));
             if (!user.Password.Equals(passOld.ToMD5()))
             {
-                return false;
+                return new ResetPasswordResult() { Status = false, Messenger = "Incorrect password old!!!" };
             }
-            if (user == null || passNew.Length < 3)
-                return false;
-
             user.Password = passNew.ToMD5();
             _unitOfWork.Commit();
-            return true;
+            return new ResetPasswordResult() { Status = true, Messenger = "Change Password Successfull !!!" };
         }
 
         public bool InsertOrUpdate(Admin acc)

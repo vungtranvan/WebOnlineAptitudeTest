@@ -43,7 +43,6 @@
                 var passOld = $('#passOld').val();
                 var passNew = $('#passNew').val();
                 accController.changePass(userName, passOld, passNew);
-                $('#changePassModal').modal('hide');
             }
         });
         $('.btnCancleChangePass').off('click').on('click', function (e) {
@@ -62,10 +61,15 @@
             },
             dataType: 'json',
             success: function (response) {
+
                 if (response.status == true) {
                     toastr.success(response.message, response.title);
                     accController.resetInput();
+                    accController.addErrorPassword(response, false);
+
+                    $('#changePassModal').modal('hide');
                 } else {
+                    accController.addErrorPassword(response, true);
                     toastr.error(response.message, response.title);
                 }
             }
@@ -75,6 +79,31 @@
         $('#passOld').val('');
         $('#passNew').val('');
         $('#passNewConfirm').val('');
+    },
+    addErrorPassword: function (response, status) {
+        var passold = $('#passOld');
+        var passoldError = $('#passOld-error');
+
+        if (status == false) {
+            if (passoldError.length > 0) {
+                passoldError.attr('style', 'display-none');
+            }
+            passold.removeClass('is-invalid error');
+            passold.addClass('valid');
+            passold.attr('aria-invalid', 'false');
+        } else {
+            
+            passold.addClass('is-invalid error');
+            passold.removeClass('valid');
+            passold.attr('aria-invalid', 'true');
+
+            if (passoldError.length > 0) {
+                passoldError.removeAttr('style');
+                passoldError.text(response.message);
+            } else {
+                passold.after('<label id="passOld-error" class="is-invalid error" for="passOld">' + response.message + '</label>');
+            }
+        }
     }
 }
 

@@ -215,6 +215,7 @@
     <Compile Include="Areas\Admin\Data\Model\TestSchedules\TestScheduleInsertOrUpdateRequest.cs" />
     <Compile Include="Areas\Admin\Data\Model\TestSchedules\TestScheduleViewModel.cs" />
     <Compile Include="Areas\Admin\Data\Model\User\LoginRequest.cs" />
+    <Compile Include="Areas\Admin\Data\Model\User\ResetPasswordResult.cs" />
     <Compile Include="Controllers\AuthFrontendController.cs" />
     <Compile Include="Controllers\BaseFrController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -1466,6 +1467,7 @@
     <Content Include="Content\SiteBackend.css" />
     <Content Include="Scripts\jquery.twbsPagination.min.js" />
     <Content Include="Scripts\plugins\AdminJsController.js" />
+    <Content Include="Scripts\plugins\logoutAdmin.js" />
     <Content Include="Scripts\plugins\QuestionJsController.js" />
     <Content Include="Scripts\plugins\CandidateJsController.js" />
     <Content Include="Content\assets\backend\dist\js\config-toastrJs.js" />
@@ -1680,6 +1682,7 @@
     <Content Include="Areas\Admin\Views\Account\InsertOrUpdate.cshtml" />
     <Content Include="Areas\Admin\Views\Account\_ModalDetailsAccount.cshtml" />
     <Content Include="Areas\Admin\Views\Question\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_ModalLogout.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />

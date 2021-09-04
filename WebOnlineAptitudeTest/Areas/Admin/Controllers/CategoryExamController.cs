@@ -68,6 +68,7 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
                 status = false;
             }
             cate.Name = categoryExam.Name;
+            cate.TimeTest = categoryExam.TimeTest;
             _categoryExamRepository.Update(cate);
             _unitOfWork.Commit();
 

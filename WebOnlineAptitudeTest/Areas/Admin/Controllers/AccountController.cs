@@ -17,7 +17,7 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
             _adminRepository = adminRepository;
             _unitOfWork = unitOfWork;
         }
-        
+
         public ActionResult Index()
         {
             ViewBag.ListpageSize = new List<int>() { 5, 10, 15, 20, 50, 100 };
@@ -42,21 +42,13 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
         [HttpPost]
         public JsonResult ChangePassword(string userName, string passOld, string passNew)
         {
-            var message = "Change Password Successfull !!!";
-            var title = "Notification";
-
             var result = _adminRepository.ChangePass(userName.Trim(), passOld.Trim(), passNew.Trim());
-          
-            if (result == false)
-            {
-                message = "Change Password Error !!!";
-            }
 
             return Json(new
             {
-                message,
-                status = result,
-                title
+                message = result.Messenger,
+                status = result.Status,
+                title = "Notification"
             });
         }
 
@@ -70,8 +62,8 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
                 return Json(new
                 {
                     data = acc.CreatedDate.ToString(),
-                    createdDate =  acc.CreatedDate.ToString(),
-                    updatedDate =  acc.UpdatedDate.ToString(),
+                    createdDate = acc.CreatedDate.Value.ToString("MM/dd/yyyy HH:mm"),
+                    updatedDate = acc.UpdatedDate == null ? "" : acc.UpdatedDate.Value.ToString("MM/dd/yyyy HH:mm"),
                     status = false
                 }, JsonRequestBehavior.AllowGet);
             }
@@ -79,8 +71,8 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
             return Json(new
             {
                 data = acc,
-                createdDate = acc.CreatedDate.ToString(),
-                updatedDate = acc.UpdatedDate.ToString(),
+                createdDate = acc.CreatedDate.Value.ToString("MM/dd/yyyy HH:mm"),
+                updatedDate = acc.UpdatedDate == null ? "" : acc.UpdatedDate.Value.ToString("MM/dd/yyyy HH:mm"),
                 status = true
             }, JsonRequestBehavior.AllowGet);
         }

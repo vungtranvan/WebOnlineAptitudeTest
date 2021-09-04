@@ -9,6 +9,7 @@ var questController = {
         questController.loadData();
     },
     registerEvents: function () {
+        $('[data-toggle="tooltip"]').tooltip();
         $('.txtSearchQuestion').off('input').on('input', function () {
             questController.loadData(true);
         });
@@ -62,13 +63,18 @@ var questController = {
             },
             dataType: 'json',
             success: function (response) {
-      
+
                 if (response.status == true) {
 
                     var data = JSON.parse(response.data);
-
+                    
                     var html = '';
                     $.each(data, function (i, item) {
+                        var status = `<i class="fa fa-circle text-success font-12" data-toggle="tooltip" title="Show"></i>`;
+                        if (Boolean(item.Status) == false) {
+                            status = `<i class="fa fa-circle text-danger font-12" data-toggle="tooltip" title="Hide"></i>`;
+                        }
+                        
                         html +=
                             ` <div class="card mb-0">
                                     <div class="card-header" id="headingOne">
@@ -80,10 +86,10 @@ var questController = {
                                                 <span class="qContent">`+ item.Name + `</span>
                                                 <span class="qCategory">`+ item.CategoryExamName + `</span>
                                                 <span class="qMark">`+ item.Mark + `</span>
-                                                <span class="qStatus">`+ item.Status + `</span>
+                                                <span class="qStatus">`+ status + `</span>
                                                 <span class="qAction">
                                                 <a class="qEdit" href="Question/InsertOrUpdate/`+ item.Id + `" >Edit</a>
-                                                <a class="qDelete btnDelete" href=":javascript" data-id=`+ item.Id +`  >Delete</a>
+                                                <a class="qDelete btnDelete" href=":javascript" data-id=`+ item.Id + `  >Delete</a>
 
                                                 </span>
 

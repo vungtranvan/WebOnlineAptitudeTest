@@ -15,9 +15,6 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Data.Model.TestSchedules
         public string Name { get; set; }
 
         [Required(ErrorMessage = "This field is required")]
-        public int TimeTest { get; set; }
-
-        [Required(ErrorMessage = "This field is required")]
         public DateTime DateStart { get; set; }
 
         [Required(ErrorMessage = "This field is required")]

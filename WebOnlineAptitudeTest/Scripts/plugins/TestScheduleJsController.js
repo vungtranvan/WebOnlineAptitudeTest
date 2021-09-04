@@ -8,6 +8,8 @@ var testScheduleController = {
         testScheduleController.loadData();
     },
     registerEvents: function () {
+        $('[data-toggle="tooltip"]').tooltip();
+
         $('.txtSearch').off('input').on('input', function () {
             testScheduleController.loadData(true);
         });
@@ -64,21 +66,20 @@ var testScheduleController = {
                     var html = '';
                     $.each(data, function (i, item) {
 
-                        var status = 'Undone';
+                        var status = `<i class="fa fa-circle text-primary font-12" data-toggle="tooltip" title="Undone"></i>`;
                         if (item.Status == 1) {
-                            status = 'InProgress';
+                            status = `<i class="fa fa-circle text-danger font-12" data-toggle="tooltip" title="In Progress"></i>`;
                         } else if (item.Status == 2) {
-                            status = 'Done';
+                            status = `<i class="fa fa-circle text-success font-12" data-toggle="tooltip" title="Done"></i>`;
                         }
 
                         html +=
                             `<tr class="intro-x">
                                 <td scope="col">${i + 1}</td>
                                 <td>${item.Name}</td>
-                                <td>${item.TimeTest}</td>
                                 <td>${testScheduleController.formatDate(item.DateStart)}</td>
                                 <td>${testScheduleController.formatDate(item.DateEnd)}</td>
-                                <td>${status}</td>
+                                <td class="text-center">${status}</td>
                                 <td class="FlexIconAction">
                                         <a class="flex items-center mr-3" href="/Admin/TestSchedule/InsertOrUpdate/${item.Id}"> <i class="fas fa-edit"></i> Edit </a>
                                         <a class="flex items-center text-theme-6 btnDelete" href="#" data-id="${item.Id}"> <i class="fas fa-trash-alt"></i> Delete </a>

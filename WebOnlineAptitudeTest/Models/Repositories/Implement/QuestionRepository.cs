@@ -29,7 +29,7 @@ namespace WebOnlineAptitudeTest.Models.Repositories.Implement
 
             if (!string.IsNullOrEmpty(keyword))
             {
-                lstQuestion = base.GetMulti(x => (x.Deleted == false || x.Deleted == null) && (x.Name.Contains(keyword)
+                lstQuestion = base.GetMulti(x => (x.Deleted == false) && (x.Name.Contains(keyword)
                    || x.CategoryExam.Name.Contains(keyword)), new string[] { "CategoryExam", "Answers" })
                 .Select(b => new Question
                 {
@@ -47,7 +47,7 @@ namespace WebOnlineAptitudeTest.Models.Repositories.Implement
             }
             else
             {
-                lstQuestion = base.GetMulti(x => x.Deleted == false || x.Deleted == null, new string[] { "CategoryExam", "Answers" })
+                lstQuestion = base.GetMulti(x => x.Deleted == false, new string[] { "CategoryExam", "Answers" })
                 .Select(b => new Question
                 {
                     Id = b.Id,
@@ -89,9 +89,7 @@ namespace WebOnlineAptitudeTest.Models.Repositories.Implement
                     q.UpdatedDate = DateTime.Now;
                     q.CategoryExamId = question.CategoryExamId;
                     q.Mark = question.Mark;
-                    q.Status = question.Status;
-                    q.Deleted = question.Deleted;
-
+                    q.Status = question.Status != null ? true : false;
 
                     base.Update(q);
 
