@@ -8,6 +8,10 @@
             rules: {
                 textNameCateExam: {
                     required: true
+                },
+                textTimeTest: {
+                    required: true,
+                    min: 5
                 }
             }
         });
@@ -28,19 +32,21 @@
             if ($("#FormUpdateCategoryExam").valid()) {
                 var id = $('#textIdCateExam').val();
                 var name = $('#textNameCateExam').val();
-                categoryExamController.updateCategoryExam(id, name);
+                var timetest = $('#textTimeTest').val();
+                categoryExamController.updateCategoryExam(id, name, timetest);
                 $('#modal-updateCateExam').modal('hide');
             }
         });
 
     },
-    updateCategoryExam: function (id, name) {
+    updateCategoryExam: function (id, name, timetest) {
         $.ajax({
             url: '/CategoryExam/Update',
             type: 'POST',
             data: {
                 Id: id,
-                Name: name
+                Name: name,
+                TimeTest: timetest
             },
             dataType: 'json',
             success: function (response) {
@@ -64,6 +70,7 @@
                     var data = response.data;
                     $('#textIdCateExam').val(data.Id);
                     $('#textNameCateExam').val(data.Name);
+                    $('#textTimeTest').val(data.TimeTest);
                 } else {
                     $('#modal-updateCateExam').modal('hide');
                     toastr.error("Can not find Category Exam", "Notification");
@@ -85,6 +92,7 @@
                                 `<tr class="intro-x">
                                     <td>${i+1}</td>
                                     <td>${item.Name}</td>
+                                    <td>${item.TimeTest}</td>
                                     <td class="FlexIconAction">
                                         <a class="flex items-center text-theme-6 btnUpdate" href="#" data-id="${item.Id}"> <i class="fas fa-edit"></i> Edit </a>
                                     </td>
