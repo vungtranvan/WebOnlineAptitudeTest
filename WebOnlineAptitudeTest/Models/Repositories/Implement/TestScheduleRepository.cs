@@ -56,9 +56,8 @@ namespace WebOnlineAptitudeTest.Models.Repositories.Implement
                                   Name = x.Name,
                                   Status = x.Status,
                                   DateStart = x.DateStart,
-                                  CreatedDate = x.CreatedDate,
                                   DateEnd = x.DateEnd,
-                                  TimeTest = x.TimeTest,
+                                  CreatedDate = x.CreatedDate,
                                   UpdatedDate = x.UpdatedDate
                               }).ToList();
             }
@@ -71,9 +70,8 @@ namespace WebOnlineAptitudeTest.Models.Repositories.Implement
                             Name = x.Name,
                             Status = x.Status,
                             DateStart = x.DateStart,
-                            CreatedDate = x.CreatedDate,
                             DateEnd = x.DateEnd,
-                            TimeTest = x.TimeTest,
+                            CreatedDate = x.CreatedDate,
                             UpdatedDate = x.UpdatedDate
                         }).ToList();
             }
@@ -98,7 +96,6 @@ namespace WebOnlineAptitudeTest.Models.Repositories.Implement
             {
                 Id = testSchedule.Id,
                 Name = testSchedule.Name,
-                TimeTest = testSchedule.TimeTest,
                 DateStart = testSchedule.DateStart,
                 DateEnd = testSchedule.DateEnd,
                 CandidateId = lstCandidateId
@@ -128,7 +125,6 @@ namespace WebOnlineAptitudeTest.Models.Repositories.Implement
                 var data = new TestSchedule()
                 {
                     Name = model.Name,
-                    TimeTest = model.TimeTest,
                     DateStart = model.DateStart,
                     DateEnd = model.DateEnd,
                     CreatedDate = DateTime.Now,
@@ -159,7 +155,6 @@ namespace WebOnlineAptitudeTest.Models.Repositories.Implement
                 }
 
                 t.Name = model.Name;
-                t.TimeTest = model.TimeTest;
                 t.DateStart = model.DateStart;
                 t.DateEnd = model.DateEnd;
                 t.UpdatedDate = DateTime.Now;

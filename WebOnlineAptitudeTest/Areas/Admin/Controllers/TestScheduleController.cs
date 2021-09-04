@@ -81,20 +81,17 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
         public ActionResult InsertOrUpdate(TestScheduleInsertOrUpdateRequest model)
         {
             //validate data input
-            if (model.TimeTest <= 0)
-                ModelState.AddModelError("TimeTest", "Time test must be bigger 0");
-
             if (model.DateStart <= DateTime.Now)
                 ModelState.AddModelError("DateStart", "Test start schedule must be bigger Time Now");
 
             if (model.DateEnd <= model.DateStart)
                 ModelState.AddModelError("DateEnd", "Test end schedule must be bigger Test start schedule");
 
-            if (model.TimeTest > 0 && model.DateStart != null && model.DateEnd != null)
-            {
-                if (model.DateEnd < model.DateStart.AddMinutes(model.TimeTest * 3))
-                    ModelState.AddModelError("DateEnd", "Test end schedule invalid (DateEnd >= (DateStart + (TimeTest*3)))");
-            }
+            //if (model.DateStart != null && model.DateEnd != null)
+            //{
+            //    if (model.DateEnd < model.DateStart.AddMinutes(model.TimeTest * 3))
+            //        ModelState.AddModelError("DateEnd", "Test end schedule invalid (DateEnd >= (DateStart + (TimeTest*3)))");
+            //}
 
             if (!ModelState.IsValid)
             {

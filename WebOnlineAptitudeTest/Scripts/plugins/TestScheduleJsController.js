@@ -75,7 +75,6 @@ var testScheduleController = {
                             `<tr class="intro-x">
                                 <td scope="col">${i + 1}</td>
                                 <td>${item.Name}</td>
-                                <td>${item.TimeTest}</td>
                                 <td>${testScheduleController.formatDate(item.DateStart)}</td>
                                 <td>${testScheduleController.formatDate(item.DateEnd)}</td>
                                 <td>${status}</td>
