@@ -124,6 +124,7 @@
                             }
                             break;
                         case "Continue":
+                            alert("continute");
                             ajax(`{ CategoryExamId: ` + res.currentCategoryId + `}`, createQuestQuestUrl, function (resQuestContent) {
                                 let content = ``;
                                 let menu = ``;

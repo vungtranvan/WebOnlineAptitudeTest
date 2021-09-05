@@ -209,7 +209,9 @@ namespace WebOnlineAptitudeTest.Controllers
         public ActionResult CreateQuest(int CategoryExamId)
         {
 
-            var result = this._questionRepository.Get(x => x.CategoryExamId == CategoryExamId);
+            var result = this._questionRepository.Get(x => x.CategoryExamId == CategoryExamId).OrderBy(x => Guid.NewGuid()).Take(5); ;
+
+
             var data = JsonConvert.SerializeObject(result, Formatting.Indented,
                 new JsonSerializerSettings
                 {
