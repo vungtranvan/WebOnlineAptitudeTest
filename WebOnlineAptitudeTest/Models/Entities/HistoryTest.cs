@@ -5,6 +5,7 @@ namespace WebOnlineAptitudeTest.Models.Entities
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
+    using WebOnlineAptitudeTest.Enums;
 
     [Table("HistoryTest")]
     public partial class HistoryTest
@@ -31,7 +32,7 @@ namespace WebOnlineAptitudeTest.Models.Entities
 
         public double? TotalMark { get; set; }
 
-        public int? Status { get; set; }
+        public EnumStatusHistoryTest? Status { get; set; }
 
         public bool? Deleted { get; set; }
 

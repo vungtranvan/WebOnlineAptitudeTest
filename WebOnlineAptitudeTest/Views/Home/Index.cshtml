@@ -55,19 +55,13 @@
 
 
 
-
-
-
             $("#aptitutest_form_submit").on("click", function () {
-                $('#modal-previewConfirm .text-modal').text('Do you want to submit ?');
-                $('#modal-previewConfirm').modal('show');
+                $('#modal-previewConfirmSubmitForm').modal('show');
+            });
 
-                $('#modal-previewConfirm .btn-okConfirm').off('click').on('click', function (e) {
-                   submitForm();
-                });
-                $('#modal-previewConfirm .btn-CancelModal').off('click').on('click', function (e) {
-                    $('#modal-previewConfirm').modal('hide');
-                });
+            $('#modal-previewConfirmSubmitForm .btn-okConfirmSubmitForm').off('click').on('click', function (e) {
+                $('#modal-previewConfirmSubmitForm').modal('hide');
+                submitForm();
             });
 
             function submitForm() {
@@ -203,9 +197,7 @@
                             })
                             break;
                         case "AllOver":
-                           // alert("all over");
-                            $('#modal-previewAlert .text-modal').text('All over');
-                            $('#modal-previewAlert').modal('show');
+                            showAlertModal('All over');
                             $("#aptitutest_form").html("");
                             break;
 

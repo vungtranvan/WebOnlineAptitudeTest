@@ -35,13 +35,14 @@ namespace WebOnlineAptitudeTest.Models.Repositories.Implement
             {
                 if (!string.IsNullOrEmpty(keyword))
                 {
-                    lstHistoryTest = _candidateRepository.GetMulti(x => (x.Deleted == false) && x.Status == true && (x.Name.Contains(keyword)
+                    lstHistoryTest = _candidateRepository.GetMulti(x => x.Deleted == false && x.Status != EnumStatusCandidate.Undone
+                    && (x.Name.Contains(keyword)
                                      || x.UserName.Contains(keyword)) && x.HistoryTests.Where(y => y.TestScheduleId.Equals(idTeschedule)).Count() > 0, new string[] { "HistoryTests" })
                                      .ToList();
                 }
                 else
                 {
-                    lstHistoryTest = _candidateRepository.GetMulti(x => x.Deleted == false && x.Status == true
+                    lstHistoryTest = _candidateRepository.GetMulti(x => x.Deleted == false && x.Status != EnumStatusCandidate.Undone
                     && x.HistoryTests.Where(y => y.TestScheduleId.Equals(idTeschedule)).Count() > 0, new string[] { "HistoryTests" }).ToList();
                 }
             }
@@ -49,12 +50,12 @@ namespace WebOnlineAptitudeTest.Models.Repositories.Implement
             {
                 if (!string.IsNullOrEmpty(keyword))
                 {
-                    lstHistoryTest = _candidateRepository.GetMulti(x => (x.Deleted == false) && x.Status == true && (x.Name.Contains(keyword)
-                                     || x.UserName.Contains(keyword)), new string[] { "HistoryTests" }).ToList();
+                    lstHistoryTest = _candidateRepository.GetMulti(x => x.Deleted == false && x.Status != EnumStatusCandidate.Undone
+                    && (x.Name.Contains(keyword) || x.UserName.Contains(keyword)), new string[] { "HistoryTests" }).ToList();
                 }
                 else
                 {
-                    lstHistoryTest = _candidateRepository.GetMulti(x => x.Deleted == false && x.Status == true, new string[] { "HistoryTests" }).ToList();
+                    lstHistoryTest = _candidateRepository.GetMulti(x => x.Deleted == false && x.Status != EnumStatusCandidate.Undone, new string[] { "HistoryTests" }).ToList();
                 }
             }
 
@@ -72,21 +73,21 @@ namespace WebOnlineAptitudeTest.Models.Repositories.Implement
        
         public bool Locked(int candidateId)
         {
-            var history = Get(filter: h => h.CandidateId == candidateId);
-            if (history.Count() == 0)
-            {
-                return false;
-            }
-            foreach (var item in history)
-            {
-                item.Deleted = true;
-            }
+            //var history = Get(filter: h => h.CandidateId == candidateId);
+            //if (history.Count() == 0)
+            //{
+            //    return false;
+            //}
+            //foreach (var item in history)
+            //{
+            //    item.Deleted = true;
+            //}
 
-            // Update Status Candidate
-            var candi = _candidateRepository.GetSingleById(candidateId);
-            candi.Status = false;
+            //// Update Status Candidate
+            //var candi = _candidateRepository.GetSingleById(candidateId);
+            //candi.Status = EnumStatusCandidate;
 
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
             return true;
         }
     }

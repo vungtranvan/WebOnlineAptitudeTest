@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using WebOnlineAptitudeTest.Areas.Admin.Data.Model.TestSchedules;
+using WebOnlineAptitudeTest.Enums;
 using WebOnlineAptitudeTest.Models.Entities;
 using WebOnlineAptitudeTest.Models.Infrastructure;
 using WebOnlineAptitudeTest.Models.Repositories.Interface;
@@ -150,12 +151,12 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
 
         private void MultiSelectListCandidate(List<int> lstcandidateId = null)
         {
-            var lstCandi = _candidateRepository.Get(filter: x => x.Status == false
+            var lstCandi = _candidateRepository.Get(filter: x => x.Status == EnumStatusCandidate.Undone
                            && x.Deleted == false, orderBy: c => c.OrderByDescending(y => y.Id)).ToList();
 
             if (lstcandidateId != null)
             {
-                foreach (var item in _candidateRepository.Get(filter: x => x.Status == true))
+                foreach (var item in _candidateRepository.Get(filter: x => x.Status == EnumStatusCandidate.Scheduled))
                 {
                     foreach (var c in lstcandidateId)
                     {

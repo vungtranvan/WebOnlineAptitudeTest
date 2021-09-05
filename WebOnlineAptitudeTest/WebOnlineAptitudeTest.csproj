@@ -222,6 +222,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MenuController.cs" />
     <Compile Include="CustomCKFinderAuthenticator.cs" />
+    <Compile Include="Enums\EnumStatusCandidate.cs" />
     <Compile Include="Enums\EnumStatusHistoryTest.cs" />
     <Compile Include="Enums\EnumStatusTestSchedule.cs" />
     <Compile Include="Global.asax.cs">
@@ -1721,6 +1722,7 @@
     <Content Include="Views\AuthFrontend\Index.cshtml" />
     <Content Include="Views\Home\_ModalAlert.cshtml" />
     <Content Include="Views\Home\_ModalConfirm.cshtml" />
+    <Content Include="Views\Home\_ModalConfirmSubmitForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="userfiles\files\" />

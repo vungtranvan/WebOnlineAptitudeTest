@@ -5,6 +5,7 @@ namespace WebOnlineAptitudeTest.Models.Entities
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
+    using WebOnlineAptitudeTest.Enums;
 
     [Table("Candidate")]
     public partial class Candidate
@@ -54,7 +55,7 @@ namespace WebOnlineAptitudeTest.Models.Entities
 
         public DateTime? UpdatedDate { get; set; }
 
-        public bool Status { get; set; }
+        public EnumStatusCandidate Status { get; set; }
 
         public bool Deleted { get; set; }
         

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using WebOnlineAptitudeTest.Enums;
 using WebOnlineAptitudeTest.Models.Entities;
 using WebOnlineAptitudeTest.Models.Infrastructure;
 using WebOnlineAptitudeTest.Models.Repositories.Interface;
@@ -58,6 +59,7 @@ namespace WebOnlineAptitudeTest.Controllers
                 if (checktime >= 0 && historyTest.DateEndTest == null)
                 {
                     historyTest.DateEndTest = DateTime.Now;
+                    historyTest.Status = EnumStatusHistoryTest.Done;
                     this._historyTestRepository.Update(historyTest);
 
 
@@ -191,6 +193,7 @@ namespace WebOnlineAptitudeTest.Controllers
                 if (historyTest.DateStartTest == null)
                 {
                     historyTest.DateStartTest = DateTime.Now;
+                    historyTest.Status = EnumStatusHistoryTest.InProgress;
                     this._historyTestRepository.Update(historyTest);
                     this._unitOfWork.Commit();
                 }

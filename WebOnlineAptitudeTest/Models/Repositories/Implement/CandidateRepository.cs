@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using WebOnlineAptitudeTest.Areas.Admin.Data.Model.Pagings;
+using WebOnlineAptitudeTest.Enums;
 using WebOnlineAptitudeTest.Models.Entities;
 using WebOnlineAptitudeTest.Models.Infrastructure;
 using WebOnlineAptitudeTest.Models.Repositories.Interface;
@@ -23,7 +24,7 @@ namespace WebOnlineAptitudeTest.Models.Repositories.Implement
             if (candidate.Id == 0)
             {
                 candidate.Password = candidate.Password.ToMD5();
-                candidate.Status = false;
+                candidate.Status = EnumStatusCandidate.Undone;
                 candidate.CreatedDate = DateTime.Now;
                 candidate.Deleted = false;
                 base.Add(candidate);
