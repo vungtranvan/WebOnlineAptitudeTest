@@ -66,11 +66,11 @@ namespace WebOnlineAptitudeTest.Models.Repositories.Implement
                 lstCandi = Get(
                     filter: c => c.Deleted == false && (c.UserName.ToLower().Contains(keyword.ToLower())
                     || c.Name.ToLower().Contains(keyword.ToLower()) || c.Email.ToLower().Contains(keyword.ToLower())),
-                    orderBy: c => c.OrderByDescending(x => x.Id)).ToList();
+                    orderBy: c => c.OrderBy(x => x.Status)).ToList();
             }
             else
             {
-                lstCandi = Get(filter: c => c.Deleted == false, orderBy: c => c.OrderByDescending(x => x.Id)).ToList();
+                lstCandi = Get(filter: c => c.Deleted == false, orderBy: c => c.OrderBy(x => x.Status)).ToList();
             }
 
             int totalRow = lstCandi.Count();
