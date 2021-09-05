@@ -1469,6 +1469,7 @@
     <Content Include="Content\SiteBackend.css" />
     <Content Include="Scripts\jquery.twbsPagination.min.js" />
     <Content Include="Scripts\plugins\AdminJsController.js" />
+    <Content Include="Scripts\plugins\HistoryTestsJsController.js" />
     <Content Include="Scripts\plugins\logoutAdmin.js" />
     <Content Include="Scripts\plugins\QuestionJsController.js" />
     <Content Include="Scripts\plugins\CandidateJsController.js" />

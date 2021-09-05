@@ -81,6 +81,7 @@ var testScheduleController = {
                                 <td>${testScheduleController.formatDate(item.DateEnd)}</td>
                                 <td class="text-center">${status}</td>
                                 <td class="FlexIconAction">
+                                        <a class="flex items-center text-theme-6 btnDetail" href="/admin/HistoryTests/${item.Id}"> <i class="fas fa-search-plus"></i> Details </a>
                                         <a class="flex items-center mr-3" href="/Admin/TestSchedule/InsertOrUpdate/${item.Id}"> <i class="fas fa-edit"></i> Edit </a>
                                         <a class="flex items-center text-theme-6 btnDelete" href="#" data-id="${item.Id}"> <i class="fas fa-trash-alt"></i> Delete </a>
                                 </td>

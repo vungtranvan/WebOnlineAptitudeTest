@@ -73,21 +73,21 @@ namespace WebOnlineAptitudeTest.Models.Repositories.Implement
        
         public bool Locked(int candidateId)
         {
-            //var history = Get(filter: h => h.CandidateId == candidateId);
-            //if (history.Count() == 0)
-            //{
-            //    return false;
-            //}
-            //foreach (var item in history)
-            //{
-            //    item.Deleted = true;
-            //}
+            var history = Get(filter: h => h.CandidateId == candidateId);
+            if (history.Count() == 0)
+            {
+                return false;
+            }
+            foreach (var item in history)
+            {
+                item.Deleted = true;
+            }
 
-            //// Update Status Candidate
-            //var candi = _candidateRepository.GetSingleById(candidateId);
-            //candi.Status = EnumStatusCandidate;
+            // Update Status Candidate
+            var candi = _candidateRepository.GetSingleById(candidateId);
+            candi.Status = EnumStatusCandidate.Undone;
 
-            //_unitOfWork.Commit();
+            _unitOfWork.Commit();
             return true;
         }
     }

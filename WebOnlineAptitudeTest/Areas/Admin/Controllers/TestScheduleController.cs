@@ -14,7 +14,7 @@ using WebOnlineAptitudeTest.Models.Repositories.Interface;
 
 namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
 {
-    public class TestScheduleController : Controller
+    public class TestScheduleController : BaseController
     {
         private readonly ITestScheduleRepository _testScheduleRepository;
         private readonly ICandidateRepository _candidateRepository;

@@ -22,46 +22,87 @@ namespace WebOnlineAptitudeTest.Models.Repositories.Implement
 
         }
 
-        public PagingModel<Question> GetData(string keyword, int page, int pageSize)
+        public PagingModel<Question> GetData(string keyword, int idCate, int page, int pageSize)
         {
 
             List<Question> lstQuestion = new List<Question>();
-
-            if (!string.IsNullOrEmpty(keyword))
+            if (idCate > 0)
             {
-                lstQuestion = base.GetMulti(x => (x.Deleted == false) && (x.Name.Contains(keyword)
-                   || x.CategoryExam.Name.Contains(keyword)), new string[] { "CategoryExam", "Answers" })
-                .Select(b => new Question
+                if (!string.IsNullOrEmpty(keyword))
                 {
-                    Id = b.Id,
-                    Name = b.Name,
-                    Status = b.Status,
-                    Deleted = b.Deleted,
-                    Mark = b.Mark,
-                    Answers = b.Answers,
-                    CategoryExamId = b.CategoryExamId,
-                    CategoryExamName = b.CategoryExam.Name,
-                    CreatedDate = b.CreatedDate,
-                    UpdatedDate = b.UpdatedDate
-                }).OrderByDescending(x => x.Id).ToList();
+                    lstQuestion = base.GetMulti(x => x.Deleted == false && x.CategoryExam.Id.Equals(idCate) && (x.Name.Contains(keyword)
+                       || x.CategoryExam.Name.Contains(keyword)), new string[] { "CategoryExam", "Answers" })
+                    .Select(b => new Question
+                    {
+                        Id = b.Id,
+                        Name = b.Name,
+                        Status = b.Status,
+                        Deleted = b.Deleted,
+                        Mark = b.Mark,
+                        Answers = b.Answers,
+                        CategoryExamId = b.CategoryExamId,
+                        CategoryExamName = b.CategoryExam.Name,
+                        CreatedDate = b.CreatedDate,
+                        UpdatedDate = b.UpdatedDate
+                    }).OrderByDescending(x => x.Id).ToList();
+                }
+                else
+                {
+                    lstQuestion = base.GetMulti(x => x.Deleted == false && x.CategoryExam.Id.Equals(idCate), new string[] { "CategoryExam", "Answers" })
+                    .Select(b => new Question
+                    {
+                        Id = b.Id,
+                        Name = b.Name,
+                        Status = b.Status,
+                        Deleted = b.Deleted,
+                        Mark = b.Mark,
+                        Answers = b.Answers,
+                        CategoryExamId = b.CategoryExamId,
+                        CategoryExamName = b.CategoryExam.Name,
+                        CreatedDate = b.CreatedDate,
+                        UpdatedDate = b.UpdatedDate
+                    }).OrderByDescending(x => x.Id).ToList();
+                }
             }
             else
             {
-                lstQuestion = base.GetMulti(x => x.Deleted == false, new string[] { "CategoryExam", "Answers" })
-                .Select(b => new Question
+                if (!string.IsNullOrEmpty(keyword))
                 {
-                    Id = b.Id,
-                    Name = b.Name,
-                    Status = b.Status,
-                    Deleted = b.Deleted,
-                    Mark = b.Mark,
-                    Answers = b.Answers,
-                    CategoryExamId = b.CategoryExamId,
-                    CategoryExamName = b.CategoryExam.Name,
-                    CreatedDate = b.CreatedDate,
-                    UpdatedDate = b.UpdatedDate
-                }).OrderByDescending(x => x.Id).ToList();
+                    lstQuestion = base.GetMulti(x => (x.Deleted == false) && (x.Name.Contains(keyword)
+                       || x.CategoryExam.Name.Contains(keyword)), new string[] { "CategoryExam", "Answers" })
+                    .Select(b => new Question
+                    {
+                        Id = b.Id,
+                        Name = b.Name,
+                        Status = b.Status,
+                        Deleted = b.Deleted,
+                        Mark = b.Mark,
+                        Answers = b.Answers,
+                        CategoryExamId = b.CategoryExamId,
+                        CategoryExamName = b.CategoryExam.Name,
+                        CreatedDate = b.CreatedDate,
+                        UpdatedDate = b.UpdatedDate
+                    }).OrderByDescending(x => x.Id).ToList();
+                }
+                else
+                {
+                    lstQuestion = base.GetMulti(x => x.Deleted == false, new string[] { "CategoryExam", "Answers" })
+                    .Select(b => new Question
+                    {
+                        Id = b.Id,
+                        Name = b.Name,
+                        Status = b.Status,
+                        Deleted = b.Deleted,
+                        Mark = b.Mark,
+                        Answers = b.Answers,
+                        CategoryExamId = b.CategoryExamId,
+                        CategoryExamName = b.CategoryExam.Name,
+                        CreatedDate = b.CreatedDate,
+                        UpdatedDate = b.UpdatedDate
+                    }).OrderByDescending(x => x.Id).ToList();
+                }
             }
+           
 
             int totalRow = lstQuestion.Count();
 

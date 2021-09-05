@@ -12,7 +12,7 @@ namespace WebOnlineAptitudeTest.Models.Repositories.Interface
     {
         bool InsertOrUpdate(Question question);
         bool Locked(int id);
-        PagingModel<Question> GetData(string keyword, int page, int pageSize);
+        PagingModel<Question> GetData(string keyword, int idCate, int page, int pageSize);
         List<Question> GetQuestion(int CategoryExamId);
     }
 }

@@ -26,8 +26,19 @@
         <div class="card">
             <div class="card-body">
                 <div class="header-card">
-                    <div class="button">
-                        <a href="@Url.Action("InsertOrUpdate","Question")" class="btn waves-effect waves-light btn-Custom btn-primary"> Add New</a>
+                    <div class="row">
+                        <div class="col-3">
+                            <div class="button">
+                                <a href="@Url.Action("InsertOrUpdate","Question")" class="btn waves-effect waves-light btn-Custom btn-primary"> Add New</a>
+                            </div>
+                        </div>
+
+                        <div class="col-9 align-self-center">
+                            <div class="customize-input float-right">
+                                @Html.DropDownList("CategoryExamDropDown", (SelectList)ViewBag.NewsItemList, "----- Choice CategoryExam -----",
+                                    htmlAttributes: new { @class = "custom-select custom-select-set form-control bg-white border-0 custom-shadow custom-radius", Id = "DropDownLists" })
+                            </div>
+                        </div>
                     </div>
                 </div>
 
