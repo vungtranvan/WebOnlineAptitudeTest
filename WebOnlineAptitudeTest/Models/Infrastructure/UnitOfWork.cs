@@ -43,7 +43,7 @@ namespace WebOnlineAptitudeTest.Models.Infrastructure
                        error += "<br/>" + ve.PropertyName +" - "+ ve.ErrorMessage;
                     }
                 }
-                error = error;
+                //error = error;
                 throw;
             }
            

@@ -33,15 +33,16 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult Index()
         {
+            this.DropDownCategoryExam();
             ViewBag.ListpageSize = new List<int>() { 10, 15, 20, 50, 100 };
             return View();
         }
 
         [HttpGet]
-        public JsonResult LoadData(string keyword, int page, int pageSize = 3)
+        public JsonResult LoadData(string keyword, int idCate, int page, int pageSize = 3)
         {
             _unitOfWork.DbContext.Configuration.ProxyCreationEnabled = false;
-            var result = _questionRepository.GetData(keyword, page, pageSize);
+            var result = _questionRepository.GetData(keyword, idCate, page, pageSize);
 
             var resultData = JsonConvert.SerializeObject(result.Items, Formatting.Indented,
                new JsonSerializerSettings
@@ -158,10 +159,11 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
 
         private void DropDownCategoryExam(int categoryExamId = 0)
         {
-            var lstCateEx = _categoryExamRepository.GetAll().ToList();
+            var lstCateEx = _categoryExamRepository.Get(orderBy: x => x.OrderByDescending(y => y.Id)).ToList();
             ViewBag.NewsItemList = new SelectList(lstCateEx, "Id", "Name", categoryExamId);
         }
 
+        [HttpPost]
         public JsonResult Locked(int id)
         {
             var title = "Notification";

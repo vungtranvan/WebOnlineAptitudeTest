@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using WebOnlineAptitudeTest.Areas.Admin.Data.Model.Pagings;
+using WebOnlineAptitudeTest.Enums;
 using WebOnlineAptitudeTest.Models.Entities;
 using WebOnlineAptitudeTest.Models.Infrastructure;
 using WebOnlineAptitudeTest.Models.Repositories.Interface;
@@ -23,7 +24,7 @@ namespace WebOnlineAptitudeTest.Models.Repositories.Implement
             if (candidate.Id == 0)
             {
                 candidate.Password = candidate.Password.ToMD5();
-                candidate.Status = false;
+                candidate.Status = EnumStatusCandidate.Undone;
                 candidate.CreatedDate = DateTime.Now;
                 candidate.Deleted = false;
                 base.Add(candidate);
@@ -65,11 +66,11 @@ namespace WebOnlineAptitudeTest.Models.Repositories.Implement
                 lstCandi = Get(
                     filter: c => c.Deleted == false && (c.UserName.ToLower().Contains(keyword.ToLower())
                     || c.Name.ToLower().Contains(keyword.ToLower()) || c.Email.ToLower().Contains(keyword.ToLower())),
-                    orderBy: c => c.OrderByDescending(x => x.Id)).ToList();
+                    orderBy: c => c.OrderBy(x => x.Status)).ToList();
             }
             else
             {
-                lstCandi = Get(filter: c => c.Deleted == false, orderBy: c => c.OrderByDescending(x => x.Id)).ToList();
+                lstCandi = Get(filter: c => c.Deleted == false, orderBy: c => c.OrderBy(x => x.Status)).ToList();
             }
 
             int totalRow = lstCandi.Count();

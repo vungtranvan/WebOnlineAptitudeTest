@@ -26,52 +26,44 @@ namespace WebOnlineAptitudeTest.Models.Repositories.Implement
             _unitOfWork = unitOfWork;
         }
 
-        public PagingModel<HistoryTestViewModel> GetData(string keyword, int page, int pageSize)
+        public PagingModel<Candidate> GetData(string keyword, int idTeschedule, int page, int pageSize)
         {
             //UpdateCandidateQuit();
-            //IEnumerable<HistoryTestViewModel> lstHistory = new List<HistoryTestViewModel>();
+            List<Candidate> lstHistoryTest = new List<Candidate>();
 
-            //if (!string.IsNullOrEmpty(keyword))
-            //{
-            //    lstHistory = (from x in base.DbContext.HistoryTests
-            //                  join c in base.DbContext.Candidates on x.CandidateId equals c.Id
-            //                  where x.Deleted == false && c.Deleted == false && c.Name.ToLower().Contains(keyword.ToLower())
-            //                  orderby x.Status
-            //                  select new HistoryTestViewModel
-            //                  {
-            //                      CandidateId = x.CandidateId,
-            //                      CandidateName = c.Name,
-            //                      TestStartSchedule = x.TestStartSchedule,
-            //                      TestEndSchedule = x.TestEndSchedule,
-            //                      Status = x.Status
-            //                  }).ToList().GroupBy(x => x.CandidateId).Select(y => y.FirstOrDefault());
-            //}
-            //else
-            //{
-            //    lstHistory = (from x in base.DbContext.HistoryTests
-            //                  join c in base.DbContext.Candidates on x.CandidateId equals c.Id
-            //                  where x.Deleted == false && c.Deleted == false
-            //                  orderby x.Status
-            //                  select new HistoryTestViewModel
-            //                  {
-            //                      CandidateId = x.CandidateId,
-            //                      CandidateName = c.Name,
-            //                      TestStartSchedule = x.TestStartSchedule,
-            //                      TestEndSchedule = x.TestEndSchedule,
-            //                      Status = x.Status
-            //                  }).ToList().GroupBy(x => x.CandidateId).Select(y => y.FirstOrDefault());
-            //}
+            if (idTeschedule > 0)
+            {
+                if (!string.IsNullOrEmpty(keyword))
+                {
+                    lstHistoryTest = _candidateRepository.GetMulti(x => x.Deleted == false && x.Status != EnumStatusCandidate.Undone
+                    && (x.Name.Contains(keyword)
+                                     || x.UserName.Contains(keyword)) && x.HistoryTests.Where(y => y.TestScheduleId.Equals(idTeschedule)).Count() > 0, new string[] { "HistoryTests" })
+                                     .ToList();
+                }
+                else
+                {
+                    lstHistoryTest = _candidateRepository.GetMulti(x => x.Deleted == false && x.Status != EnumStatusCandidate.Undone
+                    && x.HistoryTests.Where(y => y.TestScheduleId.Equals(idTeschedule)).Count() > 0, new string[] { "HistoryTests" }).ToList();
+                }
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(keyword))
+                {
+                    lstHistoryTest = _candidateRepository.GetMulti(x => x.Deleted == false && x.Status != EnumStatusCandidate.Undone
+                    && (x.Name.Contains(keyword) || x.UserName.Contains(keyword)), new string[] { "HistoryTests" }).ToList();
+                }
+                else
+                {
+                    lstHistoryTest = _candidateRepository.GetMulti(x => x.Deleted == false && x.Status != EnumStatusCandidate.Undone, new string[] { "HistoryTests" }).ToList();
+                }
+            }
 
-            //int totalRow = lstHistory.Count();
+            int totalRow = lstHistoryTest.Count();
 
-            //var data = lstHistory.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+            var data = lstHistoryTest.Skip((page - 1) * pageSize).Take(pageSize).ToList();
 
-            //return new PagingModel<HistoryTestViewModel>()
-            //{
-            //    TotalRow = totalRow,
-            //    Items = data
-            //};
-            return null;
+            return new PagingModel<Candidate>() { TotalRow = totalRow, Items = data };
         }
 
         //public int GetCurrentCategoryId()
@@ -93,7 +85,7 @@ namespace WebOnlineAptitudeTest.Models.Repositories.Implement
 
             // Update Status Candidate
             var candi = _candidateRepository.GetSingleById(candidateId);
-            candi.Status = false;
+            candi.Status = EnumStatusCandidate.Undone;
 
             _unitOfWork.Commit();
             return true;

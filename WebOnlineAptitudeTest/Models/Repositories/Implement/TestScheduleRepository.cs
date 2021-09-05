@@ -114,7 +114,7 @@ namespace WebOnlineAptitudeTest.Models.Repositories.Implement
                     {
                         CategoryExamId = item.Id,
                         Deleted = false,
-                        Status = (int)EnumStatusHistoryTest.Undone,
+                        Status = EnumStatusHistoryTest.Undone,
                         CandidateId = c
                     });
                 }
@@ -129,7 +129,7 @@ namespace WebOnlineAptitudeTest.Models.Repositories.Implement
                     DateEnd = model.DateEnd,
                     CreatedDate = DateTime.Now,
                     Deleted = false,
-                    Status = (int)EnumStatusTestSchedule.Undone,
+                    Status = EnumStatusTestSchedule.Undone,
                     HistoryTests = lstHistoryTest
                 };
                 base.Add(data);
@@ -148,7 +148,7 @@ namespace WebOnlineAptitudeTest.Models.Repositories.Implement
                     {
                         _historyTestRepository.DeleteMulti(x => x.CandidateId.Equals(item));
                         var candi = _candidateRepository.GetSingleById(item);
-                        candi.Status = false;
+                        candi.Status = EnumStatusCandidate.Undone;
                     }
 
                     t.HistoryTests = lstHistoryTest;
@@ -166,7 +166,7 @@ namespace WebOnlineAptitudeTest.Models.Repositories.Implement
             foreach (var item in model.CandidateId)
             {
                 var candi = _candidateRepository.GetSingleById(item);
-                candi.Status = true;
+                candi.Status = EnumStatusCandidate.Scheduled;
             }
 
             _unitOfWork.Commit();
@@ -187,7 +187,7 @@ namespace WebOnlineAptitudeTest.Models.Repositories.Implement
             foreach (var item in lstCandidateIdOld)
             {
                 var candi = _candidateRepository.GetSingleById(item);
-                candi.Status = false;
+                candi.Status = EnumStatusCandidate.Undone;
             }
 
             _unitOfWork.Commit();
@@ -202,7 +202,7 @@ namespace WebOnlineAptitudeTest.Models.Repositories.Implement
             {
                 foreach (TestSchedule item in lst1)
                 {
-                    item.Status = (int)EnumStatusTestSchedule.Done;
+                    item.Status = EnumStatusTestSchedule.Done;
                     _unitOfWork.Commit();
                 }
             }

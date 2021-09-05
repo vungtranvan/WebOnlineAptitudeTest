@@ -59,7 +59,7 @@ namespace WebOnlineAptitudeTest.Controllers
                 return View(request);
             }
 
-            Session["CandidateTest"] = candi.UserName;
+            Session["CandidateTest"] = candi.Id;
             Session["DisplayNameCandidate"] = candi.Name;
             Session["ImageCandidate"] = candi.Image;
 

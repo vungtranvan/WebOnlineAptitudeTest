@@ -8,6 +8,8 @@ var candiController = {
         candiController.loadData();
     },
     registerEvents: function () {
+        $('[data-toggle="tooltip"]').tooltip();
+
         $('.txtSearchCandidate').off('input').on('input', function () {
             candiController.loadData(true);
         });
@@ -109,6 +111,16 @@ var candiController = {
                     var data = response.data;
                     var html = '';
                     $.each(data, function (i, item) {
+
+                        var status = `<i class="fa fa-circle text-primary font-12" data-toggle="tooltip" title="Undone"></i>`;
+                        if (item.Status == 1) {
+                            status = `<i class="fa fa-circle text-warning font-12" data-toggle="tooltip" title="Scheduled"></i>`;
+                        } else if (item.Status == 2) {
+                            status = `<i class="fa fa-circle text-danger font-12" data-toggle="tooltip" title="In Progress"></i>`;
+                        } else if (item.Status == 3) {
+                            status = `<i class="fa fa-circle text-success font-12" data-toggle="tooltip" title="Done"></i>`;
+                        }
+
                         html +=
                             `<tr class="intro-x">
                                 <td scope="col">${i+1}</td>
@@ -116,6 +128,7 @@ var candiController = {
                                 <td>${item.UserName}</td>
                                 <td>${item.Name}</td>
                                 <td>${item.Email}</td>
+                                <td>${status}</td>
                                 <td class="FlexIconAction">
                                         <a class="flex items-center text-theme-6 btnDetail" href="#" data-id="${item.Id}"> <i class="fas fa-search-plus"></i> Details </a>
                                         <a class="flex items-center mr-3" href="/Admin/Candidate/InsertOrUpdate/${item.Id}"> <i class="fas fa-edit"></i> Edit </a>

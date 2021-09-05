@@ -24,7 +24,13 @@ namespace WebOnlineAptitudeTest.Areas.Admin
                "admin/logout",
                defaults: new { controller = "Auth", action = "Logout", id = UrlParameter.Optional }
            );
-      
+
+            context.MapRoute(
+                    "Admin_HistoryTests",
+                    "admin/HistoryTests/{id}",
+                    defaults: new { controller = "HistoryTests", action = "Index", id = UrlParameter.Optional }
+                );
+
             context.MapRoute(
                 "Admin_default",
                 "admin/{controller}/{action}/{id}",

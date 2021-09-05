@@ -1,7 +1,8 @@
 ﻿
 var questionConfig = {
     pageSize: $('.pageSizeItem').val(),
-    pageIndex: 1
+    pageIndex: 1,
+    idCate: ($('select#DropDownLists option:selected').val() == '' ? 0 : $('select#DropDownLists option:selected').val())
 }
 
 var questController = {
@@ -16,6 +17,11 @@ var questController = {
 
         $('.pageSizeItem').off('change').on('change', function () {
             questionConfig.pageSize = $(this).val();
+            questController.loadData(true);
+        });
+
+        $('select#DropDownLists').off('change').on('change', function () {
+            questionConfig.idCate = ($('select#DropDownLists option:selected').val() == '' ? 0 : $('select#DropDownLists option:selected').val());
             questController.loadData(true);
         });
 
@@ -58,6 +64,7 @@ var questController = {
             type: 'GET',
             data: {
                 keyword: keyword,
+                idCate: questionConfig.idCate,
                 page: questionConfig.pageIndex,
                 pageSize: questionConfig.pageSize
             },

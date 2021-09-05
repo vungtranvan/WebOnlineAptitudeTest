@@ -49,18 +49,18 @@
             let minute = 0;
             let seconndShow = 0;
             let countdown = 0;
-
             let historyTestId = -1;
 
             let confirmUrl = '@Url.Action("ConfirmTest", "Home")';
 
 
 
-
-            
-
             $("#aptitutest_form_submit").on("click", function () {
+                $('#modal-previewConfirmSubmitForm').modal('show');
+            });
 
+            $('#modal-previewConfirmSubmitForm .btn-okConfirmSubmitForm').off('click').on('click', function (e) {
+                $('#modal-previewConfirmSubmitForm').modal('hide');
                 submitForm();
             });
 
@@ -96,11 +96,11 @@
                     `, historyTestId: "`+ historyTestId+`"}`, confirmUrl, function (data) {
                         console.log(data);
 
-                        createQuest(1);
+                        createQuest($('#candidate-codeId').text());
 
                 });
             }
-            createQuest(1);
+            createQuest($('#candidate-codeId').text());
 
             //create quest
             function createQuest(CandidateId) {
@@ -109,22 +109,39 @@
                     //return false;
                     switch (res.data) {
                         case "NotInSchedule":
-                            alert("goi giam khao")
+                            showAlertModal('Call the examiner');
+                            setTimeout(function () {
+                                $('#modal-previewAlert').modal('hide');
+                                window.location = '/logout';
+                            }, 2000);
                             break;
                         case "NotStart":
-                            var r = confirm("Wellcome ru want start quest " + res.currentCategoryName);
-                            if (r == true) {
+
+                            $('#modal-previewConfirm .text-modal').text('Wellcome ru want start quest ' + res.currentCategoryName);
+                            $('#modal-previewConfirm .btn-CancelModal').html(`<a href="/logout">Cancle</a`);
+                            $('#modal-previewConfirm').modal('show');
+
+                            $('#modal-previewConfirm .btn-okConfirm').off('click').on('click', function (e) {
                                 ajax(`{ historyTestId: ` + res.historyTestId + `}`, startQuestQuestUrl, function (resStart) {
                                     if (resStart.Status == "Success") {
                                         createQuest(CandidateId);
                                     }
                                 });
-                            } else {
-                               // logout
-                            }
+
+                                $('#modal-previewConfirm').modal('hide');
+                            });
+
+                            $('#modal-previewConfirm').click(function () {
+                                window.location='/logout';
+                            });
+
+                            $('#modal-previewConfirm .modal__content').on('click', function (e) {
+                                e.stopPropagation();
+                            });
                             break;
                         case "Continue":
-                            alert("continute");
+                            showAlertModal('Continue');
+
                             ajax(`{ CategoryExamId: ` + res.currentCategoryId + `}`, createQuestQuestUrl, function (resQuestContent) {
                                 let content = ``;
                                 let menu = ``;
@@ -173,17 +190,17 @@
                                 console.log(historyTestId);
                                 historyTestId = res.historyTestId;
                                 console.log(historyTestId);
-      
+
                                 createMenu(res.currentCategoryId);
                                 checkTime(res.timeSecond);
 
                             })
                             break;
                         case "AllOver":
-                            alert("all over");
+                            showAlertModal('All over');
                             $("#aptitutest_form").html("");
                             break;
-                      
+
                     }
                     });
 
@@ -227,7 +244,7 @@
                 let timeShow = [];
 
 
-                timeShow[1] = (seconndShow.toString().length == 1) ? ("0" + seconndShow.toString()) : seconndShow.toString();   
+                timeShow[1] = (seconndShow.toString().length == 1) ? ("0" + seconndShow.toString()) : seconndShow.toString();
 
                 seconndShow = seconndShow - 1;
 
@@ -239,7 +256,13 @@
                     //console.log(minute);
                     if (minute < 0) {
                         minute = 0;
-                        submitForm();
+
+                        showAlertModal('Time out');
+
+                        setTimeout(function () {
+                            $('#modal-previewAlert').modal('hide');
+                            submitForm();
+                        }, 2000);
                     }
                 }
 
@@ -276,6 +299,10 @@
 
         });
 
+        function showAlertModal(text) {
+            $('#modal-previewAlert .text-modal').text(text);
+            $('#modal-previewAlert').modal('show');
+        }
 
         function sideMenu(element) {
 

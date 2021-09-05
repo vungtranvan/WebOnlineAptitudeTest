@@ -6,11 +6,11 @@
     
     <div class="logo intro-x flex items-center">
         <img alt="Midone Tailwind HTML Admin Template" 
-             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLWo0u-TB5eyu88DkM8Gvc6vWOOQlXxjSmAw&usqp=CAU">
+             src="@Session["ImageCandidate"]">
     </div>
     <div class="candidate">
-        <p class="candidate-name"  >Trần Thị Văn Hiếu Vững</p>
-        <p class="candidate-code" >CODE: 123456</p>
+        <p class="candidate-name">@Session["DisplayNameCandidate"]</p>
+        <p class="candidate-code">CODE: <span id="candidate-codeId">@Session["CandidateTest"]</span></p>
     </div>
     <div class="side-nav__devider my-6"></div>
     <ul class="menu-bar">

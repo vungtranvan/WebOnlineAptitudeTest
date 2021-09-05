@@ -1,19 +1,30 @@
-﻿
-@{
-    ViewBag.Title = "Index";
+﻿@{
+    ViewBag.Title = "HisToryTest";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@section Styles{
+    <style>
+        .tblDataQuestion .card-body .aContent {
+            width: auto !important;
+        }
+
+        .border-0 {
+            border: 0.5px solid #e9ecef !important;
+        }
+    </style>
 }
 
 @section Breadcrumb{
     <div class="page-breadcrumb">
         <div class="row">
             <div class="col-7 align-self-center">
-                <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">Questions</h3>
+                <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">HisToryTest</h3>
                 <div class="d-flex align-items-center">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb m-0 p-0">
                             <li class="breadcrumb-item"><a href="/admin" class="text-muted">Home</a></li>
-                            <li class="breadcrumb-item text-muted active" aria-current="page">Questions</li>
+                            <li class="breadcrumb-item text-muted active" aria-current="page">HisToryTest</li>
                         </ol>
                     </nav>
                 </div>
@@ -29,13 +40,13 @@
                     <div class="row">
                         <div class="col-3">
                             <div class="button">
-                                <a href="@Url.Action("InsertOrUpdate","Question")" class="btn waves-effect waves-light btn-Custom btn-primary"> Add New</a>
+                                <a href="@Url.Action("InsertOrUpdate","TestSchedule")" class="btn waves-effect waves-light btn-Custom btn-primary"> Add New</a>
                             </div>
                         </div>
 
                         <div class="col-9 align-self-center">
                             <div class="customize-input float-right">
-                                @Html.DropDownList("CategoryExamDropDown", (SelectList)ViewBag.NewsItemList, "----- Choice CategoryExam -----",
+                                @Html.DropDownList("TestScheduleDropDown", (SelectList)ViewBag.NewsItemList, "----- Choice TestSchedule -----",
                                     htmlAttributes: new { @class = "custom-select custom-select-set form-control bg-white border-0 custom-shadow custom-radius", Id = "DropDownLists" })
                             </div>
                         </div>
@@ -55,7 +66,7 @@
                     </div>
 
                     <div style="display: flex; align-items: center;">
-                        Search: <input type="search" class="form-control form-control-sm txtSearchQuestion" placeholder="" style="margin:0 0 0 0.3rem">
+                        Search: <input type="search" class="form-control form-control-sm txtSearch" placeholder="" style="margin:0 0 0 0.3rem">
                     </div>
                 </div>
 
@@ -70,10 +81,10 @@
                         <div id="accordion" class="custom-accordion mb-4">
                             <div class="custom-tbl-title d-block">
                                 <span class="d-flex title-quest">
-                                    <span class="qShowAnswer"> Show Answer</span>
-                                    <span class="qId"> ID</span>
-                                    <span class="qContent">Content</span>
-                                    <span class="qCategory">Part</span>
+                                    <span class="qShowAnswer"> Show Test</span>
+                                    <span class="qId"> #</span>
+                                    <span class="qContent">Name</span>
+                                    <span class="qCategory">UserName</span>
                                     <span class="qMark">Mark </span>
                                     <span class="qStatus">Status</span>
                                     <span class="qAction">Action</span>
@@ -96,5 +107,6 @@
 
 @section Scripts{
     <script src="/Scripts/jquery.twbsPagination.min.js"></script>
-    <script src="/Scripts/plugins/QuestionJsController.js"></script>
+    <script src="/Scripts/plugins/HistoryTestsJsController.js"></script>
 }
+

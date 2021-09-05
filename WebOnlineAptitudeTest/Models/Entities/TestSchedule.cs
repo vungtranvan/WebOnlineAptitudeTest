@@ -5,6 +5,7 @@
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
+    using WebOnlineAptitudeTest.Enums;
 
     [Table("TestSchedule")]
     public partial class TestSchedule
@@ -29,7 +30,7 @@
 
         public DateTime? UpdatedDate { get; set; }
 
-        public int? Status { get; set; }
+        public EnumStatusTestSchedule? Status { get; set; }
 
         public bool? Deleted { get; set; }
 
