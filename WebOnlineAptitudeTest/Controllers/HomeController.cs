@@ -53,7 +53,7 @@ namespace WebOnlineAptitudeTest.Controllers
                 var categoryId = historyTest.CategoryExamId;
                 var candidateId = historyTest.CandidateId;
                 double totalMark = 0;
-                double resultTotalMark = 0;
+                double resultCorectMark = 0;
 
                 var checktime = (int)(historyTest.CategoryExam.TimeTest * 60) - (int)(DateTime.Now - historyTest.DateStartTest.Value).TotalSeconds + 30;
 
@@ -112,16 +112,18 @@ namespace WebOnlineAptitudeTest.Controllers
                         this._historyTestDetailRepository.Update(historyTestDetail);
 
                     }
-                    resultTotalMark = this._historyTestDetailRepository.Get(x => x.HistoryTestId == historyTestId).Select(y => Convert.ToDouble(y.Mark)).Sum();
+                    resultCorectMark = this._historyTestDetailRepository.Get(x => x.HistoryTestId == historyTestId).Select(y => Convert.ToDouble(y.Mark)).Sum();
                     totalMark = questions.Select(x => x.Mark).Sum();
-                    historyTest.TotalMark = resultTotalMark;
+                    historyTest.CorectMark = resultCorectMark;
+                    historyTest.TotalMark = totalMark;
+                    historyTest.PercentMark = Math.Round((resultCorectMark / totalMark) * 100, 2, MidpointRounding.ToEven);;
                     this._historyTestRepository.Update(historyTest);
 
                     this._unitOfWork.Commit();
                 }
 
                
-                return Json(new { data = "", categoryName = historyTest.CategoryExam.Name, resultTotalMark = resultTotalMark, totalMark = totalMark, Status = "Success" }, JsonRequestBehavior.AllowGet);
+                return Json(new { data = "", categoryName = historyTest.CategoryExam.Name, resultTotalMark = resultCorectMark, totalMark = totalMark, Status = "Success" }, JsonRequestBehavior.AllowGet);
 
             }
             catch (NullReferenceException e)
@@ -227,7 +229,7 @@ namespace WebOnlineAptitudeTest.Controllers
         {
             var historyTest = this._historyTestRepository.GetSingleById(historyTestId);
 
-            var CategoryExamId = historyTest.CandidateId;
+            var CategoryExamId = historyTest.CategoryExamId;
             var checkExist = this._historyTestDetailRepository.Get(x => x.HistoryTestId == historyTestId);
 
             List<Question> result = new List<Question>();
