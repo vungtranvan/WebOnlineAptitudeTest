@@ -59,12 +59,12 @@
                 $('#modal-previewConfirmSubmitForm').modal('show');
             });
 
-            $('#modal-previewConfirmSubmitForm .btn-okConfirmSubmitForm').off('click').on('click', function (e) {
+            $('#modal-previewConfirmSubmitForm:contains("Do you want to submit")').off('click').on('click', function (e) {
                 $('#modal-previewConfirmSubmitForm').modal('hide');
                 submitForm();
             });
 
-            function submitForm() {
+            function submitForm( timeout = false ) {
                 clearInterval(countdown);
 
                 $(".count-down-percent").css("animation-play-state", "paused");
@@ -90,15 +90,22 @@
                     });
 
                 });
-
-
                 ajax('{ resultQuest : ' + JSON.stringify(resultQuest) +
-                    `, historyTestId: "`+ historyTestId+`"}`, confirmUrl, function (data) {
+                    `, historyTestId: "` + historyTestId + `"}`, confirmUrl, function (data) {
+                        if (timeout != false) {
+                            showAlertModal(timeout + 'is Time out',"success");
+                        } else {
+                            showAlertModal('Success',"success");
+                        }
+
+                        $('#modal-previewAlert-success').off('click').on('click', function (e) {
+                            createQuest($('#candidate-codeId').text());
+                            console.log("aaa");
+                        });
+
                         console.log(data);
 
-                        createQuest($('#candidate-codeId').text());
-
-                });
+                    });
             }
             createQuest($('#candidate-codeId').text());
 
@@ -109,14 +116,18 @@
                     //return false;
                     switch (res.data) {
                         case "NotInSchedule":
-                            showAlertModal('Call the examiner');
+                            showAlertModal('You are not in the exam schedule <br/> Call the examiner',"not-in-schedule");
+
+                            $('#modal-previewAlert-not-in-schedule').off('click').on('click', function (e) {
+                                window.location = '/logout';
+                            });
+
                             setTimeout(function () {
                                 $('#modal-previewAlert').modal('hide');
                                 window.location = '/logout';
-                            }, 2000);
+                            }, 20000);
                             break;
                         case "NotStart":
-
                             $('#modal-previewConfirm .text-modal').text('Wellcome ru want start quest ' + res.currentCategoryName);
                             $('#modal-previewConfirm .btn-CancelModal').html(`<a href="/logout">Cancle</a`);
                             $('#modal-previewConfirm').modal('show');
@@ -140,34 +151,54 @@
                             });
                             break;
                         case "Continue":
-                            showAlertModal('Continue');
+                            showAlertModal('Continue',"continue");
 
-                            ajax(`{ CategoryExamId: ` + res.currentCategoryId + `}`, createQuestQuestUrl, function (resQuestContent) {
+                            ajax(`{ historyTestId: ` + res.historyTestId + `}`, createQuestQuestUrl, function (resQuestContent) {
                                 let content = ``;
                                 let menu = ``;
+                                let menumobile = ``;
                                 console.log(resQuestContent);
                                 $.each(resQuestContent.data, function (i, q) {
                                     //add content
                                     content += `
                                             <div class="box question mt-5" id="q_`+ q.Id + `">
                                                 <div class="pb-3 pt-3 pr-2 pl-2">
-                                                    <div class="flex items-center">`+ (i + 1) + `.&nbsp;&nbsp;` + q.Name + `&nbsp;&nbsp;[` + q.Mark + ` Mark(s)] </div>
+                                                    <div class="flex items-center">`+ (i + 1) + `.&nbsp;&nbsp;` + q.Name + `&nbsp;&nbsp; [Choose ` + q.countCorect+` Answer(s)]&nbsp;&nbsp;[` + q.Mark + ` Mark(s)] </div>
                                                 </div>
                                               <input value="`+ q.Id + `" hidden class="questId">`;
 
 
                                     $.each(q.Answers, function (j, a) {
-                                        content +=
-                                            `<div class="awnsers">
+                                        switch (q.countCorect) {
+                                            case "1":
+                                                content +=
+                                                    `<div class="awnsers">
                                                 <div class="border-b border-t text-gray-600 border-gray-200 flex items-center">
 
                                                     <div class="flex items-center justify-center p-3">
-                                                        <input value="`+ a.AnswerInQuestion + `" type="checkbox" class="corect input border border-gray-500">
+                                                        <input  name="q_`+ q.Id + `"  value="`+ a.AnswerInQuestion + `" type="radio" class="corect input border border-gray-500">
                                                     </div>
 
                                                     <div class="p-2"> `+ a.Name + ` </div>
                                                 </div>
-                                            </div>`
+                                            </div>`;
+                                                break;
+                                            default:
+                                                content +=
+                                                    `<div class="awnsers">
+                                                <div class="border-b border-t text-gray-600 border-gray-200 flex items-center">
+
+                                                    <div class="flex items-center justify-center p-3">
+                                                        <input name="q_`+ q.id + `" value="` + a.AnswerInQuestion + `" type="checkbox" class="corect input border border-gray-500">
+                                                    </div>
+
+                                                    <div class="p-2"> `+ a.Name + ` </div>
+                                                </div>
+                                            </div>`;
+                                                break;
+                                        }
+
+
                                     });
 
                                     content += `</div>`;
@@ -181,11 +212,20 @@
                                                <div class="side-menu__title"> Question `+ (i + 1) + ` </div>
                                              </a>
                                          </li>`;
-
+                                    menumobile += `               
+                                        <li>
+                                            <a href="#q_`+ q.Id + `" class="menu" target="_self">
+                                                <div class="menu__icon"> `+ (i + 1) + `. </div>
+                                                <div class="menu__title">  Question `+ (i + 1) + `</div>
+                                            </a>
+                                        </li>`;
 
                                 });
                                 $("#aptitutest_form").html(content);
                                 $("#sidemenu_content_" + res.currentCategoryId).html(menu);
+                                $(".sidemenu_mobile_content").html("");
+                                $("#sidemenu_mobile_content_" + res.currentCategoryId).html(menumobile);
+
 
                                 console.log(historyTestId);
                                 historyTestId = res.historyTestId;
@@ -197,10 +237,13 @@
                             })
                             break;
                         case "AllOver":
-                            showAlertModal('All over');
-                            $("#aptitutest_form").html("");
-                            break;
+                            showAlertModal('All over',"all-over");
 
+                            $('#modal-previewAlert-all-over').off('click').on('click', function (e) {
+                                window.location = '/logout';
+                            });
+
+                            break;
                     }
                     });
 
@@ -233,11 +276,19 @@
 
 
             function checkTime(seconndlast) {
-
+                 clearInterval(countdown);
                  seconnd = seconndlast;
                  minute = Math.floor(seconnd / 60);
                  seconndShow = seconnd - (minute * 60);
-                 countdown = setInterval(countDown, 1000);
+                countdown = setInterval(countDown, 1000);
+
+                $(".count-down-percent").css("width", "100%");
+
+                $(".count-down-percent").css("-webkit-animation", "none");
+
+                setTimeout(function () {
+                    $('.count-down-percent').css("-webkit-animation", seconnd + "s" + " linear 0s 1 normal backwards running countdown");
+                }, 10);
 
             }
             function countDown() {
@@ -256,13 +307,7 @@
                     //console.log(minute);
                     if (minute < 0) {
                         minute = 0;
-
-                        showAlertModal('Time out');
-
-                        setTimeout(function () {
-                            $('#modal-previewAlert').modal('hide');
-                            submitForm();
-                        }, 2000);
+                        submitForm($(".side-menu.side-menu--open .side-menu__title").html().toString());
                     }
                 }
 
@@ -270,7 +315,8 @@
 
                 $(".count-down").html(timeShow.join(":"));
 
-                $(".count-down-percent").css("-webkit-animation", seconnd + "s" + " linear 0s 1 normal forwards running countdown");
+
+
 
             };
 
@@ -295,13 +341,17 @@
                     });
                 }
 
-
-
         });
 
-        function showAlertModal(text) {
-            $('#modal-previewAlert .text-modal').text(text);
-            $('#modal-previewAlert').modal('show');
+        function showAlertModal(text,idname) {
+            //$('#modal-previewAlert .text-modal').text(text);
+
+            let modal = $('#modal-previewAlert').clone();
+            modal.find('.text-modal').text(text);
+            $("#modal-previewAlert-" + idname).remove();
+            modal.attr("id", "modal-previewAlert-" + idname);
+
+            modal.modal('show');
         }
 
         function sideMenu(element) {

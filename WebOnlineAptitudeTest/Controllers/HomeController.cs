@@ -52,7 +52,8 @@ namespace WebOnlineAptitudeTest.Controllers
                 var historyTest = this._historyTestRepository.GetSingleById(historyTestId);
                 var categoryId = historyTest.CategoryExamId;
                 var candidateId = historyTest.CandidateId;
-          
+                double totalMark = 0;
+                double resultTotalMark = 0;
 
                 var checktime = (int)(historyTest.CategoryExam.TimeTest * 60) - (int)(DateTime.Now - historyTest.DateStartTest.Value).TotalSeconds + 30;
 
@@ -60,21 +61,27 @@ namespace WebOnlineAptitudeTest.Controllers
                 {
                     historyTest.DateEndTest = DateTime.Now;
                     historyTest.Status = EnumStatusHistoryTest.Done;
-                    this._historyTestRepository.Update(historyTest);
+                    List<Question> questions = new List<Question>();
+                    foreach (var q in resultQuest)
+                    {
+                        Question quest = this._questionRepository.GetSingleById(q.QuestionId);
+                        questions.Add(quest);
+                    }
 
 
 
                     foreach (var item in resultQuest)
                     {
                         var itemResult = item.Result == null ? "" : item.Result;
-                        HistoryTestDetail historyTestDetail = new HistoryTestDetail();
+
+                        HistoryTestDetail historyTestDetail = this._historyTestDetailRepository
+                            .Get(x => x.QuestionId == item.QuestionId && x.HistoryTestId == historyTestId).FirstOrDefault();
                         historyTestDetail.QuestionId = item.QuestionId;
                         historyTestDetail.AnswerChoice = itemResult;
                         historyTestDetail.HistoryTestId = historyTestId;
 
                         Question question = this._questionRepository.GetSingleById(item.QuestionId);
                         List<string> answerResult = new List<string>();
-
                         foreach (var answer in question.Answers)
                         {
                             if (answer.Correct == true)
@@ -102,13 +109,19 @@ namespace WebOnlineAptitudeTest.Controllers
                             historyTestDetail.Mark = 0;
                         }
 
-                        this._historyTestDetailRepository.Add(historyTestDetail);
+                        this._historyTestDetailRepository.Update(historyTestDetail);
 
                     }
+                    resultTotalMark = this._historyTestDetailRepository.Get(x => x.HistoryTestId == historyTestId).Select(y => Convert.ToDouble(y.Mark)).Sum();
+                    totalMark = questions.Select(x => x.Mark).Sum();
+                    historyTest.TotalMark = resultTotalMark;
+                    this._historyTestRepository.Update(historyTest);
+
                     this._unitOfWork.Commit();
                 }
-                return Json(new { data = "", Status = "Success" }, JsonRequestBehavior.AllowGet);
 
+               
+                return Json(new { data = "", categoryName = historyTest.CategoryExam.Name, resultTotalMark = resultTotalMark, totalMark = totalMark, Status = "Success" }, JsonRequestBehavior.AllowGet);
 
             }
             catch (NullReferenceException e)
@@ -209,13 +222,62 @@ namespace WebOnlineAptitudeTest.Controllers
 
 
         }
-        public ActionResult CreateQuest(int CategoryExamId)
+        [HttpPost]
+        public ActionResult CreateQuest(int historyTestId)
         {
+            var historyTest = this._historyTestRepository.GetSingleById(historyTestId);
 
-            var result = this._questionRepository.Get(x => x.CategoryExamId == CategoryExamId).OrderBy(x => Guid.NewGuid()).Take(5); ;
+            var CategoryExamId = historyTest.CandidateId;
+            var checkExist = this._historyTestDetailRepository.Get(x => x.HistoryTestId == historyTestId);
 
+            List<Question> result = new List<Question>();
+            List<Question> questions = this._questionRepository.Get(x => x.CategoryExamId == CategoryExamId && x.Deleted != true && x.Status != false).ToList();
 
-            var data = JsonConvert.SerializeObject(result, Formatting.Indented,
+            if (checkExist.Count() <= 0)
+            {
+               var resultId = questions.OrderBy(x => Guid.NewGuid()).Take(5).Select(x=>x.Id).ToList().OrderBy(x =>x.ToString());
+
+                foreach (var id in resultId)
+                {
+                    Question q = questions.Find(x=>x.Id == id);
+
+                    HistoryTestDetail historyTestDetail = new HistoryTestDetail();
+                    historyTestDetail.HistoryTestId = historyTestId;
+                    historyTestDetail.QuestionId = q.Id;
+
+                    this._historyTestDetailRepository.Add(historyTestDetail);
+                    result.Add(q);
+                }
+                this._unitOfWork.Commit();
+            }
+            else
+            {
+                foreach (var q in checkExist)
+                {
+                    Question quest = questions.Find(x => x.Id == q.QuestionId);
+                    result.Add(quest);
+                }
+            }
+
+            var sendResult = result.Select(x => new
+            {
+                countCorect = x.Answers.Count(a => a.Correct) > 1 ? x.Answers.Count(a =>a.Correct).ToString(): "1",
+                Answers = x.Answers.Select(y => new {
+                    Id = y.Id,
+                    QuestionId = y.QuestionId,
+                    Name = y.Name,
+                    AnswerInQuestion = y.AnswerInQuestion
+
+                }),
+                CategoryExamId = x.CategoryExamId,
+                CategoryExamName = x.CategoryExamName,
+                Id = x.Id,
+                Name = x.Name,
+                Status = x.Status,
+                Mark = x.Mark
+            });
+       
+            var data = JsonConvert.SerializeObject(sendResult.AsEnumerable(), Formatting.Indented,
                 new JsonSerializerSettings
                 {
                     ReferenceLoopHandling = ReferenceLoopHandling.Ignore
