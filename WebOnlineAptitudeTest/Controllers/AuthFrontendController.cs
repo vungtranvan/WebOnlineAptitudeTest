@@ -13,10 +13,12 @@ namespace WebOnlineAptitudeTest.Controllers
     public class AuthFrontendController : Controller
     {
         private readonly ICandidateRepository _candidateRepository;
+        private readonly ITestScheduleRepository _testScheduleRepository;
 
-        public AuthFrontendController(ICandidateRepository candidateRepository)
+        public AuthFrontendController(ICandidateRepository candidateRepository, ITestScheduleRepository testScheduleRepository)
         {
             _candidateRepository = candidateRepository;
+            _testScheduleRepository = testScheduleRepository;
         }
 
         [HttpGet]
@@ -53,9 +55,29 @@ namespace WebOnlineAptitudeTest.Controllers
                 return View(request);
             }
 
-            if (!candi.Password.Equals(MyHelper.ToMD5(request.Password)))
+            if (!candi.Password.Equals(request.Password))
             {
                 ViewBag.Error = "Incorrect password!!!";
+                return View(request);
+            }
+
+            var testSchedule = _testScheduleRepository.GetMulti(x => x.Deleted == false && x.HistoryTests.Where(y => y.CandidateId.Equals(candi.Id)).Count() > 0, new[] { "HistoryTests" }).FirstOrDefault();
+
+            if (testSchedule == null)
+            {
+                ViewBag.Error = "You don't have an exam schedule yet!";
+                return View(request);
+            }
+
+            if (testSchedule.DateStart > DateTime.Now)
+            {
+                ViewBag.Error = "It's not time for the exam yet!";
+                return View(request);
+            }
+
+            if (testSchedule.DateEnd < DateTime.Now)
+            {
+                ViewBag.Error = "The exam is over!";
                 return View(request);
             }
 

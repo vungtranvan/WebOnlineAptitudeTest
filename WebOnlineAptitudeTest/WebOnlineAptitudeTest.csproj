@@ -229,6 +229,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helper\ConfigHelper.cs" />
+    <Compile Include="Helper\MailHelper.cs" />
     <Compile Include="Helper\MyHelper.cs" />
     <Compile Include="Helper\XMessage.cs" />
     <Compile Include="Models\Entities\Admin.cs" />
@@ -1466,6 +1468,7 @@
     <Content Include="Content\assets\backend\plugins\dist\js\pages\morris\morris-data.min.js" />
     <Content Include="Content\assets\backend\plugins\dist\js\sidebarmenu.js" />
     <Content Include="Content\assets\backend\plugins\dist\js\sidebarmenu.min.js" />
+    <Content Include="Content\assets\backend\template\sendMailTestSchedule_template.html" />
     <Content Include="Content\default-avatar.jpg" />
     <Content Include="Content\SiteBackend.css" />
     <Content Include="Scripts\jquery.twbsPagination.min.js" />
