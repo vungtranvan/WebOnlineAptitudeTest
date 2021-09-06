@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -32,9 +33,15 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
             _unitOfWork.DbContext.Configuration.ProxyCreationEnabled = false;
             var result = _transferRepository.GetData(keyword, page, pageSize);
 
+            var resultData = JsonConvert.SerializeObject(result.Items, Formatting.Indented,
+               new JsonSerializerSettings
+               {
+                   ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+               });
+
             var json = Json(new
             {
-                data = result.Items,
+                data = resultData,
                 totalRow = result.TotalRow,
                 status = true
             }, JsonRequestBehavior.AllowGet);

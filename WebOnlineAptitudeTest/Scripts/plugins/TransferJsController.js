@@ -63,18 +63,18 @@ var transferController = {
             dataType: 'json',
             success: function (response) {
                 if (response.status == true) {
-                    var data = response.data;
+                    var data = JSON.parse(response.data);
                     var html = '';
                     $.each(data, function (i, item) {
 
                         html +=
                             `<tr class="intro-x">
                                 <td scope="col">${i + 1}</td>
-                                <td><img src="${item.Image}" style="width:30px" alt="" /></td>
-                                <td>${item.UserName}</td>
-                                <td>${item.Name}</td>
-                                <td>${item.Email}</td>
-                                <td>${candiController.formatDate(item.CreatedDate)}</td >
+                                <td><img src="${item.Candidate.Image}" style="width:30px" alt="" /></td>
+                                <td>${item.Candidate.UserName}</td>
+                                <td>${item.Candidate.Name}</td>
+                                <td>${item.Candidate.Email}</td>
+                                <td>${transferController.formatDate(item.CreatedDate)}</td >
                                 <td class="FlexIconAction">
                                       <a class="flex items-center text-theme-6 btnDelete" href="#" data-id="${item.Id}"> <i class="fas fa-trash-alt"></i> Delete </a>
                                 </td>
