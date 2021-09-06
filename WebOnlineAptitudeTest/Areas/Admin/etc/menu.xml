@@ -12,7 +12,7 @@
       <add title="Add New" action="InsertOrUpdate" controller="Candidate" />
     </menu>
 
-
+    <menu title="Transfer" action="Index" controller="Transfer" icon="bar-chart" />
   </section>
 
 

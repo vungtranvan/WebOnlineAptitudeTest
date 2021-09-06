@@ -23,7 +23,7 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            ViewBag.ListpageSize = new List<int>() { 5, 10, 15, 20, 50, 100 };
+            ViewBag.ListpageSize = new List<int>() { 10, 15, 20, 50, 100 };
             return View();
         }
 
@@ -165,7 +165,7 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
 
             return RedirectToAction("Index");
         }
- 
+
         [HttpPost]
         public JsonResult Locked(int id)
         {

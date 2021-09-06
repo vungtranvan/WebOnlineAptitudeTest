@@ -30,8 +30,11 @@ namespace WebOnlineAptitudeTest.Models.Entities
 
         public DateTime? DateEndTest { get; set; }
 
-        public double? TotalMark { get; set; }
+        public double? CorectMark { get; set; }
 
+        public double? PercentMark { get; set; }
+
+        public double? TotalMark { get; set; }
         public EnumStatusHistoryTest? Status { get; set; }
 
         public bool? Deleted { get; set; }

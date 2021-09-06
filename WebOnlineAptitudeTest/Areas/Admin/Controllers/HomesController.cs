@@ -4,23 +4,25 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Xml.Linq;
+using WebOnlineAptitudeTest.Models.Infrastructure;
 
 namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
 {
     public class HomesController : BaseController
     {
-        // GET: Admin/Homes
-        public ActionResult Index()
+        private readonly IUnitOfWork _unitOfWork;
+        public HomesController(IUnitOfWork unitOfWork)
         {
-            
-
-        
-
-            return View();
+            _unitOfWork = unitOfWork;
         }
 
-      
-        // GET: Admin/Menu
-    
+        public ActionResult Index()
+        {
+            ViewBag.CountTestSchedule = _unitOfWork.DbContext.TestSchedules.Where(x => x.Deleted == false).Count();
+            ViewBag.CountAccountAdmin = _unitOfWork.DbContext.Admins.Where(x => x.Deleted == false).Count();
+            ViewBag.CountCandidate = _unitOfWork.DbContext.Candidates.Where(x => x.Deleted == false).Count();
+            ViewBag.CountQuestion = _unitOfWork.DbContext.Questions.Where(x => x.Deleted == false).Count();
+            return View();
+        }
     }
 }

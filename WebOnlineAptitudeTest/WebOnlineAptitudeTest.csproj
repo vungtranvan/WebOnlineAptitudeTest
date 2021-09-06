@@ -211,6 +211,7 @@
     <Compile Include="Areas\Admin\Controllers\HomesController.cs" />
     <Compile Include="Areas\Admin\Controllers\MenusController.cs" />
     <Compile Include="Areas\Admin\Controllers\QuestionController.cs" />
+    <Compile Include="Areas\Admin\Controllers\TransferController.cs" />
     <Compile Include="Areas\Admin\Data\Model\HisToryTests\HistoryTestViewModel.cs" />
     <Compile Include="Areas\Admin\Data\Model\Pagings\PagingModel.cs" />
     <Compile Include="Areas\Admin\Data\Model\TestSchedules\TestScheduleInsertOrUpdateRequest.cs" />
@@ -1687,6 +1688,7 @@
     <Content Include="Areas\Admin\Views\Question\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_ModalLogout.cshtml" />
     <Content Include="Areas\Admin\Views\HistoryTests\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Transfer\Index.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -1702,6 +1704,7 @@
     <Content Include="Scripts\plugins\CategoryExamJsController.js" />
     <Content Include="Scripts\plugins\changePassAdmin.js" />
     <Content Include="Scripts\plugins\TestScheduleJsController.js" />
+    <Content Include="Scripts\plugins\TransferJsController.js" />
     <Content Include="Scripts\sweetalert2.all.min.js" />
     <Content Include="Scripts\toastr.js" />
     <Content Include="Scripts\toastr.min.js" />

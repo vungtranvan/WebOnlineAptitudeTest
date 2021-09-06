@@ -115,7 +115,10 @@ namespace WebOnlineAptitudeTest.Models.Repositories.Implement
                         CategoryExamId = item.Id,
                         Deleted = false,
                         Status = EnumStatusHistoryTest.Undone,
-                        CandidateId = c
+                        CandidateId = c,
+                        PercentMark = 0,
+                        TotalMark = 0,
+                        CorectMark = 0
                     });
                 }
             }
@@ -196,28 +199,26 @@ namespace WebOnlineAptitudeTest.Models.Repositories.Implement
 
         public void UpdateStatusTestSchedule()
         {
-            var lst1 = base.GetMulti(x => x.DateEnd < DateTime.Now, new string[] { "HistoryTests" }).ToList();
+            var lst1 = base.GetMulti(x => x.Status == EnumStatusTestSchedule.InProgress && x.DateEnd < DateTime.Now);
 
             if (lst1.Count() > 0)
             {
                 foreach (TestSchedule item in lst1)
                 {
                     item.Status = EnumStatusTestSchedule.Done;
-                    _unitOfWork.Commit();
                 }
             }
 
-            //var lst2 = base.GetMulti(x => x.DateStart > DateTime.Now && x.DateEnd > DateTime.Now
-            //           && x.Status == (int)EnumStatusTestSchedule.Undone, new string[] { "HistoryTests" }).ToList();
+            var lst2 = base.GetMulti(x => x.Status == EnumStatusTestSchedule.Undone && x.DateStart <= DateTime.Now);
 
-            //if (lst2.Count() > 0)
-            //{
-            //    foreach (TestSchedule item in lst2)
-            //    {
-            //        item.Status = (int)EnumStatusTestSchedule.InProgress;
-            //    }
-            //    _unitOfWork.Commit();
-            //}
+            if (lst2.Count() > 0)
+            {
+                foreach (TestSchedule item in lst2)
+                {
+                    item.Status = EnumStatusTestSchedule.InProgress;
+                }
+            }
+            _unitOfWork.Commit();
         }
 
         public List<int> GetListCandidateIdInHistoryTestByTestScheduleId(int id)

@@ -34,12 +34,12 @@ var historyController = {
         $('.Save-Delete').off('click').on('click', function (e) {
             e.preventDefault();
             var id = $('#id-item').text();
-            questController.deleteQuestion(id);
+            historyController.deleteHistory(id);
             $('#modal-delete').modal('hide');
         });
 
     },
-    deleteQuestion: function (id) {
+    deleteHistory: function (id) {
         $.ajax({
             url: '/HistoryTests/Locked',
             type: 'POST',
