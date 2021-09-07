@@ -12,23 +12,20 @@ namespace WebOnlineAptitudeTest.Models.Repositories.Implement
 {
     public class HistoryTestRepository : RepositoryBase<HistoryTest>, IHistoryTestRepository
     {
-        private readonly ITestScheduleRepository _testScheduleRepository;
         private readonly ICandidateRepository _candidateRepository;
         private readonly IUnitOfWork _unitOfWork;
 
         public HistoryTestRepository(IDbFactory dbFactory,
             ICandidateRepository candidateRepository,
-            ITestScheduleRepository testScheduleRepository,
             IUnitOfWork unitOfWork) : base(dbFactory)
         {
             _candidateRepository = candidateRepository;
-            _testScheduleRepository = testScheduleRepository;
             _unitOfWork = unitOfWork;
         }
 
         public PagingModel<Candidate> GetData(string keyword, int idTeschedule, int page, int pageSize)
         {
-            UpdateStatus();
+            //UpdateStatus();
             List<Candidate> lstHistoryTest = new List<Candidate>();
 
             if (idTeschedule > 0)
@@ -133,33 +130,44 @@ namespace WebOnlineAptitudeTest.Models.Repositories.Implement
             return true;
         }
 
-        public void UpdateStatus()
+        public void UpdateStatusCandidateAndHistoryTest()
         {
-            //var lstCandi = _candidateRepository.GetMulti(x => x.Deleted == false && x.Status == EnumStatusCandidate.Scheduled, new string[] { "HistoryTests" });
+            var lstCandi = _candidateRepository.GetMulti(x => x.Deleted == false && x.Status == EnumStatusCandidate.Scheduled, new string[] { "HistoryTests" });
 
-            //foreach (var item in lstCandi)
-            //{
+            UpdateCandidateDone(lstCandi);
+            UpdateCandidateQuit(lstCandi);
+        }
 
-            //    var lstDataInProgress = base.GetMulti(x => x.Deleted == false &&x.CandidateId.Equals(item.Id) && x.Status == EnumStatusHistoryTest.InProgress
-            //               && x.TestSchedule.DateEnd < DateTime.Now, new string[] { "TestSchedule" });
-            //    foreach (var h in lstDataInProgress)
-            //    {
-            //        h.Status = EnumStatusHistoryTest.Done;
-            //        item.Status = EnumStatusCandidate.Done;
-            //    }
+        private void UpdateCandidateDone(IEnumerable<Candidate> lstCandi)
+        {
+            foreach (var item in lstCandi)
+            {
+                var lstDataInProgress = base.GetMulti(x => x.Deleted == false && x.CandidateId.Equals(item.Id) && x.Status == EnumStatusHistoryTest.InProgress
+                               && x.TestSchedule.DateEnd < DateTime.Now, new string[] { "TestSchedule" });
+                foreach (var h in lstDataInProgress)
+                {
+                    h.Status = EnumStatusHistoryTest.Done;
+                    item.Status = EnumStatusCandidate.Done;
+                }
+            }
+            base.DbContext.SaveChanges();
+        }
 
-            //    var lstDataUndone = base.GetMulti(x => x.Deleted == false && x.CandidateId.Equals(item.Id) && x.Status == EnumStatusHistoryTest.Undone
-            //              && x.TestSchedule.DateEnd < DateTime.Now, new string[] { "TestSchedule" });
-            //    foreach (var h in lstDataUndone)
-            //    {
+        private void UpdateCandidateQuit(IEnumerable<Candidate> lstCandi)
+        {
+            foreach (var item in lstCandi)
+            {
+                var lstDataUndone = base.GetMulti(x => x.Deleted == false && x.CandidateId.Equals(item.Id) && x.Status == EnumStatusHistoryTest.Undone
+                          && x.TestSchedule.DateEnd < DateTime.Now, new string[] { "TestSchedule" });
+                foreach (var h in lstDataUndone)
+                {
+                    if (item.HistoryTests.Where(y => y.DateStartTest == null).Count() > 3)
+                    {
+                        item.Status = EnumStatusCandidate.Quit;
+                    }
 
-            //        if (item.HistoryTests.Where(y => y.DateStartTest == null).Count() > 3)
-            //        {
-            //            item.Status = EnumStatusCandidate.Quit;
-            //        }
-            //    }
-            //}
-            _unitOfWork.Commit();
+                }
+            }
         }
     }
 }

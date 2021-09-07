@@ -45,7 +45,7 @@ namespace WebOnlineAptitudeTest.Helper
             }
             catch (SmtpException smex)
             {
-
+                string error = smex.Message;
                 return false;
             }
         }

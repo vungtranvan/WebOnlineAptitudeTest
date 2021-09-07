@@ -14,5 +14,6 @@ namespace WebOnlineAptitudeTest.Models.Repositories.Interface
     {
         PagingModel<Candidate> GetData(string keyword, int idTeschedule, int page, int pageSize);
         bool Locked(int candidateId);
+        void UpdateStatusCandidateAndHistoryTest();
     }
 }
