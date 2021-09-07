@@ -10,7 +10,6 @@ namespace WebOnlineAptitudeTest.Enums
     {
         Undone,
         InProgress,
-        Done,
-        Quit
+        Done
     }
 }

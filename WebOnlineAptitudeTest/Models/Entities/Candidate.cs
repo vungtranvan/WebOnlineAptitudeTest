@@ -45,6 +45,9 @@ namespace WebOnlineAptitudeTest.Models.Entities
         [StringLength(30, ErrorMessage = "This field max length is 30")]
         public string Phone { get; set; }
 
+        [NotMapped]
+        public double ToTalMark { get; set; }
+
         public bool Sex { get; set; }
 
         public string Education { get; set; }

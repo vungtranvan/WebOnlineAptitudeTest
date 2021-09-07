@@ -100,7 +100,7 @@ var transferController = {
         });
     },
     formatDate: function (dateString) {
-        var newDate = new Date(parseInt(dateString.replace('/Date(', '')));
+        var newDate = new Date(dateString.replace('/Date(', ''));
         var dd = newDate.getDate();
         var mm = newDate.getMonth() + 1;
         var yyyy = newDate.getFullYear();

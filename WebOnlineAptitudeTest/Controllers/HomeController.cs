@@ -131,7 +131,8 @@ namespace WebOnlineAptitudeTest.Controllers
                     totalMark = questions.Select(x => x.Mark).Sum();
                     historyTest.CorectMark = Math.Round(resultCorectMark, 2, MidpointRounding.ToEven); 
                     historyTest.TotalMark = Math.Round(totalMark , 2, MidpointRounding.ToEven); 
-                    historyTest.PercentMark = Math.Round((resultCorectMark / totalMark) * 100, 2, MidpointRounding.ToEven); 
+                    historyTest.PercentMark = Math.Round((resultCorectMark / totalMark) * 100, 2, MidpointRounding.ToEven);
+                    historyTest.TimeTest = Math.Round((historyTest.DateEndTest != null ? historyTest.DateEndTest.Value - historyTest.DateStartTest.Value : new TimeSpan()).TotalSeconds, 0, MidpointRounding.ToEven);
                     this._historyTestRepository.Update(historyTest);
 
                     this._unitOfWork.Commit();
@@ -236,10 +237,6 @@ namespace WebOnlineAptitudeTest.Controllers
                     if (checkDone == true)
                     {
                         candidate.Status = EnumStatusCandidate.Done;
-                    }
-                    else
-                    {
-                        candidate.Status = EnumStatusCandidate.Undone;
                     }
 
                     this._candidateRepository.Update(candidate);

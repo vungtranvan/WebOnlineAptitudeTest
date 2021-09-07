@@ -86,7 +86,7 @@ var historyController = {
                         } else if (item.Status == 3) {
                             status = `<i class="fa fa-circle text-success font-12" data-toggle="tooltip" title="Done"></i>`;
                         }
-
+                        let totalMarks = item.ToTalMark.toFixed(2);
                         html +=
                             ` <div class="card mb-0">
                                     <div class="card-header" id="headingOne">
@@ -97,7 +97,7 @@ var historyController = {
                                                 <span class="qId"> `+ (i + 1) + `</span>
                                                 <span class="qContent">`+ item.Name + `</span>
                                                 <span class="qCategory">`+ item.UserName + `</span>
-                                                <span class="qMark">`+ item.Mark + `</span>
+                                                <span class="qMark">`+ totalMarks + ` %</span>
                                                 <span class="qStatus">`+ status + `</span>
                                                 <span class="qAction">
                                                 <a class="qDelete btnDelete" href=":javascript" data-id=`+ item.Id + `  >Delete</a>
@@ -112,8 +112,9 @@ var historyController = {
                                                 <span class="aId"> #</span>
                                                 <span class="aCorrect">CategoryExamId</span>
                                                 <span class="aCorrect">TestScheduleId</span>
-                                                <span class="aCorrect">DateStartTest</span>
-                                                <span class="aCorrect">DateEndTest</span>
+                                                <span class="aCorrect">DateStart</span>
+                                                <span class="aCorrect">DateEnd</span>
+                                                <span class="aCorrect">Correct</span>
                                                 <span class="aCorrect">TimeTest</span>
                                                 <span class="aCorrect">TotalMark</span>
                                                 <span class="aCorrect">Status</span>
@@ -124,22 +125,24 @@ var historyController = {
 
                             var statusSub = `<i class="fa fa-circle text-primary font-12" data-toggle="tooltip" title="Undone"></i>`;
                             if (ans.Status == 1) {
-                                statusSub = `<i class="fa fa-circle text-warning font-12" data-toggle="tooltip" title="Scheduled"></i>`;
-                            } else if (ans.Status == 2) {
                                 statusSub = `<i class="fa fa-circle text-danger font-12" data-toggle="tooltip" title="In Progress"></i>`;
-                            } else if (ans.Status == 3) {
+                            } else if (ans.Status == 2) {
                                 statusSub = `<i class="fa fa-circle text-success font-12" data-toggle="tooltip" title="Done"></i>`;
                             }
+                            let timespent = ans.TimeTest == 0 ? '' : Math.floor(ans.TimeTest / 60) + ":" + (ans.TimeTest - (Math.floor(ans.TimeTest / 60) * 60) - 1) + 's';
+                            let dateTimeStart = ans.DateStartTest == null ? '' : historyController.formatDate(ans.DateStartTest);
+                            let datetimeEnd = ans.DateEndTest == null ? '' : historyController.formatDate(ans.DateEndTest);
 
                             html += ` <div class="card-body">
                                             <span class="d-flex listQuest">
                                                 <span class="aId"> `+ (j + 1) + `</span>
                                                 <span class="aCorrect">`+ ans.CategoryExamId + `</span>
                                                 <span class="aCorrect">`+ ans.TestScheduleId + `</span>
-                                                <span class="aCorrect">`+ (ans.DateStartTest == null ? 'null' : historyController.formatDate(ans.DateStartTest)) + `</span>
-                                                <span class="aCorrect">`+ (ans.DateEndTest == null ? 'null' : historyController.formatDate(ans.DateStartTest)) + `</span>
-                                                <span class="aCorrect">`+ ans.TimeTest + `</span>
-                                                <span class="aCorrect">`+ ans.TotalMark + `</span>
+                                                <span class="aCorrect">`+ dateTimeStart + `</span>
+                                                <span class="aCorrect">`+ datetimeEnd + `</span>
+                                                <span class="aCorrect">`+ ans.CorectMark + `/` + ans.TotalMark + `</span>
+                                                <span class="aCorrect">`+ timespent + `</span>
+                                                <span class="aCorrect">`+ ans.PercentMark + `%</span>
                                                 <span class="aCorrect">`+ statusSub + `</span>
                                             </span>
                                         </div>`;
@@ -191,13 +194,13 @@ var historyController = {
         });
     },
     formatDate: function (dateString) {
-        var newDate = new Date(parseInt(dateString.replace('/Date(', '')));
+        var newDate = new Date(dateString.replace('/Date(', ''));
         var dd = newDate.getDate();
         var mm = newDate.getMonth() + 1;
         var yyyy = newDate.getFullYear();
         let hours = newDate.getHours();
         let minutes = newDate.getMinutes();
-
+        let secon = newDate.getSeconds();
         if (dd < 10) {
             dd = '0' + dd;
         }
@@ -210,32 +213,12 @@ var historyController = {
         if (minutes < 10) {
             minutes = '0' + minutes;
         }
+        if (secon < 10) {
+            secon = '0' + secon;
+        }
 
-        newDate = mm + '/' + dd + '/' + yyyy + ' ' + hours + ':' + minutes;
+        newDate = mm + '/' + dd + '/' + yyyy + ' ' + hours + ':' + minutes + ':' + secon;
         return newDate;
-    },
-    getNameCategory: function (id) {
-        var nameResult;
-        $.ajax({
-            url: '/HistoryTests/GetCategoryExamName?id=' + id,
-            type: "GET",
-            dataType: "json",
-            success: function (res) {
-                nameResult += res.name;
-            }
-        });
-        return nameResult;
-    },
-    getNameTestShedule: function (id) {
-        var resp = [];
-        $.ajax({
-            url: '/HistoryTests/GetTestSheduleName?id=' + id,
-            type: "GET",
-            dataType: "json",
-            success: function (res) {
-                resp.push(res.name);
-            }
-        });
     }
 }
 
