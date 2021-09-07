@@ -21,6 +21,9 @@ namespace WebOnlineAptitudeTest.Controllers
         private readonly IAnswerRepository _answerRepository;
         private readonly IHistoryTestRepository _historyTestRepository;
         private readonly IHistoryTestDetailRepository _historyTestDetailRepository;
+        private readonly ICandidateRepository _candidateRepository;
+        private readonly ITestScheduleRepository _testScheduleRepository;
+
 
         private readonly IUnitOfWork _unitOfWork;
 
@@ -30,6 +33,8 @@ namespace WebOnlineAptitudeTest.Controllers
             IAnswerRepository answerRepository,
             IHistoryTestRepository historyTestRepository,
             IHistoryTestDetailRepository historyTestDetailRepository,
+            ICandidateRepository candidateRepository,
+            ITestScheduleRepository testScheduleRepository,
             IUnitOfWork unitOfWork)
         {
             _questionRepository = questionRepository;
@@ -37,6 +42,8 @@ namespace WebOnlineAptitudeTest.Controllers
             _answerRepository = answerRepository;
             _historyTestRepository = historyTestRepository;
             _historyTestDetailRepository = historyTestDetailRepository;
+            _candidateRepository = candidateRepository;
+            _testScheduleRepository = testScheduleRepository;
             _unitOfWork = unitOfWork;
 
         }
@@ -54,8 +61,16 @@ namespace WebOnlineAptitudeTest.Controllers
                 var candidateId = historyTest.CandidateId;
                 double totalMark = 0;
                 double resultCorectMark = 0;
-
                 var checktime = (int)(historyTest.CategoryExam.TimeTest * 60) - (int)(DateTime.Now - historyTest.DateStartTest.Value).TotalSeconds + 30;
+                var testSchedule = this._testScheduleRepository.GetSingleById(historyTest.TestScheduleId);
+
+                if (testSchedule.DateEnd < DateTime.Now)
+                {
+                    return Json(new
+                    {
+                        Status = "TestScheduleEnd"
+                    }, JsonRequestBehavior.AllowGet);
+                }
 
                 if (checktime >= 0 && historyTest.DateEndTest == null)
                 {
@@ -116,21 +131,30 @@ namespace WebOnlineAptitudeTest.Controllers
                     totalMark = questions.Select(x => x.Mark).Sum();
                     historyTest.CorectMark = resultCorectMark;
                     historyTest.TotalMark = totalMark;
-                    historyTest.PercentMark = Math.Round((resultCorectMark / totalMark) * 100, 2, MidpointRounding.ToEven);;
+                    historyTest.PercentMark = Math.Round((resultCorectMark / totalMark) * 100, 2, MidpointRounding.ToEven); 
                     this._historyTestRepository.Update(historyTest);
 
                     this._unitOfWork.Commit();
                 }
 
-               
-                return Json(new { data = "", categoryName = historyTest.CategoryExam.Name, resultTotalMark = resultCorectMark, totalMark = totalMark, Status = "Success" }, JsonRequestBehavior.AllowGet);
+
+                return Json(new
+                {
+                    data = "",
+                    categoryName = historyTest.CategoryExam.Name,
+                    CorectMark = resultCorectMark,
+                    TotalMark = totalMark,
+                    PercentMark = Math.Round((resultCorectMark / totalMark) * 100, 2, MidpointRounding.ToEven),
+                    TotalTime = Math.Round((DateTime.Now - historyTest.DateStartTest.Value).TotalSeconds, 0, MidpointRounding.ToEven),
+                    Status = "Success"
+                }, JsonRequestBehavior.AllowGet);
 
             }
             catch (NullReferenceException e)
             {
 
-            return Json(new {data = e.Message, Status = "false"}, JsonRequestBehavior.AllowGet);
-              
+                return Json(new { data = e.Message, Status = "false" }, JsonRequestBehavior.AllowGet);
+
             }
 
 
@@ -144,14 +168,15 @@ namespace WebOnlineAptitudeTest.Controllers
             var historyTest = this._historyTestRepository.Get(x => x.CandidateId == CandidateId).OrderBy(x => x.CategoryExamId);
             var historyTestId = 0;
             var lastSeconds = 0;
-            var data = "";
+            var status = "";
             var categoryId = 0;
             var categoryName = "";
-            
+            var testSchedule = this._testScheduleRepository.GetSingleById(historyTest.FirstOrDefault().TestScheduleId);
+
 
             if (historyTest.Count() <= 0)
             {
-                return Json(new { data = "NotInSchedule", Status = "False", currentCategoryId = 0, timeSecond = 0 }, JsonRequestBehavior.AllowGet);
+                return Json(new { Status = "NotInSchedule", currentCategoryId = 0, timeSecond = 0 }, JsonRequestBehavior.AllowGet);
 
             }
             else
@@ -166,37 +191,94 @@ namespace WebOnlineAptitudeTest.Controllers
                         if (lastSeconds <= 0 || item.DateEndTest != null)
                         {
                             continue;
-                        }else
+                        }
+                        else
                         {
-                            data = "Continue";
+                            status = "Continue";
                             categoryId = item.CategoryExamId;
                             historyTestId = item.Id;
                             categoryName = item.CategoryExam.Name;
+
+
                             break;
-                        }                  
+                        }
                     }
                     else
                     {
                         historyTestId = item.Id;
-                        data = "NotStart";
+                        status = "NotStart";
                         categoryId = item.CategoryExamId;
                         categoryName = item.CategoryExam.Name;
+                        if (item.CategoryExamId == 1)
+                        {
+                            historyTestId = item.Id;
+                            status = "Beginer";
+                            categoryId = item.CategoryExamId;
+                            categoryName = item.CategoryExam.Name;
+                            break;
+                        }
+
                         break;
                     }
                 }
+
                 if (categoryId == 0)
                 {
-                    data = "AllOver";
+                    Candidate candidate = this._candidateRepository.GetSingleById(CandidateId);
+                    bool checkDone = true;
+                    foreach (var ht in historyTest)
+                    {
+                        if (ht.DateEndTest == null)
+                        {
+                            checkDone = false;
+                        }
+                    }
+                    if (checkDone == true)
+                    {
+                        candidate.Status = EnumStatusCandidate.Done;
+                    }
+                    else
+                    {
+                        candidate.Status = EnumStatusCandidate.Undone;
+                    }
+
+                    this._candidateRepository.Update(candidate);
+                    this._unitOfWork.Commit();
+                    status = "AllOver";
+                    var datahistoryTest = historyTest.Select(x => new
+                    {
+                        CorectMark = x.CorectMark,
+                        DateStartTest = x.DateStartTest.ToString(),
+                        DateEndTest = x.DateEndTest.ToString(),
+                        CategoryExam = x.CategoryExam.Name,
+                        TotalMark = x.TotalMark,
+                        PercentMark = x.PercentMark,
+                        TotalTime = Math.Round((x.DateEndTest != null ? x.DateEndTest.Value - x.DateStartTest.Value : new TimeSpan()).TotalSeconds, 0, MidpointRounding.ToEven),
+
+                    });
+                    var res = JsonConvert.SerializeObject(datahistoryTest.AsEnumerable());
+
+                    return Json(new
+                    {
+                        data = res,
+                        Status = status,
+                        testScheduleEndValue = testSchedule.DateEnd
+                    }, JsonRequestBehavior.AllowGet); ;
                 }
 
-                return Json(new { data = data,
-                        Status = "Success",
-                        currentCategoryId = categoryId,
-                        currentCategoryName = categoryName,
-                        historyTestId = historyTestId,
-                        timeSecond = lastSeconds
+                return Json(new
+                {
+                    data = "",
+                    Status = status,
+                    currentCategoryId = categoryId,
+                    currentCategoryName = categoryName,
+                    historyTestId = historyTestId,
+                    timeSecond = lastSeconds,
+                    testScheduleStart = testSchedule.DateStart.ToString(),
+                    testScheduleEnd = testSchedule.DateEnd.ToString(),
+                    testScheduleEndValue = testSchedule.DateEnd
                 }, JsonRequestBehavior.AllowGet);
-                
+
             }
         }
         public ActionResult StartQuest(int historyTestId)
@@ -212,7 +294,7 @@ namespace WebOnlineAptitudeTest.Controllers
                     this._historyTestRepository.Update(historyTest);
                     this._unitOfWork.Commit();
                 }
-              
+
                 return Json(new { data = "createSuccess", Status = "Success", currentCategoryId = 0, timeSecond = 0 }, JsonRequestBehavior.AllowGet);
 
             }
@@ -237,11 +319,11 @@ namespace WebOnlineAptitudeTest.Controllers
 
             if (checkExist.Count() <= 0)
             {
-               var resultId = questions.OrderBy(x => Guid.NewGuid()).Take(5).Select(x=>x.Id).ToList().OrderBy(x =>x.ToString());
+                var resultId = questions.OrderBy(x => Guid.NewGuid()).Take(5).Select(x => x.Id).ToList().OrderBy(x => x.ToString());
 
                 foreach (var id in resultId)
                 {
-                    Question q = questions.Find(x=>x.Id == id);
+                    Question q = questions.Find(x => x.Id == id);
 
                     HistoryTestDetail historyTestDetail = new HistoryTestDetail();
                     historyTestDetail.HistoryTestId = historyTestId;
@@ -250,7 +332,6 @@ namespace WebOnlineAptitudeTest.Controllers
                     this._historyTestDetailRepository.Add(historyTestDetail);
                     result.Add(q);
                 }
-                this._unitOfWork.Commit();
             }
             else
             {
@@ -263,8 +344,9 @@ namespace WebOnlineAptitudeTest.Controllers
 
             var sendResult = result.Select(x => new
             {
-                countCorect = x.Answers.Count(a => a.Correct) > 1 ? x.Answers.Count(a =>a.Correct).ToString(): "1",
-                Answers = x.Answers.Select(y => new {
+                countCorect = x.Answers.Count(a => a.Correct) > 1 ? x.Answers.Count(a => a.Correct).ToString() : "1",
+                Answers = x.Answers.Select(y => new
+                {
                     Id = y.Id,
                     QuestionId = y.QuestionId,
                     Name = y.Name,
@@ -278,15 +360,18 @@ namespace WebOnlineAptitudeTest.Controllers
                 Status = x.Status,
                 Mark = x.Mark
             });
-       
+
             var data = JsonConvert.SerializeObject(sendResult.AsEnumerable(), Formatting.Indented,
                 new JsonSerializerSettings
                 {
                     ReferenceLoopHandling = ReferenceLoopHandling.Ignore
                 });
 
-
-            return Json(new {data, Status = "Success" }, JsonRequestBehavior.AllowGet);
+            Candidate candidate = this._candidateRepository.GetSingleById(historyTest.CandidateId);
+            candidate.Status = EnumStatusCandidate.InProgress;
+            this._candidateRepository.Update(candidate);
+            this._unitOfWork.Commit();
+            return Json(new { data, Status = "Success" }, JsonRequestBehavior.AllowGet);
 
 
         }

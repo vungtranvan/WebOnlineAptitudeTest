@@ -16,42 +16,33 @@
     </div>
 
     <div class="top-bar-time align-middle bg-yellow-600 rounded relative">
-        <div class="w-full count-down-percent h-full bg-theme-1 rounded flex justify-center align-middle"></div>
+        <div class="w-full count-down-percent h-full bg-theme-1 rounded flex justify-center align-middle "></div>
         <p class="rounded count-down h-auto text-lg text-white absolute">00:00</p>
     </div>
     <!-- END: Breadcrumb -->
-    <!-- BEGIN: Account Menu -->
-    <!-- END: Account Menu -->
 </div>
 
 <form action="" id="aptitutest_form" method="post" class="form-question">
-
-    @*start Question*@
-
-
-
-
 </form>
 
 @section Scripts{
     <script>
+
+
         $(function () {
 
-            //let minute = 2;
-            //let seconnd = minute * 60;
 
 
             let checkQuestUrl = '@Url.Action("CheckQuest", "Home")';
             let startQuestQuestUrl = '@Url.Action("StartQuest", "Home")';
             let createQuestQuestUrl = '@Url.Action("CreateQuest", "Home")';
-
             let seconnd = 0;
             let minute = 0;
             let seconndShow = 0;
             let countdown = 0;
             let historyTestId = -1;
-
             let confirmUrl = '@Url.Action("ConfirmTest", "Home")';
+            let isContinute = false;
 
 
 
@@ -92,18 +83,37 @@
                 });
                 ajax('{ resultQuest : ' + JSON.stringify(resultQuest) +
                     `, historyTestId: "` + historyTestId + `"}`, confirmUrl, function (data) {
-                        if (timeout != false) {
-                            showAlertModal(timeout + 'is Time out',"success");
-                        } else {
-                            showAlertModal('Success',"success");
+
+
+                        switch (data.Status) {
+                            case "TestScheduleEnd":
+                                showAlertModal('Your exam expiration<br/> Call the examiner', "schedule-ended");
+
+                                $('#modal-previewAlert-schedule-ended').off('click').on('click', function (e) {
+                                    window.location = '/logout';
+                                });
+                                break;
+                            default:
+                                if (timeout != false) {
+                                    showAlertModal(timeout + 'is Time out', "success");
+
+                                } else {
+                                    let timespent = Math.floor(data.TotalTime / 60) + ":" + (data.TotalTime - (Math.floor(data.TotalTime / 60) * 60 )-1);
+                                    let successAlert = `<h5 class="text-lg text-theme-12 font-medium leading-none mt-3">Spent `+timespent+`s</h5>
+                                            <h5 class="text-lg text-theme-6 font-medium leading-none mt-3">Corect mark(s) `+ data.CorectMark + `/` + data.TotalMark + `</h5>
+                                               <h5 class="text-2xl text-theme-9 font-medium leading-none mt-3"> Your score `+ data.PercentMark + `%</h5>`;
+                                    showAlertModal(successAlert, "success");
+                                }
+                                $('#modal-previewAlert-success').off('click').on('click', function (e) {
+                                    $('#modal-previewAlert-success').modal('hide');
+                                    createQuest($('#candidate-codeId').text());
+                                });
+
+                                break;
                         }
 
-                        $('#modal-previewAlert-success').off('click').on('click', function (e) {
-                            createQuest($('#candidate-codeId').text());
-                            console.log("aaa");
-                        });
 
-                        console.log(data);
+
 
                     });
             }
@@ -113,10 +123,12 @@
             function createQuest(CandidateId) {
                 ajax(`{ CandidateId: ` + CandidateId + `}`, checkQuestUrl, function (res) {
                     console.log(res);
+                    let newDate = new Date(parseInt(res.testScheduleEndValue.replace('/Date(', '')));
+
                     //return false;
-                    switch (res.data) {
+                    switch (res.Status) {
                         case "NotInSchedule":
-                            showAlertModal('You are not in the exam schedule <br/> Call the examiner',"not-in-schedule");
+                            showAlertModal('You are not in the exam schedule <br/> Call the examiner', "not-in-schedule");
 
                             $('#modal-previewAlert-not-in-schedule').off('click').on('click', function (e) {
                                 window.location = '/logout';
@@ -127,65 +139,144 @@
                                 window.location = '/logout';
                             }, 20000);
                             break;
-                        case "NotStart":
-                            $('#modal-previewConfirm .text-modal').text('Wellcome ru want start quest ' + res.currentCategoryName);
-                            $('#modal-previewConfirm .btn-CancelModal').html(`<a href="/logout">Cancle</a`);
-                            $('#modal-previewConfirm').modal('show');
+                        case "Beginer":
+                            $('#modal-previewConfirmPolicy .btn-CancelModalPolicy').html(`<a href="/logout">Do it later</a>`);
+                            $('#modal-previewConfirmPolicy .text-modal').prepend(`
+                                                <h2 class="font-semibold">Schedule from ` + res.testScheduleStart + ` to ` + res.testScheduleEnd + `<h2/>
+                                                <hr/>`);
+                            $('#modal-previewConfirmPolicy').modal('show');
 
-                            $('#modal-previewConfirm .btn-okConfirm').off('click').on('click', function (e) {
-                                ajax(`{ historyTestId: ` + res.historyTestId + `}`, startQuestQuestUrl, function (resStart) {
-                                    if (resStart.Status == "Success") {
-                                        createQuest(CandidateId);
-                                    }
-                                });
 
-                                $('#modal-previewConfirm').modal('hide');
+                            $('#modal-previewConfirmPolicy .btn-okConfirm').off('click').on('click', function (e) {
+                                $('#modal-previewConfirmPolicy').modal('hide');
+
+                                if (new Date($.now()) > newDate) {
+                                    showAlertModal('Your exam expiration<br/> Call the examiner', "schedule-ended");
+
+                                    $('#modal-previewAlert-schedule-ended').off('click').on('click', function (e) {
+                                        window.location = '/logout';
+                                    });
+                                } else {
+                                    let startAlert = `
+                                                <h2 class="text-2xl font-medium leading-none mt-3 mb-3">` + res.currentCategoryName + ` Examinations <h2/>
+                                                <hr/>
+                                                <h5 class="font-extrabold">Do you want start the Exam<h5>
+                                                <hr/>`;
+                                    $('#modal-previewConfirm .text-modal').html(startAlert);
+                                    $('#modal-previewConfirm .btn-CancelModal').html(`<a href="/logout">Do it later</a`);
+                                    $('#modal-previewConfirm').modal('show');
+
+                                    $('#modal-previewConfirm .btn-okConfirm').off('click').on('click', function (e) {
+                                        ajax(`{ historyTestId: ` + res.historyTestId + `}`, startQuestQuestUrl, function (resStart) {
+                                            if (resStart.Status == "Success") {
+                                                createQuest(CandidateId);
+                                            }
+                                        });
+
+                                        $('#modal-previewConfirm').modal('hide');
+                                    });
+
+                                    $('#modal-previewConfirm').click(function () {
+                                        window.location = '/logout';
+                                    });
+
+                                    $('#modal-previewConfirm .modal__content').on('click', function (e) {
+                                        e.stopPropagation();
+                                    });
+                                }
                             });
-
-                            $('#modal-previewConfirm').click(function () {
-                                window.location='/logout';
+                            $('#modal-previewConfirmPolicy').click(function () {
+                                window.location = '/logout';
                             });
-
-                            $('#modal-previewConfirm .modal__content').on('click', function (e) {
+                            $('#modal-previewConfirmPolicy .modal__content').on('click', function (e) {
                                 e.stopPropagation();
                             });
+
+                            break;
+                        case "NotStart":
+                            if (new Date($.now()) > newDate) {
+                                showAlertModal('Your exam expiration<br/> Call the examiner', "schedule-ended");
+
+                                $('#modal-previewAlert-schedule-ended').off('click').on('click', function (e) {
+                                    window.location = '/logout';
+                                });
+                            } else {
+                                let startAlert = `
+                                                <h2 class="text-2xl font-medium leading-none mt-3 mb-3">` + res.currentCategoryName + ` Examinations <h2/>
+                                                <hr/>
+                                                <h5 class="font-extrabold">Do you want start the Exam<h5>
+                                                <hr/>`;
+                                $('#modal-previewConfirm .text-modal').html(startAlert);
+                                $('#modal-previewConfirm .btn-CancelModal').html(`<a href="/logout">Do it later</a`);
+                                $('#modal-previewConfirm').modal('show');
+
+                                $('#modal-previewConfirm .btn-okConfirm').off('click').on('click', function (e) {
+                                    ajax(`{ historyTestId: ` + res.historyTestId + `}`, startQuestQuestUrl, function (resStart) {
+                                        if (resStart.Status == "Success") {
+                                            createQuest(CandidateId);
+                                        }
+                                    });
+
+                                    $('#modal-previewConfirm').modal('hide');
+                                });
+
+                                $('#modal-previewConfirm').click(function () {
+                                    window.location = '/logout';
+                                });
+
+                                $('#modal-previewConfirm .modal__content').on('click', function (e) {
+                                    e.stopPropagation();
+                                });
+                            }
+                            isContinute = true;
                             break;
                         case "Continue":
-                            showAlertModal('Continue',"continue");
 
-                            ajax(`{ historyTestId: ` + res.historyTestId + `}`, createQuestQuestUrl, function (resQuestContent) {
-                                let content = ``;
-                                let menu = ``;
-                                let menumobile = ``;
-                                console.log(resQuestContent);
-                                $.each(resQuestContent.data, function (i, q) {
-                                    //add content
-                                    content += `
+                            if (new Date($.now()) > newDate) {
+                                showAlertModal('Your exam expiration<br/> Call the examiner', "schedule-ended");
+
+                                $('#modal-previewAlert-schedule-ended').off('click').on('click', function (e) {
+                                    window.location = '/logout';
+                                });
+                            } else {
+
+                                if (isContinute == false) {
+                                    showAlertModal('Continue', "continue");
+                                }
+
+                                ajax(`{ historyTestId: ` + res.historyTestId + `}`, createQuestQuestUrl, function (resQuestContent) {
+                                    let content = ``;
+                                    let menu = ``;
+                                    let menumobile = ``;
+                                    console.log(resQuestContent);
+                                    $.each(resQuestContent.data, function (i, q) {
+                                        //add content
+                                        content += `
                                             <div class="box question mt-5" id="q_`+ q.Id + `">
                                                 <div class="pb-3 pt-3 pr-2 pl-2">
-                                                    <div class="flex items-center">`+ (i + 1) + `.&nbsp;&nbsp;` + q.Name + `&nbsp;&nbsp; [Choose ` + q.countCorect+` Answer(s)]&nbsp;&nbsp;[` + q.Mark + ` Mark(s)] </div>
+                                                    <div class="flex items-center">`+ (i + 1) + `.&nbsp;&nbsp;` + q.Name + `&nbsp;&nbsp; [Choose ` + q.countCorect + ` Answer(s)]&nbsp;&nbsp;[` + q.Mark + ` Mark(s)] </div>
                                                 </div>
                                               <input value="`+ q.Id + `" hidden class="questId">`;
 
 
-                                    $.each(q.Answers, function (j, a) {
-                                        switch (q.countCorect) {
-                                            case "1":
-                                                content +=
-                                                    `<div class="awnsers">
+                                        $.each(q.Answers, function (j, a) {
+                                            switch (q.countCorect) {
+                                                case "1":
+                                                    content +=
+                                                        `<div class="awnsers">
                                                 <div class="border-b border-t text-gray-600 border-gray-200 flex items-center">
 
                                                     <div class="flex items-center justify-center p-3">
-                                                        <input  name="q_`+ q.Id + `"  value="`+ a.AnswerInQuestion + `" type="radio" class="corect input border border-gray-500">
+                                                        <input  name="q_`+ q.Id + `"  value="` + a.AnswerInQuestion + `" type="radio" class="corect input border border-gray-500">
                                                     </div>
 
                                                     <div class="p-2"> `+ a.Name + ` </div>
                                                 </div>
                                             </div>`;
-                                                break;
-                                            default:
-                                                content +=
-                                                    `<div class="awnsers">
+                                                    break;
+                                                default:
+                                                    content +=
+                                                        `<div class="awnsers">
                                                 <div class="border-b border-t text-gray-600 border-gray-200 flex items-center">
 
                                                     <div class="flex items-center justify-center p-3">
@@ -195,24 +286,22 @@
                                                     <div class="p-2"> `+ a.Name + ` </div>
                                                 </div>
                                             </div>`;
-                                                break;
-                                        }
+                                                    break;
+                                            }
+                                        });
+
+                                        content += `</div>`;
 
 
-                                    });
-
-                                    content += `</div>`;
-
-
-                                    // add menu
-                                    menu +=
-                                        `<li>
+                                        // add menu
+                                        menu +=
+                                            `<li>
                                              <a href="#q_`+ q.Id + `" class="side-menu" target="_self">
                                                <div class="side-menu__icon"> `+ (i + 1) + `. </div>
                                                <div class="side-menu__title"> Question `+ (i + 1) + ` </div>
                                              </a>
                                          </li>`;
-                                    menumobile += `               
+                                        menumobile += `
                                         <li>
                                             <a href="#q_`+ q.Id + `" class="menu" target="_self">
                                                 <div class="menu__icon"> `+ (i + 1) + `. </div>
@@ -220,25 +309,42 @@
                                             </a>
                                         </li>`;
 
-                                });
-                                $("#aptitutest_form").html(content);
-                                $("#sidemenu_content_" + res.currentCategoryId).html(menu);
-                                $(".sidemenu_mobile_content").html("");
-                                $("#sidemenu_mobile_content_" + res.currentCategoryId).html(menumobile);
+                                    });
+                                    $("#aptitutest_form").html(content);
+                                    $("#sidemenu_content_" + res.currentCategoryId).html(menu);
+                                    $(".sidemenu_mobile_content").html("");
+                                    $("#sidemenu_mobile_content_" + res.currentCategoryId).html(menumobile);
 
 
-                                console.log(historyTestId);
-                                historyTestId = res.historyTestId;
-                                console.log(historyTestId);
+                                    console.log(historyTestId);
+                                    historyTestId = res.historyTestId;
+                                    console.log(historyTestId);
 
-                                createMenu(res.currentCategoryId);
-                                checkTime(res.timeSecond);
+                                    createMenu(res.currentCategoryId);
+                                    checkTime(res.timeSecond);
 
-                            })
+                                })
+                            }
+
                             break;
                         case "AllOver":
-                            showAlertModal('All over',"all-over");
+                            let htmlOver = `<h3 class="text-4xl text-theme-1 font-medium leading-none text-center">Your exam is over</h3> <table class="w-full">`;
+                            $.each(res.data, function (i, d) {
+                                let timespent = Math.floor(d.TotalTime / 60) + ":" + (d.TotalTime - (Math.floor(d.TotalTime / 60) * 60) - 1);
 
+                                htmlOver += `<tr>
+                                <td> <div class="text-lg text-theme-6 font-medium leading-none mt-3  p-3 font-bold" >` + d.CategoryExam + `: <div/> <td/>
+                                <td > <div class="text-lg text-theme-9 font-medium leading-none mt-3  p-3"> Correct: <span class="text-lg text-theme-6 font-medium leading-none font-bold">` + d.CorectMark + `/` + d.TotalMark + `</span> <div/> <td/>
+                                <td > <div class="text-lg text-theme-6 font-medium leading-none  mt-3  font-bold"> (` + d.PercentMark +`%)<div/> <td/>
+                                <td > <div class="text-lg text-theme-9 font-medium leading-none mt-3  p-3"> ` + timespent +`s<div/> <td/>
+
+                                <td > <div class="text-lg text-theme-9 font-medium leading-none mt-3  p-3"> from <span class="float-right text-theme-6 ">` + d.DateStartTest + `</span> <br/> to<span class="float-right text-theme-6 ">` + d.DateEndTest +`<span/><div/> <td/>
+
+
+                                 <tr/>`;
+                            });
+                            showAlertModal(htmlOver, "all-over");
+                            htmlOver += `<table/>`;
                             $('#modal-previewAlert-all-over').off('click').on('click', function (e) {
                                 window.location = '/logout';
                             });
@@ -347,9 +453,17 @@
             //$('#modal-previewAlert .text-modal').text(text);
 
             let modal = $('#modal-previewAlert').clone();
-            modal.find('.text-modal').text(text);
             $("#modal-previewAlert-" + idname).remove();
             modal.attr("id", "modal-previewAlert-" + idname);
+            modal.find('.text-modal').html(text);
+            if (idname == "all-over") {
+                modal.find(".modal__content").addClass("modal__content--xl");
+                modal.find("svg").remove();
+                modal.find(".p-5.text-center").removeClass("text-center");
+
+            }
+
+
 
             modal.modal('show');
         }
