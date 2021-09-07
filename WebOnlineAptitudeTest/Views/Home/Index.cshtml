@@ -29,8 +29,9 @@
     <script>
 
 
-        $(function () {
 
+
+        $(function () {
 
 
             let checkQuestUrl = '@Url.Action("CheckQuest", "Home")';
@@ -362,46 +363,8 @@
                             htmlOver += `<table/>`;
                             $('#modal-previewAlert-all-over').off('click').on('click', function (e) {
                                 window.location = '/logout';
-                            });
 
-                            break;
-                    }
-                    });
-
-
-            };
-
-            function createMenu(id) {
-
-                let clear =  $(".memu-with-child");
-
-                clear.removeClass("side-menu-with-child-open");
-                clear.find(".side-menu").removeClass("side-menu--open side-menu--active side-menu-x");
-                clear.find(".side-menu").attr("onclick", "");
-
-
-                clear.find("ul").removeClass("side-menu__sub-open");
-                clear.find("ul").css("display", "none");
-
-                let element = $(".sidemenu_" + id);
-
-                element.addClass("side-menu-with-child-open");
-                element.find(".side-menu").addClass("side-menu--open side-menu--active side-menu-x");
-                element.find(".side-menu").attr("onclick","sideMenu(this)");
-
-
-                element.find("ul").addClass("side-menu__sub-open");
-                element.find("ul").css("display", "block");
-
-            }
-
-
-            function checkTime(seconndlast) {
-                 clearInterval(countdown);
-                 seconnd = seconndlast;
-                 minute = Math.floor(seconnd / 60);
-                 seconndShow = seconnd - (minute * 60);
-                countdown = setInterval(countDown, 1000);
+                 countdown = setInterval(countDown, 1000);
 
                 $(".count-down-percent").css("width", "100%");
 
@@ -411,7 +374,8 @@
                     $('.count-down-percent').css("-webkit-animation", seconnd + "s" + " linear 0s 1 normal backwards running countdown");
                 }, 10);
 
-            }
+                            }
+
             function countDown() {
                 let timeShow = [];
 
