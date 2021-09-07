@@ -123,7 +123,8 @@
             function createQuest(CandidateId) {
                 ajax(`{ CandidateId: ` + CandidateId + `}`, checkQuestUrl, function (res) {
                     console.log(res);
-                    let newDate = new Date(parseInt(res.testScheduleEndValue.replace('/Date(', '')));
+                    let endDate = new Date(parseInt(res.testScheduleEndValue.replace('/Date(', '')));
+                    let startDate = new Date(parseInt(res.testScheduleStartValue.replace('/Date(', '')));
 
                     //return false;
                     switch (res.Status) {
@@ -150,13 +151,21 @@
                             $('#modal-previewConfirmPolicy .btn-okConfirm').off('click').on('click', function (e) {
                                 $('#modal-previewConfirmPolicy').modal('hide');
 
-                                if (new Date($.now()) > newDate) {
-                                    showAlertModal('Your exam expiration<br/> Call the examiner', "schedule-ended");
+                                if (new Date($.now()) > endDate) {
+                                    showAlertModal('Your exam not start<br/> Schedule: ' + res.testScheduleStart + `to ` + res.testScheduleEnd, "schedule-ended");
 
                                     $('#modal-previewAlert-schedule-ended').off('click').on('click', function (e) {
                                         window.location = '/logout';
                                     });
-                                } else {
+                                } else if (new Date($.now()) < startDate) {
+                                    showAlertModal('Your exam not start<br/> Schedule: ' + res.testScheduleStart + `to ` + res.testScheduleEnd, "schedule-start");
+
+                                    $('#modal-previewAlert-schedule-start').off('click').on('click', function (e) {
+                                        window.location = '/logout';
+                                    });
+                                }
+
+                                else {
                                     let startAlert = `
                                                 <h2 class="text-2xl font-medium leading-none mt-3 mb-3">` + res.currentCategoryName + ` Examinations <h2/>
                                                 <hr/>
@@ -191,10 +200,10 @@
                             $('#modal-previewConfirmPolicy .modal__content').on('click', function (e) {
                                 e.stopPropagation();
                             });
-
+                            isContinute = true;
                             break;
                         case "NotStart":
-                            if (new Date($.now()) > newDate) {
+                            if (new Date($.now()) > endDate) {
                                 showAlertModal('Your exam expiration<br/> Call the examiner', "schedule-ended");
 
                                 $('#modal-previewAlert-schedule-ended').off('click').on('click', function (e) {
@@ -232,7 +241,7 @@
                             break;
                         case "Continue":
 
-                            if (new Date($.now()) > newDate) {
+                            if (new Date($.now()) > endDate) {
                                 showAlertModal('Your exam expiration<br/> Call the examiner', "schedule-ended");
 
                                 $('#modal-previewAlert-schedule-ended').off('click').on('click', function (e) {
@@ -330,13 +339,19 @@
                         case "AllOver":
                             let htmlOver = `<h3 class="text-4xl text-theme-1 font-medium leading-none text-center">Your exam is over</h3> <table class="w-full">`;
                             $.each(res.data, function (i, d) {
-                                let timespent = Math.floor(d.TotalTime / 60) + ":" + (d.TotalTime - (Math.floor(d.TotalTime / 60) * 60) - 1);
+                                let timespent = "";
+                                if ((d.TotalTime - (Math.floor(d.TotalTime / 60) * 60) - 1) <= 0) {
+                                     timespent = "expired";
+
+                                } else {
+                                     timespent = Math.floor(d.TotalTime / 60) + ":" + (d.TotalTime - (Math.floor(d.TotalTime / 60) * 60) - 1)+"s";
+                                }
 
                                 htmlOver += `<tr>
                                 <td> <div class="text-lg text-theme-6 font-medium leading-none mt-3  p-3 font-bold" >` + d.CategoryExam + `: <div/> <td/>
                                 <td > <div class="text-lg text-theme-9 font-medium leading-none mt-3  p-3"> Correct: <span class="text-lg text-theme-6 font-medium leading-none font-bold">` + d.CorectMark + `/` + d.TotalMark + `</span> <div/> <td/>
                                 <td > <div class="text-lg text-theme-6 font-medium leading-none  mt-3  font-bold"> (` + d.PercentMark +`%)<div/> <td/>
-                                <td > <div class="text-lg text-theme-9 font-medium leading-none mt-3  p-3"> ` + timespent +`s<div/> <td/>
+                                <td > <div class="text-lg text-theme-9 font-medium leading-none mt-3  p-3"> ` + timespent +`<div/> <td/>
 
                                 <td > <div class="text-lg text-theme-9 font-medium leading-none mt-3  p-3"> from <span class="float-right text-theme-6 ">` + d.DateStartTest + `</span> <br/> to<span class="float-right text-theme-6 ">` + d.DateEndTest +`<span/><div/> <td/>
 

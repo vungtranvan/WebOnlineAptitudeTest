@@ -129,8 +129,8 @@ namespace WebOnlineAptitudeTest.Controllers
                     }
                     resultCorectMark = this._historyTestDetailRepository.Get(x => x.HistoryTestId == historyTestId).Select(y => Convert.ToDouble(y.Mark)).Sum();
                     totalMark = questions.Select(x => x.Mark).Sum();
-                    historyTest.CorectMark = resultCorectMark;
-                    historyTest.TotalMark = totalMark;
+                    historyTest.CorectMark = Math.Round(resultCorectMark, 2, MidpointRounding.ToEven); 
+                    historyTest.TotalMark = Math.Round(totalMark , 2, MidpointRounding.ToEven); 
                     historyTest.PercentMark = Math.Round((resultCorectMark / totalMark) * 100, 2, MidpointRounding.ToEven); 
                     this._historyTestRepository.Update(historyTest);
 
@@ -245,24 +245,27 @@ namespace WebOnlineAptitudeTest.Controllers
                     this._candidateRepository.Update(candidate);
                     this._unitOfWork.Commit();
                     status = "AllOver";
+
                     var datahistoryTest = historyTest.Select(x => new
                     {
                         CorectMark = x.CorectMark,
                         DateStartTest = x.DateStartTest.ToString(),
                         DateEndTest = x.DateEndTest.ToString(),
                         CategoryExam = x.CategoryExam.Name,
-                        TotalMark = x.TotalMark,
+                        TotalMark = x.HistoryTestDetails.Sum(q => q.Question.Mark),
                         PercentMark = x.PercentMark,
                         TotalTime = Math.Round((x.DateEndTest != null ? x.DateEndTest.Value - x.DateStartTest.Value : new TimeSpan()).TotalSeconds, 0, MidpointRounding.ToEven),
 
-                    });
+                    }) ;
+
                     var res = JsonConvert.SerializeObject(datahistoryTest.AsEnumerable());
 
                     return Json(new
                     {
                         data = res,
                         Status = status,
-                        testScheduleEndValue = testSchedule.DateEnd
+                        testScheduleEndValue = testSchedule.DateEnd,
+                        testScheduleStartValue = testSchedule.DateStart
                     }, JsonRequestBehavior.AllowGet); ;
                 }
 
@@ -276,7 +279,8 @@ namespace WebOnlineAptitudeTest.Controllers
                     timeSecond = lastSeconds,
                     testScheduleStart = testSchedule.DateStart.ToString(),
                     testScheduleEnd = testSchedule.DateEnd.ToString(),
-                    testScheduleEndValue = testSchedule.DateEnd
+                    testScheduleEndValue = testSchedule.DateEnd,
+                    testScheduleStartValue = testSchedule.DateStart
                 }, JsonRequestBehavior.AllowGet);
 
             }
