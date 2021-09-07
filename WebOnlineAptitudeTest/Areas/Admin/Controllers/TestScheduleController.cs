@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using WebOnlineAptitudeTest.Areas.Admin.Data.Model.TestSchedules;
 using WebOnlineAptitudeTest.Enums;
+using WebOnlineAptitudeTest.Helper;
 using WebOnlineAptitudeTest.Models.Entities;
 using WebOnlineAptitudeTest.Models.Infrastructure;
 using WebOnlineAptitudeTest.Models.Repositories.Interface;
@@ -99,6 +100,19 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
                 return View(model);
             }
             var result = _testScheduleRepository.InsertOrUpdate(model);
+
+            //Send Email 
+            foreach (var item in model.CandidateId)
+            {
+                var candi = _candidateRepository.GetSingleById(item);
+                string content = System.IO.File.ReadAllText(Server.MapPath("/Content/assets/backend/template/sendMailTestSchedule_template.html"));
+                content = content.Replace("{{StartDate}}", model.DateStart.ToString("MM/dd/yyyy HH:mm"));
+                content = content.Replace("{{EndDate}}", model.DateEnd.ToString("MM/dd/yyyy HH:mm"));
+                content = content.Replace("{{UserName}}", candi.UserName);
+                content = content.Replace("{{Password}}", candi.Password);
+                var adminEmail = ConfigHelper.GetByKey("AdminEmail");
+                MailHelper.SendMail(candi.Email, "Welcome mail and Online Aptitude Test", content);
+            }
 
             if (result == true)
             {

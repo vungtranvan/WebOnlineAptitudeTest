@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Xml.Linq;
+using WebOnlineAptitudeTest.Helper;
 using WebOnlineAptitudeTest.Models.Infrastructure;
 
 namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
@@ -22,6 +23,7 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
             ViewBag.CountAccountAdmin = _unitOfWork.DbContext.Admins.Where(x => x.Deleted == false).Count();
             ViewBag.CountCandidate = _unitOfWork.DbContext.Candidates.Where(x => x.Deleted == false).Count();
             ViewBag.CountQuestion = _unitOfWork.DbContext.Questions.Where(x => x.Deleted == false).Count();
+
             return View();
         }
     }

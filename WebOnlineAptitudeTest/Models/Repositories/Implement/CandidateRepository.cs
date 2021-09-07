@@ -23,7 +23,8 @@ namespace WebOnlineAptitudeTest.Models.Repositories.Implement
         {
             if (candidate.Id == 0)
             {
-                candidate.Password = candidate.Password.ToMD5();
+                // candidate.Password = candidate.Password.ToMD5();
+                candidate.Password = candidate.Password;
                 candidate.Status = EnumStatusCandidate.Undone;
                 candidate.CreatedDate = DateTime.Now;
                 candidate.Deleted = false;
@@ -49,7 +50,8 @@ namespace WebOnlineAptitudeTest.Models.Repositories.Implement
                 cadi.Image = candidate.Image;
                 if (candidate.Password != null)
                 {
-                    cadi.Password = candidate.Password.ToMD5();
+                    //cadi.Password = candidate.Password.ToMD5();
+                    cadi.Password = candidate.Password;
                 }
                 base.Update(cadi);
             }
