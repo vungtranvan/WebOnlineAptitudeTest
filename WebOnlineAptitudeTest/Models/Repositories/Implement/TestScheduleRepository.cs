@@ -239,5 +239,46 @@ namespace WebOnlineAptitudeTest.Models.Repositories.Implement
             }
             return lstCandidateId;
         }
+
+        public IEnumerable<dynamic> CountCandidate()
+        {
+
+            var abc = base.DbContext.TestSchedules
+                //.Where(a => a.DateStart > DateTime.Now && a.DateEnd < DateTime.Now)
+                .Join(base.DbContext.HistoryTests,
+                testSchedules => testSchedules.Id,
+                historyTests => historyTests.TestScheduleId,
+                (testSchedules, historyTests) => new
+                {
+                    testSchedules,
+                    historyTests
+                }
+           
+
+                )
+                //.Where(historyTests => historyTests.historyTests.PercentMark > 0)
+                .GroupBy(y => new { y.historyTests.CandidateId,y.testSchedules.Id })
+                .Select(x => new
+                {
+                    TestSchedulesId = x.FirstOrDefault().testSchedules.Id,
+                    TestSchedules = x.FirstOrDefault().testSchedules,
+                    HistoryTests = x.FirstOrDefault().testSchedules.HistoryTests
+
+                })
+                .GroupBy(z => z.TestSchedulesId)
+                .Select(z => new
+                {
+                    TestSchedulesId = z.FirstOrDefault().TestSchedulesId,
+                    TestSchedulesDateStart = z.FirstOrDefault().TestSchedules.DateStart,
+                    TestSchedulesDateEnd = z.FirstOrDefault().TestSchedules.DateEnd,
+
+                    CountCandidate = z.Count()
+                })
+
+
+                .ToList();
+
+            return abc;
+        }
     }
 }

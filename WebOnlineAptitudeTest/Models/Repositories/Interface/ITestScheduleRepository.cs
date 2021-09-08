@@ -19,6 +19,8 @@ namespace WebOnlineAptitudeTest.Models.Repositories.Interface
         void UpdateStatusTestSchedule();
 
         TestScheduleInsertOrUpdateRequest GetInsertOrUpdateRequest(int id);
+        IEnumerable<dynamic> CountCandidate();
+
 
         bool CheckStatus(int id);
     }
