@@ -287,7 +287,7 @@ namespace WebOnlineAptitudeTest.Controllers
 
             try
             {
-                var historyTest = this._historyTestRepository.GetSingleById(historyTestId);
+                var historyTest = this._historyTestRepository.Get(x=> x.Id == historyTestId && x.Deleted == false).FirstOrDefault();
                 if (historyTest.DateStartTest == null)
                 {
                     historyTest.DateStartTest = DateTime.Now;
