@@ -79,7 +79,8 @@
         /*direction: ltr;*/
     }
 
-.count-down {
+.count-down,
+.count-down-shedule {
     top: 50%;
     left: 50%;
     transform: translate(-50%,-50%);
@@ -179,11 +180,13 @@
     }
 
     .top-bar-time {
-        width: calc(70% - 15px);
+        width: 100%;
+        margin-top:12px;
     }
 
     .top-bar-submit {
-        width: 30%;
+        width: 100%;
+
     }
 
     .top-bar-question {
@@ -206,6 +209,12 @@
     }
     .app {
         padding-bottom:0px;
+    }
+    .modal__content {
+        overflow:auto;
+    }
+    .score-modal {
+        width: 800px;
     }
 }
 

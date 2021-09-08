@@ -1,11 +1,9 @@
-﻿@{
-    ViewBag.Title = "Home Page";
-}
+﻿﻿@{ ViewBag.Title = "Home Page"; }
 
 <div class="top-bar  bg-theme-2">
 
     <!-- BEGIN: Breadcrumb -->
-    <div class="top-bar-question align-middle bg-gray-400 rounded">
+    <div class="top-bar-question align-middle bg-gray-400 rounded relative">
 
     </div>
 
@@ -15,9 +13,18 @@
         </div>
     </div>
 
-    <div class="top-bar-time align-middle bg-yellow-600 rounded relative">
-        <div class="w-full count-down-percent h-full bg-theme-1 rounded flex justify-center align-middle "></div>
-        <p class="rounded count-down h-auto text-lg text-white absolute">00:00</p>
+    <div class="top-bar-time ">
+        @*<div>
+        a
+           </div>*@
+        <div class="align-middle bg-yellow-600 rounded relative w-full h-full">
+            <div class="w-full count-down-percent h-full bg-theme-1 rounded flex justify-center align-middle "></div>
+            <p class="rounded count-down h-auto text-lg text-white absolute">00:00</p>
+        </div>
+        <div class="align-middle bg-yellow-600 rounded relative w-full h-full">
+            <div class="w-full count-down-percent-shedule h-full bg-theme-6 rounded flex justify-center align-middle "></div>
+            <p class="rounded count-down-shedule h-auto text-lg text-white absolute">00:00</p>
+        </div>
     </div>
     <!-- END: Breadcrumb -->
 </div>
@@ -29,17 +36,14 @@
     <script>
 
 
-
-
         $(function () {
+
 
 
             let checkQuestUrl = '@Url.Action("CheckQuest", "Home")';
             let startQuestQuestUrl = '@Url.Action("StartQuest", "Home")';
             let createQuestQuestUrl = '@Url.Action("CreateQuest", "Home")';
-            let seconnd = 0;
-            let minute = 0;
-            let seconndShow = 0;
+
             let countdown = 0;
             let historyTestId = -1;
             let confirmUrl = '@Url.Action("ConfirmTest", "Home")';
@@ -85,21 +89,26 @@
                 ajax('{ resultQuest : ' + JSON.stringify(resultQuest) +
                     `, historyTestId: "` + historyTestId + `"}`, confirmUrl, function (data) {
 
-
                         switch (data.Status) {
-                            case "TestScheduleEnd":
-                                showAlertModal('Your exam expiration<br/> Call the examiner', "schedule-ended");
+                            //case "TestScheduleEnd":
+                            //    showAlertModal('Your exam expiration<br/> Call the examiner', "schedule-ended");
 
-                                $('#modal-previewAlert-schedule-ended').off('click').on('click', function (e) {
-                                    window.location = '/logout';
-                                });
-                                break;
+                            //    $('#modal-previewAlert-schedule-ended').off('click').on('click', function (e) {
+                            //        window.location = '/logout';
+                            //    });
+                            //    break;
                             default:
+                                let timespent = Math.floor(data.TotalTime / 60) + ":" + (data.TotalTime - (Math.floor(data.TotalTime / 60) * 60) + 1);
                                 if (timeout != false) {
-                                    showAlertModal(timeout + 'is Time out', "success");
+                                    
+                                    let timeoutAlert = `<h5 class="text-lg text-theme-12 font-medium leading-none mt-3">Spent ` + timeout+ ` is timeout</h5>
+                                            <h5 class="text-lg text-theme-12 font-medium leading-none mt-3">Spent ` + timespent + 2 + `s</h5>
+                                            <h5 class="text-lg text-theme-6 font-medium leading-none mt-3">Corect mark(s) `+ data.CorectMark + `/` + data.TotalMark + `</h5>
+                                               <h5 class="text-2xl text-theme-9 font-medium leading-none mt-3"> Your score `+ data.PercentMark + `%</h5>`;
+                                    showAlertModal(timeoutAlert, "success");
 
                                 } else {
-                                    let timespent = Math.floor(data.TotalTime / 60) + ":" + (data.TotalTime - (Math.floor(data.TotalTime / 60) * 60 )-1);
+                                  
                                     let successAlert = `<h5 class="text-lg text-theme-12 font-medium leading-none mt-3">Spent `+timespent+`s</h5>
                                             <h5 class="text-lg text-theme-6 font-medium leading-none mt-3">Corect mark(s) `+ data.CorectMark + `/` + data.TotalMark + `</h5>
                                                <h5 class="text-2xl text-theme-9 font-medium leading-none mt-3"> Your score `+ data.PercentMark + `%</h5>`;
@@ -123,7 +132,7 @@
             //create quest
             function createQuest(CandidateId) {
                 ajax(`{ CandidateId: ` + CandidateId + `}`, checkQuestUrl, function (res) {
-                    console.log(res);
+                 
                     let endDate = new Date(parseInt(res.testScheduleEndValue.replace('/Date(', '')));
                     let startDate = new Date(parseInt(res.testScheduleStartValue.replace('/Date(', '')));
 
@@ -258,7 +267,7 @@
                                     let content = ``;
                                     let menu = ``;
                                     let menumobile = ``;
-                                    console.log(resQuestContent);
+                                    
                                     $.each(resQuestContent.data, function (i, q) {
                                         //add content
                                         content += `
@@ -326,12 +335,14 @@
                                     $("#sidemenu_mobile_content_" + res.currentCategoryId).html(menumobile);
 
 
-                                    console.log(historyTestId);
+                                
                                     historyTestId = res.historyTestId;
-                                    console.log(historyTestId);
+                                  
 
                                     createMenu(res.currentCategoryId);
-                                    checkTime(res.timeSecond);
+                                    console.log(res);
+                                    let sheduleEnd = new Date(parseInt(res.testScheduleEndValue.replace('/Date(', '')));
+                                    checkTime(res.timeSecond, sheduleEnd);
 
                                 })
                             }
@@ -363,45 +374,108 @@
                             htmlOver += `<table/>`;
                             $('#modal-previewAlert-all-over').off('click').on('click', function (e) {
                                 window.location = '/logout';
+                            });
 
-                 countdown = setInterval(countDown, 1000);
+                            break;
+                    }
+                    });
+
+
+            };
+
+            function createMenu(id) {
+
+                let clear =  $(".memu-with-child");
+
+                clear.removeClass("side-menu-with-child-open");
+                clear.find(".side-menu").removeClass("side-menu--open side-menu--active side-menu-x");
+                clear.find(".side-menu").attr("onclick", "");
+
+
+                clear.find("ul").removeClass("side-menu__sub-open");
+                clear.find("ul").css("display", "none");
+
+                let element = $(".sidemenu_" + id);
+
+                element.addClass("side-menu-with-child-open");
+                element.find(".side-menu").addClass("side-menu--open side-menu--active side-menu-x");
+                element.find(".side-menu").attr("onclick","sideMenu(this)");
+
+
+                element.find("ul").addClass("side-menu__sub-open");
+                element.find("ul").css("display", "block");
+
+            }
+
+
+            let endtime;
+            let shedulelasttime;
+            function checkTime(seconndlast,shedulelast) {
+                clearInterval(countdown);
+ 
+                endtime = new Date($.now());
+                endtime.setSeconds(endtime.getSeconds() + seconndlast);
+                shedulelasttime = shedulelast;
+                let sheduleTimeProsess = Math.floor((shedulelasttime - new Date($.now())) / 1000);
+                countdown = setInterval(countDown, 500);
 
                 $(".count-down-percent").css("width", "100%");
 
                 $(".count-down-percent").css("-webkit-animation", "none");
 
                 setTimeout(function () {
-                    $('.count-down-percent').css("-webkit-animation", seconnd + "s" + " linear 0s 1 normal backwards running countdown");
+                    $('.count-down-percent').css("-webkit-animation", seconndlast + "s" + " linear 0s 1 normal backwards running countdown");
                 }, 10);
 
-                            }
+                console.log(sheduleTimeProsess)
+                if (sheduleTimeProsess < 900) {
+                    $(".count-down-percent").parent().css("top", "-16px");
+                    $(".count-down-percent-shedule").parent().css("top", "-10px");
 
-            function countDown() {
-                let timeShow = [];
+                    $(".count-down-percent-shedule").css("width", "100%");
 
+                    $(".count-down-percent-shedule").css("-webkit-animation", "none");
 
-                timeShow[1] = (seconndShow.toString().length == 1) ? ("0" + seconndShow.toString()) : seconndShow.toString();
-
-                seconndShow = seconndShow - 1;
-
-                if (seconndShow < 0) {
-                    seconndShow = 59;
-                    minute = minute - 1;
-                    timeShow[0] = minute;
-
-                    //console.log(minute);
-                    if (minute < 0) {
-                        minute = 0;
-                        submitForm($(".side-menu.side-menu--open .side-menu__title").html().toString());
-                    }
+                    setTimeout(function () {
+                        $('.count-down-percent-shedule').css("-webkit-animation", sheduleTimeProsess + "s" + " linear 0s 1 normal backwards running countdown");
+                    }, 10);
                 }
 
-                timeShow[0] = (minute.toString().length == 1) ? ("0" + minute.toString()) : minute.toString();
 
+            }
+            function countDown() {
+                let timeShow = [];
+                let timeSheduleShow = [];
+                let seconndCount = Math.floor((endtime - new Date($.now())) / 1000);
+                let minuteShow = Math.floor(seconndCount / 60);
+                let secondShow =  seconndCount - minuteShow * 60;
+
+                timeShow[1] = (secondShow.toString().length == 1) ? ("0" + secondShow.toString()) : secondShow.toString();
+                timeShow[0] = (minuteShow.toString().length == 1) ? ("0" + minuteShow.toString()) : minuteShow.toString();
+
+                if (seconndCount < 0) {
+                    submitForm($(".side-menu.side-menu--open .side-menu__title").html().toString());
+                }
+
+
+                let sheduleTimeCount = Math.floor((shedulelasttime - new Date($.now())) / 1000);
+
+                let minuteSheduleShow = Math.floor(sheduleTimeCount / 60);
+                let secondSheduleShow = sheduleTimeCount - minuteSheduleShow * 60;
+
+                timeSheduleShow[1] = (secondSheduleShow.toString().length == 1) ? ("0" + secondSheduleShow.toString()) : secondSheduleShow.toString();
+                timeSheduleShow[0] = (minuteSheduleShow.toString().length == 1) ? ("0" + minuteSheduleShow.toString()) : minuteSheduleShow.toString();
+
+                if (sheduleTimeCount < 0) {
+                    submitForm($(".side-menu.side-menu--open .side-menu__title").html().toString());
+                }
+                //console.log(timeSheduleShow.join(":"));
+                //console.log(sheduleTimeCount);
                 $(".count-down").html(timeShow.join(":"));
 
-
-
+                if (sheduleTimeCount < 900) {
+                    $(".count-down-shedule").html("Shedule End " + timeSheduleShow.join(":"));
+                } 
 
             };
 
@@ -438,7 +512,9 @@
             if (idname == "all-over") {
                 modal.find(".modal__content").addClass("modal__content--xl");
                 modal.find("svg").remove();
+                modal.find(".p-5.text-center").addClass("score-modal");
                 modal.find(".p-5.text-center").removeClass("text-center");
+
 
             }
 
