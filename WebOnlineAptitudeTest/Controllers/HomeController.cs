@@ -166,7 +166,7 @@ namespace WebOnlineAptitudeTest.Controllers
         public ActionResult CheckQuest(int CandidateId)
         {
 
-            var historyTest = this._historyTestRepository.Get(x => x.CandidateId == CandidateId).OrderBy(x => x.CategoryExamId);
+            var historyTest = this._historyTestRepository.Get(x => x.CandidateId == CandidateId && x.Deleted == false).OrderBy(x => x.CategoryExamId);
             var historyTestId = 0;
             var lastSeconds = 0;
             var status = "";
