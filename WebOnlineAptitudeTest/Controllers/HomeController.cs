@@ -64,13 +64,13 @@ namespace WebOnlineAptitudeTest.Controllers
                 var checktime = (int)(historyTest.CategoryExam.TimeTest * 60) - (int)(DateTime.Now - historyTest.DateStartTest.Value).TotalSeconds + 30;
                 var testSchedule = this._testScheduleRepository.GetSingleById(historyTest.TestScheduleId);
 
-                if (testSchedule.DateEnd < DateTime.Now)
-                {
-                    return Json(new
-                    {
-                        Status = "TestScheduleEnd"
-                    }, JsonRequestBehavior.AllowGet);
-                }
+                //if (testSchedule.DateEnd.AddSeconds(30) < DateTime.Now)
+                //{
+                //    return Json(new
+                //    {
+                //        Status = "TestScheduleEnd"
+                //    }, JsonRequestBehavior.AllowGet);
+                //}
 
                 if (checktime >= 0 && historyTest.DateEndTest == null)
                 {
