@@ -212,10 +212,12 @@
     <Compile Include="Areas\Admin\Controllers\MenusController.cs" />
     <Compile Include="Areas\Admin\Controllers\QuestionController.cs" />
     <Compile Include="Areas\Admin\Controllers\TransferController.cs" />
+    <Compile Include="Areas\Admin\Data\Model\Charts\CandidateChartViewModel.cs" />
     <Compile Include="Areas\Admin\Data\Model\HisToryTests\HistoryTestViewModel.cs" />
     <Compile Include="Areas\Admin\Data\Model\Pagings\PagingModel.cs" />
     <Compile Include="Areas\Admin\Data\Model\TestSchedules\TestScheduleInsertOrUpdateRequest.cs" />
     <Compile Include="Areas\Admin\Data\Model\TestSchedules\TestScheduleViewModel.cs" />
+    <Compile Include="Areas\Admin\Data\Model\ToTalRecordTables.cs" />
     <Compile Include="Areas\Admin\Data\Model\User\LoginRequest.cs" />
     <Compile Include="Areas\Admin\Data\Model\User\ResetPasswordResult.cs" />
     <Compile Include="Controllers\AuthFrontendController.cs" />

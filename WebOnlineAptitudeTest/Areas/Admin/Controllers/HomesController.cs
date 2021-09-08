@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Xml.Linq;
+using WebOnlineAptitudeTest.Areas.Admin.Data.Model;
+using WebOnlineAptitudeTest.Areas.Admin.Data.Model.Charts;
 using WebOnlineAptitudeTest.Helper;
 using WebOnlineAptitudeTest.Models.Infrastructure;
 
@@ -19,12 +22,22 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
 
         public ActionResult Index()
         {
-            ViewBag.CountTestSchedule = _unitOfWork.DbContext.TestSchedules.Where(x => x.Deleted == false).Count();
-            ViewBag.CountAccountAdmin = _unitOfWork.DbContext.Admins.Where(x => x.Deleted == false).Count();
-            ViewBag.CountCandidate = _unitOfWork.DbContext.Candidates.Where(x => x.Deleted == false).Count();
-            ViewBag.CountQuestion = _unitOfWork.DbContext.Questions.Where(x => x.Deleted == false).Count();
+            var model = _unitOfWork.DbContext.Database.SqlQuery<ToTalRecordTables>("EXEC PROC_CalcCountElementTable").FirstOrDefault();
+            return View(model);
+        }
 
-            return View();
+        [HttpGet]
+        public JsonResult LoadStatusCandi()
+        {
+            _unitOfWork.DbContext.Configuration.ProxyCreationEnabled = false;
+            var result = _unitOfWork.DbContext.Database.SqlQuery<CandidateChartViewModel>("EXEC PROC_CalcCountStatusCandidateByGruop");
+
+            var json = Json(new
+            {
+                data = result
+            }, JsonRequestBehavior.AllowGet);
+            json.MaxJsonLength = Int32.MaxValue;
+            return json;
         }
     }
 }

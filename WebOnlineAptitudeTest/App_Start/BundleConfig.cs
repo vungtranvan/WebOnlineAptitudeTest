@@ -39,6 +39,7 @@ namespace WebOnlineAptitudeTest
                     "~/Content/assets/backend/plugins/assets/extra-libs/jvector/jquery-jvectormap-2.0.2.min.js",
                     "~/Content/assets/backend/plugins/assets/extra-libs/jvector/jquery-jvectormap-world-mill-en.js",
                     "~/Content/assets/backend/plugins/dist/js/pages/dashboards/dashboard1.min.js",
+                    "~/Content/assets/backend/plugins/assets/libs/chart.js/dist/Chart.min.js",
                     "~/Scripts/toastr.min.js",
                     "~/Content/assets/backend/dist/js/config-toastrJs.js",
                     "~/CKFinderScripts/ckfinder.js")

@@ -88,7 +88,6 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
 
             #region Validate data input
             var checkEmail = _candidateRepository.CheckContains(c => c.Email.Equals(candidate.Email));
-            var checkPhone = _candidateRepository.CheckContains(c => c.Phone.Equals(candidate.Phone));
             var checkUserName = _candidateRepository.CheckContains(c => c.UserName.Equals(candidate.UserName));
 
             if (idCandi == 0)
@@ -98,8 +97,7 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
 
                 if (checkEmail)
                     ModelState.AddModelError("Email", "Email already exists !!!");
-                if (checkPhone && candidate.Phone != null)
-                    ModelState.AddModelError("Phone", "Phone already exists !!!");
+                
                 if (checkUserName)
                     ModelState.AddModelError("UserName", "UserName already exists !!!");
             }
@@ -112,11 +110,7 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
 
                 if (checkEmail && !candi.Email.Equals(candidate.Email))
                     ModelState.AddModelError("Email", "Email already exists !!!");
-                if (candi.Phone != null)
-                {
-                    if (checkPhone)
-                        ModelState.AddModelError("Phone", "Phone already exists !!!");
-                }
+
                 if (checkUserName && !candi.UserName.Equals(candidate.UserName))
                     ModelState.AddModelError("UserName", "UserName already exists !!!");
             }
