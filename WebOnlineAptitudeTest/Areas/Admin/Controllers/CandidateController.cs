@@ -11,11 +11,13 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
     public class CandidateController : BaseController
     {
         private readonly ICandidateRepository _candidateRepository;
+        private readonly IHistoryTestRepository _historyTestRepository;
         private readonly IUnitOfWork _unitOfWork;
 
-        public CandidateController(ICandidateRepository candidateRepository, IUnitOfWork unitOfWork)
+        public CandidateController(ICandidateRepository candidateRepository, IHistoryTestRepository historyTestRepository, IUnitOfWork unitOfWork)
         {
             _candidateRepository = candidateRepository;
+            _historyTestRepository = historyTestRepository;
             _unitOfWork = unitOfWork;
         }
 
@@ -23,6 +25,7 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult Index()
         {
+            _historyTestRepository.UpdateStatusCandidateAndHistoryTest();
             ViewBag.ListpageSize = new List<int>() { 10, 15, 20, 50, 100 };
             return View();
         }

@@ -18,13 +18,15 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
     public class TestScheduleController : BaseController
     {
         private readonly ITestScheduleRepository _testScheduleRepository;
+        private readonly IHistoryTestRepository _historyTestRepository;
         private readonly ICandidateRepository _candidateRepository;
         private readonly IUnitOfWork _unitOfWork;
 
-        public TestScheduleController(ITestScheduleRepository testScheduleRepository,
+        public TestScheduleController(ITestScheduleRepository testScheduleRepository, IHistoryTestRepository historyTestRepository,
             ICandidateRepository candidateRepository, IUnitOfWork unitOfWork)
         {
             _testScheduleRepository = testScheduleRepository;
+            _historyTestRepository = historyTestRepository;
             _candidateRepository = candidateRepository;
             _unitOfWork = unitOfWork;
         }
@@ -32,6 +34,7 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult Index()
         {
+            _historyTestRepository.UpdateStatusCandidateAndHistoryTest();
             ViewBag.ListpageSize = new List<int>() { 5, 10, 15, 20, 50, 100 };
             return View();
         }

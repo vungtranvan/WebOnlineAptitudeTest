@@ -132,10 +132,11 @@ namespace WebOnlineAptitudeTest.Models.Repositories.Implement
 
         public void UpdateStatusCandidateAndHistoryTest()
         {
-            var lstCandi = _candidateRepository.GetMulti(x => x.Deleted == false && x.Status == EnumStatusCandidate.Scheduled, new string[] { "HistoryTests" });
+            var lstCandi = _candidateRepository.GetMulti(x => x.Deleted == false && (x.Status == EnumStatusCandidate.Scheduled || x.Status == EnumStatusCandidate.InProgress), new string[] { "HistoryTests" });
 
             UpdateCandidateDone(lstCandi);
             UpdateCandidateQuit(lstCandi);
+            _unitOfWork.Commit();
         }
 
         private void UpdateCandidateDone(IEnumerable<Candidate> lstCandi)
@@ -159,13 +160,9 @@ namespace WebOnlineAptitudeTest.Models.Repositories.Implement
             {
                 var lstDataUndone = base.GetMulti(x => x.Deleted == false && x.CandidateId.Equals(item.Id) && x.Status == EnumStatusHistoryTest.Undone
                           && x.TestSchedule.DateEnd < DateTime.Now, new string[] { "TestSchedule" });
-                foreach (var h in lstDataUndone)
+                if (lstDataUndone.Where(y => y.DateStartTest == null).Count() == 3)
                 {
-                    if (item.HistoryTests.Where(y => y.DateStartTest == null).Count() > 3)
-                    {
-                        item.Status = EnumStatusCandidate.Quit;
-                    }
-
+                    item.Status = EnumStatusCandidate.Quit;
                 }
             }
         }
