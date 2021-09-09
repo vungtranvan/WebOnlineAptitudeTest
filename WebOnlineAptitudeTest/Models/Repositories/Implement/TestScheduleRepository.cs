@@ -245,7 +245,9 @@ namespace WebOnlineAptitudeTest.Models.Repositories.Implement
 
             var abc = base.DbContext.TestSchedules
                 //.Where(a => a.DateStart > DateTime.Now && a.DateEnd < DateTime.Now)
-                .Join(base.DbContext.HistoryTests,
+                .Join(base.DbContext.HistoryTests
+                //.Where(historyTests => historyTests.historyTests.PercentMark > 0)
+                ,
                 testSchedules => testSchedules.Id,
                 historyTests => historyTests.TestScheduleId,
                 (testSchedules, historyTests) => new
@@ -254,7 +256,7 @@ namespace WebOnlineAptitudeTest.Models.Repositories.Implement
                     historyTests
                 }
                 )
-                //.Where(historyTests => historyTests.historyTests.PercentMark > 0)
+               
                 .GroupBy(y => new { y.historyTests.CandidateId, y.testSchedules.Id })
                 .Select(x => new
                 {
@@ -272,7 +274,7 @@ namespace WebOnlineAptitudeTest.Models.Repositories.Implement
 
                     CountCandidate = z.Count(),
 
-                    CountCandidatePass = z.FirstOrDefault().TestSchedules.HistoryTests
+                    CountCandidateSuccess = z.FirstOrDefault().TestSchedules.HistoryTests
                     .GroupBy(b => new { b.TestScheduleId, b.CandidateId })
                     .Where(c => c.All(d => d.DateEndTest != null)).Select(m => new
                     {
@@ -291,6 +293,27 @@ namespace WebOnlineAptitudeTest.Models.Repositories.Implement
                         Count = m.Count()
                     }
                     ),
+
+                    CountCandidatePass = z.FirstOrDefault().TestSchedules.HistoryTests
+                    .GroupBy(b => new { b.TestScheduleId, b.CandidateId })
+                    .Where(c => c.All(d => d.DateEndTest != null) && c.FirstOrDefault().TestSchedule.HistoryTests.Where(o => o.CandidateId == c.FirstOrDefault().CandidateId && o.TestScheduleId == c.FirstOrDefault().TestScheduleId).Sum(n => n.PercentMark) / 3 >= 80).Select(m => new
+                    {
+                        CandidateId = m.FirstOrDefault().CandidateId,
+                        Candidate = m.FirstOrDefault().Candidate,
+                        Count = m.Count(),
+                        Mark = m.FirstOrDefault().TestSchedule.HistoryTests.Where(o => o.CandidateId == m.FirstOrDefault().CandidateId && o.TestScheduleId == m.FirstOrDefault().TestScheduleId).Sum(n => n.PercentMark)/3,
+                    }),
+
+                    CountCandidateNotPass = z.FirstOrDefault().TestSchedules.HistoryTests
+                    .GroupBy(b => new { b.TestScheduleId, b.CandidateId })
+                    .Where(c => c.All(d => d.DateEndTest != null) && c.FirstOrDefault().TestSchedule.HistoryTests.Where(o => o.CandidateId == c.FirstOrDefault().CandidateId && o.TestScheduleId == c.FirstOrDefault().TestScheduleId).Sum(n => n.PercentMark) / 3 < 80).Select(m => new
+                    {
+                        CandidateId = m.FirstOrDefault().CandidateId,
+                        Candidate = m.FirstOrDefault().Candidate,
+                        Count = m.Count(),
+                        Mark = m.FirstOrDefault().TestSchedule.HistoryTests.Where(o => o.CandidateId == m.FirstOrDefault().CandidateId && o.TestScheduleId == m.FirstOrDefault().TestScheduleId).Sum(n => n.PercentMark) / 3,
+                    }),
+
                 })
                 .ToList();
 
