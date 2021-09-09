@@ -240,6 +240,10 @@ namespace WebOnlineAptitudeTest.Controllers
                     {
                         candidate.Status = EnumStatusCandidate.Done;
                     }
+                    else
+                    {
+                        candidate.Status = EnumStatusCandidate.Undone;
+                    }
 
                     this._candidateRepository.Update(candidate);
                     this._unitOfWork.Commit();

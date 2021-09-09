@@ -131,19 +131,23 @@
                     let dataChart = [];
 
                     $.each(response.data, function (i, item) {
+
                         if (item.Status == 0) {
-                            labelChart.push('Undone');
+                            labelChart.push('New');
                             backgroundColorChart.push('rgb(54, 162, 235)');
                         } else if (item.Status == 1) {
+                            labelChart.push('Undone');
+                            backgroundColorChart.push('#AAA');
+                        } else if (item.Status == 2) {
                             labelChart.push('Scheduled');
                             backgroundColorChart.push('rgb(255, 205, 86)');
-                        } else if (item.Status == 2) {
+                        } else if (item.Status == 3) {
                             labelChart.push('InProgress');
                             backgroundColorChart.push('rgb(201, 203, 207)');
-                        } else if (item.Status == 3) {
+                        } else if (item.Status == 4) {
                             labelChart.push('Done');
                             backgroundColorChart.push('rgb(75, 192, 192)');
-                        } else if (item.Status == 4) {
+                        } else if (item.Status == 5) {
                             labelChart.push('Quit');
                             backgroundColorChart.push('rgb(255, 99, 132)');
                         }

@@ -32,7 +32,7 @@ namespace WebOnlineAptitudeTest.Models.Repositories.Implement
             {
                 if (!string.IsNullOrEmpty(keyword))
                 {
-                    lstHistoryTest = _candidateRepository.GetMulti(x => x.Deleted == false && x.Status != EnumStatusCandidate.Undone
+                    lstHistoryTest = _candidateRepository.GetMulti(x => x.Deleted == false && x.Status != EnumStatusCandidate.New
                                      && (x.Name.Contains(keyword) || x.UserName.Contains(keyword))
                                      && x.HistoryTests.Where(y => y.TestScheduleId.Equals(idTeschedule)).Count() > 0, new string[] { "HistoryTests" })
                                     .Select(c => new Candidate()
@@ -49,7 +49,7 @@ namespace WebOnlineAptitudeTest.Models.Repositories.Implement
                 }
                 else
                 {
-                    lstHistoryTest = _candidateRepository.GetMulti(x => x.Deleted == false && x.Status != EnumStatusCandidate.Undone
+                    lstHistoryTest = _candidateRepository.GetMulti(x => x.Deleted == false && x.Status != EnumStatusCandidate.New
                     && x.HistoryTests.Where(y => y.TestScheduleId.Equals(idTeschedule)).Count() > 0, new string[] { "HistoryTests" })
                         .Select(c => new Candidate()
                         {
@@ -68,7 +68,7 @@ namespace WebOnlineAptitudeTest.Models.Repositories.Implement
             {
                 if (!string.IsNullOrEmpty(keyword))
                 {
-                    lstHistoryTest = _candidateRepository.GetMulti(x => x.Deleted == false && x.Status != EnumStatusCandidate.Undone
+                    lstHistoryTest = _candidateRepository.GetMulti(x => x.Deleted == false && x.Status != EnumStatusCandidate.New
                     && (x.Name.Contains(keyword) || x.UserName.Contains(keyword)), new string[] { "HistoryTests" })
                         .Select(c => new Candidate()
                         {
@@ -84,7 +84,7 @@ namespace WebOnlineAptitudeTest.Models.Repositories.Implement
                 }
                 else
                 {
-                    lstHistoryTest = _candidateRepository.GetMulti(x => x.Deleted == false && x.Status != EnumStatusCandidate.Undone, new string[] { "HistoryTests" }).Select(c => new Candidate()
+                    lstHistoryTest = _candidateRepository.GetMulti(x => x.Deleted == false && x.Status != EnumStatusCandidate.New, new string[] { "HistoryTests" }).Select(c => new Candidate()
                     {
                         Id = c.Id,
                         Name = c.Name,
@@ -124,7 +124,7 @@ namespace WebOnlineAptitudeTest.Models.Repositories.Implement
 
             // Update Status Candidate
             var candi = _candidateRepository.GetSingleById(candidateId);
-            candi.Status = EnumStatusCandidate.Undone;
+            candi.Status = EnumStatusCandidate.New;
 
             _unitOfWork.Commit();
             return true;
@@ -147,8 +147,17 @@ namespace WebOnlineAptitudeTest.Models.Repositories.Implement
                                && x.TestSchedule.DateEnd < DateTime.Now, new string[] { "TestSchedule" });
                 foreach (var h in lstDataInProgress)
                 {
-                    h.Status = EnumStatusHistoryTest.Done;
-                    item.Status = EnumStatusCandidate.Done;
+
+                    if (h.DateEndTest != null)
+                    {
+                        h.Status = EnumStatusHistoryTest.Done;
+                        item.Status = EnumStatusCandidate.Done;
+                    }
+                    else
+                    {
+                        h.Status = EnumStatusHistoryTest.Undone;
+                        item.Status = EnumStatusCandidate.Undone;
+                    }
                 }
             }
             base.DbContext.SaveChanges();
@@ -160,9 +169,14 @@ namespace WebOnlineAptitudeTest.Models.Repositories.Implement
             {
                 var lstDataUndone = base.GetMulti(x => x.Deleted == false && x.CandidateId.Equals(item.Id) && x.Status == EnumStatusHistoryTest.Undone
                           && x.TestSchedule.DateEnd < DateTime.Now, new string[] { "TestSchedule" });
-                if (lstDataUndone.Where(y => y.DateStartTest == null).Count() == 3)
+                var countLst = lstDataUndone.Where(y => y.DateStartTest == null).Count();
+                if (countLst == 3)
                 {
                     item.Status = EnumStatusCandidate.Quit;
+                }
+                else if (countLst == 1 || countLst == 2)
+                {
+                    item.Status = EnumStatusCandidate.Undone;
                 }
             }
         }
