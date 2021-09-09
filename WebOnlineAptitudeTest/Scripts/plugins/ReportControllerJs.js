@@ -16,6 +16,15 @@ var reportController = {
             reportController.loadData(true);
         });
 
+        $('#FromDate').off('change').on('change', function () {
+            reportConfig.fromDate = $(this).val();
+            reportController.loadData(true);
+        });
+
+        $('#ToDate').off('change').on('change', function () {
+            reportConfig.toDate = $(this).val();
+            reportController.loadData(true);
+        });
     },
     loadData: function (changePageSize) {
         $.ajax({
@@ -51,7 +60,7 @@ var reportController = {
 
                     $('#tblDataReport').html(html);
 
-                    if (response.data.length == 0) {
+                    if (data.length == 0) {
                         $('#tableReport').hide();
                         $('.textEmpty').show();
                     } else {

@@ -10,7 +10,7 @@ using WebOnlineAptitudeTest.Models.Repositories.Interface;
 
 namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
 {
-    public class ReportController : Controller
+    public class ReportController : BaseController
     {
         private readonly ITestScheduleRepository _testScheduleRepository;
         private readonly IUnitOfWork _unitOfWork;

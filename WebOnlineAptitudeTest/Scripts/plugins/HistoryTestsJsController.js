@@ -159,7 +159,7 @@ var historyController = {
 
                     $('#questTableContent').html(html);
 
-                    if (response.data.length == 0) {
+                    if (data.length == 0) {
                         $('#tableQuestion').hide();
                         $('.textEmpty').show();
                     } else {

@@ -83,7 +83,7 @@ var transferController = {
 
                     $('#tblDataCandidate').html(html);
 
-                    if (response.data.length == 0) {
+                    if (data.length == 0) {
                         $('#tableCandidate').hide();
                         $('.textEmpty').show();
                     } else {
