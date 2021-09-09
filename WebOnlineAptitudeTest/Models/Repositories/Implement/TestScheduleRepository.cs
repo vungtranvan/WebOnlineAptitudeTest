@@ -243,81 +243,60 @@ namespace WebOnlineAptitudeTest.Models.Repositories.Implement
         public IEnumerable<dynamic> CountCandidate()
         {
 
-            return  base.DbContext.TestSchedules
+            var abc = base.DbContext.TestSchedules
                 //.Where(a => a.DateStart > DateTime.Now && a.DateEnd < DateTime.Now)
                 .Join(base.DbContext.HistoryTests
-                //.Where(historyTests => historyTests.historyTests.PercentMark > 0)
+                 //.Where(historyTests => historyTests.historyTests.PercentMark > 0)
                 ,
                 testSchedules => testSchedules.Id,
                 historyTests => historyTests.TestScheduleId,
                 (testSchedules, historyTests) => new
                 {
                     testSchedules,
-                    historyTests
+                    hisCandidateId = historyTests.CandidateId
                 }
                 )
                
-                .GroupBy(y => new { y.historyTests.CandidateId, y.testSchedules.Id })
+                .GroupBy(y => new { y.hisCandidateId, y.testSchedules.Id })
                 .Select(x => new
                 {
                     TestSchedulesId = x.FirstOrDefault().testSchedules.Id,
                     TestSchedules = x.FirstOrDefault().testSchedules,
                     HistoryTests = x.FirstOrDefault().testSchedules.HistoryTests
 
+
                 })
                 .GroupBy(z => z.TestSchedulesId)
+                .Select(z => new {
+                TestSchedules =  z.FirstOrDefault().TestSchedules,
+                CountCandidateAll = z.Count(),
+                GroupCandinade = z.FirstOrDefault().HistoryTests
+                    .GroupBy(b => new { b.TestScheduleId, b.CandidateId })
+                })
                 .Select(z => new
                 {
-                    TestSchedulesId = z.FirstOrDefault().TestSchedulesId,
-                    TestSchedulesDateStart = z.FirstOrDefault().TestSchedules.DateStart,
-                    TestSchedulesDateEnd = z.FirstOrDefault().TestSchedules.DateEnd,
+                    TestSchedulesId = z.TestSchedules.Id,
+                    TestSchedulesDateStart = z.TestSchedules.DateStart,
+                    TestSchedulesDateEnd = z.TestSchedules.DateEnd,
 
-                    CountCandidate = z.Count(),
+                    CountCandidate = z.CountCandidateAll,
 
-                    CountCandidateSuccess = z.FirstOrDefault().TestSchedules.HistoryTests
-                    .GroupBy(b => new { b.TestScheduleId, b.CandidateId })
-                    .Where(c => c.All(d => d.DateEndTest != null)).Select(m => new
-                    {
-                        CandidateId = m.FirstOrDefault().CandidateId,
-                        Candidate = m.FirstOrDefault().Candidate,
-                        Count = m.Count()
-                    }
-                   ),
+                    CountCandidateSuccess = z.GroupCandinade
+                    .Where(c => c.All(d => d.DateEndTest != null)).Count(),
 
-                    CountCandidateOut = z.FirstOrDefault().TestSchedules.HistoryTests
-                    .GroupBy(b => new { b.TestScheduleId, b.CandidateId })
-                    .Where(c => c.Any(d => d.DateEndTest == null)).Select(m => new
-                    {
-                        CandidateId = m.FirstOrDefault().CandidateId,
-                        Candidate = m.FirstOrDefault().Candidate,
-                        Count = m.Count()
-                    }
-                    ),
+                    CountCandidateOut = z.GroupCandinade
+                    .Where(c => c.Any(d => d.DateEndTest == null)).Count(),
 
-                    CountCandidatePass = z.FirstOrDefault().TestSchedules.HistoryTests
-                    .GroupBy(b => new { b.TestScheduleId, b.CandidateId })
-                    .Where(c => c.All(d => d.DateEndTest != null) && c.FirstOrDefault().TestSchedule.HistoryTests.Where(o => o.CandidateId == c.FirstOrDefault().CandidateId && o.TestScheduleId == c.FirstOrDefault().TestScheduleId).Sum(n => n.PercentMark) / 3 >= 80).Select(m => new
-                    {
-                        CandidateId = m.FirstOrDefault().CandidateId,
-                        Candidate = m.FirstOrDefault().Candidate,
-                        Count = m.Count(),
-                        Mark = m.FirstOrDefault().TestSchedule.HistoryTests.Where(o => o.CandidateId == m.FirstOrDefault().CandidateId && o.TestScheduleId == m.FirstOrDefault().TestScheduleId).Sum(n => n.PercentMark)/3,
-                    }),
+                    CountCandidatePass = z.GroupCandinade
+                    .Where(c => c.All(d => d.DateEndTest != null) && c.Where(o => o.CandidateId == c.FirstOrDefault().CandidateId && o.TestScheduleId == c.FirstOrDefault().TestScheduleId).Sum(n => n.PercentMark) / 3 >= 80).Count(),
 
-                    CountCandidateNotPass = z.FirstOrDefault().TestSchedules.HistoryTests
-                    .GroupBy(b => new { b.TestScheduleId, b.CandidateId })
-                    .Where(c => c.All(d => d.DateEndTest != null) && c.FirstOrDefault().TestSchedule.HistoryTests.Where(o => o.CandidateId == c.FirstOrDefault().CandidateId && o.TestScheduleId == c.FirstOrDefault().TestScheduleId).Sum(n => n.PercentMark) / 3 < 80).Select(m => new
-                    {
-                        CandidateId = m.FirstOrDefault().CandidateId,
-                        Candidate = m.FirstOrDefault().Candidate,
-                        Count = m.Count(),
-                        Mark = m.FirstOrDefault().TestSchedule.HistoryTests.Where(o => o.CandidateId == m.FirstOrDefault().CandidateId && o.TestScheduleId == m.FirstOrDefault().TestScheduleId).Sum(n => n.PercentMark) / 3,
-                    }),
+                    CountCandidateNotPass = z.GroupCandinade
+                    .Where(c => c.All(d => d.DateEndTest != null) && c.Where(o => o.CandidateId == c.FirstOrDefault().CandidateId && o.TestScheduleId == c.FirstOrDefault().TestScheduleId).Sum(n => n.PercentMark) / 3 < 80).Count(),
 
                 })
                 .ToList();
 
-          
+            return abc;
         }
     }
 }
