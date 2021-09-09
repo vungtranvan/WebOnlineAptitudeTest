@@ -34,7 +34,6 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-           var abc = _testScheduleRepository.CountCandidate();
             _historyTestRepository.UpdateStatusCandidateAndHistoryTest();
             ViewBag.ListpageSize = new List<int>() { 5, 10, 15, 20, 50, 100 };
             return View();

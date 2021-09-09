@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using WebOnlineAptitudeTest.Areas.Admin.Data.Model.Pagings;
 using WebOnlineAptitudeTest.Areas.Admin.Data.Model.TestSchedules;
@@ -240,11 +242,11 @@ namespace WebOnlineAptitudeTest.Models.Repositories.Implement
             return lstCandidateId;
         }
 
-        public IEnumerable<dynamic> CountCandidate()
+        public PagingModel<dynamic> CountCandidate(DateTime? fromDate, DateTime? toDate, int page, int pageSize)
         {
 
-            var abc = base.DbContext.TestSchedules
-                //.Where(a => a.DateStart > DateTime.Now && a.DateEnd < DateTime.Now)
+            var lstData = base.DbContext.TestSchedules
+                .Where(a => a.DateStart >= fromDate && a.DateEnd <= toDate)
                 .Join(base.DbContext.HistoryTests
                  //.Where(historyTests => historyTests.historyTests.PercentMark > 0)
                 ,
@@ -276,6 +278,7 @@ namespace WebOnlineAptitudeTest.Models.Repositories.Implement
                 .Select(z => new
                 {
                     TestSchedulesId = z.TestSchedules.Id,
+                    TestSchedulesName = z.TestSchedules.Name,
                     TestSchedulesDateStart = z.TestSchedules.DateStart,
                     TestSchedulesDateEnd = z.TestSchedules.DateEnd,
 
@@ -285,7 +288,7 @@ namespace WebOnlineAptitudeTest.Models.Repositories.Implement
                     .Where(c => c.All(d => d.DateEndTest != null)).Count(),
 
                     CountCandidateOut = z.GroupCandinade
-                    .Where(c => c.Any(d => d.DateEndTest == null)).Count(),
+                    .Where(c => c.All(d => d.DateEndTest == null)).Count(),
 
                     CountCandidatePass = z.GroupCandinade
                     .Where(c => c.All(d => d.DateEndTest != null) && c.Where(o => o.CandidateId == c.FirstOrDefault().CandidateId && o.TestScheduleId == c.FirstOrDefault().TestScheduleId).Sum(n => n.PercentMark) / 3 >= 80).Count(),
@@ -293,10 +296,18 @@ namespace WebOnlineAptitudeTest.Models.Repositories.Implement
                     CountCandidateNotPass = z.GroupCandinade
                     .Where(c => c.All(d => d.DateEndTest != null) && c.Where(o => o.CandidateId == c.FirstOrDefault().CandidateId && o.TestScheduleId == c.FirstOrDefault().TestScheduleId).Sum(n => n.PercentMark) / 3 < 80).Count(),
 
-                })
+                }).OrderByDescending(x => x.TestSchedulesId)
                 .ToList();
 
-            return abc;
+            int totalRow = lstData.Count();
+
+            var data = lstData.Skip((page - 1) * pageSize).Take(pageSize);
+
+            return new PagingModel<dynamic>()
+            {
+                TotalRow = totalRow,
+                ItemsOther = data
+            };
         }
     }
 }

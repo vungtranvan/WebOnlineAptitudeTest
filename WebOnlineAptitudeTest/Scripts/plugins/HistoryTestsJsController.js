@@ -221,7 +221,7 @@ var historyController = {
             secon = '0' + secon;
         }
 
-        newDate = mm + '/' + dd + '/' + yyyy + ' ' + hours + ':' + minutes + ':' + secon;
+        newDate = dd + '/' + mm + '/' + yyyy + ' ' + hours + ':' + minutes + ':' + secon;
         return newDate;
     }
 }

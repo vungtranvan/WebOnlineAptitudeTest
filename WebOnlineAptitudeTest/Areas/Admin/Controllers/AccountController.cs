@@ -62,8 +62,8 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
                 return Json(new
                 {
                     data = acc.CreatedDate.ToString(),
-                    createdDate = acc.CreatedDate.Value.ToString("MM/dd/yyyy HH:mm"),
-                    updatedDate = acc.UpdatedDate == null ? "" : acc.UpdatedDate.Value.ToString("MM/dd/yyyy HH:mm"),
+                    createdDate = acc.CreatedDate.Value.ToString("dd/MM/yyyy HH:mm"),
+                    updatedDate = acc.UpdatedDate == null ? "" : acc.UpdatedDate.Value.ToString("dd/MM/yyyy HH:mm"),
                     status = false
                 }, JsonRequestBehavior.AllowGet);
             }
@@ -71,8 +71,8 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
             return Json(new
             {
                 data = acc,
-                createdDate = acc.CreatedDate.Value.ToString("MM/dd/yyyy HH:mm"),
-                updatedDate = acc.UpdatedDate == null ? "" : acc.UpdatedDate.Value.ToString("MM/dd/yyyy HH:mm"),
+                createdDate = acc.CreatedDate.Value.ToString("dd/MM/yyyy HH:mm"),
+                updatedDate = acc.UpdatedDate == null ? "" : acc.UpdatedDate.Value.ToString("dd/MM/yyyy HH:mm"),
                 status = true
             }, JsonRequestBehavior.AllowGet);
         }

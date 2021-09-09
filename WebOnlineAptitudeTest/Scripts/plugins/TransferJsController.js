@@ -120,7 +120,7 @@ var transferController = {
             minutes = '0' + minutes;
         }
 
-        newDate = mm + '/' + dd + '/' + yyyy + ' ' + hours + ':' + minutes;
+        newDate = dd + '/' + mm + '/' + yyyy + ' ' + hours + ':' + minutes;
         return newDate;
     },
     pagination: function (totalRow, callback, changePageSize) {

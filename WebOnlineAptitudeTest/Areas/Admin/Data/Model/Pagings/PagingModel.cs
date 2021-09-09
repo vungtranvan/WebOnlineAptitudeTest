@@ -9,5 +9,7 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Data.Model.Pagings
     {
         public int TotalRow { get; set; }
         public List<T> Items { get; set; }
+
+        public IEnumerable<T> ItemsOther { get; set; }
     }
 }
