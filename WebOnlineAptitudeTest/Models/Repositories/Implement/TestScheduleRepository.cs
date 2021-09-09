@@ -243,7 +243,7 @@ namespace WebOnlineAptitudeTest.Models.Repositories.Implement
         public IEnumerable<dynamic> CountCandidate()
         {
 
-            var abc = base.DbContext.TestSchedules
+            return  base.DbContext.TestSchedules
                 //.Where(a => a.DateStart > DateTime.Now && a.DateEnd < DateTime.Now)
                 .Join(base.DbContext.HistoryTests
                 //.Where(historyTests => historyTests.historyTests.PercentMark > 0)
@@ -317,7 +317,7 @@ namespace WebOnlineAptitudeTest.Models.Repositories.Implement
                 })
                 .ToList();
 
-            return abc;
+          
         }
     }
 }
