@@ -244,35 +244,20 @@ namespace WebOnlineAptitudeTest.Models.Repositories.Implement
 
         public PagingModel<dynamic> CountCandidate(DateTime? fromDate, DateTime? toDate, int page, int pageSize)
         {
-
-            var lstData = base.DbContext.TestSchedules
-                .Where(a => a.DateStart >= fromDate && a.DateEnd <= toDate)
-                .Join(base.DbContext.HistoryTests
-                 //.Where(historyTests => historyTests.historyTests.PercentMark > 0)
-                ,
-                testSchedules => testSchedules.Id,
-                historyTests => historyTests.TestScheduleId,
-                (testSchedules, historyTests) => new
-                {
-                    testSchedules,
-                    hisCandidateId = historyTests.CandidateId
-                }
-                )
-               
-                .GroupBy(y => new { y.hisCandidateId, y.testSchedules.Id })
+            var lstData = _historyTestRepository.GetMulti(a => a.TestSchedule.DateStart >= fromDate && a.TestSchedule.DateEnd <= toDate, new string[] { "TestSchedule" })
+                .GroupBy(y => new { y.CandidateId, y.TestScheduleId })
                 .Select(x => new
                 {
-                    TestSchedulesId = x.FirstOrDefault().testSchedules.Id,
-                    TestSchedules = x.FirstOrDefault().testSchedules,
-                    HistoryTests = x.FirstOrDefault().testSchedules.HistoryTests
-
-
+                    TestSchedulesId = x.FirstOrDefault().TestScheduleId,
+                    TestSchedules = x.FirstOrDefault().TestSchedule,
+                    HistoryTests = x.FirstOrDefault().TestSchedule.HistoryTests
                 })
                 .GroupBy(z => z.TestSchedulesId)
-                .Select(z => new {
-                TestSchedules =  z.FirstOrDefault().TestSchedules,
-                CountCandidateAll = z.Count(),
-                GroupCandinade = z.FirstOrDefault().HistoryTests
+                .Select(z => new
+                {
+                    TestSchedules = z.FirstOrDefault().TestSchedules,
+                    CountCandidateAll = z.Count(),
+                    GroupCandinade = z.FirstOrDefault().HistoryTests
                     .GroupBy(b => new { b.TestScheduleId, b.CandidateId })
                 })
                 .Select(z => new
