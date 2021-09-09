@@ -253,11 +253,9 @@ namespace WebOnlineAptitudeTest.Models.Repositories.Implement
                     testSchedules,
                     historyTests
                 }
-           
-
                 )
                 //.Where(historyTests => historyTests.historyTests.PercentMark > 0)
-                .GroupBy(y => new { y.historyTests.CandidateId,y.testSchedules.Id })
+                .GroupBy(y => new { y.historyTests.CandidateId, y.testSchedules.Id })
                 .Select(x => new
                 {
                     TestSchedulesId = x.FirstOrDefault().testSchedules.Id,
@@ -272,10 +270,28 @@ namespace WebOnlineAptitudeTest.Models.Repositories.Implement
                     TestSchedulesDateStart = z.FirstOrDefault().TestSchedules.DateStart,
                     TestSchedulesDateEnd = z.FirstOrDefault().TestSchedules.DateEnd,
 
-                    CountCandidate = z.Count()
+                    CountCandidate = z.Count(),
+
+                    CountCandidatePass = z.FirstOrDefault().TestSchedules.HistoryTests
+                    .GroupBy(b => new { b.TestScheduleId, b.CandidateId })
+                    .Where(c => c.All(d => d.DateEndTest != null)).Select(m => new
+                    {
+                        CandidateId = m.FirstOrDefault().CandidateId,
+                        Candidate = m.FirstOrDefault().Candidate,
+                        Count = m.Count()
+                    }
+                   ),
+
+                    CountCandidateOut = z.FirstOrDefault().TestSchedules.HistoryTests
+                    .GroupBy(b => new { b.TestScheduleId, b.CandidateId })
+                    .Where(c => c.Any(d => d.DateEndTest == null)).Select(m => new
+                    {
+                        CandidateId = m.FirstOrDefault().CandidateId,
+                        Candidate = m.FirstOrDefault().Candidate,
+                        Count = m.Count()
+                    }
+                    ),
                 })
-
-
                 .ToList();
 
             return abc;
