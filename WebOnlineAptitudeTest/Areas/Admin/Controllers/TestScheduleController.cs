@@ -34,6 +34,7 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult Index()
         {
+           var abc = _testScheduleRepository.CountCandidate();
             _historyTestRepository.UpdateStatusCandidateAndHistoryTest();
             ViewBag.ListpageSize = new List<int>() { 5, 10, 15, 20, 50, 100 };
             return View();
@@ -168,7 +169,7 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
 
         private void MultiSelectListCandidate(List<int> lstcandidateId = null)
         {
-            var lstCandi = _candidateRepository.Get(filter: x => x.Status == EnumStatusCandidate.Undone
+            var lstCandi = _candidateRepository.Get(filter: x => (x.Status == EnumStatusCandidate.Undone || x.Status == EnumStatusCandidate.New)
                            && x.Deleted == false, orderBy: c => c.OrderByDescending(y => y.Id)).ToList();
 
             if (lstcandidateId != null)

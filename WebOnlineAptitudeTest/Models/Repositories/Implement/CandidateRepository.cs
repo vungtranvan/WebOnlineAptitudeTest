@@ -25,7 +25,7 @@ namespace WebOnlineAptitudeTest.Models.Repositories.Implement
             {
                 // candidate.Password = candidate.Password.ToMD5();
                 candidate.Password = candidate.Password;
-                candidate.Status = EnumStatusCandidate.Undone;
+                candidate.Status = EnumStatusCandidate.New;
                 candidate.CreatedDate = DateTime.Now;
                 candidate.Deleted = false;
                 base.Add(candidate);

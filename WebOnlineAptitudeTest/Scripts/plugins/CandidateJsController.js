@@ -112,14 +112,16 @@ var candiController = {
                     var html = '';
                     $.each(data, function (i, item) {
 
-                        var status = `<i class="fa fa-circle text-primary font-12" data-toggle="tooltip" title="Undone"></i>`;
+                        var status = `<i class="fa fa-circle text-primary font-12" data-toggle="tooltip" title="New"></i>`;
                         if (item.Status == 1) {
-                            status = `<i class="fa fa-circle text-warning font-12" data-toggle="tooltip" title="Scheduled"></i>`;
+                            status = `<i class="fa fa-circle text-secondary font-12" data-toggle="tooltip" title="Undone"></i>`;
                         } else if (item.Status == 2) {
-                            status = `<i class="fa fa-circle text-info font-12" data-toggle="tooltip" title="In Progress"></i>`;
+                            status = `<i class="fa fa-circle text-warning font-12" data-toggle="tooltip" title="Scheduled"></i>`;
                         } else if (item.Status == 3) {
-                            status = `<i class="fa fa-circle text-success font-12" data-toggle="tooltip" title="Done"></i>`;
+                            status = `<i class="fa fa-circle text-info font-12" data-toggle="tooltip" title="In Progress"></i>`;
                         } else if (item.Status == 4) {
+                            status = `<i class="fa fa-circle text-success font-12" data-toggle="tooltip" title="Done"></i>`;
+                        } else if (item.Status == 5) {
                             status = `<i class="fa fa-circle text-danger font-12" data-toggle="tooltip" title="Quit"></i>`;
                         }
 

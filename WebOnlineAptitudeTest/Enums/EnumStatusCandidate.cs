@@ -7,6 +7,7 @@ namespace WebOnlineAptitudeTest.Enums
 {
     public enum EnumStatusCandidate
     {
+        New,
         Undone,
         Scheduled,
         InProgress,
