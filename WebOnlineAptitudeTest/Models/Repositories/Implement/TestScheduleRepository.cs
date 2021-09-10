@@ -291,7 +291,7 @@ namespace WebOnlineAptitudeTest.Models.Repositories.Implement
             return new PagingModel<dynamic>()
             {
                 TotalRow = totalRow,
-                ItemsOther = data
+                Items = data
             };
         }
     }

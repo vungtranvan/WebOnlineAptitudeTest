@@ -41,7 +41,7 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
 
             var result = _testScheduleRepository.CountCandidate(fromDate, toDate, page, pageSize);
 
-            var resultData = JsonConvert.SerializeObject(result.ItemsOther, Formatting.Indented,
+            var resultData = JsonConvert.SerializeObject(result.Items, Formatting.Indented,
                new JsonSerializerSettings
                {
                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
