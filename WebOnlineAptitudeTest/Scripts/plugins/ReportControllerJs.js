@@ -11,6 +11,10 @@ var reportController = {
     },
     registerEvents: function () {
 
+        $('#btnExport').off('click').on('click', function () {
+            reportController.exPortToExcel();
+        });
+
         $('.pageSizeItem').off('change').on('change', function () {
             reportConfig.pageSize = $(this).val();
             reportController.loadData(true);
@@ -24,6 +28,17 @@ var reportController = {
         $('#ToDate').off('change').on('change', function () {
             reportConfig.toDate = $(this).val();
             reportController.loadData(true);
+        });
+    },
+    exPortToExcel: function () {
+        $('#tableReport').table2excel({
+            exclude: ".noExl",
+            name: "Excel Document Name",
+            filename: "myFileName" + new Date().toISOString().replace(/[\-\:\.]/g, "") + ".xls",
+            fileext: ".xls",
+            exclude_img: true,
+            exclude_links: true,
+            exclude_inputs: true
         });
     },
     loadData: function (changePageSize) {

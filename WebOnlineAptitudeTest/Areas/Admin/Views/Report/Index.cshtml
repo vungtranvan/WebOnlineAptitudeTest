@@ -24,11 +24,27 @@
     <div class="col-12">
         <div class="card">
             <div class="card-body">
+                <div class="header-card">
+                    <div class="row">
+                        <div class="col-3">
+                            <div class="button">
+                            </div>
+                        </div>
+
+                        <div class="col-9 align-self-center">
+                            <div class="customize-input float-right">
+                                <a href="/admin/Report/Index" class="btn waves-effect waves-light btn-Custom btn-primary"> Reset</a>
+                                <a href="javascript:void(0)" class="btn waves-effect waves-light btn-Custom btn-success" id="btnExport"> <i class="fas fa-file-excel"></i> Export Excel</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
                 <div class="mt-4" style="display: flex; justify-content: space-between;">
                     <div style="display: flex; align-items: center;">
                         <input type="date" id="FromDate" name="FromDate" class="form-control" />
-                        <input type="date" id="ToDate" name="ToDate" class="form-control" />
-                        <a href="/admin/Report/Index" class="btn waves-effect waves-light btn-Custom btn-primary"> Reset</a>
+                        <input type="date" id="ToDate" name="ToDate" class="form-control" style="margin-left: 0.3rem"/>
+
                     </div>
 
                     <div style="display: flex; align-items: center;">
@@ -70,5 +86,6 @@
 
 @section Scripts{
     <script src="/Scripts/jquery.twbsPagination.min.js"></script>
+    <script src="/Scripts/jquery.table2excel.min.js"></script>
     <script src="/Scripts/plugins/ReportControllerJs.js"></script>
 }

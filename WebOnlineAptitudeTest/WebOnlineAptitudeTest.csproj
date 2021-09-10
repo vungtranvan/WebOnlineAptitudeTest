@@ -1476,6 +1476,7 @@
     <Content Include="Content\assets\backend\template\sendMailTestSchedule_template.html" />
     <Content Include="Content\default-avatar.jpg" />
     <Content Include="Content\SiteBackend.css" />
+    <Content Include="Scripts\jquery.table2excel.min.js" />
     <Content Include="Scripts\jquery.twbsPagination.min.js" />
     <Content Include="Scripts\plugins\AdminJsController.js" />
     <Content Include="Scripts\plugins\HistoryTestsJsController.js" />
