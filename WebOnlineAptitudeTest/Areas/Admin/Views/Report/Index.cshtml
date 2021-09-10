@@ -42,14 +42,14 @@
                 
                 <div class="mt-4" style="display: flex; justify-content: space-between;">
                     <div style="display: flex; align-items: center;">
-                        <input type="date" id="FromDate" name="FromDate" class="form-control" />
-                        <input type="date" id="ToDate" name="ToDate" class="form-control" style="margin-left: 0.3rem"/>
+                        <input type="date" id="FromDate" name="FromDate" class="form-control" style="cursor:pointer" />
+                        <input type="date" id="ToDate" name="ToDate" class="form-control" style="margin-left: 0.3rem;cursor:pointer"/>
 
                     </div>
 
                     <div style="display: flex; align-items: center;">
                         <span>Show</span>
-                        <select name="candidate" class="form-control form-control-sm pageSizeItem" style="margin: 0 0.3rem">
+                        <select name="candidate" class="form-control form-control-sm pageSizeItem" style="margin: 0 0.3rem;cursor:pointer">
                             @foreach (var item in ViewBag.ListpageSize)
                             {
                                 <option value="@item">@item</option>
