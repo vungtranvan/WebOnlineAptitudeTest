@@ -159,7 +159,7 @@ var historyController = {
 
                     $('#questTableContent').html(html);
 
-                    if (response.data.length == 0) {
+                    if (data.length == 0) {
                         $('#tableQuestion').hide();
                         $('.textEmpty').show();
                     } else {
@@ -221,7 +221,7 @@ var historyController = {
             secon = '0' + secon;
         }
 
-        newDate = mm + '/' + dd + '/' + yyyy + ' ' + hours + ':' + minutes + ':' + secon;
+        newDate = dd + '/' + mm + '/' + yyyy + ' ' + hours + ':' + minutes + ':' + secon;
         return newDate;
     }
 }

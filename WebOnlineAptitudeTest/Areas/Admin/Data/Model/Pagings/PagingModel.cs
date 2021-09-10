@@ -8,6 +8,6 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Data.Model.Pagings
     public class PagingModel<T> where T : class
     {
         public int TotalRow { get; set; }
-        public List<T> Items { get; set; }
+        public IEnumerable<T> Items { get; set; }
     }
 }

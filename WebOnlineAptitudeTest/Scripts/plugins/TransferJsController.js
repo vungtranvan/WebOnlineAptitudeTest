@@ -83,7 +83,7 @@ var transferController = {
 
                     $('#tblDataCandidate').html(html);
 
-                    if (response.data.length == 0) {
+                    if (data.length == 0) {
                         $('#tableCandidate').hide();
                         $('.textEmpty').show();
                     } else {
@@ -120,7 +120,7 @@ var transferController = {
             minutes = '0' + minutes;
         }
 
-        newDate = mm + '/' + dd + '/' + yyyy + ' ' + hours + ':' + minutes;
+        newDate = dd + '/' + mm + '/' + yyyy + ' ' + hours + ':' + minutes;
         return newDate;
     },
     pagination: function (totalRow, callback, changePageSize) {

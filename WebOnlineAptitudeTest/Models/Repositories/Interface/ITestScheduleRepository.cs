@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using WebOnlineAptitudeTest.Areas.Admin.Data.Model.HisToryTests;
 using WebOnlineAptitudeTest.Areas.Admin.Data.Model.Pagings;
@@ -19,9 +20,7 @@ namespace WebOnlineAptitudeTest.Models.Repositories.Interface
         void UpdateStatusTestSchedule();
 
         TestScheduleInsertOrUpdateRequest GetInsertOrUpdateRequest(int id);
-        IEnumerable<dynamic> CountCandidate();
-
-
+        PagingModel<dynamic> CountCandidate(DateTime? fromDate, DateTime? toDate, int page, int pageSize);
         bool CheckStatus(int id);
     }
 }

@@ -22,8 +22,8 @@ namespace WebOnlineAptitudeTest
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/backend/js").Include("~/Scripts/jquery-{version}.js")
-                    .Include(
+            bundles.Add(new ScriptBundle("~/bundles/backend/js").Include(
+                    "~/Scripts/jquery-{version}.js",
                     "~/Content/assets/backend/plugins/assets/libs/popper.js/dist/umd/popper.min.js",
                     "~/Content/assets/backend/plugins/assets/libs/bootstrap/dist/js/bootstrap.min.js",
                     "~/Content/assets/backend/plugins/dist/js/summernote-bs4.js",
@@ -42,10 +42,10 @@ namespace WebOnlineAptitudeTest
                     "~/Content/assets/backend/plugins/assets/libs/chart.js/dist/Chart.min.js",
                     "~/Scripts/toastr.min.js",
                     "~/Content/assets/backend/dist/js/config-toastrJs.js",
-                    "~/CKFinderScripts/ckfinder.js")
-                    .Include("~/Scripts/jquery.validate*")
-                    .Include("~/Scripts/plugins/changePassAdmin.js")
-                    .Include("~/Scripts/plugins/logoutAdmin.js")
+                    "~/CKFinderScripts/ckfinder.js",
+                    "~/Scripts/jquery.validate*",
+                    "~/Scripts/plugins/changePassAdmin.js",
+                    "~/Scripts/plugins/logoutAdmin.js")
                     );
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
@@ -53,6 +53,8 @@ namespace WebOnlineAptitudeTest
                       "~/Content/site.css"));
             bundles.Add(new StyleBundle("~/Content/site").Include(
                     "~/Content/Site.css"));
+
+            BundleTable.EnableOptimizations = true;
         }
     }
 }

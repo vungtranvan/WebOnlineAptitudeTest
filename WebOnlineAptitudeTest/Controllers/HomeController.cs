@@ -165,9 +165,6 @@ namespace WebOnlineAptitudeTest.Controllers
         [HttpPost]
         public ActionResult CheckQuest(int CandidateId)
         {
-
-            var abc = this._testScheduleRepository.CountCandidate();
-
             var historyTest = this._historyTestRepository.Get(x => x.CandidateId == CandidateId && x.Deleted == false).OrderBy(x => x.CategoryExamId);
             var historyTestId = 0;
             var lastSeconds = 0;

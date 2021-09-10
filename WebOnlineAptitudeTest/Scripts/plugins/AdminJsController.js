@@ -42,6 +42,14 @@ function LoadData(changePageSize) {
 
                 $("#tblDataAdmin").html(html)
 
+                if (data == 0) {
+                    $('#tableAdmin').hide();
+                    $('.textEmpty').show();
+                } else {
+                    $('.textEmpty').hide();
+                    $('#tableAdmin').show();
+                }
+
                 Paginate(res.totalRow, function () {
                     LoadData();
                 }, changePageSize);

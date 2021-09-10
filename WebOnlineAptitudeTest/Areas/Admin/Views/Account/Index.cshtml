@@ -35,7 +35,7 @@
                 <div class="mt-4" style="display: flex; justify-content: space-between;">
                     <div style="display: flex; align-items: center;">
                         <span>Show</span>
-                        <select name="candidate" class="form-control form-control-sm pageSizeItem" style="margin:0 10px">
+                        <select name="candidate" class="form-control form-control-sm pageSizeItem" style="margin:0 10px;cursor:pointer">
                             @foreach (var item in ViewBag.ListpageSize)
                             {
                                 <option value="@item">@item</option>
@@ -63,6 +63,7 @@
                         </tbody>
                     </table>
                 </div>
+                <p class="text-center textEmpty">List empty</p>
                 <ul id="pagination" class="pagination flex-wrap .pagination-rounded-flat pagination-success mt-3"></ul>
             </div>
         </div>
