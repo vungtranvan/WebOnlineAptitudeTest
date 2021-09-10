@@ -243,26 +243,27 @@ namespace WebOnlineAptitudeTest.Models.Repositories.Implement
         public IEnumerable<dynamic> CountCandidate()
         {
 
-            var abc = base.DbContext.TestSchedules
-                //.Where(a => a.DateStart > DateTime.Now && a.DateEnd < DateTime.Now)
-                .Join(base.DbContext.HistoryTests
-                 //.Where(historyTests => historyTests.historyTests.PercentMark > 0)
-                ,
-                testSchedules => testSchedules.Id,
-                historyTests => historyTests.TestScheduleId,
-                (testSchedules, historyTests) => new
-                {
-                    testSchedules,
-                    hisCandidateId = historyTests.CandidateId
-                }
-                )
-               
-                .GroupBy(y => new { y.hisCandidateId, y.testSchedules.Id })
+            var abc =
+                  //base.DbContext.TestSchedules
+                  ////.Where(a => a.DateStart > DateTime.Now && a.DateEnd < DateTime.Now)
+                  //.Join(base.DbContext.HistoryTests
+                  // //.Where(historyTests => historyTests.historyTests.PercentMark > 0)
+                  //,
+                  //testSchedules => testSchedules.Id,
+                  //historyTests => historyTests.TestScheduleId,
+                  //(testSchedules, historyTests) => new
+                  //{
+                  //    testSchedules,
+                  //    hisCandidateId = historyTests.CandidateId
+                  //}
+                  //)
+                base.DbContext.HistoryTests.
+                .GroupBy(y => new { y.CandidateId, y.TestScheduleId })
                 .Select(x => new
                 {
-                    TestSchedulesId = x.FirstOrDefault().testSchedules.Id,
-                    TestSchedules = x.FirstOrDefault().testSchedules,
-                    HistoryTests = x.FirstOrDefault().testSchedules.HistoryTests
+                    TestSchedulesId = x.FirstOrDefault().TestScheduleId,
+                    TestSchedules = x.FirstOrDefault().TestSchedule,
+                    HistoryTests = x.FirstOrDefault().TestSchedule.HistoryTests
 
 
                 })
