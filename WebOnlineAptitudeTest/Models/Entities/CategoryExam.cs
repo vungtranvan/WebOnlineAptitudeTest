@@ -18,6 +18,7 @@ namespace WebOnlineAptitudeTest.Models.Entities
 
         public int Id { get; set; }
 
+        [Display(Name = "Choise Category")]
         public string Name { get; set; }
 
         public int TimeTest { get; set; }

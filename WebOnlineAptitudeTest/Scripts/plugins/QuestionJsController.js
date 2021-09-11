@@ -98,10 +98,7 @@ var questController = {
                                                 <a class="qEdit" href="Question/InsertOrUpdate/`+ item.Id + `" >Edit</a>
                                                 <a class="qDelete btnDelete" href=":javascript" data-id=`+ item.Id + `  >Delete</a>
 
-                                                </span>
-
-
-                                                
+                                                </span>                               
                                             </span>
                                         </div>
 

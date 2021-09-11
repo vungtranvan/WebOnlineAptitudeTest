@@ -88,16 +88,41 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
             {
                 var question = _questionRepository.GetSingleById(id.Value);
                 this.DropDownCategoryExam(question.CategoryExamId);
+                ViewBag.Breadcrumb = "Edit";
+                ViewBag.Title = "Edit Question";
                 return View(question);
             }
-            this.DropDownCategoryExam();
-            return View();
+            else
+            {
+                ViewBag.Title = "Add New Question";
+                ViewBag.Breadcrumb = "Add New";
+                this.DropDownCategoryExam();
+                return View();
+            }
+
         }
 
         [HttpPost]
         [ValidateInput(false)]
         public ActionResult InsertOrUpdate(Question question, int? id)
         {
+            try
+            {
+                if (question.Answers == null)
+                {
+                    TempData["XMessage"] = new XMessage("Notification", "You need answer(s) !!!", EnumCategoryMess.error);
+                    this.DropDownCategoryExam();
+                    return RedirectToAction("InsertOrUpdate");
+                }
+            }
+            catch (ArgumentNullException)
+            {
+                this.DropDownCategoryExam();
+
+                TempData["XMessage"] = new XMessage("Notification", "You need answer(s) !!!", EnumCategoryMess.error);
+                return RedirectToAction("InsertOrUpdate");
+            }
+
             if (!ModelState.IsValid)
             {
                 this.DropDownCategoryExam(question.CategoryExamId);
@@ -111,7 +136,8 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
                     }
                 }
 
-                var abc = errora;
+                TempData["XMessage"] = new XMessage("Notification", "errora !!!", EnumCategoryMess.error);
+                return RedirectToAction("InsertOrUpdate");
             }
             else
             {
@@ -151,16 +177,17 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
 
             }
 
-            this.DropDownCategoryExam();
-            return RedirectToAction("InsertOrUpdate");
-
-
         }
 
         private void DropDownCategoryExam(int categoryExamId = 0)
         {
             var lstCateEx = _categoryExamRepository.Get(orderBy: x => x.OrderByDescending(y => y.Id)).ToList();
             ViewBag.NewsItemList = new SelectList(lstCateEx, "Id", "Name", categoryExamId);
+        }
+
+        public ActionResult Upload()
+        {
+            return View();
         }
 
         [HttpPost]
