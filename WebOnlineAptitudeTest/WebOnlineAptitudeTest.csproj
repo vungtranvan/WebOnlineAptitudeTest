@@ -923,7 +923,7 @@
     <Content Include="Content\assets\backend\dist\css\app.css" />
     <Content Include="Content\assets\backend\dist\fonts\roboto\LICENSE.txt" />
     <Content Include="Content\assets\backend\dist\images\bg-login-page.svg" />
-    <Content Include="Content\assets\backend\dist\images\error-illustration.svg" />
+    <Content Include="Content\assets\backend\dist\images\error-png-oil-and-gas-2.png" />
     <Content Include="Content\assets\backend\dist\images\food-beverage-1.jpg" />
     <Content Include="Content\assets\backend\dist\images\food-beverage-10.jpg" />
     <Content Include="Content\assets\backend\dist\images\food-beverage-11.jpg" />
@@ -943,12 +943,14 @@
     <Content Include="Content\assets\backend\dist\images\food-beverage-7.jpg" />
     <Content Include="Content\assets\backend\dist\images\food-beverage-8.jpg" />
     <Content Include="Content\assets\backend\dist\images\food-beverage-9.jpg" />
-    <Content Include="Content\assets\backend\dist\images\illustration.svg" />
+    <Content Include="Content\assets\backend\dist\images\png-oil-and-gas-2.png" />
+    <Content Include="Content\assets\backend\dist\images\logo.png" />
     <Content Include="Content\assets\backend\dist\images\logo.svg" />
     <Content Include="Content\assets\backend\dist\images\map-marker-region.png" />
     <Content Include="Content\assets\backend\dist\images\map-marker.png" />
     <Content Include="Content\assets\backend\dist\images\placeholders\200x200.jpg" />
     <Content Include="Content\assets\backend\dist\images\placeholders\800x800.jpg" />
+    <Content Include="Content\assets\backend\dist\images\pngegg.png" />
     <Content Include="Content\assets\backend\dist\images\preview-1.jpg" />
     <Content Include="Content\assets\backend\dist\images\preview-10.jpg" />
     <Content Include="Content\assets\backend\dist\images\preview-11.jpg" />
@@ -1478,6 +1480,7 @@
     <Content Include="Content\SiteBackend.css" />
     <Content Include="Scripts\jquery.table2excel.min.js" />
     <Content Include="Scripts\jquery.twbsPagination.min.js" />
+    <Content Include="Scripts\plugins\FrontendIndex.js" />
     <Content Include="Scripts\plugins\AdminJsController.js" />
     <Content Include="Scripts\plugins\HistoryTestsJsController.js" />
     <Content Include="Scripts\plugins\logoutAdmin.js" />
@@ -1739,13 +1742,13 @@
     <Content Include="Views\Home\_ModalConfirm.cshtml" />
     <Content Include="Views\Home\_ModalConfirmSubmitForm.cshtml" />
     <Content Include="Views\Home\_ModalConfirmPolicy.cshtml" />
+    <Content Include="Views\Home\_ModalConfirmLogout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="userfiles\files\" />
     <Folder Include="userfiles\images\__thumbs\" />
     <Folder Include="userfiles\thumbs\files\__thumbs\sp-07.jpg\" />
     <Folder Include="Views\BaseFr\" />
-    <Folder Include="Views\LayoutPage\" />
     <Folder Include="Views\Test\" />
   </ItemGroup>
   <ItemGroup>

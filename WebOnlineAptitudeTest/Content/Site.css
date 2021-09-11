@@ -86,8 +86,7 @@
     transform: translate(-50%,-50%);
 }
 .menu-bar {
-    height: calc(100% - 294px);
-   
+    height: calc(100% - 347px);
 }
     .menu-bar > memu-with-child {
         height: 50px;
