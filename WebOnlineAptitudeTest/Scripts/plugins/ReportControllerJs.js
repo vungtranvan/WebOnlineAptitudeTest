@@ -58,7 +58,7 @@ var reportController = {
 
                     var html = '';
                     $.each(data, function (i, item) {
-
+                        let countUndone = item.CountCandidate - (item.CountCandidateSuccess + item.CountCandidateOut);
                         html +=
                             `<tr class="intro-x">
                                 <td scope="col">${i + 1}</td>
@@ -67,6 +67,7 @@ var reportController = {
                                 <td>${reportController.formatDate(item.TestSchedulesDateEnd)}</td>
                                 <td>${item.CountCandidate}</td>
                                 <td>${item.CountCandidateSuccess}</td>
+                                <td>${countUndone}</td>
                                 <td>${item.CountCandidateOut}</td>
                                 <td>${item.CountCandidatePass}</td>
                                 <td>${item.CountCandidateNotPass}</td>
