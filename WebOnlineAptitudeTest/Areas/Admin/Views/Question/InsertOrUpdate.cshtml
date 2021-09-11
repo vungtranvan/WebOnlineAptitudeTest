@@ -1,13 +1,29 @@
 ﻿@model WebOnlineAptitudeTest.Models.Entities.Question
 
 @{
-    ViewBag.Title = "InsertOrUpdate";
+    ViewBag.Title = @ViewBag.Title;
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
 
 
 }
 
-
+@section Breadcrumb{
+    <div class="page-breadcrumb">
+        <div class="row">
+            <div class="col-7 align-self-center">
+                <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">@ViewBag.Title</h3>
+                <div class="d-flex align-items-center">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb m-0 p-0">
+                            <li class="breadcrumb-item"><a href="/admin" class="text-muted">Home</a></li>
+                            <li class="breadcrumb-item text-muted active" aria-current="page">@ViewBag.Breadcrumb</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+}
 
 @using (Html.BeginForm())
 {
@@ -15,7 +31,7 @@
 
     <div class="form-horizontal">
         <div class="">
-            @Html.LabelFor(model => model.CategoryExamId, "CategoryExam Name", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.CategoryExamId, "Choise Category", htmlAttributes: new { @class = "control-label text-truncate text-dark font-weight-medium" })
             <div class="">
                 @Html.DropDownList("CategoryExamId", (SelectList)ViewBag.NewsItemList, htmlAttributes: new { @class = "form-control", Name = "question.CategoryExamId" })
                 @Html.ValidationMessageFor(model => model.CategoryExamId, "", new { @class = "text-danger" })
@@ -40,7 +56,7 @@
                                 @Html.ValidationMessageFor(model => model.Mark, "", new { @class = "text-danger", data_valmsg_for = "question.Mark" })
                             </div>
                         </div>
-                        @Html.LabelFor(model => model.Mark, htmlAttributes: new { @class = "control-label" })
+                        @Html.LabelFor(model => model.Mark,"Mark(s)", htmlAttributes: new { @class = "control-label" })
                         <div class="question-enable ml-auto">
                             <label class="switch">
 
@@ -58,7 +74,7 @@
                         </div>
                     </div>
                     <div class="">
-               
+
                         <div class="form-control question summernote" id="question">@if (Model != null)
                             {
                                 @Html.Raw(@Model.Name);
@@ -76,21 +92,18 @@
                 <div class="anwser">
                     @if (Model == null || Model.Answers == null)
                     {
-
-
                         <div class="anwser-content anwser-first">
                             <input type="number" name="question.Answers[0].AnswerInQuestion" class="AnswerInQuestion" hidden value="1" />
 
                             <div class="answer-tool d-flex mb-2">
                                 <div class="card-title ">
-                                    @Html.LabelFor(model => model.Answers.FirstOrDefault().Name, htmlAttributes: new { @class = "control-label" })
-                                    <span>1</span>
+                                    @Html.LabelFor(model => model.Answers.FirstOrDefault().Name, "Answer 1", htmlAttributes: new { @class = "control-label" })
                                 </div>
                                 <div class="anwser-correct-check">
                                     <div class="custom-control custom-checkbox cursor-pointer">
                                         <input type="checkbox" class="custom-control-input anwser-correct" value="true" name="question.Answers[0].Correct" id="anwser_correct_1">
                                         <label class="custom-control-label anwser-correct-label  cursor-pointer" for="anwser_correct_1">
-                                            <span> is Correct</span>
+                                            <span class="is-correct"> is Correct</span>
                                         </label>
                                     </div>
                                 </div>
@@ -104,9 +117,6 @@
                                 @Html.ValidationMessageFor(model => model.Answers.FirstOrDefault().Name, "", new { @class = "text-danger messager" })
                             </div>
                         </div>
-
-
-
                     }
                     else
                     {
@@ -119,17 +129,16 @@
                                 <input type="number" name="question.Answers[@i].AnswerInQuestion" class="AnswerInQuestion" hidden value="@aw.AnswerInQuestion" />
                                 <span class="count-answer " hidden>@i</span>
 
-
                                 <div class="answer-tool d-flex mb-2">
                                     <div class="card-title ">
-                                        @Html.LabelFor(model => model.Answers.FirstOrDefault().Name, htmlAttributes: new { @class = "control-label" })
-                                        <span>@aw.AnswerInQuestion</span>
+                                        @Html.LabelFor(model => model.Answers.FirstOrDefault().Name, "Answer " + @aw.AnswerInQuestion, htmlAttributes: new { @class = "control-label" })
+                                        
                                     </div>
                                     <div class="anwser-correct-check">
                                         <div class="custom-control custom-checkbox cursor-pointer">
                                             <input type="checkbox" @( aw.Correct == true ? "checked" : "" ) class="custom-control-input anwser-correct" value="true" name="question.Answers[@i].Correct" id="anwser_correct_@i">
                                             <label class="custom-control-label anwser-correct-label  cursor-pointer" for="anwser_correct_@i">
-                                                <span> is Correct</span>
+                                                <span class="is-correct"> is Correct</span>
                                             </label>
                                         </div>
                                     </div>
@@ -149,7 +158,7 @@
                         }
                     }
                 </div>
-                <button class="btn btn-warning" id="add_more" type="button"> Add more answer.... </button>
+                <button class="btn btn-warning mt-2" id="add_more" type="button"> Add more answer.... </button>
 
             </div>
 
@@ -161,7 +170,7 @@
         <div class="form-row">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" class="btn waves-effect btn-Custom waves-light btn-primary" value="Save Change" />
-                <a href='@Url.Action("Index","Question")' class="btn waves-effect btn-Custom waves-light btn-danger" >Cancel</a>
+                <a href='@Url.Action("Index","Question")' class="btn waves-effect btn-Custom waves-light btn-danger">Cancel</a>
 
             </div>
 
@@ -181,9 +190,6 @@
 
 
         $(document).ready(function () {
-
-
-
 
             let answerTarget = $(".anwser-content").first().clone();
             answerTarget.find(".summernote").html('');
@@ -207,7 +213,7 @@
             $(".question-content").find(".note-codable").attr("name", "question.Name");
 
             $(".anwser-content").each(function (index, element) {
-                console.log(index);
+               
                 $(element).find(".note-codable").attr("name", "question.Answers[" + index + "].Name");
             });
 
@@ -219,7 +225,7 @@
 
                 let anwserClone = answerTarget.clone();
 
-                
+
 
                 anwserClone.find(".summernote").summernote({
                     placeholder: 'Enter content....',
@@ -250,7 +256,7 @@
                 var answer = $(this).closest(".anwser-content");
 
                 answer.css("animation", ".5s ease-out 0s 1 slideInFromRight");
-                
+
 
 
                 setTimeout(function () { answer.css("animation", ".2s ease-out 0s 1 heightToZero") }, 500);
@@ -277,6 +283,7 @@
                     $contentAnswer.find("script").remove();
 
                     $noteHtml = $(this).html();
+                    
 
                     if ($noteHtml.length <= 0 || $noteHtml == "<p><br></p>") {
                         emptyAns = true;
@@ -292,7 +299,6 @@
                     else {
                         if (index <= 0) {
                             $contentAnswer.closest(".question-content").find(".messager").html("");
-
                         } else {
                             $contentAnswer.closest(".anwser-content").find(".messager").html("");
 
@@ -300,29 +306,21 @@
                     }
 
                     $noteHtmlNoBreak = $noteHtml.replace(/(\r\n|\n|\r)/gm, "");
- 
+
                     $(this).parent().find(".note-codable").val($noteHtmlNoBreak);
 
                 });
                 if (emptyAns == true) {
                     return false;
                 }
-
+      
             });
-
-
-
-            //function htmlencode(str) {
-            //    return str.replace(/[&<>"']/g, function ($0) {
-            //        return "&" + { "&": "amp", "<": "lt", ">": "gt", '"': "quot", "'": "#39" }[$0] + ";";
-            //    });
-            //}
 
             function changeControl(element, count) {
 
-                element.find(".card-title").find("span").html(count);
+                element.find(".card-title").find("label").html("Answer " + count);
 
-             /*   element.find(".summernote.text-box").attr("name", "question.Answers[" + (count - 1) + "].Name");*/
+                /*   element.find(".summernote.text-box").attr("name", "question.Answers[" + (count - 1) + "].Name");*/
                 element.find(".anwser-correct").attr("name", "question.Answers[" + (count - 1) + "].Correct");
                 element.find(".AnswerInQuestion").attr("name", "question.Answers[" + (count - 1) + "].AnswerInQuestion");
                 element.find(".AnswerId").attr("name", "question.Answers[" + (count - 1) + "].Id");
@@ -336,7 +334,7 @@
                 element.css("animation", ".5s ease-out 0s 1 slideInFromLeft");
             }
 
-     
+
 
         });
     </script>

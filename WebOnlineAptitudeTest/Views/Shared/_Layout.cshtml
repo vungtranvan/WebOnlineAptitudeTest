@@ -3,7 +3,8 @@
 <!-- BEGIN: Head -->
 <head>
     <meta charset="utf-8">
-    <link href="/Content/assets/backend/dist/images/logo.svg" rel="shortcut icon">
+    <link href="/Content/assets/backend/dist/images/logo.png" rel="shortcut icon">
+    <link rel="icon" href="/Content/assets/backend/dist/images/logo.png">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>CANDIDATE - @ViewBag.Title</title>
     <!-- BEGIN: CSS Assets-->
@@ -39,7 +40,7 @@
     @Html.Partial("_ModalConfirm")
     @Html.Partial("_ModalConfirmSubmitForm")
     @Html.Partial("_ModalConfirmPolicy")
-
+    @Html.Partial("_ModalConfirmLogout")
 
     <!-- BEGIN: JS Assets-->
     @Scripts.Render("~/bundles/jquery")

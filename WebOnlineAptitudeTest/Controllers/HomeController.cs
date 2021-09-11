@@ -23,7 +23,7 @@ namespace WebOnlineAptitudeTest.Controllers
         private readonly IHistoryTestDetailRepository _historyTestDetailRepository;
         private readonly ICandidateRepository _candidateRepository;
         private readonly ITestScheduleRepository _testScheduleRepository;
-
+        private readonly ITransferRepository _transferRepository;
 
         private readonly IUnitOfWork _unitOfWork;
 
@@ -35,6 +35,7 @@ namespace WebOnlineAptitudeTest.Controllers
             IHistoryTestDetailRepository historyTestDetailRepository,
             ICandidateRepository candidateRepository,
             ITestScheduleRepository testScheduleRepository,
+            ITransferRepository transferRepository,
             IUnitOfWork unitOfWork)
         {
             _questionRepository = questionRepository;
@@ -44,6 +45,7 @@ namespace WebOnlineAptitudeTest.Controllers
             _historyTestDetailRepository = historyTestDetailRepository;
             _candidateRepository = candidateRepository;
             _testScheduleRepository = testScheduleRepository;
+            _transferRepository = transferRepository;
             _unitOfWork = unitOfWork;
 
         }
@@ -64,14 +66,6 @@ namespace WebOnlineAptitudeTest.Controllers
                 var checktime = (int)(historyTest.CategoryExam.TimeTest * 60) - (int)(DateTime.Now - historyTest.DateStartTest.Value).TotalSeconds + 30;
                 var testSchedule = this._testScheduleRepository.GetSingleById(historyTest.TestScheduleId);
 
-                //if (testSchedule.DateEnd.AddSeconds(30) < DateTime.Now)
-                //{
-                //    return Json(new
-                //    {
-                //        Status = "TestScheduleEnd"
-                //    }, JsonRequestBehavior.AllowGet);
-                //}
-
                 if (checktime >= 0 && historyTest.DateEndTest == null)
                 {
                     historyTest.DateEndTest = DateTime.Now;
@@ -82,9 +76,6 @@ namespace WebOnlineAptitudeTest.Controllers
                         Question quest = this._questionRepository.GetSingleById(q.QuestionId);
                         questions.Add(quest);
                     }
-
-
-
                     foreach (var item in resultQuest)
                     {
                         var itemResult = item.Result == null ? "" : item.Result;
@@ -129,11 +120,26 @@ namespace WebOnlineAptitudeTest.Controllers
                     }
                     resultCorectMark = this._historyTestDetailRepository.Get(x => x.HistoryTestId == historyTestId).Select(y => Convert.ToDouble(y.Mark)).Sum();
                     totalMark = questions.Select(x => x.Mark).Sum();
-                    historyTest.CorectMark = Math.Round(resultCorectMark, 2, MidpointRounding.ToEven); 
-                    historyTest.TotalMark = Math.Round(totalMark , 2, MidpointRounding.ToEven); 
+                    historyTest.CorectMark = Math.Round(resultCorectMark, 2, MidpointRounding.ToEven);
+                    historyTest.TotalMark = Math.Round(totalMark, 2, MidpointRounding.ToEven);
                     historyTest.PercentMark = Math.Round((resultCorectMark / totalMark) * 100, 2, MidpointRounding.ToEven);
                     historyTest.TimeTest = Math.Round((historyTest.DateEndTest != null ? historyTest.DateEndTest.Value - historyTest.DateStartTest.Value : new TimeSpan()).TotalSeconds, 0, MidpointRounding.ToEven);
-                    this._historyTestRepository.Update(historyTest);
+                    this._historyTestRepository.Update(historyTest);       
+
+                    if (historyTest.CategoryExamId == 3)
+                    {
+
+                        double averageMark = this._historyTestRepository
+                            .Get(x => x.CandidateId == historyTest.CandidateId && x.TestScheduleId == historyTest.TestScheduleId)
+                            .Sum(y =>y.PercentMark.Value) / 3;
+
+                        if (averageMark >= 80)
+                        {
+                            Transfer transfer = new Transfer();
+                            transfer.CandidateId = historyTest.CandidateId;
+                            this._transferRepository.Add(transfer);
+                        }                  
+                    }
 
                     this._unitOfWork.Commit();
                 }
@@ -146,7 +152,9 @@ namespace WebOnlineAptitudeTest.Controllers
                     CorectMark = resultCorectMark,
                     TotalMark = totalMark,
                     PercentMark = Math.Round((resultCorectMark / totalMark) * 100, 2, MidpointRounding.ToEven),
-                    TotalTime = Math.Round((DateTime.Now - historyTest.DateStartTest.Value).TotalSeconds, 0, MidpointRounding.ToEven),
+                    TotalTime = historyTest.DateEndTest == null ? 
+                    Math.Round((DateTime.Now - historyTest.DateStartTest.Value).TotalSeconds, 0, MidpointRounding.ToEven): 
+                    Math.Round((historyTest.DateEndTest.Value - historyTest.DateStartTest.Value).TotalSeconds, 0, MidpointRounding.ToEven),
                     Status = "Success"
                 }, JsonRequestBehavior.AllowGet);
 
@@ -179,6 +187,43 @@ namespace WebOnlineAptitudeTest.Controllers
                 return Json(new { Status = "NotInSchedule", currentCategoryId = 0, timeSecond = 0 }, JsonRequestBehavior.AllowGet);
 
             }
+            else if (historyTest.FirstOrDefault().TestSchedule.DateStart > DateTime.Now)
+            {
+                return Json(new
+                {
+                    testScheduleStartValue = historyTest.FirstOrDefault().TestSchedule.DateStart,
+                    testScheduleEndValue = historyTest.FirstOrDefault().TestSchedule.DateEnd,
+                    Status = "NotStartSchedule",
+                    currentCategoryId = 0,
+                    timeSecond = 0
+                }, JsonRequestBehavior.AllowGet);
+            }
+            else if (historyTest.FirstOrDefault().TestSchedule.DateEnd < DateTime.Now)
+            {
+                var datahistoryTest = historyTest.Select(x => new
+                {
+                    CorectMark = x.CorectMark,
+                    DateStartTest = x.DateStartTest.ToString(),
+                    DateEndTest = x.DateEndTest.ToString(),
+                    CategoryExam = x.CategoryExam.Name,
+                    TotalMark = x.HistoryTestDetails.Sum(q => q.Question.Mark),
+                    PercentMark = x.PercentMark,
+                    TotalTime = Math.Round((x.DateEndTest != null ? x.DateEndTest.Value - x.DateStartTest.Value : new TimeSpan()).TotalSeconds, 0, MidpointRounding.ToEven),
+
+                });
+
+                var res = JsonConvert.SerializeObject(datahistoryTest.AsEnumerable());
+
+                return Json(new
+                {
+                    data = res,
+                    testScheduleStartValue = historyTest.FirstOrDefault().TestSchedule.DateStart,
+                    testScheduleEndValue = historyTest.FirstOrDefault().TestSchedule.DateEnd,
+                    Status = "EndSchedule",
+                    currentCategoryId = 0,
+                    timeSecond = 0
+                }, JsonRequestBehavior.AllowGet);
+            }
             else
             {
                 foreach (var item in historyTest)
@@ -198,8 +243,6 @@ namespace WebOnlineAptitudeTest.Controllers
                             categoryId = item.CategoryExamId;
                             historyTestId = item.Id;
                             categoryName = item.CategoryExam.Name;
-
-
                             break;
                         }
                     }
@@ -256,7 +299,7 @@ namespace WebOnlineAptitudeTest.Controllers
                         PercentMark = x.PercentMark,
                         TotalTime = Math.Round((x.DateEndTest != null ? x.DateEndTest.Value - x.DateStartTest.Value : new TimeSpan()).TotalSeconds, 0, MidpointRounding.ToEven),
 
-                    }) ;
+                    });
 
                     var res = JsonConvert.SerializeObject(datahistoryTest.AsEnumerable());
 
@@ -290,7 +333,7 @@ namespace WebOnlineAptitudeTest.Controllers
 
             try
             {
-                var historyTest = this._historyTestRepository.Get(x=> x.Id == historyTestId && x.Deleted == false).FirstOrDefault();
+                var historyTest = this._historyTestRepository.Get(x => x.Id == historyTestId && x.Deleted == false).FirstOrDefault();
                 if (historyTest.DateStartTest == null)
                 {
                     historyTest.DateStartTest = DateTime.Now;

@@ -3,9 +3,9 @@
 
 
 <nav class="side-nav">
-    
+
     <div class="logo intro-x flex items-center">
-        <img alt="Midone Tailwind HTML Admin Template" 
+        <img alt="Midone Tailwind HTML Admin Template"
              src="@Session["ImageCandidate"]">
     </div>
     <div class="candidate">
@@ -13,15 +13,16 @@
         <p class="candidate-code">CODE: <span id="candidate-codeId">@Session["CandidateTest"]</span></p>
     </div>
     <div class="side-nav__devider my-6"></div>
+
+
     <ul class="menu-bar">
         @*General Knowledge*@
         <li class="memu-with-child sidemenu_1">
-            <a href="javascript:;" class="side-menu" >
+            <a href="javascript:;" class="side-menu">
                 <div class="side-menu__icon"> <i data-feather="book-open"></i> </div>
                 <div class="side-menu__title">General Knowledge </div>
             </a>
             <ul id="sidemenu_content_1">
-
             </ul>
         </li>
         @*Mathematics*@
@@ -31,8 +32,6 @@
                 <div class="side-menu__title">Mathematics </div>
             </a>
             <ul id="sidemenu_content_2">
-
-              
             </ul>
         </li>
 
@@ -43,21 +42,12 @@
                 <div class="side-menu__title">Computer Technology </div>
             </a>
             <ul id="sidemenu_content_3">
-
-              
             </ul>
         </li>
 
     </ul>
+    <div class="side-nav__devider my-6"></div>
+    <div class="">
+        <button class="button button-logout w-32 mb-2 flex items-center justify-center bg-theme-6 text-white m-auto"> <i data-feather="log-out" class="w-4 h-4 mr-2"></i> Logout </button>
+    </div>
 </nav>
-
-@*@foreach (var menu in ViewBag.menu)
-{
-    <h2> @menu.Attribute("title").Value;</h2>
-  
-
-    foreach (var add in menu.Descendants("add"))
-    {
-        <h2>@add.Attribute("action").Value;</h2>
-    }
-}*@

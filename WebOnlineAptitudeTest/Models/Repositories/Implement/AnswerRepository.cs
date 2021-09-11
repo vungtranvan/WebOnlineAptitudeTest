@@ -22,8 +22,14 @@ namespace WebOnlineAptitudeTest.Models.Repositories.Implement
         {
 
             List<Answer> answerDatas = base.GetMulti(x => x.QuestionId == questId).ToList();
-
-            List<Answer> answerChanged = listChanged.ToList();
+            List<Answer> answerChanged = new List<Answer>();
+            if (listChanged.Count() > 0 && listChanged != null)
+            {
+                answerChanged = listChanged.ToList();
+            }else
+            {
+                return false;
+            }
 
             // remove
 
