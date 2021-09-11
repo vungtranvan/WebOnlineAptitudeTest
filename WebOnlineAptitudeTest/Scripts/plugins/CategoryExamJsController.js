@@ -1,4 +1,9 @@
-﻿var categoryExamController = {
+﻿var categoryExamConfig = {
+    pageSize: $('.pageSizeItem').val(),
+    pageIndex: 1
+}
+
+var categoryExamController = {
     init: function () {
         categoryExamController.loadData();
     },
@@ -14,6 +19,15 @@
                     min: 5
                 }
             }
+        });
+
+        $('.txtSearch').off('input').on('input', function () {
+            categoryExamController.loadData(true);
+        });
+
+        $('.pageSizeItem').off('change').on('change', function () {
+            categoryExamConfig.pageSize = $(this).val();
+            categoryExamController.loadData(true);
         });
 
         $('.btnUpdate').off('click').on('click', function (e) {
@@ -78,10 +92,17 @@
             }
         });
     },
-    loadData: function () {
+    loadData: function (changePageSize) {
+        var keyword = $('.txtSearch').val();
         $.ajax({
             url: '/CategoryExam/LoadData',
             type: 'GET',
+            data: {
+                keyword: keyword,
+                page: categoryExamConfig.pageIndex,
+                pageSize: categoryExamConfig.pageSize
+            },
+            dataType: 'json',
             success: function (response) {
                 if (response.status == true) {
                     var data = response.data;
@@ -108,8 +129,33 @@
                         $('.textEmpty').hide();
                         $('#tableCategoryExam').show();
                     }
+                    categoryExamController.pagination(response.totalRow, function () {
+                        categoryExamController.loadData();
+                    }, changePageSize);
                     categoryExamController.registerEvents();
                 }
+            }
+        });
+    },
+    pagination: function (totalRow, callback, changePageSize) {
+        var totalPage = Math.ceil(totalRow / categoryExamConfig.pageSize);
+
+        if ($('#pagination').length === 0 || changePageSize === true) {
+            $('#pagination').empty();
+            $('#pagination').removeData('twbs-pagination');
+            $('#pagination').unbind("page");
+        }
+
+        $('#pagination').twbsPagination({
+            totalPages: totalPage,
+            first: '<i class="fas fa-angle-double-left"></i>',
+            prev: '<i class=" fas fa-angle-left"></i>',
+            next: '<i class="fas fa-angle-right"></i>',
+            last: '<i class="fas fa-angle-double-right"></i>',
+            visiblePages: 8,
+            onPageClick: function (event, page) {
+                categoryExamConfig.pageIndex = page;
+                setTimeout(callback, 0);
             }
         });
     }

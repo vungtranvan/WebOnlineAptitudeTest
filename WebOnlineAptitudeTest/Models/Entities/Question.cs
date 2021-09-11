@@ -20,7 +20,6 @@ namespace WebOnlineAptitudeTest.Models.Entities
         public int Id { get; set; }
 
         [Required]
-        [StringLength(225)]
         [Display(Name="Question")]
         [DataType(DataType.MultilineText)]
         [AllowHtml]

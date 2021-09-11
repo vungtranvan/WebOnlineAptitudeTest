@@ -42,7 +42,6 @@ namespace WebOnlineAptitudeTest
                     "~/Content/assets/backend/plugins/assets/libs/chart.js/dist/Chart.min.js",
                     "~/Scripts/toastr.min.js",
                     "~/Content/assets/backend/dist/js/config-toastrJs.js",
-                    "~/CKFinderScripts/ckfinder.js",
                     "~/Scripts/jquery.validate*",
                     "~/Scripts/plugins/changePassAdmin.js",
                     "~/Scripts/plugins/logoutAdmin.js")

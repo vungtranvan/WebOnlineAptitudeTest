@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <menus>
-  <section title="MANGAGER">
+  <section title="MANAGE">
     
     <menu title="Admin" icon="bar-chart">
       <add title="List" action="Index" controller="Account"/>
