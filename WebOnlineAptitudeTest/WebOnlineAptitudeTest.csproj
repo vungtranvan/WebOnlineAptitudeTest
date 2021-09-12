@@ -237,6 +237,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helper\ConfigHelper.cs" />
+    <Compile Include="Helper\EncryptionHelper.cs" />
     <Compile Include="Helper\MailHelper.cs" />
     <Compile Include="Helper\MyHelper.cs" />
     <Compile Include="Helper\XMessage.cs" />

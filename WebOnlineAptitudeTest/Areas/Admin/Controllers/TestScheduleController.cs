@@ -114,7 +114,7 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
                 content = content.Replace("{{StartDate}}", model.DateStart.ToString("MM/dd/yyyy HH:mm"));
                 content = content.Replace("{{EndDate}}", model.DateEnd.ToString("MM/dd/yyyy HH:mm"));
                 content = content.Replace("{{UserName}}", candi.UserName);
-                content = content.Replace("{{Password}}", candi.Password);
+                content = content.Replace("{{Password}}", EncryptionHelper.Decrypt(candi.Password));
                 var adminEmail = ConfigHelper.GetByKey("AdminEmail");
                 MailHelper.SendMail(candi.Email, "Welcome mail and Online Aptitude Test", content);
             }
