@@ -82,6 +82,7 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [ValidateInput(false)]
         public ActionResult InsertOrUpdate(Candidate candidate)
         {
             var idCandi = candidate.Id;
