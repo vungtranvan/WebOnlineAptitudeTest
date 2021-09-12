@@ -63,11 +63,14 @@ namespace WebOnlineAptitudeTest.Models.Repositories.Implement
             {
                 foreach (var item in lstData)
                 {
+                    item.Image = "/Content/default-avatar.jpg";
+                    item.Password = EncryptionHelper.Encrypt(item.Password);
                     item.Status = EnumStatusCandidate.New;
                     item.CreatedDate = DateTime.Now;
                     item.Deleted = false;
                     base.Add(item);
                 }
+                _unitOfWork.Commit();
                 return true;
             }
             catch (Exception ex)

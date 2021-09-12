@@ -1790,7 +1790,7 @@
     <Content Include="bundles\backend\icons\font-awesome\webfonts\fa-solid-900.woff" />
     <Content Include="bundles\backend\icons\font-awesome\webfonts\fa-solid-900.ttf" />
     <Content Include="Areas\Admin\Views\Candidate\InsertMulti.cshtml" />
-    <Content Include="Content\assets\backend\template\ExampleDataCandidate.xlsx" />
+    <Content Include="Content\assets\backend\template\DataCandidateExample.xlsx" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />

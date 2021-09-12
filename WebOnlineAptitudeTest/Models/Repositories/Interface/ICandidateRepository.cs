@@ -12,6 +12,7 @@ namespace WebOnlineAptitudeTest.Models.Repositories.Interface
     public interface ICandidateRepository : IRepository<Candidate>
     {
         bool InsertOrUpdate(Candidate candidate);
+        bool AddMulti(List<Candidate> lstData);
         bool Locked(int id);
         PagingModel<Candidate> GetData(string keyword, int page, int pageSize);
     }
