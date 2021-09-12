@@ -11,20 +11,16 @@
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="/Content/assets/backend/plugins/assets/images/favicon.png">
     <title>Admin - @ViewBag.Title</title>
-    <!-- Custom CSS -->
-    <link href="/Content/assets/backend/plugins/assets/extra-libs/c3/c3.min.css" rel="stylesheet">
-    <link href="/Content/assets/backend/plugins/assets/libs/chartist/dist/chartist.min.css" rel="stylesheet">
-    <link href="/Content/assets/backend/plugins/assets/extra-libs/jvector/jquery-jvectormap-2.0.2.css" rel="stylesheet" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-bs4.css" rel="stylesheet">
+    <!-- Layout CSS -->
+    @Styles.Render("~/bundles/backend/css")
+    <!-- Layout CSS -->
 
     <!-- Custom CSS -->
-    <link href="/Content/assets/backend/plugins/dist/css/style.min.css" rel="stylesheet">
-    <link href="/Content/toastr.min.css" rel="stylesheet" />
-    <link href="/Content/SiteBackend.css" rel="stylesheet" />
     @RenderSection("Styles", false)
+    <!-- Custom CSS -->
 </head>
 
-<body>
+<body> 
     <!-- ============================================================== -->
     <!-- Preloader - style you can find in spinners.css -->
     <!-- ============================================================== -->
@@ -92,6 +88,7 @@
     @Scripts.Render("~/bundles/backend/js")
     @RenderSection("Scripts", false)
     @Html.Partial("_XMessage")
+
 </body>
 
 </html>

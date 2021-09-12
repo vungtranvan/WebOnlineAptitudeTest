@@ -97,10 +97,9 @@
 
 
 <div class="row">
-    <div class="col-lg-8 col-md-12">
-        <div class="card">
+    <div class="col-lg-8 col-md-12 ">
+        <div class="card" style="height:100%">
             <div class="card-body">
-                <h4 class="card-title">Net Income</h4>
                 <canvas id="polar-chartCandi" class="chartjs-render-monitor"></canvas>
             </div>
         </div>
@@ -108,16 +107,92 @@
     <div class="col-lg-4 col-md-12">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">Net Income</h4>
-                <div class="net-income mt-4 position-relative" style="height:300px;"></div>
-                <ul class="list-inline text-center mt-5 mb-2">
-                    @*OK 123*@
-                </ul>
+                <div>
+                    <canvas id="morris-area-chartCandiJoin" height="150"></canvas>
+                </div>
+
+            </div>
+        </div>
+        <div class="card" style="margin-bottom:0">
+            <div class="card-body">
+                <div>
+                    <canvas id="morris-area-chartCandi" height="150"></canvas>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="row" style="margin-top: 30px">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex align-items-center mb-4">
+                    <h4 class="card-title">
+                        Latest passers
+                    </h4>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table no-wrap v-middle mb-0">
+                        <thead>
+                            <tr class="border-0">
+                                <th class="border-0 font-14 font-weight-medium text-muted  px-2">
+                                    Name
+                                </th>
+                                <th class="border-0 font-14 font-weight-medium text-muted px-2">
+                                    Result
+                                </th>
+                                <th class="border-0 font-14 font-weight-medium text-muted  px-2"> Date of participation</th>
+                                <th class="border-0 font-14 font-weight-medium text-muted  px-2"> Date of transfer</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (ViewBag.Recents != null)
+                            {
+                                foreach (WebOnlineAptitudeTest.Models.ViewModels.RecentsCandinade c in ViewBag.Recents)
+                                {
+                                    <tr>
+                                        <td class="border-top-0 px-2 py-4">
+                                            <div class="d-flex no-block align-items-center">
+                                                <div class="mr-3"><img src="@c.Image" alt="user" class="rounded-circle" width="45" height="45"></div>
+                                                <div class="">
+                                                    <h5 class="text-dark mb-0 font-16 font-weight-medium">
+                                                        @c.Name
+                                                    </h5>
+                                                    <span class="text-muted font-14">@c.Email</span>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="border-top-0 px-2 py-4">
+                                            <div class="popover-icon d-flex latest-passers">
+                                                <a class="btn btn-primary rounded-circle btn-circle font-12 popover-item d-flex" href="javascript:void(0)">@c.GeneralKnowledge.Value</a>
+                                                <a class="btn btn-danger rounded-circle btn-circle font-12 popover-item d-flex" href="javascript:void(0)">@c.Mathematics.Value</a>
+                                                <a class="btn btn-cyan rounded-circle btn-circle font-12 popover-item d-flex" href="javascript:void(0)">@c.ComputerTechnology</a>
+                                                <a class="btn btn-success text-white rounded-circle btn-circle font-14 d-flex" href="javascript:void(0)">@c.AverageMark</a>
+                                            </div>
+                                        </td>
+
+                                        <td class="border-top-0 font-weight-medium text-muted px-2 py-4">
+                                            @c.ParticipateDate
+                                        </td>
+
+                                        <td class="border-top-0 font-weight-medium text-muted px-2 py-4">
+                                            @c.TranferDate
+                                        </td>
+                                    </tr>
+                                }
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
 </div>
-
+</div>
 @section Scripts{
     <script>
         $(document).ready(function () {
@@ -155,31 +230,142 @@
                         dataChart.push(item.CountTotal);
                     });
 
-                    $(function () {
-                        new Chart(document.getElementById("polar-chartCandi"), {
-                            type: 'polarArea',
-                            data: {
-                                labels: labelChart,
-                                datasets: [
-                                    {
-                                        label: "Online Aptitude Test",
-                                        backgroundColor: backgroundColorChart, 
-                                        data: dataChart
-                                    }
-                                ]
-                            },
-                            options: {
-                                title: {
-                                    display: true,
-                                    text: 'Online Aptitude Test For Status Candidate'
-                                }
-                            }
-                        });
-                    });
 
+                    new Chart(document.getElementById("polar-chartCandi"), {
+                        type: 'polarArea',
+                        data: {
+                            labels: labelChart,
+                            datasets: [
+                                {
+                                    label: "Online Aptitude Test",
+                                    backgroundColor: backgroundColorChart,
+                                    data: dataChart
+                                }
+                            ]
+                        },
+                        options: {
+                            title: {
+                                display: true,
+                                text: 'Online Aptitude Test For Status Candidate'
+                            }
+                        }
+                    });
                 }
             });
+
+
+            $.ajax({
+                url: '/Homes/LoadCandiLast5Mounth',
+                type: 'GET',
+                dataType: 'json',
+                success: function (response) {
+  
+                    var lastCandi = 0;
+                    lastCandi += response.dataAll.Before4Month - (response.data.Successbefore4Month + response.data.Failedbefore4Month);
+                    var lastCandia = lastCandi;
+                    lastCandi += response.dataAll.Before3Month - (response.data.Successbefore3Month + response.data.Failedbefore3Month);
+                    var lastCandib = lastCandi;
+                    lastCandi += response.dataAll.Before2Month - (response.data.Successbefore2Month + response.data.Failedbefore2Month);
+                    var lastCandic = lastCandi;
+                    lastCandi += response.dataAll.Before1Month - (response.data.Successbefore1Month + response.data.Failedbefore1Month);
+                    var lastCandid = lastCandi;
+                    lastCandi += response.dataAll.ThisMouth - (response.data.SuccessThisMouth + response.data.FailedThisMouth);
+                    var lastCandie = lastCandi;
+
+
+                    new Chart(document.getElementById("morris-area-chartCandiJoin"), {
+                        type: 'line',
+                        data: {
+                            labels: [getPreviousMount(4), getPreviousMount(3), getPreviousMount(2), getPreviousMount(1), getPreviousMount(0)],
+                            datasets: [
+                                {
+                                    label: "Participate " + response.dataAll.Count,
+                                    fill: true,
+                                    backgroundColor: "rgba(54, 162, 235, 0.2)",
+                                    borderColor: "rgb(54, 162, 235)",
+                                    pointBorderColor: "#fff",
+                                    pointBackgroundColor: "rgb(54, 162, 235)",
+                                    pointBorderColor: "#fff",
+                                    data: [response.dataAll.Before4Month,
+                                    response.dataAll.Before3Month,
+                                    response.dataAll.Before2Month,
+                                    response.dataAll.Before1Month,
+                                    response.dataAll.ThisMouth]
+                                }
+                            ]
+                        },
+                        options: {
+                            title: {
+                                display: true,
+                                text: 'List of candidates participating in the last 5 months'
+                            }
+                        }
+                    });
+                    new Chart(document.getElementById("morris-area-chartCandi"), {
+                        type: 'line',
+                        data: {
+                            labels: [getPreviousMount(4), getPreviousMount(3), getPreviousMount(2), getPreviousMount(1), getPreviousMount(0)],
+                            datasets: [
+                                {
+                                    label: "Pass: " + response.data.CountSuccess,
+                                    fill: true,
+                                    backgroundColor: "rgba(116, 96, 238,0.2)",
+                                    borderColor: "rgba(116, 96, 238,1)",
+                                    pointBorderColor: "#fff",
+                                    pointBackgroundColor: "rgba(116, 96, 238,1)",
+                                    data: [parseFloat(response.data.Successbefore4Month),
+                                    parseFloat(response.data.Successbefore3Month),
+                                    parseFloat(response.data.Successbefore2Month),
+                                    parseFloat(response.data.Successbefore1Month),
+                                    parseFloat(response.data.SuccessThisMouth)
+                                    ]
+                                }, {
+                                    label: "Not Pass: " + response.data.CountFailed,
+                                    fill: true,
+                                    backgroundColor: "rgba(255, 60, 166, 0.2)",
+                                    borderColor: "rgba(255, 60, 166,1)",
+                                    pointBorderColor: "#fff",
+                                    pointBackgroundColor: "rgba(255, 60, 166,1)",
+                                    pointBorderColor: "#fff",
+                                    data: [response.data.Failedbefore4Month,
+                                    response.data.Failedbefore3Month,
+                                    response.data.Failedbefore2Month,
+                                    response.data.Failedbefore1Month,
+                                    response.data.FailedThisMouth]
+                                }, {
+                                    label: "Haven't taken the exam yet: " + (response.dataAll.Count - (response.data.CountFailed + response.data.CountSuccess)),
+                                    fill: true,
+                                    backgroundColor: "rgba(34, 202, 128, 0.2)",
+                                    borderColor: "rgba(34, 202, 128, 1)",
+                                    pointBorderColor: "#fff",
+                                    pointBackgroundColor: "rgba(34, 202, 128, 1)",
+                                    pointBorderColor: "#fff",
+                                    data: [
+                                        lastCandia, lastCandib, lastCandic, lastCandid, lastCandie
+                                    ]
+                                }
+                            ]
+                        },
+                        options: {
+                            title: {
+                                display: true,
+                                text: 'Candinade results for the last 5 months'
+                            }
+                        }
+                    });
+                }
+
+
+            });
+
+            function getPreviousMount(last) {
+                var thisMouth = new Date();
+                var monthNames = ["January", "February", "March", "April", "May", "June",
+                    "July", "August", "September", "October", "November", "December"];
+                var monthNumber = thisMouth.getMonth() - last;
+                monthNumber = monthNumber < 0 ? 12 + (monthNumber) : monthNumber;
+                return monthNames[monthNumber];
+            }
         });
-        
     </script>
 }

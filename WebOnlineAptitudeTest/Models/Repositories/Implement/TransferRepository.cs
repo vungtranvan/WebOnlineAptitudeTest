@@ -39,6 +39,11 @@ namespace WebOnlineAptitudeTest.Models.Repositories.Implement
             return new PagingModel<Transfer>() { TotalRow = totalRow, Items = data };
         }
 
+        public IEnumerable<Transfer> GetTop(int id = 10)
+        {
+           return base.DbContext.Transfers.OrderBy(x => x.CreatedDate).Take(id);
+        }
+
         public bool Locked(int id)
         {
             var cadi = base.GetSingleById(id);

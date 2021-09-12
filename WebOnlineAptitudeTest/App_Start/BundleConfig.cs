@@ -22,6 +22,8 @@ namespace WebOnlineAptitudeTest
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js"));
 
+
+
             bundles.Add(new ScriptBundle("~/bundles/backend/js").Include(
                     "~/Scripts/jquery-{version}.js",
                     "~/Content/assets/backend/plugins/assets/libs/popper.js/dist/umd/popper.min.js",
@@ -38,20 +40,24 @@ namespace WebOnlineAptitudeTest
                     "~/Content/assets/backend/plugins/assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js",
                     "~/Content/assets/backend/plugins/assets/extra-libs/jvector/jquery-jvectormap-2.0.2.min.js",
                     "~/Content/assets/backend/plugins/assets/extra-libs/jvector/jquery-jvectormap-world-mill-en.js",
-                    "~/Content/assets/backend/plugins/dist/js/pages/dashboards/dashboard1.min.js",
                     "~/Content/assets/backend/plugins/assets/libs/chart.js/dist/Chart.min.js",
                     "~/Scripts/toastr.min.js",
                     "~/Content/assets/backend/dist/js/config-toastrJs.js",
+                    //"~/Content/assets/backend/plugins/dist/js/pages/dashboards/dashboard1.min.js",
                     "~/Scripts/jquery.validate*",
                     "~/Scripts/plugins/changePassAdmin.js",
                     "~/Scripts/plugins/logoutAdmin.js")
                     );
 
-            bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
-            bundles.Add(new StyleBundle("~/Content/site").Include(
-                    "~/Content/Site.css"));
+            bundles.Add(new StyleBundle("~/bundles/backend/css").Include(
+                      "~/Content/assets/backend/plugins/assets/extra-libs/c3/c3.min.css",
+                      "~/Content/assets/backend/plugins/assets/libs/chartist/dist/chartist.min.css",
+                      "~/Content/assets/backend/plugins/assets/extra-libs/jvector/jquery-jvectormap-2.0.2.css",
+                      "~/Content/assets/backend/plugins/assets/libs/summernote/summernote-bs4.css",
+                      "~/Content/assets/backend/plugins/dist/css/style.min.css",
+                      "~/Content/toastr.min.css",
+                      "~/Content/SiteBackend.css"
+          ));
 
             BundleTable.EnableOptimizations = true;
         }
