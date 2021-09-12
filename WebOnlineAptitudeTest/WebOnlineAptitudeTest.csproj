@@ -1428,6 +1428,7 @@
     <Content Include="Content\assets\backend\plugins\assets\libs\raphael\license.txt" />
     <Content Include="Content\assets\backend\plugins\assets\libs\raphael\raphael.min.js" />
     <Content Include="Content\assets\backend\plugins\assets\libs\raphael\raphael.no-deps.min.js" />
+    <Content Include="Content\assets\backend\plugins\assets\libs\summernote\summernote-bs4.css" />
     <Content Include="Content\assets\backend\plugins\dist\css\fonts\Gilmer-Bold.svg" />
     <Content Include="Content\assets\backend\plugins\dist\css\fonts\Gilmer-Heavy.svg" />
     <Content Include="Content\assets\backend\plugins\dist\css\fonts\Gilmer-Medium.svg" />
@@ -1581,7 +1582,6 @@
     <Content Include="Content\toastr.less" />
     <Content Include="Areas\Admin\Views\Shared\_XMessage.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_LayoutAdmin.cshtml" />
-    <Content Include="Areas\Admin\Views\Shared\_NavBarRight.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_HeaderNavTop.cshtml" />
     <Content Include="Content\assets\backend\plugins\assets\extra-libs\datatables.net-bs4\package.json" />
     <Content Include="Content\assets\backend\plugins\assets\extra-libs\datatables.net-bs4\Readme.md" />
@@ -1690,7 +1690,6 @@
     <Content Include="Content\assets\backend\plugins\dist\js\pages\datatable\data.json" />
     <Content Include="Areas\Admin\Views\Shared\_ModalDelete.cshtml" />
     <Content Include="Areas\Admin\Views\Candidate\_ModalDetailCandidate.cshtml" />
-    <Content Include="Areas\Admin\Views\Shared\_NavBarRight1.cshtml" />
     <Content Include="Areas\Admin\Views\Menus\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_ModalChangePassword.cshtml" />
     <Content Include="Areas\Admin\Views\CategoryExam\Index.cshtml" />
@@ -1708,6 +1707,10 @@
     <Content Include="Areas\Admin\Views\Report\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Question\Upload.cshtml" />
     <Content Include="Areas\Admin\Views\Question\UploadFile.cshtml" />
+    <Content Include="bundles\backend\toastr.js.map" />
+    <Content Include="bundles\backend\icons\font-awesome\webfonts\fa-solid-900.woff2" />
+    <Content Include="bundles\backend\icons\font-awesome\webfonts\fa-solid-900.woff" />
+    <Content Include="bundles\backend\icons\font-awesome\webfonts\fa-solid-900.ttf" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />

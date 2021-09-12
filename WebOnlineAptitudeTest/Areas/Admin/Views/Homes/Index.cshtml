@@ -100,7 +100,6 @@
     <div class="col-lg-8 col-md-12">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">Net Income</h4>
                 <canvas id="polar-chartCandi" class="chartjs-render-monitor"></canvas>
             </div>
         </div>
@@ -108,18 +107,26 @@
     <div class="col-lg-4 col-md-12">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">Net Income</h4>
-                <div class="net-income mt-4 position-relative" style="height:300px;"></div>
-                <ul class="list-inline text-center mt-5 mb-2">
-                    @*OK 123*@
-                </ul>
+                <div>
+                    <canvas id="morris-area-chartCandiJoin" height="150"></canvas>
+                </div>
+
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <div>
+                    <canvas id="morris-area-chartCandi" height="150"></canvas>
+                </div>
+
             </div>
         </div>
     </div>
-</div>
 
+</div>
 @section Scripts{
     <script>
+
         $(document).ready(function () {
             $.ajax({
                 url: '/Homes/LoadStatusCandi',
@@ -163,7 +170,7 @@
                                 datasets: [
                                     {
                                         label: "Online Aptitude Test",
-                                        backgroundColor: backgroundColorChart, 
+                                        backgroundColor: backgroundColorChart,
                                         data: dataChart
                                     }
                                 ]
@@ -176,10 +183,98 @@
                             }
                         });
                     });
-
                 }
             });
         });
-        
+
+        $.ajax({
+            url: '/Homes/LoadCandiLast5Mounth',
+            type: 'GET',
+            dataType: 'json',
+            success: function (response) {
+                new Chart(document.getElementById("morris-area-chartCandiJoin"), {
+                    type: 'line',
+                    data: {
+                        labels: [getPreviousMount(4), getPreviousMount(3), getPreviousMount(2), getPreviousMount(1), getPreviousMount(0)],
+                        datasets: [
+                            {
+                                label: "Participate " + response.data.CountFailed,
+                                fill: true,
+                                backgroundColor: "rgba(54, 162, 235, 0.2)",
+                                borderColor: "rgb(54, 162, 235)",
+                                pointBorderColor: "#fff",
+                                pointBackgroundColor: "rgb(54, 162, 235)",
+                                pointBorderColor: "#fff",
+                                data: [response.data.Failedbefore4Month,
+                                response.data.Failedbefore3Month,
+                                response.data.Failedbefore2Month,
+                                response.data.Failedbefore1Month,
+                                response.data.FailedThisMouth]
+                            }
+                        ]
+                    },
+                    options: {
+                        title: {
+                            display: true,
+                            text: 'List of candidates participating in the last 5 months'
+                        }
+                    }
+                });
+                new Chart(document.getElementById("morris-area-chartCandi"), {
+                    type: 'line',
+                    data: {
+                        labels: [getPreviousMount(4), getPreviousMount(3), getPreviousMount(2), getPreviousMount(1), getPreviousMount(0)],
+                        datasets: [
+                            {
+                                label: "Pass " + response.data.CountSuccess,
+                                fill: true,
+                                backgroundColor: "rgba(116, 96, 238,0.2)",
+                                borderColor: "rgba(116, 96, 238,1)",
+                                pointBorderColor: "#fff",
+                                pointBackgroundColor: "rgba(116, 96, 238,1)",
+                                data: [parseFloat(response.data.Successbefore4Mont),
+                                parseFloat(response.data.Successbefore3Month),
+                                parseFloat(response.data.Successbefore2Month),
+                                parseFloat(response.data.Successbefore1Month),
+                                parseFloat(response.data.SuccessThisMouth)
+                                ]
+                            }, {
+                                label: "Not Pass " + response.data.CountFailed,
+                                fill: true,
+                                backgroundColor: "rgba(255, 60, 166,0.2)",
+                                borderColor: "rgba(255, 60, 166,1)",
+                                pointBorderColor: "#fff",
+                                pointBackgroundColor: "rgba(255, 60, 166,1)",
+                                pointBorderColor: "#fff",
+                                data: [response.data.Failedbefore4Month,
+                                response.data.Failedbefore3Month,
+                                response.data.Failedbefore2Month,
+                                response.data.Failedbefore1Month,
+                                response.data.FailedThisMouth]
+                            }
+                        ]
+                    },
+                    options: {
+                        title: {
+                            display: true,
+                            text: 'Candinade results for the last 5 months'
+                        }
+                    }
+                });
+            }
+
+        });
+
+
+
+
+        function getPreviousMount(last) {
+            var thisMouth = new Date();
+            var monthNames = ["January", "February", "March", "April", "May", "June",
+                "July", "August", "September", "October", "November", "December"];
+            var monthNumber = thisMouth.getMonth() - last;
+            monthNumber = monthNumber < 0 ? 12 + (monthNumber) : monthNumber;
+            return monthNames[monthNumber];
+        }
     </script>
 }
