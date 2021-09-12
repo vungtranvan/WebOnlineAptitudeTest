@@ -74,5 +74,7 @@ namespace WebOnlineAptitudeTest.Models.Entities
                 .WithRequired(e => e.Question)
                 .WillCascadeOnDelete(false);
         }
+
+        public System.Data.Entity.DbSet<WebOnlineAptitudeTest.Models.ViewModels.ResultQuestUpload> ResultQuestUploads { get; set; }
     }
 }
