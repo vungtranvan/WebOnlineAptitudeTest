@@ -58,6 +58,13 @@ namespace WebOnlineAptitudeTest
                       "~/Content/toastr.min.css",
                       "~/Content/SiteBackend.css"
           ));
+            bundles.Add(new ScriptBundle("~/bundles/frontend/js").Include(
+                    "~/Content/assets/backend/dist/js/app.js"));
+
+            bundles.Add(new StyleBundle("~/bundles/frontend/css").Include(
+                     "~/Content/assets/backend/dist/css/app.css",
+                     "~/Content/Site.css"
+         ));
 
             BundleTable.EnableOptimizations = true;
         }

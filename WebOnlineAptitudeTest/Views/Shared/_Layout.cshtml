@@ -8,9 +8,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>CANDIDATE - @ViewBag.Title</title>
     <!-- BEGIN: CSS Assets-->
-    <link rel="stylesheet" href="/Content/assets/backend/dist/css/app.css" />
-          @RenderSection("Styles", false)
-          @Styles.Render("~/Content/site")
+
+    @Styles.Render("~/bundles/frontend/css")
+    @RenderSection("Styles", false)
 
 </head>
 <!-- END: Head -->
@@ -82,7 +82,7 @@
         });
     </script>
 
-    <script src="/Content/assets/backend/dist/js/app.js"></script>
+    @Scripts.Render("~/bundles/frontend/js")
 
 </body>
 </html>
