@@ -273,6 +273,7 @@
     <Compile Include="Models\Repositories\Interface\ITransferRepository.cs" />
     <Compile Include="Models\Repositories\Implement\TestScheduleRepository.cs" />
     <Compile Include="Models\Repositories\Implement\TransferRepository.cs" />
+    <Compile Include="Models\ViewModels\RecentsCandinade.cs" />
     <Compile Include="Models\ViewModels\ResultAnswer.cs" />
     <Compile Include="Models\ViewModels\ResultAnswerUpload.cs" />
     <Compile Include="Models\ViewModels\ResultQuestUpload.cs" />

@@ -12,5 +12,7 @@ namespace WebOnlineAptitudeTest.Models.Repositories.Interface
     {
         bool Locked(int id);
         PagingModel<Transfer> GetData(string keyword, int page, int pageSize);
+        IEnumerable<Transfer> GetTop(int id);
+
     }
 }

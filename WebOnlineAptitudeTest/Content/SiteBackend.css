@@ -338,6 +338,18 @@ input:checked + .slider:before {
     top: 13px;
     left: 7px;
 }
+.latest-passers {
+    display: flex;
+}
+.latest-passers .btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    width: 50px;
+    height: 50px;
+}
+
 
 @media only screen and (max-width: 1100px) {
     .tblDataQuestion {
