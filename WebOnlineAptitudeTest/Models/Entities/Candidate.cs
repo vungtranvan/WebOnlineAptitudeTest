@@ -42,10 +42,11 @@ namespace WebOnlineAptitudeTest.Models.Entities
 
         public string Address { get; set; }
 
-        [Required(ErrorMessage = "This field is required")]
+        //[Required(ErrorMessage = "This field is required")]
 
         [StringLength(30, ErrorMessage = "This field max length is 30")]
-        //[RegularExpression(@"^([0-9]{5,30})+)$", ErrorMessage = "Phone required is number and lenght from 5 to 30 characters")]
+        [DataType(DataType.PhoneNumber)]
+        [RegularExpression(@"^(\d{5,15})$", ErrorMessage = "Not a valid phone number")]
         public string Phone { get; set; }
 
         [NotMapped]
@@ -53,8 +54,10 @@ namespace WebOnlineAptitudeTest.Models.Entities
 
         public bool Sex { get; set; }
 
+        [DataType(DataType.MultilineText)]
         public string Education { get; set; }
 
+        [DataType(DataType.MultilineText)]
         public string WorkExperience { get; set; }
 
         public DateTime CreatedDate { get; set; }
