@@ -4,12 +4,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using WebOnlineAptitudeTest.Models;
 using WebOnlineAptitudeTest.Models.Infrastructure;
 using WebOnlineAptitudeTest.Models.Repositories.Interface;
 
 namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
 {
-    public class HistoryTestsController : BaseController
+    [BackEndAuthorize]
+    public class HistoryTestsController : Controller
     {
         private readonly IHistoryTestRepository _historyTestRepository;
         private readonly ITestScheduleRepository _testScheduleRepository;

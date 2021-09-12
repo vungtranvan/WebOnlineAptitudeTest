@@ -8,13 +8,15 @@ using System.Xml.Linq;
 using WebOnlineAptitudeTest.Areas.Admin.Data.Model;
 using WebOnlineAptitudeTest.Areas.Admin.Data.Model.Charts;
 using WebOnlineAptitudeTest.Helper;
+using WebOnlineAptitudeTest.Models;
 using WebOnlineAptitudeTest.Models.Infrastructure;
 using WebOnlineAptitudeTest.Models.Repositories.Interface;
 using WebOnlineAptitudeTest.Models.ViewModels;
 
 namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
 {
-    public class HomesController : BaseController
+    [BackEndAuthorize]
+    public class HomesController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly ICandidateRepository _candidateRepository;

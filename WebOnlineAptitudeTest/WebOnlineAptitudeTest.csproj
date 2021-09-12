@@ -209,7 +209,6 @@
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\AccountController.cs" />
     <Compile Include="Areas\Admin\Controllers\AuthController.cs" />
-    <Compile Include="Areas\Admin\Controllers\BaseController.cs" />
     <Compile Include="Areas\Admin\Controllers\CandidateController.cs" />
     <Compile Include="Areas\Admin\Controllers\CategoryExamController.cs" />
     <Compile Include="Areas\Admin\Controllers\HistoryTestsController.cs" />
@@ -228,7 +227,6 @@
     <Compile Include="Areas\Admin\Data\Model\User\LoginRequest.cs" />
     <Compile Include="Areas\Admin\Data\Model\User\ResetPasswordResult.cs" />
     <Compile Include="Controllers\AuthFrontendController.cs" />
-    <Compile Include="Controllers\BaseFrController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MenuController.cs" />
     <Compile Include="CustomCKFinderAuthenticator.cs" />
@@ -242,6 +240,8 @@
     <Compile Include="Helper\MailHelper.cs" />
     <Compile Include="Helper\MyHelper.cs" />
     <Compile Include="Helper\XMessage.cs" />
+    <Compile Include="Models\FrontEndAuthorizeAttribute.cs" />
+    <Compile Include="Models\BackEndAuthorizeAttribute.cs" />
     <Compile Include="Models\Entities\Admin.cs" />
     <Compile Include="Models\Entities\Answer.cs" />
     <Compile Include="Models\Entities\Candidate.cs" />

@@ -5,12 +5,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using WebOnlineAptitudeTest.Models;
 using WebOnlineAptitudeTest.Models.Infrastructure;
 using WebOnlineAptitudeTest.Models.Repositories.Interface;
 
 namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
 {
-    public class ReportController : BaseController
+    [BackEndAuthorize]
+    public class ReportController : Controller
     {
         private readonly ITestScheduleRepository _testScheduleRepository;
         private readonly IUnitOfWork _unitOfWork;

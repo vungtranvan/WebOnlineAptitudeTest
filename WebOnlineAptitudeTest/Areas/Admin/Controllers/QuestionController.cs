@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using WebOnlineAptitudeTest.Models;
 using WebOnlineAptitudeTest.Models.Entities;
 using WebOnlineAptitudeTest.Models.Infrastructure;
 using WebOnlineAptitudeTest.Models.Repositories.Interface;
@@ -12,7 +13,8 @@ using WebOnlineAptitudeTest.Models.ViewModels;
 
 namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
 {
-    public class QuestionController : BaseController
+    [BackEndAuthorize]
+    public class QuestionController : Controller
     {
         private readonly IQuestionRepository _questionRepository;
         private readonly ICategoryExamRepository _categoryExamRepository;

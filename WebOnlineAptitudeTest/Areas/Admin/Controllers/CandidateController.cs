@@ -7,10 +7,12 @@ using System.Linq;
 using WebOnlineAptitudeTest.Models.Repositories.Interface;
 using System.Web;
 using Excel = Microsoft.Office.Interop.Excel;
+using WebOnlineAptitudeTest.Models;
 
 namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
 {
-    public class CandidateController : BaseController
+    [BackEndAuthorize]
+    public class CandidateController : Controller
     {
         private readonly ICandidateRepository _candidateRepository;
         private readonly IHistoryTestRepository _historyTestRepository;

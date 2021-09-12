@@ -9,13 +9,15 @@ using System.Web.Mvc;
 using WebOnlineAptitudeTest.Areas.Admin.Data.Model.TestSchedules;
 using WebOnlineAptitudeTest.Enums;
 using WebOnlineAptitudeTest.Helper;
+using WebOnlineAptitudeTest.Models;
 using WebOnlineAptitudeTest.Models.Entities;
 using WebOnlineAptitudeTest.Models.Infrastructure;
 using WebOnlineAptitudeTest.Models.Repositories.Interface;
 
 namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
 {
-    public class TestScheduleController : BaseController
+    [BackEndAuthorize]
+    public class TestScheduleController : Controller
     {
         private readonly ITestScheduleRepository _testScheduleRepository;
         private readonly IHistoryTestRepository _historyTestRepository;

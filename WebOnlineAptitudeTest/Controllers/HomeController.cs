@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using WebOnlineAptitudeTest.Enums;
+using WebOnlineAptitudeTest.Models;
 using WebOnlineAptitudeTest.Models.Entities;
 using WebOnlineAptitudeTest.Models.Infrastructure;
 using WebOnlineAptitudeTest.Models.Repositories.Interface;
@@ -14,7 +15,8 @@ using WebOnlineAptitudeTest.Models.ViewModels;
 
 namespace WebOnlineAptitudeTest.Controllers
 {
-    public class HomeController : BaseFrController
+    [FrontEndAuthorize]
+    public class HomeController : Controller
     {
         private readonly IQuestionRepository _questionRepository;
         private readonly ICategoryExamRepository _categoryExamRepository;

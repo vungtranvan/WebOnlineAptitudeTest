@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using WebOnlineAptitudeTest.Models;
 using WebOnlineAptitudeTest.Models.Entities;
 using WebOnlineAptitudeTest.Models.Infrastructure;
 using WebOnlineAptitudeTest.Models.Repositories.Interface;
 
 namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
 {
-    public class CategoryExamController : BaseController
+    [BackEndAuthorize]
+    public class CategoryExamController : Controller
     {
         private readonly ICategoryExamRepository _categoryExamRepository;
         private readonly IUnitOfWork _unitOfWork;
