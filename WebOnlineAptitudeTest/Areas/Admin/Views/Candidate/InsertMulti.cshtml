@@ -1,0 +1,105 @@
+﻿@using WebOnlineAptitudeTest.Models.Entities
+@{
+    ViewBag.Title = "Import Data By Excel Files";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+    var model = ViewBag.listCandidates as List<Candidate>;
+
+}
+
+
+@section Breadcrumb{
+    <div class="page-breadcrumb">
+        <div class="row">
+            <div class="col-7 align-self-center">
+                <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">Questions</h3>
+                <div class="d-flex align-items-center">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb m-0 p-0">
+                            <li class="breadcrumb-item"><a href="/admin" class="text-muted">Home</a></li>
+                            <li class="breadcrumb-item"><a href="/admin/Question" class="text-muted">Candidate</a></li>
+                            <li class="breadcrumb-item text-muted active" aria-current="page">Upload</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@using (Html.BeginForm("InsertMulti", "Candidate", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <div>
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Question File Upload</h4>
+                <div class="card-subtitle">
+                    <p class="text-success"> You can upload candidate according to the template <a href="~/Content/assets/backend/template/ExampleDataCandidate.xlsx" download target="_self"> Click here to download template</a> </p>
+                </div>
+
+                @if (ViewBag.Error != null)
+                {
+                    <div>
+                        <p>@Html.Raw(ViewBag.Error)</p>
+                    </div>
+                }
+
+                <div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <input type="submit" class="input-group-text" value="Upload" />
+                        </div>
+                        <div class="custom-file">
+                            @Html.TextBox("excelfile", "", new { type = "file", @class = "custom-file-input", id = "uploadText", accept = ".xlsx, .xls, .csv" })
+                            <label class="custom-file-label" for="uploadText">Choose file</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@if (model != null)
+{
+    if (model.Count > 0)
+    {
+        <div class="table-responsive mt-4">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Username</th>
+                        <th scope="col">Display Name</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Password</th>
+                        <th scope="col">Birthday</th>
+                        <th scope="col">Address</th>
+                        <th scope="col">Phone</th>
+                        <th scope="col">Sex</th>
+                        <th scope="col">Education</th>
+                        <th scope="col">WorkExperience</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in model)
+                    {
+                        <tr>
+                            <td></td>
+                            <td>@item.UserName</td>
+                            <td>@item.Name</td>
+                            <td>@item.Email</td>
+                            <td>@item.Password</td>
+                            <td>@item.Birthday</td>
+                            <td>@item.Address</td>
+                            <td>@item.Phone</td>
+                            <td>@item.Sex</td>
+                            <td>@item.Education</td>
+                            <td>@item.WorkExperience</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+}

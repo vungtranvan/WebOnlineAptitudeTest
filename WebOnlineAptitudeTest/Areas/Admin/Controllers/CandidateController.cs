@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using WebOnlineAptitudeTest.Models.Infrastructure;
 using System.Linq;
 using WebOnlineAptitudeTest.Models.Repositories.Interface;
+using System.Web;
+using Excel = Microsoft.Office.Interop.Excel;
 
 namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
 {
@@ -98,7 +100,7 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
 
                 if (checkEmail)
                     ModelState.AddModelError("Email", "Email already exists !!!");
-                
+
                 if (checkUserName)
                     ModelState.AddModelError("UserName", "UserName already exists !!!");
             }
@@ -162,6 +164,185 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
             }
 
             return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public ActionResult InsertMulti()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [ValidateInput(false)]
+        public ActionResult InsertMulti(HttpPostedFileBase excelfile)
+        {
+            if (excelfile == null || excelfile.ContentLength == 0)
+            {
+                ViewBag.Error = "Please select a excel file<br>";
+                return View();
+            }
+            else
+            {
+                if (excelfile.FileName.EndsWith("xls") || excelfile.FileName.EndsWith("xlsx") || excelfile.FileName.EndsWith("csv"))
+                {
+                    string path = Server.MapPath("~/Content/uploadFile/" + excelfile.FileName);
+                    if (System.IO.File.Exists(path))
+                        System.IO.File.Delete(path);
+                    excelfile.SaveAs(path);
+                    // Read data from excel file
+                    Excel.Application application = new Excel.Application();
+                    Excel.Workbook workbook = application.Workbooks.Open(path);
+                    Excel.Worksheet worksheet = workbook.ActiveSheet;
+                    Excel.Range range = worksheet.UsedRange;
+
+                    List<Candidate> listCandidates = new List<Candidate>();
+
+                    for (int row = 2; row <= range.Rows.Count; row++)
+                    {
+                        Candidate c = new Candidate();
+                        try
+                        {
+                            c.UserName = ((Excel.Range)range.Cells[row, 1]).Text;
+                            //c.Name = ((Excel.Range)range.Cells[row, 2]).Text;
+                            //c.Email = ((Excel.Range)range.Cells[row, 3]).Text;
+                            //c.Password = ((Excel.Range)range.Cells[row, 4]).Text;
+                            //c.Birthday = Convert.ToDateTime(((Excel.Range)range.Cells[row, 5]).Text);
+                            //c.Address = ((Excel.Range)range.Cells[row, 6]).Text;
+                            //c.Phone = ((Excel.Range)range.Cells[row, 7]).Text;
+                            //c.Sex = bool.Parse(((Excel.Range)range.Cells[row, 8]).Text);
+                            //c.Education = ((Excel.Range)range.Cells[row, 9]).Text;
+                            //c.WorkExperience = ((Excel.Range)range.Cells[row, 10]).Text;
+                        }
+                        catch (Exception ex)
+                        {
+                            application.Workbooks.Close();
+                            ViewBag.Error += $"{ex.Message} of Column UserName in row [{row}]";
+                            return View();
+                        }
+
+                        // column Name
+                        try
+                        {
+                            c.Name = ((Excel.Range)range.Cells[row, 2]).Text;
+                        }
+                        catch (Exception ex)
+                        {
+                            application.Workbooks.Close();
+                            ViewBag.Error += $"{ex.Message} of Column Name in row [{row}]";
+                            return View();
+                        }
+
+                        // column Email
+                        try
+                        {
+                            c.Email = ((Excel.Range)range.Cells[row, 3]).Text;
+                        }
+                        catch (Exception ex)
+                        {
+                            application.Workbooks.Close();
+                            ViewBag.Error += $"{ex.Message} of Column Email in row [{row}]";
+                            return View();
+                        }
+
+                        // column Password
+                        try
+                        {
+                            c.Password = ((Excel.Range)range.Cells[row, 4]).Text;
+                        }
+                        catch (Exception ex)
+                        {
+                            application.Workbooks.Close();
+                            ViewBag.Error += $"{ex.Message} of Column Password in row [{row}]";
+                            return View();
+                        }
+
+                        // column Birthday
+                        try
+                        {
+                            c.Birthday = Convert.ToDateTime(((Excel.Range)range.Cells[row, 5]).Text);
+                        }
+                        catch (Exception ex)
+                        {
+                            application.Workbooks.Close();
+                            ViewBag.Error += $"{ex.Message} of Column Birthday in row [{row}]";
+                            return View();
+                        }
+
+                        // column Address
+                        try
+                        {
+                            c.Address = ((Excel.Range)range.Cells[row, 6]).Text;
+                        }
+                        catch (Exception ex)
+                        {
+                            application.Workbooks.Close();
+                            ViewBag.Error += $"{ex.Message} of Column Address in row [{row}]";
+                            return View();
+                        }
+
+                        // column Phone
+                        try
+                        {
+                            c.Phone = ((Excel.Range)range.Cells[row, 7]).Text;
+                        }
+                        catch (Exception ex)
+                        {
+                            application.Workbooks.Close();
+                            ViewBag.Error += $"{ex.Message} of Column Phone in row [{row}]";
+                            return View();
+                        }
+
+                        // column Sex
+                        try
+                        {
+                            c.Sex = bool.Parse(((Excel.Range)range.Cells[row, 8]).Text);
+                        }
+                        catch (Exception ex)
+                        {
+                            application.Workbooks.Close();
+                            ViewBag.Error += $"{ex.Message} of Column Sex in row [{row}]";
+                            return View();
+                        }
+
+                        // column Education
+                        try
+                        {
+                            c.Education = ((Excel.Range)range.Cells[row, 9]).Text;
+                        }
+                        catch (Exception ex)
+                        {
+                            application.Workbooks.Close();
+                            ViewBag.Error += $"{ex.Message} of Column Education in row [{row}]";
+                            return View();
+                        }
+
+                        // column Education
+                        try
+                        {
+                            c.WorkExperience = ((Excel.Range)range.Cells[row, 10]).Text;
+                        }
+                        catch (Exception ex)
+                        {
+                            application.Workbooks.Close();
+                            ViewBag.Error += $"{ex.Message} of Column WorkExperience in row [{row}]";
+                            return View();
+                        }
+
+                        listCandidates.Add(c);
+
+                    }
+
+                    application.Workbooks.Close();
+                    ViewBag.listCandidates = listCandidates;
+                    return View();
+                }
+                else
+                {
+                    ViewBag.Error = "File type is incorrect<br>";
+                    return View();
+                }
+            }
         }
 
         [HttpPost]

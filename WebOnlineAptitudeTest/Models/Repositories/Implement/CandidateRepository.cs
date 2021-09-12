@@ -24,7 +24,7 @@ namespace WebOnlineAptitudeTest.Models.Repositories.Implement
             if (candidate.Id == 0)
             {
                 // candidate.Password = candidate.Password.ToMD5();
-                candidate.Password = candidate.Password;
+                //candidate.Password = candidate.Password;
                 candidate.Status = EnumStatusCandidate.New;
                 candidate.CreatedDate = DateTime.Now;
                 candidate.Deleted = false;
@@ -59,6 +59,25 @@ namespace WebOnlineAptitudeTest.Models.Repositories.Implement
             return true;
         }
 
+        public bool AddMulti(List<Candidate> lstData)
+        {
+            try
+            {
+                foreach (var item in lstData)
+                {
+                    item.Status = EnumStatusCandidate.New;
+                    item.CreatedDate = DateTime.Now;
+                    item.Deleted = false;
+                    base.Add(item);
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                var error = string.Join("-", ex.Message);
+                return false;
+            }
+        }
         public PagingModel<Candidate> GetData(string keyword, int page, int pageSize)
         {
             List<Candidate> lstCandi = new List<Candidate>();
