@@ -17,7 +17,7 @@
     <menu title="Question" icon="bar-chart">
       <add title="List" action="Index" controller="Question"/>
       <add title="Add New" action="InsertOrUpdate" controller="Question" />
-      <add title="Upload" action="Upload" controller="Question" />
+      <add title="Upload" action="UploadFile" controller="Question" />
     </menu>
     
     <menu title="Transfer" action="Index" controller="Transfer" icon="bar-chart" />

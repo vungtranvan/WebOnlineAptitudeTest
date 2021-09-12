@@ -145,11 +145,13 @@ namespace WebOnlineAptitudeTest.Models.Repositories.Implement
         public bool Locked(int id)
         {
             var quest = base.GetSingleById(id);
+
             if (quest == null)
             {
                 return false;
             }
-            quest.Deleted = !quest.Deleted;
+            quest.Deleted = true;
+            base.Update(quest);
             _unitOfWork.Commit();
             return true;
         }

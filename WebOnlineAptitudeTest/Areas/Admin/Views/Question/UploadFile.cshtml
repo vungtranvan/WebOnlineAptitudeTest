@@ -1,0 +1,212 @@
+﻿@model IEnumerable<WebOnlineAptitudeTest.Models.ViewModels.ResultQuestUpload>
+@{
+    ViewBag.Title = "Upload";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+    bool canSave = true;
+    int qinx = 0;
+    int ainx = 0;
+    string correct = "";
+}
+
+@section Breadcrumb{
+    <div class="page-breadcrumb">
+        <div class="row">
+            <div class="col-7 align-self-center">
+                <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">Questions</h3>
+                <div class="d-flex align-items-center">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb m-0 p-0">
+                            <li class="breadcrumb-item"><a href="/admin" class="text-muted">Home</a></li>
+                            <li class="breadcrumb-item"><a href="/admin/Question" class="text-muted">Question</a></li>
+                            <li class="breadcrumb-item text-muted active" aria-current="page">Up load</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+@using (Html.BeginForm("UploadFile", "Question", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div>
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Question File Upload</h4>
+                <h6 class="card-subtitle">
+                    <p class="text-success"> You can upload questions according to the template <a href="~/Content/assets/backend/template/exampleQuestUploadFile.txt" download target="_self"> Click here to download template</a> </p>
+                </h6>
+                <div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <input type="submit" class="input-group-text" value="Upload" />
+                        </div>
+                        <div class="custom-file">
+                            @Html.TextBox("file", "", new { type = "file", @class = "custom-file-input", id = "uploadText", accept = ".txt" })
+                            <label class="custom-file-label" for="uploadText">Choose file</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @Html.AntiForgeryToken()
+}
+
+@if (Model != null)
+{
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Select Category</h4>
+            <div class="mt-4">
+                <div class="form-group mb-4">
+                    <select class="form-control" id="category_select">
+                        @foreach (var c in @ViewBag.Category)
+                        {
+                            <option value="@c.Id">@c.Name</option>
+                        }
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    {
+        canSave = true;
+    }
+<div class="upload-fil-content">
+
+    @foreach (var q in Model)
+    {
+        <div class="card">
+            <div class="card-body">
+                @try
+                {
+                    if (q.Mark == null)
+                    {
+                        <p class="badge badge-danger ml-auto">(Error) You not set Mark</p>
+                        canSave = false;
+                    }
+                    else if (Convert.ToInt32(@q.Mark) <= 0 || Convert.ToInt32(@q.Mark) > 5)
+                    {
+                        <p class="badge badge-danger ml-auto">(Error) @q.Mark is Incorrect Mark (accept 1 - 5)</p>
+                        canSave = false;
+                    }
+
+                    else
+                    {
+                        <p class="badge badge-danger ml-auto">@q.Mark Mark(s)</p>
+
+                    }
+                }
+                catch (Exception)
+                {
+                    <p class="badge badge-danger ml-auto">(Error) Mark is Negative number or Mark is not a number (accept 1 - 5)</p>
+                    canSave = false;
+                }
+
+
+                <h4 class="list-group-item list-group-item-quest active"> @Html.Raw(q.Name)</h4>
+                <h6 class="card-subtitle">
+                </h6>
+                @if (q.resultAnswers == null || q.resultAnswers.Count() <= 0)
+                {
+                    <div class="alert alert-danger" role="alert">
+                        <i class="dripicons-wrong mr-2"></i> <strong>Error: </strong> You dont have answer
+                    </div>
+                }
+                else
+                {
+                    <ul class="list-group list-group-full">
+                        @foreach (var a in q.resultAnswers)
+                        {
+                            string correctAnswer = "";
+                            string correctAnswerChar = "";
+                            {
+                                if (a.Value.Correct == true)
+                                {
+                                    correctAnswer = "badge-success";
+                                    correctAnswerChar = "T";
+                                }
+                                else
+                                {
+                                    correctAnswer = "badge-danger";
+                                    correctAnswerChar = "F";
+                                }
+                            }
+                            <li class="list-group-item list-group-item-answer"><span class="badge badge-answer @correctAnswer ml-auto">@correctAnswerChar</span>@Html.Raw(@a.Value.Name)</li>
+                        }
+                    </ul>
+                }
+
+            </div>
+        </div>
+
+    }
+
+
+    @if (canSave == true)
+    {
+
+        using (Html.BeginForm("SaveUploadFile", "Question", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+
+            foreach (var q in Model)
+            {
+                <input hidden type="text" name="quest[@qinx].Name" value="@q.Name" />
+                <input hidden type="text" name="quest[@qinx].Mark" value="@q.Mark" />
+                <input hidden type="text" name="quest[@qinx].Status" value="true" />
+                <input hidden type="text" name="quest[@qinx].Deleted" value="false" />
+
+
+                <input hidden type="text" class="CategoryValue" name="quest[@qinx].CategoryExamId" value="1" />
+                {
+                    ainx = 0;
+                }
+                foreach (var a in q.resultAnswers)
+                {
+                    <input hidden type="text" name="quest[@qinx].Answers[@ainx].Name" value="@a.Value.Name" />
+                    {
+                        correct = a.Value.Correct == true ? "true" : "false";
+                    }
+                    <input hidden type="text" name="quest[@qinx].Answers[@ainx].Correct" value="@correct" />
+
+                    <input hidden type="text" name="quest[@qinx].Answers[@ainx].AnswerInQuestion" value="@ainx" />
+                    {
+                        ainx++;
+                    }
+                }
+
+                {
+                    qinx++;
+                }
+            }
+
+            <button type="submit" id="submit-quest" class="btn btn-success waves-effect waves-light btn-lg">
+                <i class="fas fa-save"></i>
+                Save
+            </button>
+            @Html.AntiForgeryToken()
+        }
+    }
+    else
+    {
+        <div class="alert alert-danger" role="alert">
+            <i class="dripicons-wrong mr-2"></i> <strong>Error: </strong> You can`t save because an error occurred
+        </div>
+        <button type="button" class="btn btn-danger waves-effect waves-light btn-lg">
+            <i class="fas fa-save"></i>
+            Save
+        </button>
+
+    }
+</div>
+}
+
+@section Scripts{
+    <script>
+        $("#category_select").on("change", function () {
+            $('.CategoryValue').val($(this).val());
+        });
+    </script>
+}

@@ -30,8 +30,8 @@ namespace WebOnlineAptitudeTest.Models.Entities
         public string CategoryExamName { get; set; }
 
 
-        [RegularExpression(@"(1|2|3|4|5){1}$",
-     ErrorMessage = "only allowed 1 - 5")]
+        
+        [RegularExpression(@"^([0-5]{1})+$", ErrorMessage = "only allowed 1 - 5")]
         public double Mark { get; set; }
 
         public DateTime? UpdatedDate { get; set; }

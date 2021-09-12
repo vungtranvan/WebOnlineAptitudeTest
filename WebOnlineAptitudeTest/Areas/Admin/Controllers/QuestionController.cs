@@ -1,12 +1,14 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using WebOnlineAptitudeTest.Models.Entities;
 using WebOnlineAptitudeTest.Models.Infrastructure;
 using WebOnlineAptitudeTest.Models.Repositories.Interface;
+using WebOnlineAptitudeTest.Models.ViewModels;
 
 namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
 {
@@ -112,7 +114,7 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
                 {
                     TempData["XMessage"] = new XMessage("Notification", "You need answer(s) !!!", EnumCategoryMess.error);
                     this.DropDownCategoryExam();
-                    return RedirectToAction("InsertOrUpdate");
+                    return View("InsertOrUpdate");
                 }
             }
             catch (ArgumentNullException)
@@ -120,7 +122,7 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
                 this.DropDownCategoryExam();
 
                 TempData["XMessage"] = new XMessage("Notification", "You need answer(s) !!!", EnumCategoryMess.error);
-                return RedirectToAction("InsertOrUpdate");
+                return View("InsertOrUpdate");
             }
 
             if (!ModelState.IsValid)
@@ -137,7 +139,7 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
                 }
 
                 TempData["XMessage"] = new XMessage("Notification", "errora !!!", EnumCategoryMess.error);
-                return RedirectToAction("InsertOrUpdate");
+                return View("InsertOrUpdate");
             }
             else
             {
@@ -185,9 +187,231 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
             ViewBag.NewsItemList = new SelectList(lstCateEx, "Id", "Name", categoryExamId);
         }
 
-        public ActionResult Upload()
+        public ActionResult UploadFile()
         {
+            ViewBag.Category = this._categoryExamRepository.GetAll();
             return View();
+        }
+
+        [HttpPost]
+        public ActionResult UploadFile(HttpPostedFileBase file)
+        {
+            ViewBag.Category = this._categoryExamRepository.GetAll();
+            try
+            {
+               
+                if (file.ContentLength > 0)
+                {
+                    string _FileName = Path.GetFileName(file.FileName);
+                    string _path = Path.Combine(Server.MapPath("~/Content/assets/backend/questUploadFiles"), _FileName);
+                    file.SaveAs(_path);
+
+                    if (System.IO.File.Exists(_path))
+                    {
+                        string[] lines = System.IO.File.ReadAllLines(_path);
+
+
+                        Question question = new Question();
+
+                        var questions = new List<KeyValuePair<string, List<string>>>();
+                        List<List<string>> quests = new List<List<string>>();
+
+                        List<string> quest = new List<string>();
+
+                        string questionContent = "";
+
+                        List<string> alphabet = new List<string>();
+                        List<ResultQuestUpload> resultQuests = new List<ResultQuestUpload>();
+
+
+                        char charA = 'A';
+                        alphabet.Add(charA.ToString() + ". ");
+                        for (int i = 0; i < 25; i++)
+                        {
+                            charA = nextChr(charA);
+                            alphabet.Add(charA + ". ");
+                        }
+
+                        foreach (string line in lines)
+                        {
+                            quest.Add(line);
+
+                            if (line.Contains("ANSWER:"))
+                            {
+                                quests.Add(quest);
+                                quest = new List<string>();
+                            }
+
+                        }
+
+                        foreach (var qu in quests)
+                        {
+                            ResultQuestUpload resultQuest = new ResultQuestUpload();
+                            resultQuest.resultAnswers = new List<KeyValuePair<string, ResultAnswerUpload>>();
+                            ResultAnswerUpload resultAnswer = new ResultAnswerUpload();
+                            bool questTitle = false;
+                            bool firstLine = true;
+                            bool haveAnwser = false;
+                            foreach (var q in qu)
+                            {
+                                if ((alphabet.Contains(q.Substring(0, 3)) || q.Substring(0, 5).Contains("MARK:") || q.Substring(0, 7).Contains("ANSWER:")) && questTitle == false)
+                                {
+                                    resultQuest.Name = questionContent;
+                                    questionContent = q;
+                                    questTitle = true;
+                                    firstLine = false;
+                                }
+                                else if (alphabet.Contains(q.Substring(0, 3)) && questTitle == true)
+                                {
+                                    resultAnswer = new ResultAnswerUpload();
+                                    resultAnswer.Name = questionContent;
+                                    var keyValueResultAnswer = new KeyValuePair<string, ResultAnswerUpload>(questionContent.Substring(0, 1), resultAnswer);
+                                    resultQuest.resultAnswers.Add(keyValueResultAnswer);
+                                    questionContent = q;
+                                    firstLine = false;
+                                    haveAnwser = true;
+                                }
+                                else if (q.Substring(0, 5).Contains("MARK:") && questTitle == true)
+                                {
+                                    resultAnswer = new ResultAnswerUpload();
+                                    resultAnswer.Name = questionContent;
+                                    var keyValueResultAnswer = new KeyValuePair<string, ResultAnswerUpload>(questionContent.Substring(0, 1), resultAnswer);
+                                    resultQuest.resultAnswers.Add(keyValueResultAnswer);
+                                    string mark = "";
+
+                                    if (haveAnwser == true)
+                                    {
+                                        mark = q.Replace("MARK:", "");
+                                    }
+                                    else
+                                    {
+                                        mark = questionContent.Replace("MARK:", "");
+                                    }
+                                    resultQuest.Mark = mark.Replace(" ", "").Substring(0, 1);
+                                    questionContent = "";
+                                    firstLine = false;
+                                }
+                                else if (q.Substring(0, 7).Contains("ANSWER:") && questTitle == true)
+                                {
+                                    questionContent = "";
+                                    string correct = q.Replace("ANSWER:", "");
+                                    resultQuest.Result = correct.Replace(" ", "").Length > 0 ? correct.Replace(" ", "").Split(',').ToList() : new List<string>();
+                                    firstLine = false;
+                                }
+                                else if (firstLine == true)
+                                {
+                                    questionContent += q;
+                                    firstLine = false;
+                                }
+                                else
+                                {
+                                    questionContent += ("<br/>" + q);
+                                }
+
+                                if (q.Substring(0, 5).Contains("MARK:") && questTitle == true && haveAnwser == false)
+                                {
+                                    string mark = q.Replace("MARK:", "");
+
+                                    resultQuest.Mark = mark.Replace(" ", "").Substring(0, 1);
+                                    questionContent = "";
+                                    firstLine = false;
+                                }
+
+                                if (q.Substring(0, 7).Contains("ANSWER:") && questTitle == true && haveAnwser == false)
+                                {
+                                    questionContent = "";
+                                    string correct = q.Replace("ANSWER:", "");
+                                    resultQuest.Result = correct.Replace(" ", "").Length > 0 ? correct.Replace(" ", "").Split(',').ToList() : new List<string>();
+                                    firstLine = false;
+                                }
+                            }
+                            resultQuests.Add(resultQuest);
+                        }
+
+
+
+                        foreach (var q in resultQuests)
+                        {
+                            foreach (var a in q.resultAnswers)
+                            {
+                                if (q.Result.Contains(a.Key))
+                                {
+                                    a.Value.Correct = true;
+                                }
+                                else
+                                {
+                                    a.Value.Correct = false;
+                                }
+                            }
+                        }
+
+
+                        TempData["XMessage"] = new XMessage("Notification", "Uploaded Successfully !!!", EnumCategoryMess.success);
+                      
+                        return View(resultQuests);
+                    }
+
+                }
+                TempData["XMessage"] = new XMessage("Notification", "Uploaded Faild !!!", EnumCategoryMess.error);
+                return View();
+            }
+            catch (Exception)
+            {
+                TempData["XMessage"] = new XMessage("Notification", "Upload Faild !!!", EnumCategoryMess.error);
+                return View();
+            }
+        }
+        [HttpPost]
+        public ActionResult SaveUploadFile(List<Question> quest)
+        {
+            if (!ModelState.IsValid)
+            {             
+                List<String> errora = new List<string>();
+
+                foreach (ModelState modelState in ViewData.ModelState.Values)
+                {
+                    foreach (ModelError error in modelState.Errors)
+                    {
+                        errora.Add(error.ErrorMessage);
+                    }
+                }
+                TempData["XMessage"] = new XMessage("Notification", "errora !!!", EnumCategoryMess.error);
+                return View("UploadFile");
+            }
+            else
+            {
+                try
+                {
+                    foreach (var item in quest)
+                    {
+                        item.CreatedDate = DateTime.Now;
+                        this._questionRepository.Add(item);
+                    }
+ 
+                    this._unitOfWork.Commit();
+                    TempData["XMessage"] = new XMessage("Notification", "Save Success !!!", EnumCategoryMess.success);
+                    return RedirectToAction("Index");
+                }
+                catch (Exception)
+                {
+                    TempData["XMessage"] = new XMessage("Notification", "Save Faild !!!", EnumCategoryMess.error);
+                    return View("UploadFile");
+                }
+            }
+
+          
+        }
+        private char nextChr(char letter)
+        {
+            char nextChar;
+            if (letter == 'z')
+                nextChar = 'a';
+            else if (letter == 'Z')
+                nextChar = 'A';
+            else
+                nextChar = (char)(((int)letter) + 1);
+
+            return nextChar;
         }
 
         [HttpPost]

@@ -5,13 +5,16 @@ using System.Web;
 
 namespace WebOnlineAptitudeTest.Models.ViewModels
 {
-    public class ResultQuest
+   
+    public class ResultQuestUpload
     {
         public int id { get; set; }
         public int QuestionId { get; set; }
         public string Name { get; set; }
-        public string Result { get; set; }
-        public ICollection<ResultAnswer> resultAnswers { get; set; }
-        public string Correct { get; set; }
+        public List<string> Result { get; set; }
+        public string Mark { get; set; }
+        public ICollection<KeyValuePair<string, ResultAnswerUpload>> resultAnswers { get; set; }
+
     }
+
 }
