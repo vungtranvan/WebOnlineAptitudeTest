@@ -25,8 +25,15 @@
         <div class="card">
             <div class="card-body">
                 <div class="header-card">
-                    <div class="button">
-                        <a href="@Url.Action("InsertOrUpdate","Candidate")" class="btn waves-effect waves-light btn-Custom btn-primary"> Add New</a>
+                    <div class="row">
+                        <div class="col-3 d-flex">
+                            <div class="button mr-1">
+                                <a href="@Url.Action("InsertOrUpdate","Candidate")" class="btn waves-effect waves-light btn-Custom btn-primary"> Add New</a>
+                            </div>
+                            <div class="button">
+                                <a href="@Url.Action("InsertMulti","Candidate")" class="btn waves-effect waves-light btn-Custom btn-orange">Upload</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
