@@ -344,15 +344,24 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
                                 }
                             }
                         }
+                        if (resultQuests.Count <= 0)
+                        {
+                            TempData["XMessage"] = new XMessage("Notification", "Uploaded Faild !!!", EnumCategoryMess.error);
+                            return View();
+                        }
+                        else
+                        {
+
+                            TempData["XMessage"] = new XMessage("Notification", "Uploaded Successfully !!!", EnumCategoryMess.success);
+                            ViewBag.resultQuests = resultQuests;
+                            return View();
+                        }
 
 
-                        TempData["XMessage"] = new XMessage("Notification", "Uploaded Successfully !!!", EnumCategoryMess.success);
-                      
-                        return View(resultQuests);
                     }
 
                 }
-                TempData["XMessage"] = new XMessage("Notification", "Uploaded Faild !!!", EnumCategoryMess.error);
+               
                 return View();
             }
             catch (Exception)
