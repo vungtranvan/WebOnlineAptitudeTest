@@ -196,6 +196,7 @@
 @section Scripts{
     <script>
         $(document).ready(function () {
+
             $.ajax({
                 url: '/Homes/LoadStatusCandi',
                 type: 'GET',
@@ -259,7 +260,7 @@
                 type: 'GET',
                 dataType: 'json',
                 success: function (response) {
-  
+                  
                     var lastCandi = 0;
                     lastCandi += response.dataAll.Before4Month - (response.data.Successbefore4Month + response.data.Failedbefore4Month);
                     var lastCandia = lastCandi;

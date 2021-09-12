@@ -1780,7 +1780,6 @@
     <Content Include="Areas\Admin\Views\HistoryTests\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Transfer\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Report\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\Question\Upload.cshtml" />
     <Content Include="Content\ckeditor5\ckeditor.js.map" />
     <Content Include="Content\ckeditor5\LICENSE.md" />
     <Content Include="Content\ckeditor5\README.md" />
