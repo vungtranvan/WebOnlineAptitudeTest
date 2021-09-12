@@ -45,7 +45,7 @@ namespace WebOnlineAptitudeTest.Models.Entities
         [Required(ErrorMessage = "This field is required")]
 
         [StringLength(30, ErrorMessage = "This field max length is 30")]
-        [RegularExpression(@"^([0-9]{5,30})+$", ErrorMessage = "Phone required is number and lenght from 5 to 30 characters")]
+        //[RegularExpression(@"^([0-9]{5,30})+)$", ErrorMessage = "Phone required is number and lenght from 5 to 30 characters")]
         public string Phone { get; set; }
 
         [NotMapped]

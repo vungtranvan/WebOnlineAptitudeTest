@@ -23,18 +23,20 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
         // GET: Admin/CategoryExam
         public ActionResult Index()
         {
+            ViewBag.ListpageSize = new List<int>() { 10, 15, 20, 50, 100 };
             return View();
         }
 
         [HttpGet]
-        public JsonResult LoadData()
+        public JsonResult LoadData(string keyword, int page, int pageSize = 3)
         {
             _unitOfWork.DbContext.Configuration.ProxyCreationEnabled = false;
-            var data = _categoryExamRepository.Get().ToList();
+            var result = _categoryExamRepository.GetData(keyword, page, pageSize);
 
             var json = Json(new
             {
-                data = data,
+                data = result.Items,
+                totalRow = result.TotalRow,
                 status = true
             }, JsonRequestBehavior.AllowGet);
             json.MaxJsonLength = Int32.MaxValue;

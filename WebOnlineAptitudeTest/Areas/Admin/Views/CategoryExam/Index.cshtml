@@ -24,7 +24,23 @@
     <div class="col-12">
         <div class="card">
             <div class="card-body">
-                <div class="table-responsive">
+                <div class="mt-4" style="display: flex; justify-content: space-between;">
+                    <div style="display: flex; align-items: center;">
+                        <span>Show</span>
+                        <select name="candidate" class="form-control form-control-sm pageSizeItem" style="margin: 0 0.3rem;cursor:pointer">
+                            @foreach (var item in ViewBag.ListpageSize)
+                            {
+                                <option value="@item">@item</option>
+                            }
+                        </select>
+                        <span>entries </span>
+                    </div>
+
+                    <div style="display: flex; align-items: center;">
+                        Search: <input type="search" class="form-control form-control-sm txtSearch" placeholder="" style="margin:0 0 0 0.3rem">
+                    </div>
+                </div>
+                <div class="table-responsive mt-4">
                     <table class="table table-hover" id="tableCategoryExam">
                         <thead>
                             <tr>
@@ -35,11 +51,11 @@
                             </tr>
                         </thead>
                         <tbody id="tblDataCategoryExam">
-                            
                         </tbody>
                     </table>
                 </div>
                 <p class="text-center textEmpty">List empty</p>
+                <ul id="pagination" class="pagination flex-wrap .pagination-rounded-flat pagination-success mt-3"></ul>
             </div>
         </div>
     </div>
@@ -48,5 +64,6 @@
 @Html.Partial("_ModalEditCategoryExam")
 
 @section Scripts{
+    <script src="/Scripts/jquery.twbsPagination.min.js"></script>
     <script src="/Scripts/plugins/CategoryExamJsController.js"></script>
 }
