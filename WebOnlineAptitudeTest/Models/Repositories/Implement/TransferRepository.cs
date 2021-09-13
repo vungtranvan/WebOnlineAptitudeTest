@@ -41,7 +41,7 @@ namespace WebOnlineAptitudeTest.Models.Repositories.Implement
 
         public IEnumerable<Transfer> GetTop(int id = 10)
         {
-           return base.DbContext.Transfers.OrderBy(x => x.CreatedDate).Take(id);
+           return base.DbContext.Transfers.OrderByDescending(x => x.CreatedDate).Take(id);
         }
 
         public bool Locked(int id)
