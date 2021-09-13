@@ -120,13 +120,17 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
             var result = new
             {
                 SuccessThisMouth = thisMouth.Where(x => x.Mark >= 80).Count(),
-                FailedThisMouth = thisMouth.Where(x => x.Mark <= 80).Count(),
+                FailedThisMouth = thisMouth.Where(x => x.Mark < 80).Count(),
+
                 Successbefore1Month = before1Month.Where(x => x.Mark >= 80).Count(),
                 Failedbefore1Month = before1Month.Where(x => x.Mark < 80).Count(),
+
                 Successbefore2Month = before2Month.Where(x => x.Mark >= 80).Count(),
                 Failedbefore2Month = before2Month.Where(x => x.Mark < 80).Count(),
+
                 Successbefore3Month = before3Month.Where(x => x.Mark >= 80).Count(),
                 Failedbefore3Month = before3Month.Where(x => x.Mark < 80).Count(),
+
                 Successbefore4Month = before4Month.Where(x => x.Mark >= 80).Count(),
                 Failedbefore4Month = before4Month.Where(x => x.Mark < 80).Count(),
 
@@ -141,7 +145,6 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
                 data = result,
                 dataAll = resultAll
             }, JsonRequestBehavior.AllowGet);
-            //json.MaxJsonLength = Int32.MaxValue;
             return json;
         }
         private int getPreviousMount(int last)

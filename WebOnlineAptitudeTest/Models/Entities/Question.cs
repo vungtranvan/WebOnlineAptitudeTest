@@ -31,7 +31,7 @@ namespace WebOnlineAptitudeTest.Models.Entities
 
 
         
-        [RegularExpression(@"^([0-5]{1})+$", ErrorMessage = "only allowed 1 - 5")]
+        [RegularExpression(@"^([0-5]{1})$", ErrorMessage = "Only allowed 1 - 5")]
         public double Mark { get; set; }
 
         public DateTime? UpdatedDate { get; set; }

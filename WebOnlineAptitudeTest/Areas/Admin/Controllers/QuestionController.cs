@@ -118,6 +118,12 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
                     this.DropDownCategoryExam();
                     return View("InsertOrUpdate");
                 }
+                else if (question.Answers.Count < 2)
+                {
+                    TempData["XMessage"] = new XMessage("Notification", "You need more than 2 answer(s) !!!", EnumCategoryMess.error);
+                    this.DropDownCategoryExam();
+                    return View("InsertOrUpdate");
+                }
             }
             catch (ArgumentNullException)
             {
@@ -201,6 +207,11 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
             ViewBag.Category = this._categoryExamRepository.GetAll();
             try
             {
+                if (Path.GetExtension(file.FileName) != ".txt")
+                {
+                    TempData["XMessage"] = new XMessage("Notification", "You must be upload txt file !!!", EnumCategoryMess.error);
+                    return View();
+                }
                
                 if (file.ContentLength > 0)
                 {
@@ -363,7 +374,11 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
                     }
 
                 }
-               
+                else
+                {
+                    TempData["XMessage"] = new XMessage("Notification", "Uploaded Faild !!!", EnumCategoryMess.error);
+                    return View();
+                }
                 return View();
             }
             catch (Exception)
