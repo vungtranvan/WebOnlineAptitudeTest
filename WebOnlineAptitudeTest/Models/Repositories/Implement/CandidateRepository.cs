@@ -23,8 +23,7 @@ namespace WebOnlineAptitudeTest.Models.Repositories.Implement
         {
             if (candidate.Id == 0)
             {
-                // candidate.Password = candidate.Password.ToMD5();
-                //candidate.Password = candidate.Password;
+                candidate.Password = EncryptionHelper.Encrypt(candidate.Password);
                 candidate.Status = EnumStatusCandidate.New;
                 candidate.CreatedDate = DateTime.Now;
                 candidate.Deleted = false;
@@ -50,8 +49,7 @@ namespace WebOnlineAptitudeTest.Models.Repositories.Implement
                 cadi.Image = candidate.Image;
                 if (candidate.Password != null)
                 {
-                    //cadi.Password = candidate.Password.ToMD5();
-                    cadi.Password = candidate.Password;
+                    cadi.Password = EncryptionHelper.Encrypt(candidate.Password);
                 }
                 base.Update(cadi);
             }
@@ -65,11 +63,14 @@ namespace WebOnlineAptitudeTest.Models.Repositories.Implement
             {
                 foreach (var item in lstData)
                 {
+                    item.Image = "/Content/default-avatar.jpg";
+                    item.Password = EncryptionHelper.Encrypt(item.Password);
                     item.Status = EnumStatusCandidate.New;
                     item.CreatedDate = DateTime.Now;
                     item.Deleted = false;
                     base.Add(item);
                 }
+                _unitOfWork.Commit();
                 return true;
             }
             catch (Exception ex)

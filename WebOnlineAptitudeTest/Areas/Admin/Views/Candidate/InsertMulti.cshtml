@@ -11,7 +11,7 @@
     <div class="page-breadcrumb">
         <div class="row">
             <div class="col-7 align-self-center">
-                <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">Questions</h3>
+                <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">Candidate</h3>
                 <div class="d-flex align-items-center">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb m-0 p-0">
@@ -32,17 +32,22 @@
     <div>
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">Question File Upload</h4>
+                <h4 class="card-title">Candidate Upload By File Excel</h4>
                 <div class="card-subtitle">
-                    <p class="text-success"> You can upload candidate according to the template <a href="~/Content/assets/backend/template/ExampleDataCandidate.xlsx" download target="_self"> Click here to download template</a> </p>
+                    <p class="text-success"> You can upload candidate according to the template <a href="~/Content/assets/backend/template/DataCandidateExample.xlsx" download target="_self"> Click here to download template</a> </p>
                 </div>
 
-                @if (ViewBag.Error != null)
-                {
-                    <div>
-                        <p>@Html.Raw(ViewBag.Error)</p>
-                    </div>
-                }
+                <div class="col-lg-12">
+                    @if (ViewBag.Error != "" && ViewBag.Error != null)
+                    {
+                        <div class="alert alert-danger fade show" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                            @Html.Raw(ViewBag.Error)
+                        </div>
+                    }
+                </div>
 
                 <div>
                     <div class="input-group mb-3">
@@ -58,48 +63,4 @@
             </div>
         </div>
     </div>
-}
-
-@if (model != null)
-{
-    if (model.Count > 0)
-    {
-        <div class="table-responsive mt-4">
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Username</th>
-                        <th scope="col">Display Name</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Password</th>
-                        <th scope="col">Birthday</th>
-                        <th scope="col">Address</th>
-                        <th scope="col">Phone</th>
-                        <th scope="col">Sex</th>
-                        <th scope="col">Education</th>
-                        <th scope="col">WorkExperience</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in model)
-                    {
-                        <tr>
-                            <td></td>
-                            <td>@item.UserName</td>
-                            <td>@item.Name</td>
-                            <td>@item.Email</td>
-                            <td>@item.Password</td>
-                            <td>@item.Birthday</td>
-                            <td>@item.Address</td>
-                            <td>@item.Phone</td>
-                            <td>@item.Sex</td>
-                            <td>@item.Education</td>
-                            <td>@item.WorkExperience</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-    }
 }

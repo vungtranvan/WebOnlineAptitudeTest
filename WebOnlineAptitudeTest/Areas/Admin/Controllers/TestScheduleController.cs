@@ -114,7 +114,7 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
                 content = content.Replace("{{StartDate}}", model.DateStart.ToString("MM/dd/yyyy HH:mm"));
                 content = content.Replace("{{EndDate}}", model.DateEnd.ToString("MM/dd/yyyy HH:mm"));
                 content = content.Replace("{{UserName}}", candi.UserName);
-                content = content.Replace("{{Password}}", candi.Password);
+                content = content.Replace("{{Password}}", EncryptionHelper.Decrypt(candi.Password));
                 var adminEmail = ConfigHelper.GetByKey("AdminEmail");
                 MailHelper.SendMail(candi.Email, "Welcome mail and Online Aptitude Test", content);
             }
@@ -170,8 +170,9 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
 
         private void MultiSelectListCandidate(List<int> lstcandidateId = null)
         {
-            var lstCandi = _candidateRepository.Get(filter: x => (x.Status == EnumStatusCandidate.Undone || x.Status == EnumStatusCandidate.New)
-                           && x.Deleted == false, orderBy: c => c.OrderByDescending(y => y.Id)).ToList();
+            //var lstCandi = _candidateRepository.Get(filter: x => (x.Status == EnumStatusCandidate.Undone || x.Status == EnumStatusCandidate.New)
+            //               && x.Deleted == false, orderBy: c => c.OrderByDescending(y => y.Id)).ToList();
+            var lstCandi = _candidateRepository.Get(filter: x => x.Status == EnumStatusCandidate.New && x.Deleted == false, orderBy: c => c.OrderByDescending(y => y.Id)).ToList();
 
             if (lstcandidateId != null)
             {

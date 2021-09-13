@@ -8,6 +8,7 @@ using WebOnlineAptitudeTest.Models.Repositories.Interface;
 using System.Web;
 using Excel = Microsoft.Office.Interop.Excel;
 using WebOnlineAptitudeTest.Models;
+using System.IO;
 
 namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
 {
@@ -188,6 +189,9 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
             {
                 if (excelfile.FileName.EndsWith("xls") || excelfile.FileName.EndsWith("xlsx") || excelfile.FileName.EndsWith("csv"))
                 {
+                    //string extension = Path.GetExtension(excelfile.FileName);
+                    //var fileNameNew = excelfile.FileName.Replace(extension, excelfile.FileName + DateTime.Now.ToString("yyyyMMddHHmmss") + extension);
+                  
                     string path = Server.MapPath("~/Content/uploadFile/" + excelfile.FileName);
                     if (System.IO.File.Exists(path))
                         System.IO.File.Delete(path);
@@ -203,18 +207,23 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
                     for (int row = 2; row <= range.Rows.Count; row++)
                     {
                         Candidate c = new Candidate();
+
+                        // column UserName
                         try
                         {
                             c.UserName = ((Excel.Range)range.Cells[row, 1]).Text;
-                            //c.Name = ((Excel.Range)range.Cells[row, 2]).Text;
-                            //c.Email = ((Excel.Range)range.Cells[row, 3]).Text;
-                            //c.Password = ((Excel.Range)range.Cells[row, 4]).Text;
-                            //c.Birthday = Convert.ToDateTime(((Excel.Range)range.Cells[row, 5]).Text);
-                            //c.Address = ((Excel.Range)range.Cells[row, 6]).Text;
-                            //c.Phone = ((Excel.Range)range.Cells[row, 7]).Text;
-                            //c.Sex = bool.Parse(((Excel.Range)range.Cells[row, 8]).Text);
-                            //c.Education = ((Excel.Range)range.Cells[row, 9]).Text;
-                            //c.WorkExperience = ((Excel.Range)range.Cells[row, 10]).Text;
+                            if (string.IsNullOrEmpty(c.UserName))
+                            {
+                                application.Workbooks.Close();
+                                ViewBag.Error += $"Column UserName in row [{row}] is required";
+                                return View();
+                            }
+                            if (_candidateRepository.CheckContains(x => x.UserName.Equals(c.UserName)))
+                            {
+                                application.Workbooks.Close();
+                                ViewBag.Error += $"Column UserName in row [{row}] already exists";
+                                return View();
+                            }
                         }
                         catch (Exception ex)
                         {
@@ -227,6 +236,12 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
                         try
                         {
                             c.Name = ((Excel.Range)range.Cells[row, 2]).Text;
+                            if (string.IsNullOrEmpty(c.Name))
+                            {
+                                application.Workbooks.Close();
+                                ViewBag.Error += $"Column Name in row [{row}] is required";
+                                return View();
+                            }
                         }
                         catch (Exception ex)
                         {
@@ -239,6 +254,20 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
                         try
                         {
                             c.Email = ((Excel.Range)range.Cells[row, 3]).Text;
+
+                            if (string.IsNullOrEmpty(c.Email))
+                            {
+                                application.Workbooks.Close();
+                                ViewBag.Error += $"Column Email in row [{row}] is required";
+                                return View();
+                            }
+
+                            if (_candidateRepository.CheckContains(x => x.Email.Equals(c.Email)))
+                            {
+                                application.Workbooks.Close();
+                                ViewBag.Error += $"Column Email in row [{row}] already exists";
+                                return View();
+                            }
                         }
                         catch (Exception ex)
                         {
@@ -251,6 +280,13 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
                         try
                         {
                             c.Password = ((Excel.Range)range.Cells[row, 4]).Text;
+
+                            if (string.IsNullOrEmpty(c.Password))
+                            {
+                                application.Workbooks.Close();
+                                ViewBag.Error += $"Column Password in row [{row}] is required";
+                                return View();
+                            }
                         }
                         catch (Exception ex)
                         {
@@ -334,10 +370,19 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
                         listCandidates.Add(c);
 
                     }
-
                     application.Workbooks.Close();
-                    ViewBag.listCandidates = listCandidates;
-                    return View();
+                    var result = _candidateRepository.AddMulti(listCandidates);
+
+                    if (result == true)
+                    {
+                        TempData["XMessage"] = new XMessage("Notification", "Import Data Successfull !!!", EnumCategoryMess.success);
+                    }
+                    else
+                    {
+                        TempData["XMessage"] = new XMessage("Notification", "Import Data Error !!!", EnumCategoryMess.error);
+                    }
+
+                    return RedirectToAction("Index");
                 }
                 else
                 {

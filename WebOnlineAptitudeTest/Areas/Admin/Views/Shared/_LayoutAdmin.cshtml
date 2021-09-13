@@ -9,12 +9,14 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="/Content/assets/backend/plugins/assets/images/favicon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="~/Content/assets/backend/dist/images/logo.png">
     <title>Admin - @ViewBag.Title</title>
     <!-- Layout CSS -->
     @Styles.Render("~/bundles/backend/css")
+    <link href="~/Content/assets/backend/plugins/dist/css/style.min.css" rel="stylesheet">
+    <link href="~/Content/SiteBackend.css" rel="stylesheet">
+    <link href="~/Content/toastr.min.css" rel="stylesheet">
     <!-- Layout CSS -->
-
     <!-- Custom CSS -->
     @RenderSection("Styles", false)
     <!-- Custom CSS -->

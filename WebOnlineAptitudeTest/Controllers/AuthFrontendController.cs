@@ -55,7 +55,7 @@ namespace WebOnlineAptitudeTest.Controllers
                 return View(request);
             }
 
-            if (!candi.Password.Equals(request.Password))
+            if (!EncryptionHelper.Decrypt(candi.Password).Equals(request.Password))
             {
                 ViewBag.Error = "Incorrect password!!!";
                 return View(request);

@@ -237,6 +237,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helper\ConfigHelper.cs" />
+    <Compile Include="Helper\EncryptionHelper.cs" />
     <Compile Include="Helper\MailHelper.cs" />
     <Compile Include="Helper\MyHelper.cs" />
     <Compile Include="Helper\XMessage.cs" />
@@ -1789,7 +1790,8 @@
     <Content Include="bundles\backend\icons\font-awesome\webfonts\fa-solid-900.woff" />
     <Content Include="bundles\backend\icons\font-awesome\webfonts\fa-solid-900.ttf" />
     <Content Include="Areas\Admin\Views\Candidate\InsertMulti.cshtml" />
-    <Content Include="Content\assets\backend\template\ExampleDataCandidate.xlsx" />
+    <Content Include="Content\assets\backend\template\DataCandidateExample.xlsx" />
+    <Content Include="Content\uploadFile\DataCandidateExample.xlsx" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -1834,7 +1836,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\assets\backend\questUploadFiles\" />
-    <Folder Include="Content\uploadFile\" />
     <Folder Include="userfiles\files\" />
     <Folder Include="userfiles\images\__thumbs\" />
     <Folder Include="userfiles\thumbs\files\__thumbs\sp-07.jpg\" />
