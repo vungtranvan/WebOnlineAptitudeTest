@@ -52,7 +52,7 @@ namespace WebOnlineAptitudeTest
             bundles.Add(new StyleBundle("~/bundles/backend/css").Include(
                       "~/Content/assets/backend/plugins/assets/extra-libs/c3/c3.min.css",
                       "~/Content/assets/backend/plugins/assets/libs/chartist/dist/chartist.min.css",
-                      "~/Content/assets/backend/plugins/assets/extra-libs/jvector/jquery-jvectormap-2.0.2.css",
+                      "~/Content/assets/backend/plugins/assets/extra-libs/jvector/jquery-jvectormap-2.0.2.css"
                       //"~/Content/assets/backend/plugins/assets/libs/summernote/summernote-bs4.css",
                       //"~/Content/assets/backend/plugins/dist/css/style.min.css"
                       //"~/Content/toastr.min.css"
