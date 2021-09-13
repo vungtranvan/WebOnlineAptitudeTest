@@ -72,7 +72,7 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
         {
             DateTime todayDate = DateTime.Now;
             var countCadinate = this._candidateRepository.GetAll()
-                .Where(x => x.Deleted == false && DateTime.Now.AddMonths(-4) <= x.CreatedDate)
+                .Where(x => x.Deleted == false && DateTime.Now.AddMonths(-4).Month <= x.CreatedDate.Month)
                 .Select(y => new
                 {
                     id = y.Id,
@@ -99,7 +99,7 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
             };
 
             var countCandiHis = this._historyTestRepository.GetAll()
-                .Where(c => c.Candidate.Deleted == false && DateTime.Now.AddMonths(-4) <= c.TestSchedule.DateEnd)
+                .Where(c => c.Candidate.Deleted == false && DateTime.Now.AddMonths(-4).Month <= c.TestSchedule.DateEnd.Month)
                 .GroupBy(a => a.CandidateId)
                 .Select(x => new
                 {
