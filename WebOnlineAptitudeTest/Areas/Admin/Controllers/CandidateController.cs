@@ -375,11 +375,11 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
 
                     if (result == true)
                     {
-                        TempData["XMessage"] = new XMessage("Notification", "Add Successfull !!!", EnumCategoryMess.success);
+                        TempData["XMessage"] = new XMessage("Notification", "Import Data Successfull !!!", EnumCategoryMess.success);
                     }
                     else
                     {
-                        TempData["XMessage"] = new XMessage("Notification", "Add Error !!!", EnumCategoryMess.error);
+                        TempData["XMessage"] = new XMessage("Notification", "Import Data Error !!!", EnumCategoryMess.error);
                     }
 
                     return RedirectToAction("Index");

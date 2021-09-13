@@ -47,18 +47,18 @@
                     <div class="form-group">
 
                         @Html.LabelFor(model => model.UserName, new { @class = "text-dark" })
-                        @Html.TextBoxFor(model => model.UserName, new { @class = "form-control", placeholder = "InserText", @type = "text" })
+                        @Html.TextBoxFor(model => model.UserName, new { @class = "form-control", @type = "text" })
                         @Html.ValidationMessageFor(model => model.UserName, null, new { @class = "text-danger" })
                     </div>
 
                     <div class="form-group">
                         @Html.LabelFor(model => model.DisplayName, new { @class = "text-dark" })
-                        @Html.TextBoxFor(model => model.DisplayName, new { @class = "form-control", placeholder = "InserText", @type = "text" })
+                        @Html.TextBoxFor(model => model.DisplayName, new { @class = "form-control", @type = "text" })
                         @Html.ValidationMessageFor(model => model.DisplayName, null, new { @class = "text-danger" })
                     </div>
                     <div class="form-group">
                         @Html.LabelFor(model => model.Email, new { @class = "text-dark" })
-                        @Html.TextBoxFor(model => model.Email, new { @class = "form-control", placeholder = "InserText", @type = "text" })
+                        @Html.TextBoxFor(model => model.Email, new { @class = "form-control", @type = "text" })
                         @Html.ValidationMessageFor(model => model.Email, null, new { @class = "text-danger" })
                     </div>
 
@@ -81,7 +81,7 @@
 
                     <div class="form-group">
                         @Html.LabelFor(model => model.Password, new { @class = "text-dark" })
-                        @Html.TextBoxFor(model => model.Password, new { @class = "form-control", placeholder = "InserText", @type = "password" })
+                        @Html.TextBoxFor(model => model.Password, new { @class = "form-control", @type = "password" })
                         @Html.ValidationMessageFor(model => model.Password, null, new { @class = "text-danger" })
                     </div>
 

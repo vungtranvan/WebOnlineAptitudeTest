@@ -170,8 +170,9 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
 
         private void MultiSelectListCandidate(List<int> lstcandidateId = null)
         {
-            var lstCandi = _candidateRepository.Get(filter: x => (x.Status == EnumStatusCandidate.Undone || x.Status == EnumStatusCandidate.New)
-                           && x.Deleted == false, orderBy: c => c.OrderByDescending(y => y.Id)).ToList();
+            //var lstCandi = _candidateRepository.Get(filter: x => (x.Status == EnumStatusCandidate.Undone || x.Status == EnumStatusCandidate.New)
+            //               && x.Deleted == false, orderBy: c => c.OrderByDescending(y => y.Id)).ToList();
+            var lstCandi = _candidateRepository.Get(filter: x => x.Status == EnumStatusCandidate.New && x.Deleted == false, orderBy: c => c.OrderByDescending(y => y.Id)).ToList();
 
             if (lstcandidateId != null)
             {
