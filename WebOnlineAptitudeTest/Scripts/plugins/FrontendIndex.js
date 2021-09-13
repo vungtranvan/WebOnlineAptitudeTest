@@ -24,7 +24,7 @@ $(function () {
         submitForm();
     });
 
-    function submitForm(timeout = false) {
+    function submitForm(timeout = false, seduleout = false) {
         clearInterval(countdown);
 
         $(".count-down-percent").css("animation-play-state", "paused");
@@ -56,7 +56,7 @@ $(function () {
                 switch (data.Status) {
                     default:
                         var timespent = Math.floor(data.TotalTime / 60) + ":" + (data.TotalTime - (Math.floor(data.TotalTime / 60) * 60));
-                        if (timeout != false) {
+                        if (timeout != false && seduleout == false) {
 
                             let timeoutAlert = `<h5 class="text-lg text-theme-6 font-medium leading-none mt-3">` + data.categoryName + ` is timeout</h5>
                                     <div class="box p-5 mt-5">
@@ -75,7 +75,26 @@ $(function () {
                                 </div>`;
                             showAlertModal(timeoutAlert, "success");
 
-                        } else {
+                        } else if (timeout != false && seduleout != false) {
+                             let timeoutAlert = `<h5 class="text-lg text-theme-6 font-medium leading-none mt-3"> This Schedule is timeout</h5>
+                                    <div class="box p-5 mt-5">
+                                    <div class="flex">
+                                        <div class="mr-auto">Spent</div>
+                                        <div>`+ timespent +  `</div>
+                                    </div>
+                                    <div class="flex mt-4">
+                                        <div class="mr-auto">Corect mark</div>
+                                        <div class="text-theme-6">`+ data.CorectMark + `/` + data.TotalMark + `</div>
+                                    </div>
+                                    <div class="flex mt-4">
+                                        <div class="mr-auto">Your score</div>
+                                        <div> `+ data.PercentMark + `%</div>
+                                    </div>
+                                </div>`;
+                            showAlertModal(timeoutAlert, "success");
+                        }
+
+                        else {
                             let successAlert = `<h5 class="text-lg text-theme-6 font-medium leading-none mt-3">` + data.categoryName + ` was submitted</h5>
                                     <div class="box p-5 mt-5">
                                     <div class="flex">
@@ -485,22 +504,10 @@ $(function () {
             $('.count-down-percent').css("-webkit-animation", seconndlast + "s" + " linear 0s 1 normal backwards running countdown");
         }, 10);
 
-        if (sheduleTimeProsess < 900) {
-            $(".count-down-percent").parent().css("top", "-16px");
-            $(".count-down-percent-shedule").parent().css("top", "-10px");
-
-            $(".count-down-percent-shedule").css("width", "100%");
-
-            $(".count-down-percent-shedule").css("-webkit-animation", "none");
-
-
-            setTimeout(function () {
-                $('.count-down-percent-shedule').css("-webkit-animation", sheduleTimeProsess + "s" + " linear 0s 1 normal backwards running countdown");
-            }, 10);
-        }
 
 
     }
+    let checkClockSchecduleAppend = false;
     function countDown() {
         let timeShow = [];
         let timeSheduleShow = [];
@@ -527,17 +534,34 @@ $(function () {
         timeSheduleShow[0] = (minuteSheduleShow.toString().length == 1) ? ("0" + minuteSheduleShow.toString()) : minuteSheduleShow.toString();
 
         if (sheduleTimeCount < 0) {
-            submitForm($(".side-menu.side-menu--open .side-menu__title").html().toString());
+            submitForm($(".side-menu.side-menu--open .side-menu__title").html().toString(),true);
         }
         $(".count-down").html(timeShow.join(":"));
         $("#modal-previewAlert-continue .time-remaining").html(timeShow.join(":"));
 
         if (sheduleTimeCount < 900) {
-            $(".top-bar-time").append(`
+            if (checkClockSchecduleAppend == false) {
+                $(".top-bar-time").append(`
                         <div class="align-middle bg-yellow-600 rounded relative w-full h-full">
                             <div class="w-full count-down-percent-shedule h-full bg-theme-6 rounded flex justify-center align-middle "></div>
                             <p class="rounded count-down-shedule h-auto text-lg text-white absolute">`+ "Shedule End " + timeSheduleShow.join(":") + `</p>
                         </div>`);
+                $(".count-down-percent").parent().css("top", "-16px");
+                $(".count-down-percent-shedule").parent().css("top", "-10px");
+
+                $(".count-down-percent-shedule").css("width", "100%");
+
+                $(".count-down-percent-shedule").css("-webkit-animation", "none");
+
+                setTimeout(function () {
+                    $('.count-down-percent-shedule').css("-webkit-animation", sheduleTimeCount + "s" + " linear 0s 1 normal backwards running countdown");
+                }, 10);
+
+                checkClockSchecduleAppend = true;
+            } else {
+                $(".top-bar-time .count-down-shedule").html("Shedule End " + timeSheduleShow.join(":"));
+            }
+         
         }
 
     };
