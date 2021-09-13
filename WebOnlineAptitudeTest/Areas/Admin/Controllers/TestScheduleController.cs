@@ -37,7 +37,7 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
         public ActionResult Index()
         {
             _historyTestRepository.UpdateStatusCandidateAndHistoryTest();
-            ViewBag.ListpageSize = new List<int>() { 5, 10, 15, 20, 50, 100 };
+            ViewBag.ListpageSize = new List<int>() { 10, 15, 20, 50, 100 };
             return View();
         }
 

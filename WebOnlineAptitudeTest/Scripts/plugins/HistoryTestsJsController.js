@@ -133,7 +133,13 @@ var historyController = {
                             } else if (ans.Status == 2) {
                                 statusSub = `<i class="fa fa-circle text-success font-12" data-toggle="tooltip" title="Done"></i>`;
                             }
-                            let timespent = ans.TimeTest == 0 ? '' : Math.floor(ans.TimeTest / 60) + ":" + (ans.TimeTest - (Math.floor(ans.TimeTest / 60) * 60) - 1) + 's';
+
+                            let seconTime = ans.TimeTest - (Math.floor(ans.TimeTest / 60) * 60);
+                            if (seconTime < 10) {
+                                seconTime = '0' + seconTime;
+                            }
+
+                            let timespent = ans.TimeTest == 0 ? '' : Math.floor(ans.TimeTest / 60) + ":" + seconTime + 's';
                             let dateTimeStart = ans.DateStartTest == null ? '' : historyController.formatDate(ans.DateStartTest);
                             let datetimeEnd = ans.DateEndTest == null ? '' : historyController.formatDate(ans.DateEndTest);
 
