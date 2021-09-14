@@ -2,8 +2,6 @@
 
 $(function () {
 
-
-
     let checkQuestUrl = '/Home/CheckQuest';
     let startQuestQuestUrl = '/Home/StartQuest';
     let createQuestQuestUrl = '/Home/CreateQuest';
