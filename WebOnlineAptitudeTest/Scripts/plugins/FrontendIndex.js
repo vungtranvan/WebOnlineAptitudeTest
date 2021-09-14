@@ -127,8 +127,8 @@ $(function () {
     function createQuest(CandidateId) {
         ajax(`{ CandidateId: ` + CandidateId + `}`, checkQuestUrl, function (res) {
 
-            let endDate = new Date(parseInt(res.testScheduleEndValue.replace('/Date(', '')));
-            let startDate = new Date(parseInt(res.testScheduleStartValue.replace('/Date(', '')));
+            let endDate = typeof  res.testScheduleEndValue != 'undefined' ? new Date(parseInt(res.testScheduleEndValue.replace('/Date(', ''))) : "";
+            let startDate = typeof  res.testScheduleStartValue != 'undefined' ? new Date(parseInt(res.testScheduleStartValue.replace('/Date(', ''))): "";
 
             //return false;
             switch (res.Status) {

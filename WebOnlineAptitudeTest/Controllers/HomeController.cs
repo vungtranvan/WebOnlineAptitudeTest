@@ -181,6 +181,11 @@ namespace WebOnlineAptitudeTest.Controllers
             var status = "";
             var categoryId = 0;
             var categoryName = "";
+            if (historyTest.Count() <= 0)
+            {
+                return Json(new { Status = "NotInSchedule", currentCategoryId = 0, timeSecond = 0 }, JsonRequestBehavior.AllowGet);
+
+            }
             var testSchedule = this._testScheduleRepository.GetSingleById(historyTest.FirstOrDefault().TestScheduleId);
 
 
