@@ -71,6 +71,16 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
                 message = "Edit Error !!!";
                 status = false;
             }
+            if (cate.Name != categoryExam.Name && _categoryExamRepository.CheckContains(x => x.Name.Equals(categoryExam.Name)))
+            {
+                return Json(new
+                {
+                    message = "Name already exists !!! !!!",
+                    status = false,
+                    title
+                });
+            }
+
             cate.Name = categoryExam.Name;
             cate.TimeTest = categoryExam.TimeTest;
             _categoryExamRepository.Update(cate);
