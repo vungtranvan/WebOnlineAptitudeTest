@@ -93,6 +93,8 @@ function GetDelete(id) {
                 if (res.status == true) {
                     LoadData(true)
                     toastr.success(res.message, res.title);
+                } else {
+                    toastr.error(res.message, res.title);
                 }
             }
         })

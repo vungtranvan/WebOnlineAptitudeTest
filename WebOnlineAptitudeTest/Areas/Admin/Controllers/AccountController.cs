@@ -177,6 +177,18 @@ namespace WebOnlineAptitudeTest.Areas.Admin.Controllers
         {
             _unitOfWork.DbContext.Configuration.ProxyCreationEnabled = false;
             var title = "Notification";
+
+            var acc = _adminRepository.GetSingleById(id);
+            if (acc.UserName.Equals(Session["UserAdmin"].ToString()))
+            {
+                return Json(new
+                {
+                    message = "Unable to delete the account that is logged in !!!",
+                    status = false,
+                    title
+                }, JsonRequestBehavior.AllowGet);
+            }
+
             var account = _adminRepository.Locked(id);
 
             if (!account)
